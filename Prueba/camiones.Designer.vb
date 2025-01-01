@@ -286,7 +286,7 @@ Partial Class camiones
         '
         Me.GuardarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.GuardarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.GuardarBtn.Location = New System.Drawing.Point(205, 12)
+        Me.GuardarBtn.Location = New System.Drawing.Point(204, 12)
         Me.GuardarBtn.Name = "GuardarBtn"
         Me.GuardarBtn.Size = New System.Drawing.Size(82, 40)
         Me.GuardarBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled

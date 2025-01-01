@@ -22,7 +22,7 @@ Partial Class placa
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.CancelarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.EliminarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.EditarBtn = New DevComponents.DotNetBar.ButtonX()
@@ -151,7 +151,7 @@ Partial Class placa
         '
         Me.LabelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX2.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX2.Location = New System.Drawing.Point(396, 34)
+        Me.LabelX2.Location = New System.Drawing.Point(359, 22)
         Me.LabelX2.Name = "LabelX2"
         Me.LabelX2.Size = New System.Drawing.Size(91, 23)
         Me.LabelX2.TabIndex = 1
@@ -164,7 +164,7 @@ Partial Class placa
         '
         Me.LabelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX6.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX6.Location = New System.Drawing.Point(112, 109)
+        Me.LabelX6.Location = New System.Drawing.Point(24, 86)
         Me.LabelX6.Name = "LabelX6"
         Me.LabelX6.Size = New System.Drawing.Size(115, 23)
         Me.LabelX6.TabIndex = 1
@@ -177,7 +177,7 @@ Partial Class placa
         '
         Me.LabelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX3.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX3.Location = New System.Drawing.Point(46, 63)
+        Me.LabelX3.Location = New System.Drawing.Point(9, 51)
         Me.LabelX3.Name = "LabelX3"
         Me.LabelX3.Size = New System.Drawing.Size(54, 23)
         Me.LabelX3.TabIndex = 1
@@ -191,12 +191,12 @@ Partial Class placa
         Me.obserTb.Border.Class = "TextBoxBorder"
         Me.obserTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.obserTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.obserTb.Location = New System.Drawing.Point(112, 138)
+        Me.obserTb.Location = New System.Drawing.Point(24, 115)
         Me.obserTb.MaxLength = 400
         Me.obserTb.Multiline = True
         Me.obserTb.Name = "obserTb"
         Me.obserTb.PreventEnterBeep = True
-        Me.obserTb.Size = New System.Drawing.Size(583, 101)
+        Me.obserTb.Size = New System.Drawing.Size(683, 131)
         Me.obserTb.TabIndex = 3
         '
         'LabelX1
@@ -206,7 +206,7 @@ Partial Class placa
         '
         Me.LabelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX1.Location = New System.Drawing.Point(46, 25)
+        Me.LabelX1.Location = New System.Drawing.Point(9, 13)
         Me.LabelX1.Name = "LabelX1"
         Me.LabelX1.Size = New System.Drawing.Size(54, 23)
         Me.LabelX1.TabIndex = 1
@@ -220,7 +220,7 @@ Partial Class placa
         Me.placaTb.Border.Class = "TextBoxBorder"
         Me.placaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.placaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.placaTb.Location = New System.Drawing.Point(117, 63)
+        Me.placaTb.Location = New System.Drawing.Point(80, 51)
         Me.placaTb.MaxLength = 15
         Me.placaTb.Name = "placaTb"
         Me.placaTb.PreventEnterBeep = True
@@ -235,7 +235,7 @@ Partial Class placa
         Me.transpTb.Border.Class = "TextBoxBorder"
         Me.transpTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.transpTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.transpTb.Location = New System.Drawing.Point(493, 27)
+        Me.transpTb.Location = New System.Drawing.Point(456, 15)
         Me.transpTb.MaxLength = 30
         Me.transpTb.Name = "transpTb"
         Me.transpTb.PreventEnterBeep = True
@@ -250,7 +250,7 @@ Partial Class placa
         Me.codTb.Border.Class = "TextBoxBorder"
         Me.codTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.codTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.codTb.Location = New System.Drawing.Point(117, 27)
+        Me.codTb.Location = New System.Drawing.Point(80, 15)
         Me.codTb.MaxLength = 6
         Me.codTb.Name = "codTb"
         Me.codTb.PreventEnterBeep = True
@@ -339,14 +339,14 @@ Partial Class placa
         Me.CamDGV.AllowUserToDeleteRows = False
         Me.CamDGV.BackgroundColor = System.Drawing.SystemColors.ActiveCaption
         Me.CamDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.CamDGV.DefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.CamDGV.DefaultCellStyle = DataGridViewCellStyle2
         Me.CamDGV.GridColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer))
         Me.CamDGV.Location = New System.Drawing.Point(38, 395)
         Me.CamDGV.Name = "CamDGV"
@@ -360,7 +360,7 @@ Partial Class placa
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.ClientSize = New System.Drawing.Size(800, 604)
+        Me.ClientSize = New System.Drawing.Size(767, 604)
         Me.Controls.Add(Me.CamDGV)
         Me.Controls.Add(Me.buscartxt)
         Me.Controls.Add(Me.propBusqTB)

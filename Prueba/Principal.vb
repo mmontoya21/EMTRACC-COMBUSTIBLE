@@ -1,12 +1,37 @@
-﻿Public Class Principal
+﻿Imports System.Data
+Imports MySql.Data.MySqlClient
+Imports MySql.Data
+Public Class Principal
     Private isDragging As Boolean = False
     Private startPoint As Point
+
+
+    Dim con As New MySqlConnection
+    Dim cm As New MySqlCommand
+    Dim guardar As New MySqlCommand
+    Dim adaptador As New MySqlDataAdapter
+    Dim datos As DataSet
     Private Sub Principal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         resBt.Visible = False
 
         camiBt.BackColor = Color.FromArgb(153, 180, 209)
     End Sub
+    Public Sub conectar()
+        Dim servidor As String = "localhost"
+        Dim baseDatos As String = "givemefuel"
+        Dim userid As String = "root"
+        Dim clave As String = ""
 
+        con.ConnectionString = "Server=" & servidor & "; Database=" & baseDatos & "; Uid = " & userid & "; Pwd = " & clave
+
+        Try
+            con.Open()
+            MsgBox("La Wea se conectó")
+        Catch ex As Exception
+            MsgBox("No se conecto por: " & ex.Message)
+        End Try
+
+    End Sub
     Public Sub abrirformulario(frmh As Object)
         If (PanelForm.Controls.Count > 0) Then
             PanelForm.Controls.RemoveAt(0)

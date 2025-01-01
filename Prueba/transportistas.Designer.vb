@@ -29,63 +29,73 @@ Partial Class transportistas
         Me.GuardarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.ModificarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.LabelX18 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX24 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX21 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX23 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX20 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX12 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX22 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX19 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX6 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX17 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX11 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX4 = New DevComponents.DotNetBar.LabelX()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.fechDpk = New DevComponents.Editors.DateTimeAdv.DateTimeInput()
         Me.LabelX16 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX10 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX3 = New DevComponents.DotNetBar.LabelX()
-        Me.TextBoxX16 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX10 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX4 = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.LabelX2 = New DevComponents.DotNetBar.LabelX()
+        Me.ApelTbx = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.nombTbx = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.codTbx = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.LabelX31 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX7 = New DevComponents.DotNetBar.LabelX()
+        Me.teleTbx = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.rtnTbx = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.LabelX1 = New DevComponents.DotNetBar.LabelX()
+        Me.empTbx = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.dniTb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.LabelX14 = New DevComponents.DotNetBar.LabelX()
+        Me.emailTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.LabelX15 = New DevComponents.DotNetBar.LabelX()
+        Me.residenciaTb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.LabelX17 = New DevComponents.DotNetBar.LabelX()
+        Me.docTb = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.poligrTb = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.escComerTb = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.ispTb = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.consPagCtaTb = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.solvFiscalTb = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.SI = New DevComponents.Editors.ComboItem()
+        Me.NO = New DevComponents.Editors.ComboItem()
+        Me.estadoTb = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.LabelX18 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX24 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX21 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX30 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX29 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX28 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX27 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX23 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX20 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX26 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX12 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX25 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX22 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX19 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX6 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX11 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX4 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX9 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX5 = New DevComponents.DotNetBar.LabelX()
-        Me.TextBoxX15 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX9 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX2 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.LabelX14 = New DevComponents.DotNetBar.LabelX()
+        Me.dhpTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.LabelX8 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX2 = New DevComponents.DotNetBar.LabelX()
-        Me.TextBoxX14 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX22 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX21 = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.descripTb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.zonaTb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.idCtaTb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.idClieTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.TextBoxX19 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX20 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX18 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX17 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX8 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX3 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX13 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX12 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX7 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX6 = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.idZonTb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.cAduaneroTb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.idBcoTb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.nCtaTb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.bcotb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.policialesTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.LabelX13 = New DevComponents.DotNetBar.LabelX()
-        Me.codTb = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.LabelX7 = New DevComponents.DotNetBar.LabelX()
-        Me.TextBoxX11 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX1 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX5 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.LabelX1 = New DevComponents.DotNetBar.LabelX()
-        Me.placaTb = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX23 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX24 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX25 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.TextBoxX26 = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.LabelX25 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX26 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX27 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX28 = New DevComponents.DotNetBar.LabelX()
+        Me.penalesTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.Panel1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.fechDpk, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'CancelarBtn
@@ -170,9 +180,19 @@ Partial Class transportistas
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.GroupBox1)
+        Me.Panel1.Controls.Add(Me.docTb)
+        Me.Panel1.Controls.Add(Me.poligrTb)
+        Me.Panel1.Controls.Add(Me.escComerTb)
+        Me.Panel1.Controls.Add(Me.ispTb)
+        Me.Panel1.Controls.Add(Me.consPagCtaTb)
+        Me.Panel1.Controls.Add(Me.solvFiscalTb)
+        Me.Panel1.Controls.Add(Me.estadoTb)
         Me.Panel1.Controls.Add(Me.LabelX18)
         Me.Panel1.Controls.Add(Me.LabelX24)
         Me.Panel1.Controls.Add(Me.LabelX21)
+        Me.Panel1.Controls.Add(Me.LabelX30)
+        Me.Panel1.Controls.Add(Me.LabelX29)
         Me.Panel1.Controls.Add(Me.LabelX28)
         Me.Panel1.Controls.Add(Me.LabelX27)
         Me.Panel1.Controls.Add(Me.LabelX23)
@@ -183,209 +203,104 @@ Partial Class transportistas
         Me.Panel1.Controls.Add(Me.LabelX22)
         Me.Panel1.Controls.Add(Me.LabelX19)
         Me.Panel1.Controls.Add(Me.LabelX6)
-        Me.Panel1.Controls.Add(Me.LabelX17)
         Me.Panel1.Controls.Add(Me.LabelX11)
         Me.Panel1.Controls.Add(Me.LabelX4)
-        Me.Panel1.Controls.Add(Me.LabelX16)
-        Me.Panel1.Controls.Add(Me.LabelX10)
-        Me.Panel1.Controls.Add(Me.LabelX3)
-        Me.Panel1.Controls.Add(Me.TextBoxX16)
-        Me.Panel1.Controls.Add(Me.TextBoxX10)
-        Me.Panel1.Controls.Add(Me.TextBoxX4)
-        Me.Panel1.Controls.Add(Me.LabelX15)
         Me.Panel1.Controls.Add(Me.LabelX9)
         Me.Panel1.Controls.Add(Me.LabelX5)
-        Me.Panel1.Controls.Add(Me.TextBoxX15)
-        Me.Panel1.Controls.Add(Me.TextBoxX9)
-        Me.Panel1.Controls.Add(Me.TextBoxX2)
-        Me.Panel1.Controls.Add(Me.LabelX14)
-        Me.Panel1.Controls.Add(Me.LabelX8)
-        Me.Panel1.Controls.Add(Me.LabelX2)
-        Me.Panel1.Controls.Add(Me.TextBoxX14)
-        Me.Panel1.Controls.Add(Me.TextBoxX26)
-        Me.Panel1.Controls.Add(Me.TextBoxX22)
-        Me.Panel1.Controls.Add(Me.TextBoxX21)
-        Me.Panel1.Controls.Add(Me.TextBoxX25)
+        Me.Panel1.Controls.Add(Me.descripTb)
+        Me.Panel1.Controls.Add(Me.zonaTb)
+        Me.Panel1.Controls.Add(Me.idCtaTb)
+        Me.Panel1.Controls.Add(Me.idClieTb)
         Me.Panel1.Controls.Add(Me.TextBoxX19)
-        Me.Panel1.Controls.Add(Me.TextBoxX24)
-        Me.Panel1.Controls.Add(Me.TextBoxX20)
-        Me.Panel1.Controls.Add(Me.TextBoxX23)
-        Me.Panel1.Controls.Add(Me.TextBoxX18)
-        Me.Panel1.Controls.Add(Me.TextBoxX17)
-        Me.Panel1.Controls.Add(Me.TextBoxX8)
-        Me.Panel1.Controls.Add(Me.TextBoxX3)
-        Me.Panel1.Controls.Add(Me.TextBoxX13)
-        Me.Panel1.Controls.Add(Me.TextBoxX12)
-        Me.Panel1.Controls.Add(Me.TextBoxX7)
-        Me.Panel1.Controls.Add(Me.TextBoxX6)
+        Me.Panel1.Controls.Add(Me.idZonTb)
+        Me.Panel1.Controls.Add(Me.cAduaneroTb)
+        Me.Panel1.Controls.Add(Me.idBcoTb)
+        Me.Panel1.Controls.Add(Me.nCtaTb)
+        Me.Panel1.Controls.Add(Me.bcotb)
+        Me.Panel1.Controls.Add(Me.policialesTb)
         Me.Panel1.Controls.Add(Me.LabelX13)
-        Me.Panel1.Controls.Add(Me.codTb)
-        Me.Panel1.Controls.Add(Me.LabelX7)
-        Me.Panel1.Controls.Add(Me.TextBoxX11)
-        Me.Panel1.Controls.Add(Me.TextBoxX1)
-        Me.Panel1.Controls.Add(Me.TextBoxX5)
-        Me.Panel1.Controls.Add(Me.LabelX1)
-        Me.Panel1.Controls.Add(Me.placaTb)
+        Me.Panel1.Controls.Add(Me.penalesTb)
         Me.Panel1.Location = New System.Drawing.Point(12, 67)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1020, 501)
+        Me.Panel1.Size = New System.Drawing.Size(1186, 558)
         Me.Panel1.TabIndex = 30
         '
-        'LabelX18
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.fechDpk)
+        Me.GroupBox1.Controls.Add(Me.LabelX16)
+        Me.GroupBox1.Controls.Add(Me.LabelX10)
+        Me.GroupBox1.Controls.Add(Me.LabelX3)
+        Me.GroupBox1.Controls.Add(Me.LabelX2)
+        Me.GroupBox1.Controls.Add(Me.ApelTbx)
+        Me.GroupBox1.Controls.Add(Me.nombTbx)
+        Me.GroupBox1.Controls.Add(Me.codTbx)
+        Me.GroupBox1.Controls.Add(Me.LabelX31)
+        Me.GroupBox1.Controls.Add(Me.LabelX7)
+        Me.GroupBox1.Controls.Add(Me.teleTbx)
+        Me.GroupBox1.Controls.Add(Me.rtnTbx)
+        Me.GroupBox1.Controls.Add(Me.LabelX1)
+        Me.GroupBox1.Controls.Add(Me.empTbx)
+        Me.GroupBox1.Controls.Add(Me.dniTb)
+        Me.GroupBox1.Controls.Add(Me.LabelX14)
+        Me.GroupBox1.Controls.Add(Me.emailTb)
+        Me.GroupBox1.Controls.Add(Me.LabelX15)
+        Me.GroupBox1.Controls.Add(Me.residenciaTb)
+        Me.GroupBox1.Controls.Add(Me.LabelX17)
+        Me.GroupBox1.Controls.Add(Me.dhpTb)
+        Me.GroupBox1.Controls.Add(Me.LabelX8)
+        Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox1.Location = New System.Drawing.Point(10, 12)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(654, 257)
+        Me.GroupBox1.TabIndex = 41
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Datos Personales"
+        '
+        'fechDpk
         '
         '
         '
         '
-        Me.LabelX18.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX18.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX18.Location = New System.Drawing.Point(712, 216)
-        Me.LabelX18.Name = "LabelX18"
-        Me.LabelX18.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX18.TabIndex = 30
-        Me.LabelX18.Text = "Placa"
-        '
-        'LabelX24
+        Me.fechDpk.BackgroundStyle.Class = "DateTimeInputBackground"
+        Me.fechDpk.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.fechDpk.ButtonDropDown.Shortcut = DevComponents.DotNetBar.eShortcut.AltDown
+        Me.fechDpk.ButtonDropDown.Visible = True
+        Me.fechDpk.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fechDpk.IsPopupCalendarOpen = False
+        Me.fechDpk.Location = New System.Drawing.Point(85, 16)
         '
         '
         '
         '
-        Me.LabelX24.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX24.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX24.Location = New System.Drawing.Point(712, 290)
-        Me.LabelX24.Name = "LabelX24"
-        Me.LabelX24.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX24.TabIndex = 30
-        Me.LabelX24.Text = "Placa"
         '
-        'LabelX21
+        '
+        Me.fechDpk.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.fechDpk.MonthCalendar.CalendarDimensions = New System.Drawing.Size(1, 1)
+        Me.fechDpk.MonthCalendar.ClearButtonVisible = True
         '
         '
         '
-        '
-        Me.LabelX21.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX21.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX21.Location = New System.Drawing.Point(712, 254)
-        Me.LabelX21.Name = "LabelX21"
-        Me.LabelX21.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX21.TabIndex = 30
-        Me.LabelX21.Text = "Placa"
-        '
-        'LabelX23
+        Me.fechDpk.MonthCalendar.CommandsBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground2
+        Me.fechDpk.MonthCalendar.CommandsBackgroundStyle.BackColorGradientAngle = 90
+        Me.fechDpk.MonthCalendar.CommandsBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.fechDpk.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.fechDpk.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder
+        Me.fechDpk.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1
+        Me.fechDpk.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.fechDpk.MonthCalendar.DisplayMonth = New Date(2024, 12, 1, 0, 0, 0, 0)
         '
         '
         '
-        '
-        Me.LabelX23.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX23.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX23.Location = New System.Drawing.Point(385, 288)
-        Me.LabelX23.Name = "LabelX23"
-        Me.LabelX23.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX23.TabIndex = 30
-        Me.LabelX23.Text = "Placa"
-        '
-        'LabelX20
-        '
-        '
-        '
-        '
-        Me.LabelX20.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX20.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX20.Location = New System.Drawing.Point(385, 252)
-        Me.LabelX20.Name = "LabelX20"
-        Me.LabelX20.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX20.TabIndex = 30
-        Me.LabelX20.Text = "Placa"
-        '
-        'LabelX12
-        '
-        '
-        '
-        '
-        Me.LabelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX12.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX12.Location = New System.Drawing.Point(385, 216)
-        Me.LabelX12.Name = "LabelX12"
-        Me.LabelX12.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX12.TabIndex = 30
-        Me.LabelX12.Text = "Placa"
-        '
-        'LabelX22
-        '
-        '
-        '
-        '
-        Me.LabelX22.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX22.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX22.Location = New System.Drawing.Point(53, 288)
-        Me.LabelX22.Name = "LabelX22"
-        Me.LabelX22.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX22.TabIndex = 30
-        Me.LabelX22.Text = "Placa"
-        '
-        'LabelX19
-        '
-        '
-        '
-        '
-        Me.LabelX19.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX19.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX19.Location = New System.Drawing.Point(53, 252)
-        Me.LabelX19.Name = "LabelX19"
-        Me.LabelX19.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX19.TabIndex = 30
-        Me.LabelX19.Text = "Placa"
-        '
-        'LabelX6
-        '
-        '
-        '
-        '
-        Me.LabelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX6.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX6.Location = New System.Drawing.Point(53, 216)
-        Me.LabelX6.Name = "LabelX6"
-        Me.LabelX6.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX6.TabIndex = 30
-        Me.LabelX6.Text = "Placa"
-        '
-        'LabelX17
-        '
-        '
-        '
-        '
-        Me.LabelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX17.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX17.Location = New System.Drawing.Point(712, 133)
-        Me.LabelX17.Name = "LabelX17"
-        Me.LabelX17.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX17.TabIndex = 30
-        Me.LabelX17.Text = "Placa"
-        '
-        'LabelX11
-        '
-        '
-        '
-        '
-        Me.LabelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX11.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX11.Location = New System.Drawing.Point(385, 133)
-        Me.LabelX11.Name = "LabelX11"
-        Me.LabelX11.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX11.TabIndex = 30
-        Me.LabelX11.Text = "Placa"
-        '
-        'LabelX4
-        '
-        '
-        '
-        '
-        Me.LabelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX4.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX4.Location = New System.Drawing.Point(53, 133)
-        Me.LabelX4.Name = "LabelX4"
-        Me.LabelX4.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX4.TabIndex = 30
-        Me.LabelX4.Text = "Placa"
+        Me.fechDpk.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.fechDpk.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90
+        Me.fechDpk.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.fechDpk.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.fechDpk.MonthCalendar.TodayButtonVisible = True
+        Me.fechDpk.Name = "fechDpk"
+        Me.fechDpk.Size = New System.Drawing.Size(112, 26)
+        Me.fechDpk.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.fechDpk.TabIndex = 33
         '
         'LabelX16
         '
@@ -393,12 +308,13 @@ Partial Class transportistas
         '
         '
         Me.LabelX16.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX16.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX16.Location = New System.Drawing.Point(712, 52)
+        Me.LabelX16.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX16.Location = New System.Drawing.Point(365, 52)
         Me.LabelX16.Name = "LabelX16"
-        Me.LabelX16.Size = New System.Drawing.Size(54, 23)
+        Me.LabelX16.Size = New System.Drawing.Size(67, 23)
         Me.LabelX16.TabIndex = 30
-        Me.LabelX16.Text = "Placa"
+        Me.LabelX16.Text = "Teléfono"
+        Me.LabelX16.TextAlignment = System.Drawing.StringAlignment.Far
         '
         'LabelX10
         '
@@ -406,12 +322,13 @@ Partial Class transportistas
         '
         '
         Me.LabelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX10.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX10.Location = New System.Drawing.Point(385, 52)
+        Me.LabelX10.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX10.Location = New System.Drawing.Point(415, 15)
         Me.LabelX10.Name = "LabelX10"
-        Me.LabelX10.Size = New System.Drawing.Size(54, 23)
+        Me.LabelX10.Size = New System.Drawing.Size(43, 23)
         Me.LabelX10.TabIndex = 30
-        Me.LabelX10.Text = "Placa"
+        Me.LabelX10.Text = "RTN"
+        Me.LabelX10.TextAlignment = System.Drawing.StringAlignment.Far
         '
         'LabelX3
         '
@@ -419,167 +336,13 @@ Partial Class transportistas
         '
         '
         Me.LabelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX3.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX3.Location = New System.Drawing.Point(53, 52)
+        Me.LabelX3.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX3.Location = New System.Drawing.Point(357, 83)
         Me.LabelX3.Name = "LabelX3"
-        Me.LabelX3.Size = New System.Drawing.Size(54, 23)
+        Me.LabelX3.Size = New System.Drawing.Size(74, 23)
         Me.LabelX3.TabIndex = 30
-        Me.LabelX3.Text = "Placa"
-        '
-        'TextBoxX16
-        '
-        '
-        '
-        '
-        Me.TextBoxX16.Border.Class = "TextBoxBorder"
-        Me.TextBoxX16.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX16.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX16.Location = New System.Drawing.Point(783, 180)
-        Me.TextBoxX16.MaxLength = 6
-        Me.TextBoxX16.Name = "TextBoxX16"
-        Me.TextBoxX16.PreventEnterBeep = True
-        Me.TextBoxX16.Size = New System.Drawing.Size(173, 30)
-        Me.TextBoxX16.TabIndex = 29
-        '
-        'TextBoxX10
-        '
-        '
-        '
-        '
-        Me.TextBoxX10.Border.Class = "TextBoxBorder"
-        Me.TextBoxX10.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX10.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX10.Location = New System.Drawing.Point(456, 180)
-        Me.TextBoxX10.MaxLength = 6
-        Me.TextBoxX10.Name = "TextBoxX10"
-        Me.TextBoxX10.PreventEnterBeep = True
-        Me.TextBoxX10.Size = New System.Drawing.Size(173, 30)
-        Me.TextBoxX10.TabIndex = 29
-        '
-        'TextBoxX4
-        '
-        '
-        '
-        '
-        Me.TextBoxX4.Border.Class = "TextBoxBorder"
-        Me.TextBoxX4.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX4.Location = New System.Drawing.Point(124, 180)
-        Me.TextBoxX4.MaxLength = 6
-        Me.TextBoxX4.Name = "TextBoxX4"
-        Me.TextBoxX4.PreventEnterBeep = True
-        Me.TextBoxX4.Size = New System.Drawing.Size(173, 30)
-        Me.TextBoxX4.TabIndex = 29
-        '
-        'LabelX15
-        '
-        '
-        '
-        '
-        Me.LabelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX15.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX15.Location = New System.Drawing.Point(712, 178)
-        Me.LabelX15.Name = "LabelX15"
-        Me.LabelX15.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX15.TabIndex = 31
-        Me.LabelX15.Text = "Código"
-        '
-        'LabelX9
-        '
-        '
-        '
-        '
-        Me.LabelX9.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX9.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX9.Location = New System.Drawing.Point(385, 178)
-        Me.LabelX9.Name = "LabelX9"
-        Me.LabelX9.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX9.TabIndex = 31
-        Me.LabelX9.Text = "Código"
-        '
-        'LabelX5
-        '
-        '
-        '
-        '
-        Me.LabelX5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX5.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX5.Location = New System.Drawing.Point(53, 178)
-        Me.LabelX5.Name = "LabelX5"
-        Me.LabelX5.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX5.TabIndex = 31
-        Me.LabelX5.Text = "Código"
-        '
-        'TextBoxX15
-        '
-        '
-        '
-        '
-        Me.TextBoxX15.Border.Class = "TextBoxBorder"
-        Me.TextBoxX15.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX15.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX15.Location = New System.Drawing.Point(783, 97)
-        Me.TextBoxX15.MaxLength = 6
-        Me.TextBoxX15.Name = "TextBoxX15"
-        Me.TextBoxX15.PreventEnterBeep = True
-        Me.TextBoxX15.Size = New System.Drawing.Size(173, 30)
-        Me.TextBoxX15.TabIndex = 29
-        '
-        'TextBoxX9
-        '
-        '
-        '
-        '
-        Me.TextBoxX9.Border.Class = "TextBoxBorder"
-        Me.TextBoxX9.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX9.Location = New System.Drawing.Point(456, 97)
-        Me.TextBoxX9.MaxLength = 6
-        Me.TextBoxX9.Name = "TextBoxX9"
-        Me.TextBoxX9.PreventEnterBeep = True
-        Me.TextBoxX9.Size = New System.Drawing.Size(173, 30)
-        Me.TextBoxX9.TabIndex = 29
-        '
-        'TextBoxX2
-        '
-        '
-        '
-        '
-        Me.TextBoxX2.Border.Class = "TextBoxBorder"
-        Me.TextBoxX2.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX2.Location = New System.Drawing.Point(124, 97)
-        Me.TextBoxX2.MaxLength = 6
-        Me.TextBoxX2.Name = "TextBoxX2"
-        Me.TextBoxX2.PreventEnterBeep = True
-        Me.TextBoxX2.Size = New System.Drawing.Size(173, 30)
-        Me.TextBoxX2.TabIndex = 29
-        '
-        'LabelX14
-        '
-        '
-        '
-        '
-        Me.LabelX14.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX14.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX14.Location = New System.Drawing.Point(712, 95)
-        Me.LabelX14.Name = "LabelX14"
-        Me.LabelX14.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX14.TabIndex = 31
-        Me.LabelX14.Text = "Código"
-        '
-        'LabelX8
-        '
-        '
-        '
-        '
-        Me.LabelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX8.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX8.Location = New System.Drawing.Point(385, 95)
-        Me.LabelX8.Name = "LabelX8"
-        Me.LabelX8.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX8.TabIndex = 31
-        Me.LabelX8.Text = "Código"
+        Me.LabelX3.Text = "Empresa"
+        Me.LabelX3.TextAlignment = System.Drawing.StringAlignment.Far
         '
         'LabelX2
         '
@@ -587,57 +350,689 @@ Partial Class transportistas
         '
         '
         Me.LabelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX2.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX2.Location = New System.Drawing.Point(53, 95)
+        Me.LabelX2.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX2.Location = New System.Drawing.Point(31, 18)
         Me.LabelX2.Name = "LabelX2"
-        Me.LabelX2.Size = New System.Drawing.Size(54, 23)
+        Me.LabelX2.Size = New System.Drawing.Size(47, 23)
         Me.LabelX2.TabIndex = 31
-        Me.LabelX2.Text = "Código"
+        Me.LabelX2.Text = "Fecha"
+        Me.LabelX2.TextAlignment = System.Drawing.StringAlignment.Far
         '
-        'TextBoxX14
-        '
-        '
-        '
-        '
-        Me.TextBoxX14.Border.Class = "TextBoxBorder"
-        Me.TextBoxX14.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX14.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX14.Location = New System.Drawing.Point(783, 216)
-        Me.TextBoxX14.MaxLength = 15
-        Me.TextBoxX14.Name = "TextBoxX14"
-        Me.TextBoxX14.PreventEnterBeep = True
-        Me.TextBoxX14.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX14.TabIndex = 32
-        '
-        'TextBoxX22
+        'ApelTbx
         '
         '
         '
         '
-        Me.TextBoxX22.Border.Class = "TextBoxBorder"
-        Me.TextBoxX22.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX22.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX22.Location = New System.Drawing.Point(783, 290)
-        Me.TextBoxX22.MaxLength = 15
-        Me.TextBoxX22.Name = "TextBoxX22"
-        Me.TextBoxX22.PreventEnterBeep = True
-        Me.TextBoxX22.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX22.TabIndex = 32
+        Me.ApelTbx.Border.Class = "TextBoxBorder"
+        Me.ApelTbx.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.ApelTbx.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ApelTbx.Location = New System.Drawing.Point(85, 80)
+        Me.ApelTbx.MaxLength = 50
+        Me.ApelTbx.Name = "ApelTbx"
+        Me.ApelTbx.PreventEnterBeep = True
+        Me.ApelTbx.Size = New System.Drawing.Size(264, 30)
+        Me.ApelTbx.TabIndex = 29
         '
-        'TextBoxX21
-        '
-        '
+        'nombTbx
         '
         '
-        Me.TextBoxX21.Border.Class = "TextBoxBorder"
-        Me.TextBoxX21.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX21.Location = New System.Drawing.Point(456, 288)
-        Me.TextBoxX21.MaxLength = 15
-        Me.TextBoxX21.Name = "TextBoxX21"
-        Me.TextBoxX21.PreventEnterBeep = True
-        Me.TextBoxX21.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX21.TabIndex = 32
+        '
+        '
+        Me.nombTbx.Border.Class = "TextBoxBorder"
+        Me.nombTbx.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.nombTbx.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nombTbx.Location = New System.Drawing.Point(85, 46)
+        Me.nombTbx.MaxLength = 50
+        Me.nombTbx.Name = "nombTbx"
+        Me.nombTbx.PreventEnterBeep = True
+        Me.nombTbx.Size = New System.Drawing.Size(264, 30)
+        Me.nombTbx.TabIndex = 29
+        '
+        'codTbx
+        '
+        '
+        '
+        '
+        Me.codTbx.Border.Class = "TextBoxBorder"
+        Me.codTbx.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.codTbx.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.codTbx.Location = New System.Drawing.Point(267, 12)
+        Me.codTbx.MaxLength = 25
+        Me.codTbx.Name = "codTbx"
+        Me.codTbx.PreventEnterBeep = True
+        Me.codTbx.Size = New System.Drawing.Size(134, 30)
+        Me.codTbx.TabIndex = 29
+        '
+        'LabelX31
+        '
+        '
+        '
+        '
+        Me.LabelX31.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX31.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX31.Location = New System.Drawing.Point(17, 83)
+        Me.LabelX31.Name = "LabelX31"
+        Me.LabelX31.Size = New System.Drawing.Size(62, 23)
+        Me.LabelX31.TabIndex = 31
+        Me.LabelX31.Text = "Apellido"
+        Me.LabelX31.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX7
+        '
+        '
+        '
+        '
+        Me.LabelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX7.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX7.Location = New System.Drawing.Point(17, 48)
+        Me.LabelX7.Name = "LabelX7"
+        Me.LabelX7.Size = New System.Drawing.Size(62, 23)
+        Me.LabelX7.TabIndex = 31
+        Me.LabelX7.Text = "Nombre"
+        Me.LabelX7.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'teleTbx
+        '
+        '
+        '
+        '
+        Me.teleTbx.Border.Class = "TextBoxBorder"
+        Me.teleTbx.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.teleTbx.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.teleTbx.Location = New System.Drawing.Point(437, 48)
+        Me.teleTbx.MaxLength = 30
+        Me.teleTbx.Name = "teleTbx"
+        Me.teleTbx.PreventEnterBeep = True
+        Me.teleTbx.Size = New System.Drawing.Size(207, 30)
+        Me.teleTbx.TabIndex = 32
+        '
+        'rtnTbx
+        '
+        '
+        '
+        '
+        Me.rtnTbx.Border.Class = "TextBoxBorder"
+        Me.rtnTbx.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.rtnTbx.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rtnTbx.Location = New System.Drawing.Point(464, 11)
+        Me.rtnTbx.MaxLength = 15
+        Me.rtnTbx.Name = "rtnTbx"
+        Me.rtnTbx.PreventEnterBeep = True
+        Me.rtnTbx.Size = New System.Drawing.Size(180, 30)
+        Me.rtnTbx.TabIndex = 32
+        '
+        'LabelX1
+        '
+        '
+        '
+        '
+        Me.LabelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX1.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX1.Location = New System.Drawing.Point(205, 14)
+        Me.LabelX1.Name = "LabelX1"
+        Me.LabelX1.Size = New System.Drawing.Size(57, 23)
+        Me.LabelX1.TabIndex = 31
+        Me.LabelX1.Text = "Código"
+        Me.LabelX1.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'empTbx
+        '
+        '
+        '
+        '
+        Me.empTbx.Border.Class = "TextBoxBorder"
+        Me.empTbx.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.empTbx.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.empTbx.Location = New System.Drawing.Point(437, 80)
+        Me.empTbx.MaxLength = 50
+        Me.empTbx.Name = "empTbx"
+        Me.empTbx.PreventEnterBeep = True
+        Me.empTbx.Size = New System.Drawing.Size(207, 30)
+        Me.empTbx.TabIndex = 32
+        '
+        'dniTb
+        '
+        '
+        '
+        '
+        Me.dniTb.Border.Class = "TextBoxBorder"
+        Me.dniTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.dniTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dniTb.Location = New System.Drawing.Point(86, 114)
+        Me.dniTb.MaxLength = 6
+        Me.dniTb.Name = "dniTb"
+        Me.dniTb.PreventEnterBeep = True
+        Me.dniTb.Size = New System.Drawing.Size(111, 30)
+        Me.dniTb.TabIndex = 29
+        '
+        'LabelX14
+        '
+        '
+        '
+        '
+        Me.LabelX14.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX14.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX14.Location = New System.Drawing.Point(31, 116)
+        Me.LabelX14.Name = "LabelX14"
+        Me.LabelX14.Size = New System.Drawing.Size(49, 23)
+        Me.LabelX14.TabIndex = 31
+        Me.LabelX14.Text = "DNI"
+        Me.LabelX14.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'emailTb
+        '
+        '
+        '
+        '
+        Me.emailTb.Border.Class = "TextBoxBorder"
+        Me.emailTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.emailTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.emailTb.Location = New System.Drawing.Point(437, 114)
+        Me.emailTb.MaxLength = 6
+        Me.emailTb.Name = "emailTb"
+        Me.emailTb.PreventEnterBeep = True
+        Me.emailTb.Size = New System.Drawing.Size(207, 30)
+        Me.emailTb.TabIndex = 29
+        '
+        'LabelX15
+        '
+        '
+        '
+        '
+        Me.LabelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX15.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX15.Location = New System.Drawing.Point(383, 116)
+        Me.LabelX15.Name = "LabelX15"
+        Me.LabelX15.Size = New System.Drawing.Size(49, 23)
+        Me.LabelX15.TabIndex = 31
+        Me.LabelX15.Text = "eMail"
+        Me.LabelX15.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'residenciaTb
+        '
+        '
+        '
+        '
+        Me.residenciaTb.Border.Class = "TextBoxBorder"
+        Me.residenciaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.residenciaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.residenciaTb.Location = New System.Drawing.Point(6, 175)
+        Me.residenciaTb.MaxLength = 400
+        Me.residenciaTb.Multiline = True
+        Me.residenciaTb.Name = "residenciaTb"
+        Me.residenciaTb.PreventEnterBeep = True
+        Me.residenciaTb.Size = New System.Drawing.Size(638, 76)
+        Me.residenciaTb.TabIndex = 32
+        '
+        'LabelX17
+        '
+        '
+        '
+        '
+        Me.LabelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX17.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX17.Location = New System.Drawing.Point(4, 151)
+        Me.LabelX17.Name = "LabelX17"
+        Me.LabelX17.Size = New System.Drawing.Size(82, 23)
+        Me.LabelX17.TabIndex = 30
+        Me.LabelX17.Text = "Residencia"
+        Me.LabelX17.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'docTb
+        '
+        Me.docTb.DisplayMember = "Text"
+        Me.docTb.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.docTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.docTb.FormattingEnabled = True
+        Me.docTb.ItemHeight = 20
+        Me.docTb.Location = New System.Drawing.Point(529, 400)
+        Me.docTb.Name = "docTb"
+        Me.docTb.Size = New System.Drawing.Size(121, 26)
+        Me.docTb.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.docTb.TabIndex = 40
+        '
+        'poligrTb
+        '
+        Me.poligrTb.DisplayMember = "Text"
+        Me.poligrTb.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.poligrTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.poligrTb.FormattingEnabled = True
+        Me.poligrTb.ItemHeight = 20
+        Me.poligrTb.Location = New System.Drawing.Point(131, 466)
+        Me.poligrTb.Name = "poligrTb"
+        Me.poligrTb.Size = New System.Drawing.Size(156, 26)
+        Me.poligrTb.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.poligrTb.TabIndex = 39
+        '
+        'escComerTb
+        '
+        Me.escComerTb.DisplayMember = "Text"
+        Me.escComerTb.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.escComerTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.escComerTb.FormattingEnabled = True
+        Me.escComerTb.ItemHeight = 20
+        Me.escComerTb.Location = New System.Drawing.Point(529, 364)
+        Me.escComerTb.Name = "escComerTb"
+        Me.escComerTb.Size = New System.Drawing.Size(156, 26)
+        Me.escComerTb.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.escComerTb.TabIndex = 38
+        '
+        'ispTb
+        '
+        Me.ispTb.DisplayMember = "Text"
+        Me.ispTb.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.ispTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ispTb.FormattingEnabled = True
+        Me.ispTb.ItemHeight = 20
+        Me.ispTb.Location = New System.Drawing.Point(131, 288)
+        Me.ispTb.Name = "ispTb"
+        Me.ispTb.Size = New System.Drawing.Size(156, 26)
+        Me.ispTb.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.ispTb.TabIndex = 37
+        '
+        'consPagCtaTb
+        '
+        Me.consPagCtaTb.DisplayMember = "Text"
+        Me.consPagCtaTb.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.consPagCtaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.consPagCtaTb.FormattingEnabled = True
+        Me.consPagCtaTb.ItemHeight = 20
+        Me.consPagCtaTb.Location = New System.Drawing.Point(837, 252)
+        Me.consPagCtaTb.Name = "consPagCtaTb"
+        Me.consPagCtaTb.Size = New System.Drawing.Size(156, 26)
+        Me.consPagCtaTb.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.consPagCtaTb.TabIndex = 36
+        '
+        'solvFiscalTb
+        '
+        Me.solvFiscalTb.DisplayMember = "Text"
+        Me.solvFiscalTb.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.solvFiscalTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.solvFiscalTb.FormattingEnabled = True
+        Me.solvFiscalTb.ItemHeight = 20
+        Me.solvFiscalTb.Items.AddRange(New Object() {Me.SI, Me.NO})
+        Me.solvFiscalTb.Location = New System.Drawing.Point(836, 146)
+        Me.solvFiscalTb.Name = "solvFiscalTb"
+        Me.solvFiscalTb.Size = New System.Drawing.Size(74, 26)
+        Me.solvFiscalTb.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.solvFiscalTb.TabIndex = 35
+        '
+        'SI
+        '
+        Me.SI.Text = "SI"
+        '
+        'NO
+        '
+        Me.NO.ForeColor = System.Drawing.Color.Red
+        Me.NO.Text = "NO"
+        '
+        'estadoTb
+        '
+        Me.estadoTb.DisplayMember = "Text"
+        Me.estadoTb.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.estadoTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.estadoTb.FormattingEnabled = True
+        Me.estadoTb.ItemHeight = 20
+        Me.estadoTb.Location = New System.Drawing.Point(552, 508)
+        Me.estadoTb.Name = "estadoTb"
+        Me.estadoTb.Size = New System.Drawing.Size(206, 26)
+        Me.estadoTb.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.estadoTb.TabIndex = 34
+        '
+        'LabelX18
+        '
+        '
+        '
+        '
+        Me.LabelX18.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX18.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX18.Location = New System.Drawing.Point(869, 400)
+        Me.LabelX18.Name = "LabelX18"
+        Me.LabelX18.Size = New System.Drawing.Size(82, 23)
+        Me.LabelX18.TabIndex = 30
+        Me.LabelX18.Text = "Descipción"
+        Me.LabelX18.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX24
+        '
+        '
+        '
+        '
+        Me.LabelX24.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX24.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX24.Location = New System.Drawing.Point(750, 324)
+        Me.LabelX24.Name = "LabelX24"
+        Me.LabelX24.Size = New System.Drawing.Size(82, 23)
+        Me.LabelX24.TabIndex = 30
+        Me.LabelX24.Text = "Id Cta."
+        Me.LabelX24.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX21
+        '
+        '
+        '
+        '
+        Me.LabelX21.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX21.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX21.Location = New System.Drawing.Point(869, 438)
+        Me.LabelX21.Name = "LabelX21"
+        Me.LabelX21.Size = New System.Drawing.Size(82, 23)
+        Me.LabelX21.TabIndex = 30
+        Me.LabelX21.Text = "CAI"
+        Me.LabelX21.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX30
+        '
+        '
+        '
+        '
+        Me.LabelX30.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX30.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX30.Location = New System.Drawing.Point(36, 470)
+        Me.LabelX30.Name = "LabelX30"
+        Me.LabelX30.Size = New System.Drawing.Size(82, 23)
+        Me.LabelX30.TabIndex = 30
+        Me.LabelX30.Text = "Poligrafo"
+        Me.LabelX30.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX29
+        '
+        '
+        '
+        '
+        Me.LabelX29.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX29.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX29.Location = New System.Drawing.Point(43, 434)
+        Me.LabelX29.Name = "LabelX29"
+        Me.LabelX29.Size = New System.Drawing.Size(82, 23)
+        Me.LabelX29.TabIndex = 30
+        Me.LabelX29.Text = "Zona"
+        Me.LabelX29.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX28
+        '
+        '
+        '
+        '
+        Me.LabelX28.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX28.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX28.Location = New System.Drawing.Point(462, 508)
+        Me.LabelX28.Name = "LabelX28"
+        Me.LabelX28.Size = New System.Drawing.Size(82, 23)
+        Me.LabelX28.TabIndex = 30
+        Me.LabelX28.Text = "Estado"
+        Me.LabelX28.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX27
+        '
+        '
+        '
+        '
+        Me.LabelX27.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX27.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX27.Location = New System.Drawing.Point(462, 472)
+        Me.LabelX27.Name = "LabelX27"
+        Me.LabelX27.Size = New System.Drawing.Size(82, 23)
+        Me.LabelX27.TabIndex = 30
+        Me.LabelX27.Text = "Id Zona"
+        Me.LabelX27.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX23
+        '
+        '
+        '
+        '
+        Me.LabelX23.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX23.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX23.Location = New System.Drawing.Point(440, 399)
+        Me.LabelX23.Name = "LabelX23"
+        Me.LabelX23.Size = New System.Drawing.Size(82, 23)
+        Me.LabelX23.TabIndex = 30
+        Me.LabelX23.Text = "Doc."
+        Me.LabelX23.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX20
+        '
+        '
+        '
+        '
+        Me.LabelX20.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX20.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX20.Location = New System.Drawing.Point(364, 363)
+        Me.LabelX20.Name = "LabelX20"
+        Me.LabelX20.Size = New System.Drawing.Size(158, 23)
+        Me.LabelX20.TabIndex = 30
+        Me.LabelX20.Text = "Escritura Comercial"
+        Me.LabelX20.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX26
+        '
+        '
+        '
+        '
+        Me.LabelX26.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX26.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX26.Location = New System.Drawing.Point(862, 519)
+        Me.LabelX26.Name = "LabelX26"
+        Me.LabelX26.Size = New System.Drawing.Size(89, 23)
+        Me.LabelX26.TabIndex = 30
+        Me.LabelX26.Text = "Id Cliente"
+        Me.LabelX26.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX12
+        '
+        '
+        '
+        '
+        Me.LabelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX12.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX12.Location = New System.Drawing.Point(719, 288)
+        Me.LabelX12.Name = "LabelX12"
+        Me.LabelX12.Size = New System.Drawing.Size(112, 23)
+        Me.LabelX12.TabIndex = 30
+        Me.LabelX12.Text = "N° Cta Banc."
+        Me.LabelX12.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX25
+        '
+        '
+        '
+        '
+        Me.LabelX25.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX25.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX25.Location = New System.Drawing.Point(740, 221)
+        Me.LabelX25.Name = "LabelX25"
+        Me.LabelX25.Size = New System.Drawing.Size(89, 23)
+        Me.LabelX25.TabIndex = 30
+        Me.LabelX25.Text = "Id Bco."
+        Me.LabelX25.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX22
+        '
+        '
+        '
+        '
+        Me.LabelX22.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX22.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX22.Location = New System.Drawing.Point(10, 324)
+        Me.LabelX22.Name = "LabelX22"
+        Me.LabelX22.Size = New System.Drawing.Size(114, 23)
+        Me.LabelX22.TabIndex = 30
+        Me.LabelX22.Text = "Cod. Aduanero"
+        Me.LabelX22.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX19
+        '
+        '
+        '
+        '
+        Me.LabelX19.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX19.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX19.Location = New System.Drawing.Point(35, 288)
+        Me.LabelX19.Name = "LabelX19"
+        Me.LabelX19.Size = New System.Drawing.Size(89, 23)
+        Me.LabelX19.TabIndex = 30
+        Me.LabelX19.Text = "ISP"
+        Me.LabelX19.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX6
+        '
+        '
+        '
+        '
+        Me.LabelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX6.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX6.Location = New System.Drawing.Point(740, 184)
+        Me.LabelX6.Name = "LabelX6"
+        Me.LabelX6.Size = New System.Drawing.Size(89, 23)
+        Me.LabelX6.TabIndex = 30
+        Me.LabelX6.Text = "Banco"
+        Me.LabelX6.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX11
+        '
+        '
+        '
+        '
+        Me.LabelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX11.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX11.Location = New System.Drawing.Point(738, 67)
+        Me.LabelX11.Name = "LabelX11"
+        Me.LabelX11.Size = New System.Drawing.Size(82, 23)
+        Me.LabelX11.TabIndex = 30
+        Me.LabelX11.Text = "Policiales"
+        Me.LabelX11.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX4
+        '
+        '
+        '
+        '
+        Me.LabelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX4.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX4.Location = New System.Drawing.Point(732, 100)
+        Me.LabelX4.Name = "LabelX4"
+        Me.LabelX4.Size = New System.Drawing.Size(89, 23)
+        Me.LabelX4.TabIndex = 30
+        Me.LabelX4.Text = "Penales"
+        Me.LabelX4.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX9
+        '
+        '
+        '
+        '
+        Me.LabelX9.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX9.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX9.Location = New System.Drawing.Point(694, 251)
+        Me.LabelX9.Name = "LabelX9"
+        Me.LabelX9.Size = New System.Drawing.Size(136, 23)
+        Me.LabelX9.TabIndex = 31
+        Me.LabelX9.Text = "Const. Pago Cta."
+        Me.LabelX9.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'LabelX5
+        '
+        '
+        '
+        '
+        Me.LabelX5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX5.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX5.Location = New System.Drawing.Point(740, 146)
+        Me.LabelX5.Name = "LabelX5"
+        Me.LabelX5.Size = New System.Drawing.Size(89, 23)
+        Me.LabelX5.TabIndex = 31
+        Me.LabelX5.Text = "Solv. Fiscal"
+        Me.LabelX5.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'dhpTb
+        '
+        '
+        '
+        '
+        Me.dhpTb.Border.Class = "TextBoxBorder"
+        Me.dhpTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.dhpTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dhpTb.Location = New System.Drawing.Point(256, 114)
+        Me.dhpTb.MaxLength = 6
+        Me.dhpTb.Name = "dhpTb"
+        Me.dhpTb.PreventEnterBeep = True
+        Me.dhpTb.Size = New System.Drawing.Size(93, 30)
+        Me.dhpTb.TabIndex = 29
+        '
+        'LabelX8
+        '
+        '
+        '
+        '
+        Me.LabelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX8.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX8.Location = New System.Drawing.Point(214, 116)
+        Me.LabelX8.Name = "LabelX8"
+        Me.LabelX8.Size = New System.Drawing.Size(36, 23)
+        Me.LabelX8.TabIndex = 31
+        Me.LabelX8.Text = "DHP"
+        Me.LabelX8.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'descripTb
+        '
+        '
+        '
+        '
+        Me.descripTb.Border.Class = "TextBoxBorder"
+        Me.descripTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.descripTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.descripTb.Location = New System.Drawing.Point(956, 396)
+        Me.descripTb.MaxLength = 15
+        Me.descripTb.Name = "descripTb"
+        Me.descripTb.PreventEnterBeep = True
+        Me.descripTb.Size = New System.Drawing.Size(207, 30)
+        Me.descripTb.TabIndex = 32
+        '
+        'zonaTb
+        '
+        '
+        '
+        '
+        Me.zonaTb.Border.Class = "TextBoxBorder"
+        Me.zonaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.zonaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.zonaTb.Location = New System.Drawing.Point(131, 430)
+        Me.zonaTb.MaxLength = 15
+        Me.zonaTb.Name = "zonaTb"
+        Me.zonaTb.PreventEnterBeep = True
+        Me.zonaTb.Size = New System.Drawing.Size(207, 30)
+        Me.zonaTb.TabIndex = 32
+        '
+        'idCtaTb
+        '
+        '
+        '
+        '
+        Me.idCtaTb.Border.Class = "TextBoxBorder"
+        Me.idCtaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.idCtaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.idCtaTb.Location = New System.Drawing.Point(837, 320)
+        Me.idCtaTb.MaxLength = 15
+        Me.idCtaTb.Name = "idCtaTb"
+        Me.idCtaTb.PreventEnterBeep = True
+        Me.idCtaTb.Size = New System.Drawing.Size(207, 30)
+        Me.idCtaTb.TabIndex = 32
+        '
+        'idClieTb
+        '
+        '
+        '
+        '
+        Me.idClieTb.Border.Class = "TextBoxBorder"
+        Me.idClieTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.idClieTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.idClieTb.Location = New System.Drawing.Point(956, 511)
+        Me.idClieTb.MaxLength = 15
+        Me.idClieTb.Name = "idClieTb"
+        Me.idClieTb.PreventEnterBeep = True
+        Me.idClieTb.Size = New System.Drawing.Size(207, 30)
+        Me.idClieTb.TabIndex = 32
         '
         'TextBoxX19
         '
@@ -647,147 +1042,102 @@ Partial Class transportistas
         Me.TextBoxX19.Border.Class = "TextBoxBorder"
         Me.TextBoxX19.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.TextBoxX19.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX19.Location = New System.Drawing.Point(783, 254)
+        Me.TextBoxX19.Location = New System.Drawing.Point(956, 434)
         Me.TextBoxX19.MaxLength = 15
         Me.TextBoxX19.Name = "TextBoxX19"
         Me.TextBoxX19.PreventEnterBeep = True
         Me.TextBoxX19.Size = New System.Drawing.Size(207, 30)
         Me.TextBoxX19.TabIndex = 32
         '
-        'TextBoxX20
+        'idZonTb
         '
         '
         '
         '
-        Me.TextBoxX20.Border.Class = "TextBoxBorder"
-        Me.TextBoxX20.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX20.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX20.Location = New System.Drawing.Point(124, 288)
-        Me.TextBoxX20.MaxLength = 15
-        Me.TextBoxX20.Name = "TextBoxX20"
-        Me.TextBoxX20.PreventEnterBeep = True
-        Me.TextBoxX20.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX20.TabIndex = 32
+        Me.idZonTb.Border.Class = "TextBoxBorder"
+        Me.idZonTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.idZonTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.idZonTb.Location = New System.Drawing.Point(550, 468)
+        Me.idZonTb.MaxLength = 15
+        Me.idZonTb.Name = "idZonTb"
+        Me.idZonTb.PreventEnterBeep = True
+        Me.idZonTb.Size = New System.Drawing.Size(207, 30)
+        Me.idZonTb.TabIndex = 32
         '
-        'TextBoxX18
-        '
-        '
-        '
-        '
-        Me.TextBoxX18.Border.Class = "TextBoxBorder"
-        Me.TextBoxX18.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX18.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX18.Location = New System.Drawing.Point(456, 252)
-        Me.TextBoxX18.MaxLength = 15
-        Me.TextBoxX18.Name = "TextBoxX18"
-        Me.TextBoxX18.PreventEnterBeep = True
-        Me.TextBoxX18.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX18.TabIndex = 32
-        '
-        'TextBoxX17
+        'cAduaneroTb
         '
         '
         '
         '
-        Me.TextBoxX17.Border.Class = "TextBoxBorder"
-        Me.TextBoxX17.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX17.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX17.Location = New System.Drawing.Point(124, 252)
-        Me.TextBoxX17.MaxLength = 15
-        Me.TextBoxX17.Name = "TextBoxX17"
-        Me.TextBoxX17.PreventEnterBeep = True
-        Me.TextBoxX17.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX17.TabIndex = 32
+        Me.cAduaneroTb.Border.Class = "TextBoxBorder"
+        Me.cAduaneroTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.cAduaneroTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cAduaneroTb.Location = New System.Drawing.Point(131, 320)
+        Me.cAduaneroTb.MaxLength = 15
+        Me.cAduaneroTb.Name = "cAduaneroTb"
+        Me.cAduaneroTb.PreventEnterBeep = True
+        Me.cAduaneroTb.Size = New System.Drawing.Size(207, 30)
+        Me.cAduaneroTb.TabIndex = 32
         '
-        'TextBoxX8
-        '
-        '
-        '
-        '
-        Me.TextBoxX8.Border.Class = "TextBoxBorder"
-        Me.TextBoxX8.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX8.Location = New System.Drawing.Point(456, 216)
-        Me.TextBoxX8.MaxLength = 15
-        Me.TextBoxX8.Name = "TextBoxX8"
-        Me.TextBoxX8.PreventEnterBeep = True
-        Me.TextBoxX8.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX8.TabIndex = 32
-        '
-        'TextBoxX3
+        'idBcoTb
         '
         '
         '
         '
-        Me.TextBoxX3.Border.Class = "TextBoxBorder"
-        Me.TextBoxX3.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX3.Location = New System.Drawing.Point(124, 216)
-        Me.TextBoxX3.MaxLength = 15
-        Me.TextBoxX3.Name = "TextBoxX3"
-        Me.TextBoxX3.PreventEnterBeep = True
-        Me.TextBoxX3.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX3.TabIndex = 32
+        Me.idBcoTb.Border.Class = "TextBoxBorder"
+        Me.idBcoTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.idBcoTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.idBcoTb.Location = New System.Drawing.Point(836, 216)
+        Me.idBcoTb.MaxLength = 15
+        Me.idBcoTb.Name = "idBcoTb"
+        Me.idBcoTb.PreventEnterBeep = True
+        Me.idBcoTb.Size = New System.Drawing.Size(207, 30)
+        Me.idBcoTb.TabIndex = 32
         '
-        'TextBoxX13
-        '
-        '
-        '
-        '
-        Me.TextBoxX13.Border.Class = "TextBoxBorder"
-        Me.TextBoxX13.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX13.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX13.Location = New System.Drawing.Point(783, 16)
-        Me.TextBoxX13.MaxLength = 6
-        Me.TextBoxX13.Name = "TextBoxX13"
-        Me.TextBoxX13.PreventEnterBeep = True
-        Me.TextBoxX13.Size = New System.Drawing.Size(173, 30)
-        Me.TextBoxX13.TabIndex = 29
-        '
-        'TextBoxX12
+        'nCtaTb
         '
         '
         '
         '
-        Me.TextBoxX12.Border.Class = "TextBoxBorder"
-        Me.TextBoxX12.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX12.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX12.Location = New System.Drawing.Point(783, 133)
-        Me.TextBoxX12.MaxLength = 15
-        Me.TextBoxX12.Name = "TextBoxX12"
-        Me.TextBoxX12.PreventEnterBeep = True
-        Me.TextBoxX12.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX12.TabIndex = 32
+        Me.nCtaTb.Border.Class = "TextBoxBorder"
+        Me.nCtaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.nCtaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nCtaTb.Location = New System.Drawing.Point(837, 284)
+        Me.nCtaTb.MaxLength = 15
+        Me.nCtaTb.Name = "nCtaTb"
+        Me.nCtaTb.PreventEnterBeep = True
+        Me.nCtaTb.Size = New System.Drawing.Size(207, 30)
+        Me.nCtaTb.TabIndex = 32
         '
-        'TextBoxX7
-        '
-        '
-        '
-        '
-        Me.TextBoxX7.Border.Class = "TextBoxBorder"
-        Me.TextBoxX7.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX7.Location = New System.Drawing.Point(456, 16)
-        Me.TextBoxX7.MaxLength = 6
-        Me.TextBoxX7.Name = "TextBoxX7"
-        Me.TextBoxX7.PreventEnterBeep = True
-        Me.TextBoxX7.Size = New System.Drawing.Size(173, 30)
-        Me.TextBoxX7.TabIndex = 29
-        '
-        'TextBoxX6
+        'bcotb
         '
         '
         '
         '
-        Me.TextBoxX6.Border.Class = "TextBoxBorder"
-        Me.TextBoxX6.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX6.Location = New System.Drawing.Point(456, 133)
-        Me.TextBoxX6.MaxLength = 15
-        Me.TextBoxX6.Name = "TextBoxX6"
-        Me.TextBoxX6.PreventEnterBeep = True
-        Me.TextBoxX6.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX6.TabIndex = 32
+        Me.bcotb.Border.Class = "TextBoxBorder"
+        Me.bcotb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.bcotb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.bcotb.Location = New System.Drawing.Point(836, 180)
+        Me.bcotb.MaxLength = 15
+        Me.bcotb.Name = "bcotb"
+        Me.bcotb.PreventEnterBeep = True
+        Me.bcotb.Size = New System.Drawing.Size(207, 30)
+        Me.bcotb.TabIndex = 32
+        '
+        'policialesTb
+        '
+        '
+        '
+        '
+        Me.policialesTb.Border.Class = "TextBoxBorder"
+        Me.policialesTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.policialesTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.policialesTb.Location = New System.Drawing.Point(826, 63)
+        Me.policialesTb.MaxLength = 15
+        Me.policialesTb.Name = "policialesTb"
+        Me.policialesTb.PreventEnterBeep = True
+        Me.policialesTb.Size = New System.Drawing.Size(99, 30)
+        Me.policialesTb.TabIndex = 32
         '
         'LabelX13
         '
@@ -795,231 +1145,34 @@ Partial Class transportistas
         '
         '
         Me.LabelX13.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX13.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX13.Location = New System.Drawing.Point(712, 14)
+        Me.LabelX13.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX13.Location = New System.Drawing.Point(44, 97)
         Me.LabelX13.Name = "LabelX13"
-        Me.LabelX13.Size = New System.Drawing.Size(54, 23)
+        Me.LabelX13.Size = New System.Drawing.Size(82, 23)
         Me.LabelX13.TabIndex = 31
-        Me.LabelX13.Text = "Código"
+        Me.LabelX13.Text = "Apellido"
+        Me.LabelX13.TextAlignment = System.Drawing.StringAlignment.Far
         '
-        'codTb
+        'penalesTb
         '
         '
         '
         '
-        Me.codTb.Border.Class = "TextBoxBorder"
-        Me.codTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.codTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.codTb.Location = New System.Drawing.Point(124, 16)
-        Me.codTb.MaxLength = 6
-        Me.codTb.Name = "codTb"
-        Me.codTb.PreventEnterBeep = True
-        Me.codTb.Size = New System.Drawing.Size(173, 30)
-        Me.codTb.TabIndex = 29
-        '
-        'LabelX7
-        '
-        '
-        '
-        '
-        Me.LabelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX7.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX7.Location = New System.Drawing.Point(385, 14)
-        Me.LabelX7.Name = "LabelX7"
-        Me.LabelX7.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX7.TabIndex = 31
-        Me.LabelX7.Text = "Código"
-        '
-        'TextBoxX11
-        '
-        '
-        '
-        '
-        Me.TextBoxX11.Border.Class = "TextBoxBorder"
-        Me.TextBoxX11.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX11.Location = New System.Drawing.Point(783, 52)
-        Me.TextBoxX11.MaxLength = 15
-        Me.TextBoxX11.Name = "TextBoxX11"
-        Me.TextBoxX11.PreventEnterBeep = True
-        Me.TextBoxX11.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX11.TabIndex = 32
-        '
-        'TextBoxX1
-        '
-        '
-        '
-        '
-        Me.TextBoxX1.Border.Class = "TextBoxBorder"
-        Me.TextBoxX1.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX1.Location = New System.Drawing.Point(124, 133)
-        Me.TextBoxX1.MaxLength = 15
-        Me.TextBoxX1.Name = "TextBoxX1"
-        Me.TextBoxX1.PreventEnterBeep = True
-        Me.TextBoxX1.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX1.TabIndex = 32
-        '
-        'TextBoxX5
-        '
-        '
-        '
-        '
-        Me.TextBoxX5.Border.Class = "TextBoxBorder"
-        Me.TextBoxX5.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX5.Location = New System.Drawing.Point(456, 52)
-        Me.TextBoxX5.MaxLength = 15
-        Me.TextBoxX5.Name = "TextBoxX5"
-        Me.TextBoxX5.PreventEnterBeep = True
-        Me.TextBoxX5.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX5.TabIndex = 32
-        '
-        'LabelX1
-        '
-        '
-        '
-        '
-        Me.LabelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX1.Location = New System.Drawing.Point(53, 14)
-        Me.LabelX1.Name = "LabelX1"
-        Me.LabelX1.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX1.TabIndex = 31
-        Me.LabelX1.Text = "Código"
-        '
-        'placaTb
-        '
-        '
-        '
-        '
-        Me.placaTb.Border.Class = "TextBoxBorder"
-        Me.placaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.placaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.placaTb.Location = New System.Drawing.Point(124, 52)
-        Me.placaTb.MaxLength = 15
-        Me.placaTb.Name = "placaTb"
-        Me.placaTb.PreventEnterBeep = True
-        Me.placaTb.Size = New System.Drawing.Size(207, 30)
-        Me.placaTb.TabIndex = 32
-        '
-        'TextBoxX23
-        '
-        '
-        '
-        '
-        Me.TextBoxX23.Border.Class = "TextBoxBorder"
-        Me.TextBoxX23.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX23.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX23.Location = New System.Drawing.Point(124, 326)
-        Me.TextBoxX23.MaxLength = 15
-        Me.TextBoxX23.Name = "TextBoxX23"
-        Me.TextBoxX23.PreventEnterBeep = True
-        Me.TextBoxX23.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX23.TabIndex = 32
-        '
-        'TextBoxX24
-        '
-        '
-        '
-        '
-        Me.TextBoxX24.Border.Class = "TextBoxBorder"
-        Me.TextBoxX24.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX24.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX24.Location = New System.Drawing.Point(456, 326)
-        Me.TextBoxX24.MaxLength = 15
-        Me.TextBoxX24.Name = "TextBoxX24"
-        Me.TextBoxX24.PreventEnterBeep = True
-        Me.TextBoxX24.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX24.TabIndex = 32
-        '
-        'TextBoxX25
-        '
-        '
-        '
-        '
-        Me.TextBoxX25.Border.Class = "TextBoxBorder"
-        Me.TextBoxX25.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX25.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX25.Location = New System.Drawing.Point(124, 362)
-        Me.TextBoxX25.MaxLength = 15
-        Me.TextBoxX25.Name = "TextBoxX25"
-        Me.TextBoxX25.PreventEnterBeep = True
-        Me.TextBoxX25.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX25.TabIndex = 32
-        '
-        'TextBoxX26
-        '
-        '
-        '
-        '
-        Me.TextBoxX26.Border.Class = "TextBoxBorder"
-        Me.TextBoxX26.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.TextBoxX26.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxX26.Location = New System.Drawing.Point(456, 362)
-        Me.TextBoxX26.MaxLength = 15
-        Me.TextBoxX26.Name = "TextBoxX26"
-        Me.TextBoxX26.PreventEnterBeep = True
-        Me.TextBoxX26.Size = New System.Drawing.Size(207, 30)
-        Me.TextBoxX26.TabIndex = 32
-        '
-        'LabelX25
-        '
-        '
-        '
-        '
-        Me.LabelX25.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX25.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX25.Location = New System.Drawing.Point(53, 326)
-        Me.LabelX25.Name = "LabelX25"
-        Me.LabelX25.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX25.TabIndex = 30
-        Me.LabelX25.Text = "Placa"
-        '
-        'LabelX26
-        '
-        '
-        '
-        '
-        Me.LabelX26.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX26.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX26.Location = New System.Drawing.Point(53, 362)
-        Me.LabelX26.Name = "LabelX26"
-        Me.LabelX26.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX26.TabIndex = 30
-        Me.LabelX26.Text = "Placa"
-        '
-        'LabelX27
-        '
-        '
-        '
-        '
-        Me.LabelX27.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX27.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX27.Location = New System.Drawing.Point(385, 326)
-        Me.LabelX27.Name = "LabelX27"
-        Me.LabelX27.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX27.TabIndex = 30
-        Me.LabelX27.Text = "Placa"
-        '
-        'LabelX28
-        '
-        '
-        '
-        '
-        Me.LabelX28.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX28.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX28.Location = New System.Drawing.Point(385, 362)
-        Me.LabelX28.Name = "LabelX28"
-        Me.LabelX28.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX28.TabIndex = 30
-        Me.LabelX28.Text = "Placa"
+        Me.penalesTb.Border.Class = "TextBoxBorder"
+        Me.penalesTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.penalesTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.penalesTb.Location = New System.Drawing.Point(826, 100)
+        Me.penalesTb.MaxLength = 15
+        Me.penalesTb.Name = "penalesTb"
+        Me.penalesTb.PreventEnterBeep = True
+        Me.penalesTb.Size = New System.Drawing.Size(99, 30)
+        Me.penalesTb.TabIndex = 32
         '
         'transportistas
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1167, 648)
+        Me.ClientSize = New System.Drawing.Size(1210, 648)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.CancelarBtn)
         Me.Controls.Add(Me.EliminarBtn)
@@ -1030,6 +1183,8 @@ Partial Class transportistas
         Me.Name = "transportistas"
         Me.Text = "transportistas"
         Me.Panel1.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        CType(Me.fechDpk, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1060,41 +1215,49 @@ Partial Class transportistas
     Friend WithEvents LabelX16 As DevComponents.DotNetBar.LabelX
     Friend WithEvents LabelX10 As DevComponents.DotNetBar.LabelX
     Friend WithEvents LabelX3 As DevComponents.DotNetBar.LabelX
-    Friend WithEvents TextBoxX16 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX10 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX4 As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents emailTb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents LabelX15 As DevComponents.DotNetBar.LabelX
     Friend WithEvents LabelX9 As DevComponents.DotNetBar.LabelX
     Friend WithEvents LabelX5 As DevComponents.DotNetBar.LabelX
-    Friend WithEvents TextBoxX15 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX9 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX2 As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents dniTb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents dhpTb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents LabelX14 As DevComponents.DotNetBar.LabelX
     Friend WithEvents LabelX8 As DevComponents.DotNetBar.LabelX
     Friend WithEvents LabelX2 As DevComponents.DotNetBar.LabelX
-    Friend WithEvents TextBoxX14 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX26 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX22 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX21 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX25 As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents descripTb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents idCtaTb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents idClieTb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents TextBoxX19 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX24 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX20 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX23 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX18 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX17 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX8 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX3 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX13 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX12 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX7 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX6 As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents idZonTb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents cAduaneroTb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents idBcoTb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents nCtaTb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents bcotb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents ApelTbx As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents residenciaTb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents nombTbx As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents policialesTb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents LabelX13 As DevComponents.DotNetBar.LabelX
-    Friend WithEvents codTb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents codTbx As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents LabelX7 As DevComponents.DotNetBar.LabelX
-    Friend WithEvents TextBoxX11 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX1 As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents TextBoxX5 As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents teleTbx As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents penalesTb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents rtnTbx As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents LabelX1 As DevComponents.DotNetBar.LabelX
-    Friend WithEvents placaTb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents empTbx As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents LabelX29 As DevComponents.DotNetBar.LabelX
+    Friend WithEvents zonaTb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents fechDpk As DevComponents.Editors.DateTimeAdv.DateTimeInput
+    Friend WithEvents LabelX30 As DevComponents.DotNetBar.LabelX
+    Friend WithEvents consPagCtaTb As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents solvFiscalTb As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents estadoTb As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents docTb As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents poligrTb As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents escComerTb As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents ispTb As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents SI As DevComponents.Editors.ComboItem
+    Friend WithEvents NO As DevComponents.Editors.ComboItem
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents LabelX31 As DevComponents.DotNetBar.LabelX
 End Class

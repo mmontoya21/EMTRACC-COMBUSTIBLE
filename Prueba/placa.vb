@@ -1,5 +1,6 @@
 ﻿Public Class placa
-    Private Sub GuardarBtn_Click(sender As Object, e As EventArgs) Handles GuardarBtn.Click
+    Private Sub placa_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
+
 End Class
