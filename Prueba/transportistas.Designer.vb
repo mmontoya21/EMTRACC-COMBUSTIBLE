@@ -50,6 +50,8 @@ Partial Class transportistas
         Me.LabelX15 = New DevComponents.DotNetBar.LabelX()
         Me.residenciaTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.LabelX17 = New DevComponents.DotNetBar.LabelX()
+        Me.dhpTb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.LabelX8 = New DevComponents.DotNetBar.LabelX()
         Me.docTb = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.poligrTb = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.escComerTb = New DevComponents.DotNetBar.Controls.ComboBoxEx()
@@ -78,8 +80,6 @@ Partial Class transportistas
         Me.LabelX4 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX9 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX5 = New DevComponents.DotNetBar.LabelX()
-        Me.dhpTb = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.LabelX8 = New DevComponents.DotNetBar.LabelX()
         Me.descripTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.zonaTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.idCtaTb = New DevComponents.DotNetBar.Controls.TextBoxX()
@@ -578,6 +578,35 @@ Partial Class transportistas
         Me.LabelX17.Text = "Residencia"
         Me.LabelX17.TextAlignment = System.Drawing.StringAlignment.Far
         '
+        'dhpTb
+        '
+        '
+        '
+        '
+        Me.dhpTb.Border.Class = "TextBoxBorder"
+        Me.dhpTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.dhpTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dhpTb.Location = New System.Drawing.Point(256, 114)
+        Me.dhpTb.MaxLength = 6
+        Me.dhpTb.Name = "dhpTb"
+        Me.dhpTb.PreventEnterBeep = True
+        Me.dhpTb.Size = New System.Drawing.Size(93, 30)
+        Me.dhpTb.TabIndex = 29
+        '
+        'LabelX8
+        '
+        '
+        '
+        '
+        Me.LabelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX8.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX8.Location = New System.Drawing.Point(214, 116)
+        Me.LabelX8.Name = "LabelX8"
+        Me.LabelX8.Size = New System.Drawing.Size(36, 23)
+        Me.LabelX8.TabIndex = 31
+        Me.LabelX8.Text = "DHP"
+        Me.LabelX8.TextAlignment = System.Drawing.StringAlignment.Far
+        '
         'docTb
         '
         Me.docTb.DisplayMember = "Text"
@@ -585,7 +614,7 @@ Partial Class transportistas
         Me.docTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.docTb.FormattingEnabled = True
         Me.docTb.ItemHeight = 20
-        Me.docTb.Location = New System.Drawing.Point(529, 400)
+        Me.docTb.Location = New System.Drawing.Point(531, 326)
         Me.docTb.Name = "docTb"
         Me.docTb.Size = New System.Drawing.Size(121, 26)
         Me.docTb.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -598,7 +627,7 @@ Partial Class transportistas
         Me.poligrTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.poligrTb.FormattingEnabled = True
         Me.poligrTb.ItemHeight = 20
-        Me.poligrTb.Location = New System.Drawing.Point(131, 466)
+        Me.poligrTb.Location = New System.Drawing.Point(131, 392)
         Me.poligrTb.Name = "poligrTb"
         Me.poligrTb.Size = New System.Drawing.Size(156, 26)
         Me.poligrTb.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -611,7 +640,7 @@ Partial Class transportistas
         Me.escComerTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.escComerTb.FormattingEnabled = True
         Me.escComerTb.ItemHeight = 20
-        Me.escComerTb.Location = New System.Drawing.Point(529, 364)
+        Me.escComerTb.Location = New System.Drawing.Point(531, 290)
         Me.escComerTb.Name = "escComerTb"
         Me.escComerTb.Size = New System.Drawing.Size(156, 26)
         Me.escComerTb.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -651,7 +680,7 @@ Partial Class transportistas
         Me.solvFiscalTb.FormattingEnabled = True
         Me.solvFiscalTb.ItemHeight = 20
         Me.solvFiscalTb.Items.AddRange(New Object() {Me.SI, Me.NO})
-        Me.solvFiscalTb.Location = New System.Drawing.Point(836, 146)
+        Me.solvFiscalTb.Location = New System.Drawing.Point(783, 101)
         Me.solvFiscalTb.Name = "solvFiscalTb"
         Me.solvFiscalTb.Size = New System.Drawing.Size(74, 26)
         Me.solvFiscalTb.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -673,7 +702,7 @@ Partial Class transportistas
         Me.estadoTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.estadoTb.FormattingEnabled = True
         Me.estadoTb.ItemHeight = 20
-        Me.estadoTb.Location = New System.Drawing.Point(552, 508)
+        Me.estadoTb.Location = New System.Drawing.Point(532, 392)
         Me.estadoTb.Name = "estadoTb"
         Me.estadoTb.Size = New System.Drawing.Size(206, 26)
         Me.estadoTb.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -728,7 +757,7 @@ Partial Class transportistas
         '
         Me.LabelX30.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX30.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX30.Location = New System.Drawing.Point(36, 470)
+        Me.LabelX30.Location = New System.Drawing.Point(36, 396)
         Me.LabelX30.Name = "LabelX30"
         Me.LabelX30.Size = New System.Drawing.Size(82, 23)
         Me.LabelX30.TabIndex = 30
@@ -742,7 +771,7 @@ Partial Class transportistas
         '
         Me.LabelX29.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX29.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX29.Location = New System.Drawing.Point(43, 434)
+        Me.LabelX29.Location = New System.Drawing.Point(43, 360)
         Me.LabelX29.Name = "LabelX29"
         Me.LabelX29.Size = New System.Drawing.Size(82, 23)
         Me.LabelX29.TabIndex = 30
@@ -756,7 +785,7 @@ Partial Class transportistas
         '
         Me.LabelX28.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX28.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX28.Location = New System.Drawing.Point(462, 508)
+        Me.LabelX28.Location = New System.Drawing.Point(442, 392)
         Me.LabelX28.Name = "LabelX28"
         Me.LabelX28.Size = New System.Drawing.Size(82, 23)
         Me.LabelX28.TabIndex = 30
@@ -770,7 +799,7 @@ Partial Class transportistas
         '
         Me.LabelX27.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX27.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX27.Location = New System.Drawing.Point(462, 472)
+        Me.LabelX27.Location = New System.Drawing.Point(443, 361)
         Me.LabelX27.Name = "LabelX27"
         Me.LabelX27.Size = New System.Drawing.Size(82, 23)
         Me.LabelX27.TabIndex = 30
@@ -784,7 +813,7 @@ Partial Class transportistas
         '
         Me.LabelX23.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX23.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX23.Location = New System.Drawing.Point(440, 399)
+        Me.LabelX23.Location = New System.Drawing.Point(442, 325)
         Me.LabelX23.Name = "LabelX23"
         Me.LabelX23.Size = New System.Drawing.Size(82, 23)
         Me.LabelX23.TabIndex = 30
@@ -798,7 +827,7 @@ Partial Class transportistas
         '
         Me.LabelX20.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX20.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX20.Location = New System.Drawing.Point(364, 363)
+        Me.LabelX20.Location = New System.Drawing.Point(366, 289)
         Me.LabelX20.Name = "LabelX20"
         Me.LabelX20.Size = New System.Drawing.Size(158, 23)
         Me.LabelX20.TabIndex = 30
@@ -812,7 +841,7 @@ Partial Class transportistas
         '
         Me.LabelX26.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX26.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX26.Location = New System.Drawing.Point(862, 519)
+        Me.LabelX26.Location = New System.Drawing.Point(862, 483)
         Me.LabelX26.Name = "LabelX26"
         Me.LabelX26.Size = New System.Drawing.Size(89, 23)
         Me.LabelX26.TabIndex = 30
@@ -896,7 +925,7 @@ Partial Class transportistas
         '
         Me.LabelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX11.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX11.Location = New System.Drawing.Point(738, 67)
+        Me.LabelX11.Location = New System.Drawing.Point(695, 32)
         Me.LabelX11.Name = "LabelX11"
         Me.LabelX11.Size = New System.Drawing.Size(82, 23)
         Me.LabelX11.TabIndex = 30
@@ -910,7 +939,7 @@ Partial Class transportistas
         '
         Me.LabelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX4.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX4.Location = New System.Drawing.Point(732, 100)
+        Me.LabelX4.Location = New System.Drawing.Point(689, 65)
         Me.LabelX4.Name = "LabelX4"
         Me.LabelX4.Size = New System.Drawing.Size(89, 23)
         Me.LabelX4.TabIndex = 30
@@ -938,41 +967,12 @@ Partial Class transportistas
         '
         Me.LabelX5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX5.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX5.Location = New System.Drawing.Point(740, 146)
+        Me.LabelX5.Location = New System.Drawing.Point(687, 101)
         Me.LabelX5.Name = "LabelX5"
         Me.LabelX5.Size = New System.Drawing.Size(89, 23)
         Me.LabelX5.TabIndex = 31
         Me.LabelX5.Text = "Solv. Fiscal"
         Me.LabelX5.TextAlignment = System.Drawing.StringAlignment.Far
-        '
-        'dhpTb
-        '
-        '
-        '
-        '
-        Me.dhpTb.Border.Class = "TextBoxBorder"
-        Me.dhpTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.dhpTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dhpTb.Location = New System.Drawing.Point(256, 114)
-        Me.dhpTb.MaxLength = 6
-        Me.dhpTb.Name = "dhpTb"
-        Me.dhpTb.PreventEnterBeep = True
-        Me.dhpTb.Size = New System.Drawing.Size(93, 30)
-        Me.dhpTb.TabIndex = 29
-        '
-        'LabelX8
-        '
-        '
-        '
-        '
-        Me.LabelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX8.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX8.Location = New System.Drawing.Point(214, 116)
-        Me.LabelX8.Name = "LabelX8"
-        Me.LabelX8.Size = New System.Drawing.Size(36, 23)
-        Me.LabelX8.TabIndex = 31
-        Me.LabelX8.Text = "DHP"
-        Me.LabelX8.TextAlignment = System.Drawing.StringAlignment.Far
         '
         'descripTb
         '
@@ -997,7 +997,7 @@ Partial Class transportistas
         Me.zonaTb.Border.Class = "TextBoxBorder"
         Me.zonaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.zonaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.zonaTb.Location = New System.Drawing.Point(131, 430)
+        Me.zonaTb.Location = New System.Drawing.Point(131, 356)
         Me.zonaTb.MaxLength = 15
         Me.zonaTb.Name = "zonaTb"
         Me.zonaTb.PreventEnterBeep = True
@@ -1027,7 +1027,7 @@ Partial Class transportistas
         Me.idClieTb.Border.Class = "TextBoxBorder"
         Me.idClieTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.idClieTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.idClieTb.Location = New System.Drawing.Point(956, 511)
+        Me.idClieTb.Location = New System.Drawing.Point(956, 475)
         Me.idClieTb.MaxLength = 15
         Me.idClieTb.Name = "idClieTb"
         Me.idClieTb.PreventEnterBeep = True
@@ -1057,7 +1057,7 @@ Partial Class transportistas
         Me.idZonTb.Border.Class = "TextBoxBorder"
         Me.idZonTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.idZonTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.idZonTb.Location = New System.Drawing.Point(550, 468)
+        Me.idZonTb.Location = New System.Drawing.Point(531, 357)
         Me.idZonTb.MaxLength = 15
         Me.idZonTb.Name = "idZonTb"
         Me.idZonTb.PreventEnterBeep = True
@@ -1132,7 +1132,7 @@ Partial Class transportistas
         Me.policialesTb.Border.Class = "TextBoxBorder"
         Me.policialesTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.policialesTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.policialesTb.Location = New System.Drawing.Point(826, 63)
+        Me.policialesTb.Location = New System.Drawing.Point(783, 28)
         Me.policialesTb.MaxLength = 15
         Me.policialesTb.Name = "policialesTb"
         Me.policialesTb.PreventEnterBeep = True
@@ -1161,7 +1161,7 @@ Partial Class transportistas
         Me.penalesTb.Border.Class = "TextBoxBorder"
         Me.penalesTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.penalesTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.penalesTb.Location = New System.Drawing.Point(826, 100)
+        Me.penalesTb.Location = New System.Drawing.Point(783, 65)
         Me.penalesTb.MaxLength = 15
         Me.penalesTb.Name = "penalesTb"
         Me.penalesTb.PreventEnterBeep = True
