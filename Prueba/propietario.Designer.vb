@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class propietario
     Inherits System.Windows.Forms.Form
 
     'Form reemplaza a Dispose para limpiar la lista de componentes.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class propietario
     'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
     'Se puede modificar usando el Diseñador de Windows Forms.  
     'No lo modifique con el editor de código.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.codProTb = New DevComponents.DotNetBar.Controls.TextBoxX()
@@ -45,8 +45,16 @@ Partial Class propietario
         Me.NuevoBtn = New DevComponents.DotNetBar.ButtonX()
         Me.GuardarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.ModificarBtn = New DevComponents.DotNetBar.ButtonX()
-        Me.DataGridViewX1 = New DevComponents.DotNetBar.Controls.DataGridViewX()
-        CType(Me.DataGridViewX1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.CamDGV = New DevComponents.DotNetBar.Controls.DataGridViewX()
+        Me.PanelP = New System.Windows.Forms.Panel()
+        Me.buscartxt = New DevComponents.DotNetBar.LabelX()
+        Me.propBusqTB = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.placaBusqTB = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.ButtonX6 = New DevComponents.DotNetBar.ButtonX()
+        Me.LabelX10 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX9 = New DevComponents.DotNetBar.LabelX()
+        CType(Me.CamDGV, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.PanelP.SuspendLayout()
         Me.SuspendLayout()
         '
         'codProTb
@@ -57,7 +65,7 @@ Partial Class propietario
         Me.codProTb.Border.Class = "TextBoxBorder"
         Me.codProTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.codProTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.codProTb.Location = New System.Drawing.Point(92, 70)
+        Me.codProTb.Location = New System.Drawing.Point(102, 10)
         Me.codProTb.MaxLength = 10
         Me.codProTb.Name = "codProTb"
         Me.codProTb.PreventEnterBeep = True
@@ -72,18 +80,19 @@ Partial Class propietario
         Me.nPropietarioTb.Border.Class = "TextBoxBorder"
         Me.nPropietarioTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.nPropietarioTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.nPropietarioTb.Location = New System.Drawing.Point(92, 106)
+        Me.nPropietarioTb.Location = New System.Drawing.Point(102, 46)
         Me.nPropietarioTb.MaxLength = 80
         Me.nPropietarioTb.Name = "nPropietarioTb"
         Me.nPropietarioTb.PreventEnterBeep = True
-        Me.nPropietarioTb.Size = New System.Drawing.Size(364, 30)
-        Me.nPropietarioTb.TabIndex = 2
+        Me.nPropietarioTb.Size = New System.Drawing.Size(372, 30)
+        Me.nPropietarioTb.TabIndex = 3
         '
         'Label1
         '
-        Me.Label1.Location = New System.Drawing.Point(21, 70)
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(6, 3)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(65, 30)
+        Me.Label1.Size = New System.Drawing.Size(93, 44)
         Me.Label1.TabIndex = 3
         Me.Label1.Text = "Código Propietario"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -96,12 +105,12 @@ Partial Class propietario
         Me.RTNTb.Border.Class = "TextBoxBorder"
         Me.RTNTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.RTNTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RTNTb.Location = New System.Drawing.Point(304, 70)
-        Me.RTNTb.MaxLength = 10
+        Me.RTNTb.Location = New System.Drawing.Point(322, 10)
+        Me.RTNTb.MaxLength = 15
         Me.RTNTb.Name = "RTNTb"
         Me.RTNTb.PreventEnterBeep = True
         Me.RTNTb.Size = New System.Drawing.Size(152, 30)
-        Me.RTNTb.TabIndex = 4
+        Me.RTNTb.TabIndex = 2
         '
         'nEmpresaTb
         '
@@ -111,12 +120,12 @@ Partial Class propietario
         Me.nEmpresaTb.Border.Class = "TextBoxBorder"
         Me.nEmpresaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.nEmpresaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.nEmpresaTb.Location = New System.Drawing.Point(92, 142)
+        Me.nEmpresaTb.Location = New System.Drawing.Point(102, 82)
         Me.nEmpresaTb.MaxLength = 80
         Me.nEmpresaTb.Name = "nEmpresaTb"
         Me.nEmpresaTb.PreventEnterBeep = True
-        Me.nEmpresaTb.Size = New System.Drawing.Size(364, 30)
-        Me.nEmpresaTb.TabIndex = 5
+        Me.nEmpresaTb.Size = New System.Drawing.Size(372, 30)
+        Me.nEmpresaTb.TabIndex = 4
         '
         'Tel2Tb
         '
@@ -126,12 +135,12 @@ Partial Class propietario
         Me.Tel2Tb.Border.Class = "TextBoxBorder"
         Me.Tel2Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.Tel2Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tel2Tb.Location = New System.Drawing.Point(304, 178)
-        Me.Tel2Tb.MaxLength = 10
+        Me.Tel2Tb.Location = New System.Drawing.Point(322, 118)
+        Me.Tel2Tb.MaxLength = 12
         Me.Tel2Tb.Name = "Tel2Tb"
         Me.Tel2Tb.PreventEnterBeep = True
         Me.Tel2Tb.Size = New System.Drawing.Size(152, 30)
-        Me.Tel2Tb.TabIndex = 10
+        Me.Tel2Tb.TabIndex = 6
         '
         'correoETb
         '
@@ -141,18 +150,19 @@ Partial Class propietario
         Me.correoETb.Border.Class = "TextBoxBorder"
         Me.correoETb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.correoETb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.correoETb.Location = New System.Drawing.Point(92, 214)
+        Me.correoETb.Location = New System.Drawing.Point(102, 154)
         Me.correoETb.MaxLength = 50
         Me.correoETb.Name = "correoETb"
         Me.correoETb.PreventEnterBeep = True
         Me.correoETb.Size = New System.Drawing.Size(173, 30)
-        Me.correoETb.TabIndex = 9
+        Me.correoETb.TabIndex = 7
         '
         'Label2
         '
-        Me.Label2.Location = New System.Drawing.Point(21, 148)
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(14, 88)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(65, 17)
+        Me.Label2.Size = New System.Drawing.Size(85, 24)
         Me.Label2.TabIndex = 8
         Me.Label2.Text = "Empresa"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -165,13 +175,13 @@ Partial Class propietario
         Me.DireccionTb.Border.Class = "TextBoxBorder"
         Me.DireccionTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.DireccionTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DireccionTb.Location = New System.Drawing.Point(92, 250)
+        Me.DireccionTb.Location = New System.Drawing.Point(102, 190)
         Me.DireccionTb.MaxLength = 300
         Me.DireccionTb.Multiline = True
         Me.DireccionTb.Name = "DireccionTb"
         Me.DireccionTb.PreventEnterBeep = True
         Me.DireccionTb.Size = New System.Drawing.Size(364, 115)
-        Me.DireccionTb.TabIndex = 7
+        Me.DireccionTb.TabIndex = 8
         '
         'Tel1TB
         '
@@ -181,52 +191,57 @@ Partial Class propietario
         Me.Tel1TB.Border.Class = "TextBoxBorder"
         Me.Tel1TB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.Tel1TB.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tel1TB.Location = New System.Drawing.Point(92, 178)
-        Me.Tel1TB.MaxLength = 10
+        Me.Tel1TB.Location = New System.Drawing.Point(102, 118)
+        Me.Tel1TB.MaxLength = 12
         Me.Tel1TB.Name = "Tel1TB"
         Me.Tel1TB.PreventEnterBeep = True
         Me.Tel1TB.Size = New System.Drawing.Size(148, 30)
-        Me.Tel1TB.TabIndex = 6
+        Me.Tel1TB.TabIndex = 5
         '
         'Label3
         '
-        Me.Label3.Location = New System.Drawing.Point(25, 114)
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(18, 54)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(65, 17)
+        Me.Label3.Size = New System.Drawing.Size(81, 17)
         Me.Label3.TabIndex = 8
         Me.Label3.Text = "Propietario"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label4
         '
-        Me.Label4.Location = New System.Drawing.Point(265, 76)
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(276, 16)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(35, 19)
+        Me.Label4.Size = New System.Drawing.Size(42, 19)
         Me.Label4.TabIndex = 11
         Me.Label4.Text = "RTN"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label5
         '
-        Me.Label5.Location = New System.Drawing.Point(21, 210)
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(14, 150)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(65, 32)
+        Me.Label5.Size = New System.Drawing.Size(85, 37)
         Me.Label5.TabIndex = 15
         Me.Label5.Text = "Correo Electrónico"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label6
         '
-        Me.Label6.Location = New System.Drawing.Point(21, 255)
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(14, 195)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(65, 17)
+        Me.Label6.Size = New System.Drawing.Size(85, 17)
         Me.Label6.TabIndex = 13
         Me.Label6.Text = "Dirección"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label8
         '
-        Me.Label8.Location = New System.Drawing.Point(54, 178)
+        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.Location = New System.Drawing.Point(63, 120)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(36, 30)
         Me.Label8.TabIndex = 12
@@ -235,7 +250,8 @@ Partial Class propietario
         '
         'Label7
         '
-        Me.Label7.Location = New System.Drawing.Point(250, 178)
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(268, 118)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(48, 30)
         Me.Label7.TabIndex = 16
@@ -299,7 +315,7 @@ Partial Class propietario
         '
         Me.GuardarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.GuardarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.GuardarBtn.Location = New System.Drawing.Point(186, 12)
+        Me.GuardarBtn.Location = New System.Drawing.Point(185, 12)
         Me.GuardarBtn.Name = "GuardarBtn"
         Me.GuardarBtn.Size = New System.Drawing.Size(82, 40)
         Me.GuardarBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -322,9 +338,11 @@ Partial Class propietario
         Me.ModificarBtn.TabIndex = 33
         Me.ModificarBtn.Text = "Modificar"
         '
-        'DataGridViewX1
+        'CamDGV
         '
-        Me.DataGridViewX1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.CamDGV.AllowUserToAddRows = False
+        Me.CamDGV.AllowUserToDeleteRows = False
+        Me.CamDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window
         DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -332,44 +350,137 @@ Partial Class propietario
         DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DataGridViewX1.DefaultCellStyle = DataGridViewCellStyle1
-        Me.DataGridViewX1.GridColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer))
-        Me.DataGridViewX1.Location = New System.Drawing.Point(471, 70)
-        Me.DataGridViewX1.Name = "DataGridViewX1"
-        Me.DataGridViewX1.Size = New System.Drawing.Size(549, 295)
-        Me.DataGridViewX1.TabIndex = 34
+        Me.CamDGV.DefaultCellStyle = DataGridViewCellStyle1
+        Me.CamDGV.GridColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer))
+        Me.CamDGV.Location = New System.Drawing.Point(503, 70)
+        Me.CamDGV.Name = "CamDGV"
+        Me.CamDGV.ReadOnly = True
+        Me.CamDGV.RowHeadersVisible = False
+        Me.CamDGV.Size = New System.Drawing.Size(803, 295)
+        Me.CamDGV.TabIndex = 34
+        '
+        'PanelP
+        '
+        Me.PanelP.Controls.Add(Me.Label7)
+        Me.PanelP.Controls.Add(Me.Label5)
+        Me.PanelP.Controls.Add(Me.Label6)
+        Me.PanelP.Controls.Add(Me.Label8)
+        Me.PanelP.Controls.Add(Me.Label4)
+        Me.PanelP.Controls.Add(Me.Tel2Tb)
+        Me.PanelP.Controls.Add(Me.correoETb)
+        Me.PanelP.Controls.Add(Me.Label3)
+        Me.PanelP.Controls.Add(Me.Label2)
+        Me.PanelP.Controls.Add(Me.DireccionTb)
+        Me.PanelP.Controls.Add(Me.Tel1TB)
+        Me.PanelP.Controls.Add(Me.nEmpresaTb)
+        Me.PanelP.Controls.Add(Me.RTNTb)
+        Me.PanelP.Controls.Add(Me.Label1)
+        Me.PanelP.Controls.Add(Me.nPropietarioTb)
+        Me.PanelP.Controls.Add(Me.codProTb)
+        Me.PanelP.Location = New System.Drawing.Point(10, 60)
+        Me.PanelP.Name = "PanelP"
+        Me.PanelP.Size = New System.Drawing.Size(487, 313)
+        Me.PanelP.TabIndex = 35
+        '
+        'buscartxt
+        '
+        '
+        '
+        '
+        Me.buscartxt.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.buscartxt.Location = New System.Drawing.Point(720, 41)
+        Me.buscartxt.Name = "buscartxt"
+        Me.buscartxt.Size = New System.Drawing.Size(75, 23)
+        Me.buscartxt.TabIndex = 41
+        Me.buscartxt.Text = "-"
+        '
+        'propBusqTB
+        '
+        '
+        '
+        '
+        Me.propBusqTB.Border.Class = "TextBoxBorder"
+        Me.propBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.propBusqTB.Location = New System.Drawing.Point(614, 44)
+        Me.propBusqTB.Name = "propBusqTB"
+        Me.propBusqTB.PreventEnterBeep = True
+        Me.propBusqTB.Size = New System.Drawing.Size(100, 20)
+        Me.propBusqTB.TabIndex = 40
+        '
+        'placaBusqTB
+        '
+        '
+        '
+        '
+        Me.placaBusqTB.Border.Class = "TextBoxBorder"
+        Me.placaBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.placaBusqTB.Location = New System.Drawing.Point(504, 44)
+        Me.placaBusqTB.Name = "placaBusqTB"
+        Me.placaBusqTB.PreventEnterBeep = True
+        Me.placaBusqTB.Size = New System.Drawing.Size(100, 20)
+        Me.placaBusqTB.TabIndex = 39
+        '
+        'ButtonX6
+        '
+        Me.ButtonX6.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.ButtonX6.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.ButtonX6.Location = New System.Drawing.Point(801, 41)
+        Me.ButtonX6.Name = "ButtonX6"
+        Me.ButtonX6.Size = New System.Drawing.Size(36, 23)
+        Me.ButtonX6.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.ButtonX6.Symbol = ""
+        Me.ButtonX6.SymbolSize = 10.0!
+        Me.ButtonX6.TabIndex = 38
+        '
+        'LabelX10
+        '
+        '
+        '
+        '
+        Me.LabelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX10.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX10.Location = New System.Drawing.Point(614, 24)
+        Me.LabelX10.Name = "LabelX10"
+        Me.LabelX10.Size = New System.Drawing.Size(75, 23)
+        Me.LabelX10.TabIndex = 36
+        Me.LabelX10.Text = "Propietario"
+        '
+        'LabelX9
+        '
+        '
+        '
+        '
+        Me.LabelX9.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX9.Location = New System.Drawing.Point(505, 24)
+        Me.LabelX9.Name = "LabelX9"
+        Me.LabelX9.Size = New System.Drawing.Size(62, 23)
+        Me.LabelX9.TabIndex = 37
+        Me.LabelX9.Text = "Cóodigo"
         '
         'propietario
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1032, 391)
-        Me.Controls.Add(Me.DataGridViewX1)
+        Me.ClientSize = New System.Drawing.Size(1328, 572)
+        Me.Controls.Add(Me.buscartxt)
+        Me.Controls.Add(Me.propBusqTB)
+        Me.Controls.Add(Me.placaBusqTB)
+        Me.Controls.Add(Me.ButtonX6)
+        Me.Controls.Add(Me.LabelX10)
+        Me.Controls.Add(Me.LabelX9)
+        Me.Controls.Add(Me.PanelP)
+        Me.Controls.Add(Me.CamDGV)
         Me.Controls.Add(Me.CancelarBtn)
         Me.Controls.Add(Me.EliminarBtn)
         Me.Controls.Add(Me.EditarBtn)
         Me.Controls.Add(Me.NuevoBtn)
         Me.Controls.Add(Me.GuardarBtn)
         Me.Controls.Add(Me.ModificarBtn)
-        Me.Controls.Add(Me.Label7)
-        Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.Label6)
-        Me.Controls.Add(Me.Label8)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Tel2Tb)
-        Me.Controls.Add(Me.correoETb)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.DireccionTb)
-        Me.Controls.Add(Me.Tel1TB)
-        Me.Controls.Add(Me.nEmpresaTb)
-        Me.Controls.Add(Me.RTNTb)
-        Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.nPropietarioTb)
-        Me.Controls.Add(Me.codProTb)
         Me.Name = "propietario"
         Me.Text = "=== Propietario ==="
-        CType(Me.DataGridViewX1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CamDGV, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.PanelP.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -396,5 +507,12 @@ Partial Class propietario
     Friend WithEvents NuevoBtn As DevComponents.DotNetBar.ButtonX
     Friend WithEvents GuardarBtn As DevComponents.DotNetBar.ButtonX
     Friend WithEvents ModificarBtn As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents DataGridViewX1 As DevComponents.DotNetBar.Controls.DataGridViewX
+    Friend WithEvents CamDGV As DevComponents.DotNetBar.Controls.DataGridViewX
+    Friend WithEvents PanelP As Panel
+    Friend WithEvents buscartxt As DevComponents.DotNetBar.LabelX
+    Friend WithEvents propBusqTB As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents placaBusqTB As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents ButtonX6 As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents LabelX10 As DevComponents.DotNetBar.LabelX
+    Friend WithEvents LabelX9 As DevComponents.DotNetBar.LabelX
 End Class

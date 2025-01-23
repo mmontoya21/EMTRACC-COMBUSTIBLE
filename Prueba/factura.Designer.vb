@@ -834,11 +834,11 @@ Partial Class factura
         '
         Me.LabelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX1.Location = New System.Drawing.Point(53, 14)
+        Me.LabelX1.Location = New System.Drawing.Point(14, -2)
         Me.LabelX1.Name = "LabelX1"
-        Me.LabelX1.Size = New System.Drawing.Size(54, 23)
+        Me.LabelX1.Size = New System.Drawing.Size(110, 56)
         Me.LabelX1.TabIndex = 31
-        Me.LabelX1.Text = "Código"
+        Me.LabelX1.Text = "Nombre  Empresa"
         '
         'placaTb
         '

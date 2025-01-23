@@ -40,6 +40,7 @@ Partial Class Principal
         Me.resBt = New DevComponents.DotNetBar.ButtonX()
         Me.maxBt = New DevComponents.DotNetBar.ButtonX()
         Me.closeBt = New DevComponents.DotNetBar.ButtonX()
+        Me.ButtonX10 = New DevComponents.DotNetBar.ButtonX()
         Me.Panel1.SuspendLayout()
         Me.PanelForm.SuspendLayout()
         Me.PanelUp.SuspendLayout()
@@ -48,6 +49,7 @@ Partial Class Principal
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Panel1.Controls.Add(Me.ButtonX10)
         Me.Panel1.Controls.Add(Me.ButtonX9)
         Me.Panel1.Controls.Add(Me.ButtonX8)
         Me.Panel1.Controls.Add(Me.ButtonX7)
@@ -135,7 +137,7 @@ Partial Class Principal
         Me.ButtonX4.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX4.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ButtonX4.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX4.Location = New System.Drawing.Point(0, 412)
+        Me.ButtonX4.Location = New System.Drawing.Point(0, 416)
         Me.ButtonX4.Name = "ButtonX4"
         Me.ButtonX4.Size = New System.Drawing.Size(143, 35)
         Me.ButtonX4.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -298,6 +300,20 @@ Partial Class Principal
         Me.closeBt.SymbolColor = System.Drawing.Color.Red
         Me.closeBt.TabIndex = 0
         '
+        'ButtonX10
+        '
+        Me.ButtonX10.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.ButtonX10.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.ButtonX10.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.ButtonX10.Location = New System.Drawing.Point(0, 467)
+        Me.ButtonX10.Name = "ButtonX10"
+        Me.ButtonX10.Size = New System.Drawing.Size(143, 35)
+        Me.ButtonX10.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.ButtonX10.Symbol = "59473"
+        Me.ButtonX10.SymbolSet = DevComponents.DotNetBar.eSymbolSet.Material
+        Me.ButtonX10.TabIndex = 9
+        Me.ButtonX10.Text = "PROPIETARIO"
+        '
         'Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -334,4 +350,5 @@ Partial Class Principal
     Friend WithEvents ButtonX5 As DevComponents.DotNetBar.ButtonX
     Friend WithEvents ButtonX4 As DevComponents.DotNetBar.ButtonX
     Friend WithEvents ButtonX3 As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents ButtonX10 As DevComponents.DotNetBar.ButtonX
 End Class

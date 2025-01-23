@@ -3,4 +3,7 @@
 
     End Sub
 
+    Private Sub NuevoBtn_Click(sender As Object, e As EventArgs) Handles NuevoBtn.Click
+
+    End Sub
 End Class

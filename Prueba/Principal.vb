@@ -170,5 +170,8 @@ Public Class Principal
         End If
     End Sub
 
-
+    Private Sub ButtonX10_Click(sender As Object, e As EventArgs) Handles ButtonX10.Click
+        abrirformulario(New propietario)
+        Panel1.Visible = False
+    End Sub
 End Class
