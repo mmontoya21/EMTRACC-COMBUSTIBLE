@@ -19,11 +19,12 @@ Public Class propietario
         conectar()
         act()
         listadoCamDgv()
-        CamDGV.BackgroundColor = colorFondo
+        'CamDGV.BackgroundColor = colorFondo
         CamDGV.RowsDefaultCellStyle.BackColor = Color.Bisque
         CamDGV.AlternatingRowsDefaultCellStyle.BackColor = Color.Lavender
 
         PanelP.Enabled = False
+
     End Sub
     Private Sub conectar()
         Dim servidor As String = "localhost"

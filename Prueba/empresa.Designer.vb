@@ -28,12 +28,33 @@ Partial Class empresa
         Me.NuevoBtn = New DevComponents.DotNetBar.ButtonX()
         Me.GuardarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.ModificarBtn = New DevComponents.DotNetBar.ButtonX()
-        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelP = New System.Windows.Forms.Panel()
+        Me.Line2 = New DevComponents.DotNetBar.Controls.Line()
+        Me.Line1 = New DevComponents.DotNetBar.Controls.Line()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.otros1Tb = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.fechLimitTb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.fechaLimitTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.tel1Tb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.ochodigTb = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.NLocalTb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.nombLocalTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.rtnTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.rangoFinTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.caiTb = New DevComponents.DotNetBar.Controls.TextBoxX()
@@ -48,26 +69,8 @@ Partial Class empresa
         Me.correoETb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.dire2Tb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.nPropieTb = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.Label8 = New System.Windows.Forms.Label()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.Label10 = New System.Windows.Forms.Label()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.Label12 = New System.Windows.Forms.Label()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.Label14 = New System.Windows.Forms.Label()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.Label16 = New System.Windows.Forms.Label()
-        Me.Label17 = New System.Windows.Forms.Label()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.Label19 = New System.Windows.Forms.Label()
-        Me.Panel1.SuspendLayout()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.PanelP.SuspendLayout()
         Me.SuspendLayout()
         '
         'CancelarBtn
@@ -127,7 +130,7 @@ Partial Class empresa
         '
         Me.GuardarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.GuardarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.GuardarBtn.Location = New System.Drawing.Point(210, 12)
+        Me.GuardarBtn.Location = New System.Drawing.Point(209, 12)
         Me.GuardarBtn.Name = "GuardarBtn"
         Me.GuardarBtn.Size = New System.Drawing.Size(82, 40)
         Me.GuardarBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -150,50 +153,258 @@ Partial Class empresa
         Me.ModificarBtn.TabIndex = 27
         Me.ModificarBtn.Text = "Modificar"
         '
-        'Panel1
+        'PanelP
         '
-        Me.Panel1.Controls.Add(Me.Label3)
-        Me.Panel1.Controls.Add(Me.Label6)
-        Me.Panel1.Controls.Add(Me.Label8)
-        Me.Panel1.Controls.Add(Me.Label7)
-        Me.Panel1.Controls.Add(Me.Label5)
-        Me.Panel1.Controls.Add(Me.Label12)
-        Me.Panel1.Controls.Add(Me.Label11)
-        Me.Panel1.Controls.Add(Me.Label14)
-        Me.Panel1.Controls.Add(Me.Label17)
-        Me.Panel1.Controls.Add(Me.Label19)
-        Me.Panel1.Controls.Add(Me.Label18)
-        Me.Panel1.Controls.Add(Me.Label16)
-        Me.Panel1.Controls.Add(Me.Label15)
-        Me.Panel1.Controls.Add(Me.Label13)
-        Me.Panel1.Controls.Add(Me.Label10)
-        Me.Panel1.Controls.Add(Me.Label4)
-        Me.Panel1.Controls.Add(Me.Label9)
-        Me.Panel1.Controls.Add(Me.Label2)
-        Me.Panel1.Controls.Add(Me.Label1)
-        Me.Panel1.Controls.Add(Me.otros1Tb)
-        Me.Panel1.Controls.Add(Me.fechLimitTb)
-        Me.Panel1.Controls.Add(Me.tel1Tb)
-        Me.Panel1.Controls.Add(Me.ochodigTb)
-        Me.Panel1.Controls.Add(Me.NLocalTb)
-        Me.Panel1.Controls.Add(Me.rtnTb)
-        Me.Panel1.Controls.Add(Me.rangoFinTb)
-        Me.Panel1.Controls.Add(Me.caiTb)
-        Me.Panel1.Controls.Add(Me.rangoIniTb)
-        Me.Panel1.Controls.Add(Me.faxTb)
-        Me.Panel1.Controls.Add(Me.dire3Tb)
-        Me.Panel1.Controls.Add(Me.otros2Tb)
-        Me.Panel1.Controls.Add(Me.dire1Tb)
-        Me.Panel1.Controls.Add(Me.cel2Tb)
-        Me.Panel1.Controls.Add(Me.nEmpreTb)
-        Me.Panel1.Controls.Add(Me.localTb)
-        Me.Panel1.Controls.Add(Me.correoETb)
-        Me.Panel1.Controls.Add(Me.dire2Tb)
-        Me.Panel1.Controls.Add(Me.nPropieTb)
-        Me.Panel1.Location = New System.Drawing.Point(12, 69)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1055, 427)
-        Me.Panel1.TabIndex = 28
+        Me.PanelP.Controls.Add(Me.Line2)
+        Me.PanelP.Controls.Add(Me.Line1)
+        Me.PanelP.Controls.Add(Me.Label3)
+        Me.PanelP.Controls.Add(Me.Label6)
+        Me.PanelP.Controls.Add(Me.Label8)
+        Me.PanelP.Controls.Add(Me.Label7)
+        Me.PanelP.Controls.Add(Me.Label5)
+        Me.PanelP.Controls.Add(Me.Label12)
+        Me.PanelP.Controls.Add(Me.Label11)
+        Me.PanelP.Controls.Add(Me.Label14)
+        Me.PanelP.Controls.Add(Me.Label17)
+        Me.PanelP.Controls.Add(Me.Label19)
+        Me.PanelP.Controls.Add(Me.Label18)
+        Me.PanelP.Controls.Add(Me.Label16)
+        Me.PanelP.Controls.Add(Me.Label15)
+        Me.PanelP.Controls.Add(Me.Label13)
+        Me.PanelP.Controls.Add(Me.Label10)
+        Me.PanelP.Controls.Add(Me.Label4)
+        Me.PanelP.Controls.Add(Me.Label9)
+        Me.PanelP.Controls.Add(Me.Label2)
+        Me.PanelP.Controls.Add(Me.Label1)
+        Me.PanelP.Controls.Add(Me.otros1Tb)
+        Me.PanelP.Controls.Add(Me.fechaLimitTb)
+        Me.PanelP.Controls.Add(Me.tel1Tb)
+        Me.PanelP.Controls.Add(Me.ochodigTb)
+        Me.PanelP.Controls.Add(Me.nombLocalTb)
+        Me.PanelP.Controls.Add(Me.rtnTb)
+        Me.PanelP.Controls.Add(Me.rangoFinTb)
+        Me.PanelP.Controls.Add(Me.caiTb)
+        Me.PanelP.Controls.Add(Me.rangoIniTb)
+        Me.PanelP.Controls.Add(Me.faxTb)
+        Me.PanelP.Controls.Add(Me.dire3Tb)
+        Me.PanelP.Controls.Add(Me.otros2Tb)
+        Me.PanelP.Controls.Add(Me.dire1Tb)
+        Me.PanelP.Controls.Add(Me.cel2Tb)
+        Me.PanelP.Controls.Add(Me.nEmpreTb)
+        Me.PanelP.Controls.Add(Me.localTb)
+        Me.PanelP.Controls.Add(Me.correoETb)
+        Me.PanelP.Controls.Add(Me.dire2Tb)
+        Me.PanelP.Controls.Add(Me.nPropieTb)
+        Me.PanelP.Location = New System.Drawing.Point(12, 69)
+        Me.PanelP.Name = "PanelP"
+        Me.PanelP.Size = New System.Drawing.Size(1055, 427)
+        Me.PanelP.TabIndex = 28
+        '
+        'Line2
+        '
+        Me.Line2.Location = New System.Drawing.Point(-1, 221)
+        Me.Line2.Name = "Line2"
+        Me.Line2.Size = New System.Drawing.Size(1030, 23)
+        Me.Line2.TabIndex = 34
+        Me.Line2.Text = "Line1"
+        '
+        'Line1
+        '
+        Me.Line1.Location = New System.Drawing.Point(3, 125)
+        Me.Line1.Name = "Line1"
+        Me.Line1.Size = New System.Drawing.Size(1030, 23)
+        Me.Line1.TabIndex = 34
+        Me.Line1.Text = "Line1"
+        '
+        'Label3
+        '
+        Me.Label3.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(809, 10)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(43, 41)
+        Me.Label3.TabIndex = 33
+        Me.Label3.Text = "RTN"
+        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label6
+        '
+        Me.Label6.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(712, 152)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(91, 41)
+        Me.Label6.TabIndex = 33
+        Me.Label6.Text = "Dirección 3"
+        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label8
+        '
+        Me.Label8.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.Location = New System.Drawing.Point(805, 83)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(47, 41)
+        Me.Label8.TabIndex = 33
+        Me.Label8.Text = "Local"
+        Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label7
+        '
+        Me.Label7.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(735, 46)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(117, 41)
+        Me.Label7.TabIndex = 33
+        Me.Label7.Text = "Nombre Local"
+        Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label5
+        '
+        Me.Label5.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(367, 160)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(91, 41)
+        Me.Label5.TabIndex = 33
+        Me.Label5.Text = "Dirección 2"
+        Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label12
+        '
+        Me.Label12.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label12.Location = New System.Drawing.Point(39, 327)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(64, 38)
+        Me.Label12.TabIndex = 33
+        Me.Label12.Text = "Fax"
+        Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label11
+        '
+        Me.Label11.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label11.Location = New System.Drawing.Point(39, 287)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(64, 38)
+        Me.Label11.TabIndex = 33
+        Me.Label11.Text = "Tel. 2"
+        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label14
+        '
+        Me.Label14.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label14.Location = New System.Drawing.Point(785, 247)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(103, 54)
+        Me.Label14.TabIndex = 33
+        Me.Label14.Text = "Fecha Límite Emisión"
+        Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label17
+        '
+        Me.Label17.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label17.Location = New System.Drawing.Point(295, 367)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(102, 38)
+        Me.Label17.TabIndex = 33
+        Me.Label17.Text = "Rango Final"
+        Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label19
+        '
+        Me.Label19.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label19.Location = New System.Drawing.Point(751, 356)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(67, 38)
+        Me.Label19.TabIndex = 33
+        Me.Label19.Text = "Otros 2"
+        Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label18
+        '
+        Me.Label18.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label18.Location = New System.Drawing.Point(751, 306)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(69, 38)
+        Me.Label18.TabIndex = 33
+        Me.Label18.Text = "Otros 1"
+        Me.Label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label16
+        '
+        Me.Label16.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label16.Location = New System.Drawing.Point(295, 327)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(102, 38)
+        Me.Label16.TabIndex = 33
+        Me.Label16.Text = "Rango Inicial"
+        Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label15
+        '
+        Me.Label15.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label15.Location = New System.Drawing.Point(321, 287)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(76, 38)
+        Me.Label15.TabIndex = 33
+        Me.Label15.Text = "8 Digitos"
+        Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label13
+        '
+        Me.Label13.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.Location = New System.Drawing.Point(333, 247)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(64, 38)
+        Me.Label13.TabIndex = 33
+        Me.Label13.Text = "CAI"
+        Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label10
+        '
+        Me.Label10.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label10.Location = New System.Drawing.Point(39, 247)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(64, 38)
+        Me.Label10.TabIndex = 33
+        Me.Label10.Text = "Tel. 1"
+        Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label4
+        '
+        Me.Label4.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(11, 160)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(91, 41)
+        Me.Label4.TabIndex = 33
+        Me.Label4.Text = "Dirección 1"
+        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label9
+        '
+        Me.Label9.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(13, 84)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(91, 41)
+        Me.Label9.TabIndex = 33
+        Me.Label9.Text = "CorreE"
+        Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label2
+        '
+        Me.Label2.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(13, 51)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(91, 41)
+        Me.Label2.TabIndex = 33
+        Me.Label2.Text = "Propietario"
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label1
+        '
+        Me.Label1.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(28, 12)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(76, 41)
+        Me.Label1.TabIndex = 33
+        Me.Label1.Text = "Nombre Empresa"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'otros1Tb
         '
@@ -211,20 +422,20 @@ Partial Class empresa
         Me.otros1Tb.Size = New System.Drawing.Size(210, 41)
         Me.otros1Tb.TabIndex = 29
         '
-        'fechLimitTb
+        'fechaLimitTb
         '
         '
         '
         '
-        Me.fechLimitTb.Border.Class = "TextBoxBorder"
-        Me.fechLimitTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.fechLimitTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fechLimitTb.Location = New System.Drawing.Point(891, 247)
-        Me.fechLimitTb.MaxLength = 12
-        Me.fechLimitTb.Name = "fechLimitTb"
-        Me.fechLimitTb.PreventEnterBeep = True
-        Me.fechLimitTb.Size = New System.Drawing.Size(142, 30)
-        Me.fechLimitTb.TabIndex = 29
+        Me.fechaLimitTb.Border.Class = "TextBoxBorder"
+        Me.fechaLimitTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.fechaLimitTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fechaLimitTb.Location = New System.Drawing.Point(891, 247)
+        Me.fechaLimitTb.MaxLength = 12
+        Me.fechaLimitTb.Name = "fechaLimitTb"
+        Me.fechaLimitTb.PreventEnterBeep = True
+        Me.fechaLimitTb.Size = New System.Drawing.Size(142, 30)
+        Me.fechaLimitTb.TabIndex = 29
         '
         'tel1Tb
         '
@@ -256,20 +467,20 @@ Partial Class empresa
         Me.ochodigTb.Size = New System.Drawing.Size(333, 30)
         Me.ochodigTb.TabIndex = 29
         '
-        'NLocalTb
+        'nombLocalTb
         '
         '
         '
         '
-        Me.NLocalTb.Border.Class = "TextBoxBorder"
-        Me.NLocalTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.NLocalTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.NLocalTb.Location = New System.Drawing.Point(858, 53)
-        Me.NLocalTb.MaxLength = 30
-        Me.NLocalTb.Name = "NLocalTb"
-        Me.NLocalTb.PreventEnterBeep = True
-        Me.NLocalTb.Size = New System.Drawing.Size(173, 30)
-        Me.NLocalTb.TabIndex = 29
+        Me.nombLocalTb.Border.Class = "TextBoxBorder"
+        Me.nombLocalTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.nombLocalTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nombLocalTb.Location = New System.Drawing.Point(858, 53)
+        Me.nombLocalTb.MaxLength = 30
+        Me.nombLocalTb.Name = "nombLocalTb"
+        Me.nombLocalTb.PreventEnterBeep = True
+        Me.nombLocalTb.Size = New System.Drawing.Size(173, 30)
+        Me.nombLocalTb.TabIndex = 29
         '
         'rtnTb
         '
@@ -485,203 +696,24 @@ Partial Class empresa
         Me.nPropieTb.Size = New System.Drawing.Size(395, 30)
         Me.nPropieTb.TabIndex = 32
         '
-        'Label1
+        'Label20
         '
-        Me.Label1.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(28, 12)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(76, 41)
-        Me.Label1.TabIndex = 33
-        Me.Label1.Text = "Nombre Empresa"
-        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label2
-        '
-        Me.Label2.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(13, 51)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(91, 41)
-        Me.Label2.TabIndex = 33
-        Me.Label2.Text = "Propietario"
-        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label3
-        '
-        Me.Label3.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(809, 10)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(43, 41)
-        Me.Label3.TabIndex = 33
-        Me.Label3.Text = "RTN"
-        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label4
-        '
-        Me.Label4.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(11, 160)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(91, 41)
-        Me.Label4.TabIndex = 33
-        Me.Label4.Text = "Dirección 1"
-        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label5
-        '
-        Me.Label5.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(367, 160)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(91, 41)
-        Me.Label5.TabIndex = 33
-        Me.Label5.Text = "Dirección 2"
-        Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label6
-        '
-        Me.Label6.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(712, 152)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(91, 41)
-        Me.Label6.TabIndex = 33
-        Me.Label6.Text = "Dirección 3"
-        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label7
-        '
-        Me.Label7.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(735, 46)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(117, 41)
-        Me.Label7.TabIndex = 33
-        Me.Label7.Text = "Nombre Local"
-        Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label8
-        '
-        Me.Label8.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(805, 83)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(47, 41)
-        Me.Label8.TabIndex = 33
-        Me.Label8.Text = "Local"
-        Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label9
-        '
-        Me.Label9.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(13, 84)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(91, 41)
-        Me.Label9.TabIndex = 33
-        Me.Label9.Text = "CorreE"
-        Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label10
-        '
-        Me.Label10.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(39, 247)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(64, 38)
-        Me.Label10.TabIndex = 33
-        Me.Label10.Text = "Tel. 1"
-        Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label11
-        '
-        Me.Label11.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(39, 287)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(64, 38)
-        Me.Label11.TabIndex = 33
-        Me.Label11.Text = "Tel. 2"
-        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label12
-        '
-        Me.Label12.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.Location = New System.Drawing.Point(39, 327)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(64, 38)
-        Me.Label12.TabIndex = 33
-        Me.Label12.Text = "Fax"
-        Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label13
-        '
-        Me.Label13.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(333, 247)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(64, 38)
-        Me.Label13.TabIndex = 33
-        Me.Label13.Text = "CAI"
-        Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label14
-        '
-        Me.Label14.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label14.Location = New System.Drawing.Point(785, 247)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(103, 54)
-        Me.Label14.TabIndex = 33
-        Me.Label14.Text = "Fecha Límite Emisión"
-        Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label15
-        '
-        Me.Label15.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(321, 287)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(76, 38)
-        Me.Label15.TabIndex = 33
-        Me.Label15.Text = "8 Digitos"
-        Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label16
-        '
-        Me.Label16.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label16.Location = New System.Drawing.Point(295, 327)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(102, 38)
-        Me.Label16.TabIndex = 33
-        Me.Label16.Text = "Rango Inicial"
-        Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label17
-        '
-        Me.Label17.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label17.Location = New System.Drawing.Point(295, 367)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(102, 38)
-        Me.Label17.TabIndex = 33
-        Me.Label17.Text = "Rango Final"
-        Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label18
-        '
-        Me.Label18.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label18.Location = New System.Drawing.Point(751, 306)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(69, 38)
-        Me.Label18.TabIndex = 33
-        Me.Label18.Text = "Otros 1"
-        Me.Label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label19
-        '
-        Me.Label19.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label19.Location = New System.Drawing.Point(751, 356)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(67, 38)
-        Me.Label19.TabIndex = 33
-        Me.Label19.Text = "Otros 2"
-        Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Label20.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label20.Location = New System.Drawing.Point(931, 25)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(84, 41)
+        Me.Label20.TabIndex = 33
+        Me.Label20.Text = "emtracc"
+        Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'empresa
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1082, 511)
-        Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.PanelP)
         Me.Controls.Add(Me.CancelarBtn)
+        Me.Controls.Add(Me.Label20)
         Me.Controls.Add(Me.EliminarBtn)
         Me.Controls.Add(Me.EditarBtn)
         Me.Controls.Add(Me.NuevoBtn)
@@ -689,7 +721,7 @@ Partial Class empresa
         Me.Controls.Add(Me.ModificarBtn)
         Me.Name = "empresa"
         Me.Text = "empresa"
-        Me.Panel1.ResumeLayout(False)
+        Me.PanelP.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -700,14 +732,14 @@ Partial Class empresa
     Friend WithEvents NuevoBtn As DevComponents.DotNetBar.ButtonX
     Friend WithEvents GuardarBtn As DevComponents.DotNetBar.ButtonX
     Friend WithEvents ModificarBtn As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents Panel1 As Panel
+    Friend WithEvents PanelP As Panel
     Friend WithEvents nEmpreTb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents nPropieTb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents otros1Tb As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents fechLimitTb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents fechaLimitTb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents tel1Tb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents ochodigTb As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents NLocalTb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents nombLocalTb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents rtnTb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents rangoFinTb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents caiTb As DevComponents.DotNetBar.Controls.TextBoxX
@@ -739,4 +771,7 @@ Partial Class empresa
     Friend WithEvents Label9 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
+    Friend WithEvents Line2 As DevComponents.DotNetBar.Controls.Line
+    Friend WithEvents Line1 As DevComponents.DotNetBar.Controls.Line
+    Friend WithEvents Label20 As Label
 End Class
