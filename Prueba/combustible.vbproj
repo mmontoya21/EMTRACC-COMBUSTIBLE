@@ -85,6 +85,7 @@
     <Compile Include="acceso.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Aletras.vb" />
     <Compile Include="camiones.vb">
       <SubType>Form</SubType>
     </Compile>

@@ -64,8 +64,38 @@ Public Class factura
         limpiar()
         PanelP.Enabled = True
         GuardarBtn.Enabled = True
-        'CamDGV.Enabled = False
+        CamDgv.Enabled = False
         CancelarBtn.Enabled = True
+
+        Try
+
+            ' Consulta para obtener el último registro (campo nFactura)
+            Dim query As String = "SELECT nFactura FROM factura ORDER BY idFactura DESC LIMIT 1"
+            Dim comando As New MySqlCommand(query, con)
+            Dim lector As MySqlDataReader = comando.ExecuteReader()
+
+            ' Verificar si hay registros
+            If lector.Read() Then
+                ' Asignar el valor de nFactura al TextBox
+                TextBox1.Text = lector("nFactura").ToString()
+
+                Dim nfacta As Double = Double.Parse(TextBox1.Text)
+                nFacTb.Text = nfacta + 1 ' Suma factura
+                amplitud()
+            Else
+                nFacTb.Text = 1
+                amplitud()
+            End If
+
+            lector.Close()
+
+        Catch ex As Exception
+            MessageBox.Show("Error: " & ex.Message)
+        Finally
+            ' Cerrar la conexión
+            con.Close()
+        End Try
+
     End Sub
     Sub limpiar()
 
@@ -102,28 +132,54 @@ Public Class factura
         con.Close()
         con.Open()
         Try
+            Dim fe As Date = fechaPk.Value.ToString("yyyy-MM-dd")
+
+            Dim ccant1Tb As Double = 0
+            Double.TryParse(cant1Tb.Text, ccant1Tb)
+
+            Dim ccant2Tb As Double = 0
+            Double.TryParse(cant2Tb.Text, ccant2Tb)
+
+            Dim ctota1Tb As Double = 0
+            Double.TryParse(tota1Tb.Text, ctota1Tb)
+
+            Dim ctota2Tb As Double = 0
+            Double.TryParse(tota2Tb.Text, ctota2Tb)
+
+            Dim cfacExeTb As Double = 0
+            Double.TryParse(facExeTb.Text, cfacExeTb)
+
+            Dim cfacTotTb As Double = 0
+            Double.TryParse(facTotTb.Text, cfacTotTb)
+
+            Dim cfacCanTB As Double = 0
+            Double.TryParse(facCanTB.Text, cfacCanTB)
+
+            Dim perMes = Val(perMesCB.Text)
+
+            Dim perSem = Val(perSemCB.Text)
 
             guardar = New MySqlCommand("INSERT INTO camiones (nFactura, Fecha, Hora, propietario, Empresa, rtn, tipoPag, facCantidad, facExe, facTotal, comentario, cantd1, cantd2, descrip1, descrip2, total1, total2, perMes, PerSem)" & Chr(13) &
             "VALUES(@nFactura, @Fecha, @Hora, @propietario, @Empresa, @rtn, @tipoPag, @facCantidad, @facExe, @facTotal, @comentario, @cantd1, @cantd2, @descrip1, @descrip2, @total1, @total2, @perMes, @PerSem)", con)
 
             guardar.Parameters.AddWithValue("@nFactura", nFacTb.Text)
-            guardar.Parameters.AddWithValue("@Fecha", fechaPk.Text)
+            guardar.Parameters.AddWithValue("@Fecha", fe)
             guardar.Parameters.AddWithValue("@propietario", propTb.Text)
             guardar.Parameters.AddWithValue("@Empresa", empTb.Text)
             guardar.Parameters.AddWithValue("@rtn", rtnTb.Text)
             guardar.Parameters.AddWithValue("@tipoPag", tipoPagTb.Text)
-            guardar.Parameters.AddWithValue("@facCantidad", facCanTB.Text)
-            guardar.Parameters.AddWithValue("@facExe", facExeTb.Text)
-            guardar.Parameters.AddWithValue("@facTotal", facTotTb.Text)
+            guardar.Parameters.AddWithValue("@facCantidad", cfacCanTB)
+            guardar.Parameters.AddWithValue("@facExe", cfacExeTb)
+            guardar.Parameters.AddWithValue("@facTotal", cfacTotTb)
             guardar.Parameters.AddWithValue("@comentario", comentaTb.Text)
-            guardar.Parameters.AddWithValue("@cantd1", cant1Tb.Text)
-            guardar.Parameters.AddWithValue("@cantd2", cant2Tb.Text)
+            guardar.Parameters.AddWithValue("@cantd1", ccant1Tb)
+            guardar.Parameters.AddWithValue("@cantd2", ccant2Tb)
             guardar.Parameters.AddWithValue("@descrip1", desc1Tb.Text)
             guardar.Parameters.AddWithValue("@descrip2", desc2Tb.Text)
-            guardar.Parameters.AddWithValue("@total1", tota1Tb.Text)
-            guardar.Parameters.AddWithValue("@total2", tota2Tb.Text)
-            guardar.Parameters.AddWithValue("@perMes", perMesCB.Text)
-            guardar.Parameters.AddWithValue("@PerSem", perSemCB.Text)
+            guardar.Parameters.AddWithValue("@total1", ctota1Tb)
+            guardar.Parameters.AddWithValue("@total2", ctota2Tb)
+            guardar.Parameters.AddWithValue("@perMes", perMes)
+            guardar.Parameters.AddWithValue("@PerSem", perSem)
 
 
             guardar.ExecuteNonQuery()
@@ -174,7 +230,7 @@ Public Class factura
                 Dim eli As New MySqlCommand(eliminar, con)
                 eli.ExecuteNonQuery()
 
-                'listadoCamDgv()
+                listadoCamDgv()
 
             End If
         Catch
@@ -183,5 +239,96 @@ Public Class factura
         End Try
 
         act()
+    End Sub
+    Private Sub listadoCamDgv() 'Muestra los datos
+        Dim table As New DataTable()
+        Dim adaptadoListado As New MySqlDataAdapter("SELECT idCamiones, placa, propietario, documentos, revision, contrato, codProp FROM camiones", con)
+        adaptadoListado.Fill(table)
+
+        CamDGV.DataSource = table
+
+        ListadoD()
+
+    End Sub
+    Private Sub ListadoD()
+        CamDGV.Columns(0).HeaderText = "Id"
+        CamDGV.Columns(0).Width = 1
+
+        CamDGV.Columns(1).HeaderText = "Placa"
+        CamDGV.Columns(1).Width = 100
+
+        CamDGV.Columns(2).HeaderText = "Propietario"
+        CamDGV.Columns(2).Width = 175
+
+        CamDGV.Columns(3).HeaderText = "Documentos"
+        CamDGV.Columns(3).Width = 75
+
+        CamDGV.Columns(4).HeaderText = "Revision"
+        CamDGV.Columns(4).Width = 50
+
+        CamDGV.Columns(5).HeaderText = "Contrato"
+        CamDGV.Columns(5).Width = 175
+
+        CamDGV.Columns(6).HeaderText = "Código Propietario"
+        CamDGV.Columns(6).Width = 90
+    End Sub
+    Private Sub calcularletras()  '============  CALCULO DE LETRAS   =============
+        pLetras.Text = ""
+        If IsNumeric(facTotTb.Text) Then
+            pLetras.Text = LETRAS(facTotTb.Text)
+            ' Else
+            '     MessageBox.Show("Ingrese por favor números", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+        facTotTb.Focus()
+        facTotTb.SelectionStart = 0
+        facTotTb.SelectionLength = facTotTb.ToString.Length
+    End Sub
+    Private Sub amplitud()    '============  NÚMERO DE FACTURA   =============
+        Dim tam As String = (nFacTb.Text)
+
+        If Len(CStr(tam)) = 1 Then
+            tam = "0000000" & tam
+            nFacTb.Text = tam
+        End If
+        If Len(CStr(tam)) = 2 Then
+            tam = "000000" & tam
+            nFacTb.Text = tam
+        End If
+        If Len(CStr(tam)) = 3 Then
+            tam = "00000" & tam
+            nFacTb.Text = tam
+        End If
+        If Len(CStr(tam)) = 4 Then
+            tam = "0000" & tam
+            nFacTb.Text = tam
+        End If
+        If Len(CStr(tam)) = 5 Then
+            tam = "000" & tam
+            nFacTb.Text = tam
+        End If
+        If Len(CStr(tam)) = 6 Then
+            tam = "00" & tam
+            nFacTb.Text = tam
+        End If
+        If Len(CStr(tam)) = 7 Then
+            tam = "0" & tam
+            nFacTb.Text = tam
+        End If
+        If Len(CStr(tam)) = 8 Then
+            tam = "" & tam
+            nFacTb.Text = tam
+        End If
+    End Sub
+
+    Private Sub ButtonX5_Click(sender As Object, e As EventArgs) Handles ButtonX5.Click
+        calcularletras
+    End Sub
+
+    Private Sub PrintFactura_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintFactura.PrintPage
+
+    End Sub
+
+    Private Sub facTotTb_TextChanged(sender As Object, e As EventArgs) Handles facTotTb.TextChanged
+        calcularletras()
     End Sub
 End Class
