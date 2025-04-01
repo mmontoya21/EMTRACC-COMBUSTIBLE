@@ -22,7 +22,7 @@ Partial Class factura
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(factura))
         Me.CancelarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.EliminarBtn = New DevComponents.DotNetBar.ButtonX()
@@ -31,6 +31,7 @@ Partial Class factura
         Me.GuardarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.ModificarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.PanelP = New System.Windows.Forms.Panel()
+        Me.fechaPk = New DevComponents.Editors.DateTimeAdv.DateTimeInput()
         Me.Line2 = New DevComponents.DotNetBar.Controls.Line()
         Me.Line1 = New DevComponents.DotNetBar.Controls.Line()
         Me.perSemCB = New System.Windows.Forms.ComboBox()
@@ -81,16 +82,17 @@ Partial Class factura
         Me.LabelX14 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX15 = New DevComponents.DotNetBar.LabelX()
         Me.ButtonX3 = New DevComponents.DotNetBar.ButtonX()
-        Me.ButtonX4 = New DevComponents.DotNetBar.ButtonX()
+        Me.PreviaBtn = New DevComponents.DotNetBar.ButtonX()
         Me.CamDgv = New DevComponents.DotNetBar.Controls.DataGridViewX()
         Me.ButtonX5 = New DevComponents.DotNetBar.ButtonX()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.PrintFactura = New System.Drawing.Printing.PrintDocument()
         Me.PrintPreviewFactura = New System.Windows.Forms.PrintPreviewDialog()
-        Me.fechaPk = New DevComponents.Editors.DateTimeAdv.DateTimeInput()
+        Me.preUni1Tb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.preUni2Tb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.PanelP.SuspendLayout()
-        CType(Me.CamDgv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.fechaPk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CamDgv, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'CancelarBtn
@@ -175,6 +177,8 @@ Partial Class factura
         '
         'PanelP
         '
+        Me.PanelP.Controls.Add(Me.preUni2Tb)
+        Me.PanelP.Controls.Add(Me.preUni1Tb)
         Me.PanelP.Controls.Add(Me.fechaPk)
         Me.PanelP.Controls.Add(Me.Line2)
         Me.PanelP.Controls.Add(Me.Line1)
@@ -219,6 +223,51 @@ Partial Class factura
         Me.PanelP.Name = "PanelP"
         Me.PanelP.Size = New System.Drawing.Size(804, 523)
         Me.PanelP.TabIndex = 30
+        '
+        'fechaPk
+        '
+        '
+        '
+        '
+        Me.fechaPk.BackgroundStyle.Class = "DateTimeInputBackground"
+        Me.fechaPk.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.fechaPk.ButtonDropDown.Shortcut = DevComponents.DotNetBar.eShortcut.AltDown
+        Me.fechaPk.ButtonDropDown.Visible = True
+        Me.fechaPk.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fechaPk.IsPopupCalendarOpen = False
+        Me.fechaPk.Location = New System.Drawing.Point(601, 17)
+        '
+        '
+        '
+        '
+        '
+        '
+        Me.fechaPk.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.fechaPk.MonthCalendar.CalendarDimensions = New System.Drawing.Size(1, 1)
+        Me.fechaPk.MonthCalendar.ClearButtonVisible = True
+        '
+        '
+        '
+        Me.fechaPk.MonthCalendar.CommandsBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground2
+        Me.fechaPk.MonthCalendar.CommandsBackgroundStyle.BackColorGradientAngle = 90
+        Me.fechaPk.MonthCalendar.CommandsBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.fechaPk.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.fechaPk.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder
+        Me.fechaPk.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1
+        Me.fechaPk.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.fechaPk.MonthCalendar.DisplayMonth = New Date(2025, 3, 1, 0, 0, 0, 0)
+        '
+        '
+        '
+        Me.fechaPk.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.fechaPk.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90
+        Me.fechaPk.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.fechaPk.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.fechaPk.MonthCalendar.TodayButtonVisible = True
+        Me.fechaPk.Name = "fechaPk"
+        Me.fechaPk.Size = New System.Drawing.Size(175, 26)
+        Me.fechaPk.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.fechaPk.TabIndex = 41
         '
         'Line2
         '
@@ -504,10 +553,10 @@ Partial Class factura
         Me.desc2Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.desc2Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.desc2Tb.Location = New System.Drawing.Point(196, 247)
-        Me.desc2Tb.MaxLength = 25
+        Me.desc2Tb.MaxLength = 45
         Me.desc2Tb.Name = "desc2Tb"
         Me.desc2Tb.PreventEnterBeep = True
-        Me.desc2Tb.Size = New System.Drawing.Size(410, 30)
+        Me.desc2Tb.Size = New System.Drawing.Size(284, 30)
         Me.desc2Tb.TabIndex = 29
         '
         'facTotTb
@@ -603,7 +652,7 @@ Partial Class factura
         Me.comentaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.comentaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.comentaTb.Location = New System.Drawing.Point(91, 315)
-        Me.comentaTb.MaxLength = 200
+        Me.comentaTb.MaxLength = 600
         Me.comentaTb.Multiline = True
         Me.comentaTb.Name = "comentaTb"
         Me.comentaTb.PreventEnterBeep = True
@@ -619,7 +668,7 @@ Partial Class factura
         Me.empTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.empTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.empTb.Location = New System.Drawing.Point(109, 50)
-        Me.empTb.MaxLength = 6
+        Me.empTb.MaxLength = 25
         Me.empTb.Name = "empTb"
         Me.empTb.PreventEnterBeep = True
         Me.empTb.Size = New System.Drawing.Size(320, 30)
@@ -707,10 +756,10 @@ Partial Class factura
         Me.desc1Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.desc1Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.desc1Tb.Location = New System.Drawing.Point(196, 211)
-        Me.desc1Tb.MaxLength = 25
+        Me.desc1Tb.MaxLength = 45
         Me.desc1Tb.Name = "desc1Tb"
         Me.desc1Tb.PreventEnterBeep = True
-        Me.desc1Tb.Size = New System.Drawing.Size(410, 30)
+        Me.desc1Tb.Size = New System.Drawing.Size(284, 30)
         Me.desc1Tb.TabIndex = 32
         '
         'facCanTB
@@ -737,7 +786,7 @@ Partial Class factura
         Me.rtnTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.rtnTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rtnTb.Location = New System.Drawing.Point(109, 121)
-        Me.rtnTb.MaxLength = 15
+        Me.rtnTb.MaxLength = 16
         Me.rtnTb.Name = "rtnTb"
         Me.rtnTb.PreventEnterBeep = True
         Me.rtnTb.Size = New System.Drawing.Size(207, 30)
@@ -766,7 +815,7 @@ Partial Class factura
         Me.propTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.propTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.propTb.Location = New System.Drawing.Point(109, 86)
-        Me.propTb.MaxLength = 15
+        Me.propTb.MaxLength = 30
         Me.propTb.Name = "propTb"
         Me.propTb.PreventEnterBeep = True
         Me.propTb.Size = New System.Drawing.Size(320, 30)
@@ -860,29 +909,29 @@ Partial Class factura
         Me.ButtonX3.TabIndex = 37
         Me.ButtonX3.Text = "Imprimir"
         '
-        'ButtonX4
+        'PreviaBtn
         '
-        Me.ButtonX4.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.ButtonX4.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX4.Location = New System.Drawing.Point(734, 52)
-        Me.ButtonX4.Name = "ButtonX4"
-        Me.ButtonX4.Size = New System.Drawing.Size(82, 39)
-        Me.ButtonX4.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.ButtonX4.Symbol = ""
-        Me.ButtonX4.TabIndex = 38
-        Me.ButtonX4.Text = "Previa"
+        Me.PreviaBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.PreviaBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.PreviaBtn.Location = New System.Drawing.Point(734, 52)
+        Me.PreviaBtn.Name = "PreviaBtn"
+        Me.PreviaBtn.Size = New System.Drawing.Size(82, 39)
+        Me.PreviaBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.PreviaBtn.Symbol = ""
+        Me.PreviaBtn.TabIndex = 38
+        Me.PreviaBtn.Text = "Previa"
         '
         'CamDgv
         '
         Me.CamDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.CamDgv.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.CamDgv.DefaultCellStyle = DataGridViewCellStyle1
         Me.CamDgv.GridColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer))
         Me.CamDgv.Location = New System.Drawing.Point(822, 116)
         Me.CamDgv.Name = "CamDgv"
@@ -920,50 +969,33 @@ Partial Class factura
         Me.PrintPreviewFactura.Name = "PrintPreviewFactura"
         Me.PrintPreviewFactura.Visible = False
         '
-        'fechaPk
+        'preUni1Tb
         '
         '
         '
         '
-        Me.fechaPk.BackgroundStyle.Class = "DateTimeInputBackground"
-        Me.fechaPk.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.fechaPk.ButtonDropDown.Shortcut = DevComponents.DotNetBar.eShortcut.AltDown
-        Me.fechaPk.ButtonDropDown.Visible = True
-        Me.fechaPk.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fechaPk.IsPopupCalendarOpen = False
-        Me.fechaPk.Location = New System.Drawing.Point(601, 17)
+        Me.preUni1Tb.Border.Class = "TextBoxBorder"
+        Me.preUni1Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.preUni1Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.preUni1Tb.Location = New System.Drawing.Point(486, 211)
+        Me.preUni1Tb.Name = "preUni1Tb"
+        Me.preUni1Tb.PreventEnterBeep = True
+        Me.preUni1Tb.Size = New System.Drawing.Size(120, 30)
+        Me.preUni1Tb.TabIndex = 42
+        '
+        'preUni2Tb
         '
         '
         '
         '
-        '
-        '
-        Me.fechaPk.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.fechaPk.MonthCalendar.CalendarDimensions = New System.Drawing.Size(1, 1)
-        Me.fechaPk.MonthCalendar.ClearButtonVisible = True
-        '
-        '
-        '
-        Me.fechaPk.MonthCalendar.CommandsBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground2
-        Me.fechaPk.MonthCalendar.CommandsBackgroundStyle.BackColorGradientAngle = 90
-        Me.fechaPk.MonthCalendar.CommandsBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
-        Me.fechaPk.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.fechaPk.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder
-        Me.fechaPk.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1
-        Me.fechaPk.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.fechaPk.MonthCalendar.DisplayMonth = New Date(2025, 3, 1, 0, 0, 0, 0)
-        '
-        '
-        '
-        Me.fechaPk.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.fechaPk.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90
-        Me.fechaPk.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.fechaPk.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.fechaPk.MonthCalendar.TodayButtonVisible = True
-        Me.fechaPk.Name = "fechaPk"
-        Me.fechaPk.Size = New System.Drawing.Size(175, 26)
-        Me.fechaPk.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.fechaPk.TabIndex = 41
+        Me.preUni2Tb.Border.Class = "TextBoxBorder"
+        Me.preUni2Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.preUni2Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.preUni2Tb.Location = New System.Drawing.Point(486, 247)
+        Me.preUni2Tb.Name = "preUni2Tb"
+        Me.preUni2Tb.PreventEnterBeep = True
+        Me.preUni2Tb.Size = New System.Drawing.Size(120, 30)
+        Me.preUni2Tb.TabIndex = 42
         '
         'factura
         '
@@ -973,7 +1005,7 @@ Partial Class factura
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.ButtonX5)
         Me.Controls.Add(Me.CamDgv)
-        Me.Controls.Add(Me.ButtonX4)
+        Me.Controls.Add(Me.PreviaBtn)
         Me.Controls.Add(Me.ButtonX3)
         Me.Controls.Add(Me.buscartxt)
         Me.Controls.Add(Me.propBusqTB)
@@ -991,8 +1023,8 @@ Partial Class factura
         Me.Name = "factura"
         Me.Text = "factura"
         Me.PanelP.ResumeLayout(False)
-        CType(Me.CamDgv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.fechaPk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CamDgv, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1051,7 +1083,7 @@ Partial Class factura
     Friend WithEvents LabelX14 As DevComponents.DotNetBar.LabelX
     Friend WithEvents LabelX15 As DevComponents.DotNetBar.LabelX
     Friend WithEvents ButtonX3 As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents ButtonX4 As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents PreviaBtn As DevComponents.DotNetBar.ButtonX
     Friend WithEvents Line2 As DevComponents.DotNetBar.Controls.Line
     Friend WithEvents Line1 As DevComponents.DotNetBar.Controls.Line
     Friend WithEvents LabelX19 As DevComponents.DotNetBar.LabelX
@@ -1062,4 +1094,6 @@ Partial Class factura
     Friend WithEvents PrintFactura As Printing.PrintDocument
     Friend WithEvents PrintPreviewFactura As PrintPreviewDialog
     Friend WithEvents fechaPk As DevComponents.Editors.DateTimeAdv.DateTimeInput
+    Friend WithEvents preUni2Tb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents preUni1Tb As DevComponents.DotNetBar.Controls.TextBoxX
 End Class

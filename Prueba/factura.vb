@@ -1,6 +1,9 @@
 ﻿Imports System.Data
 Imports MySql.Data.MySqlClient
 Imports MySql.Data
+Imports System.Drawing
+Imports System.Drawing.Printing
+
 Public Class factura
     Dim con As New MySqlConnection
     Dim cm As New MySqlCommand
@@ -9,6 +12,7 @@ Public Class factura
     Dim datos As DataSet
     Dim dr As MySqlDataReader
     Private m_tmr As Timer
+    Public img As Image
 
     Private isMouseDown As Boolean = False
     Private mouseOffset As Point
@@ -16,6 +20,16 @@ Public Class factura
     Dim colorFondo = Color.FromArgb(106, 126, 168)
     Dim colorTextbox = Color.FromArgb(240, 210, 249)
     Private Sub factura_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        On Error Resume Next
+
+        System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("es-CO")
+        System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern = "yyyy/MM/dd"
+        System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyDecimalSeparator = "."
+        System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyGroupSeparator = ","
+        System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator = "."
+        System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberGroupSeparator = ","
+
         conectar()
         act()
         'listadoCamDgv()
@@ -59,6 +73,7 @@ Public Class factura
         Me.ModificarBtn.Enabled = False
         Me.CancelarBtn.Enabled = False
         Me.EliminarBtn.Enabled = False
+        Me.PreviaBtn.Enabled = False
     End Sub
     Private Sub NuevoBtn_Click(sender As Object, e As EventArgs) Handles NuevoBtn.Click '============  NUEVO  ===========
         limpiar()
@@ -66,6 +81,7 @@ Public Class factura
         GuardarBtn.Enabled = True
         CamDgv.Enabled = False
         CancelarBtn.Enabled = True
+        Me.PreviaBtn.Enabled = True
 
         Try
 
@@ -117,6 +133,8 @@ Public Class factura
         Me.tota2Tb.Text = ""
         Me.perMesCB.Text = ""
         Me.perSemCB.Text = ""
+        Me.preUni1Tb.Text = ""
+        Me.preUni2Tb.Text = ""
 
     End Sub
 
@@ -129,38 +147,54 @@ Public Class factura
     End Sub
 
     Private Sub GuardarBtn_Click(sender As Object, e As EventArgs) Handles GuardarBtn.Click '============  GUARDADO  ===========
+
+        Me.PreviaBtn.Enabled = False
+
         con.Close()
         con.Open()
+
+        Dim fe As Date = fechaPk.Value.ToString("yyyy-MM-dd")
+
+        Dim ccant1Tb As Double = 0
+        Double.TryParse(cant1Tb.Text, ccant1Tb)
+
+        Dim ccant2Tb As Double = 0
+        Double.TryParse(cant2Tb.Text, ccant2Tb)
+
+        Dim ctota1Tb As Double = 0
+        Double.TryParse(tota1Tb.Text, ctota1Tb)
+
+        Dim ctota2Tb As Double = 0
+        Double.TryParse(tota2Tb.Text, ctota2Tb)
+
+        Dim cfacExeTb As Double = 0
+        Double.TryParse(facExeTb.Text, cfacExeTb)
+
+        Dim cfacTotTb As Double = 0
+        Double.TryParse(facTotTb.Text, cfacTotTb)
+
+        Dim cfacCanTB As Double = 0
+        Double.TryParse(facCanTB.Text, cfacCanTB)
+
+        Dim perMes As Integer = 0
+        Integer.TryParse(perMesCB.Text, perMes)
+
+        Dim perSem As Integer = 0
+        Integer.TryParse(perSemCB.Text, perSem)
+
+        Dim cpreUni1Tb As Double = 0
+        Double.TryParse(preUni1Tb.Text, cpreUni1Tb)
+
+        Dim cpreUni2Tb As Double = 0
+        Double.TryParse(preUni2Tb.Text, cpreUni2Tb)
+
+        'Dim perMes = Val(perMesCB.Text)
+
+        ' Dim perSem = Val(perSemCB.Text)
         Try
-            Dim fe As Date = fechaPk.Value.ToString("yyyy-MM-dd")
+            guardar = New MySqlCommand("INSERT INTO factura (nFactura, Fecha, propietario, Empresa, rtn, tipoPag, facCantidad, facExe, facTotal, comentario, cantd1, cantd2, descrip1, descrip2, total1, total2, perMes, PerSem, preUni1, preUni2)" & Chr(13) &
+            "VALUES(@nFactura, @Fecha, @propietario, @Empresa, @rtn, @tipoPag, @facCantidad, @facExe, @facTotal, @comentario, @cantd1, @cantd2, @descrip1, @descrip2, @total1, @total2, @perMes, @PerSem, @preUni1Tb, @preUni2Tb)", con)
 
-            Dim ccant1Tb As Double = 0
-            Double.TryParse(cant1Tb.Text, ccant1Tb)
-
-            Dim ccant2Tb As Double = 0
-            Double.TryParse(cant2Tb.Text, ccant2Tb)
-
-            Dim ctota1Tb As Double = 0
-            Double.TryParse(tota1Tb.Text, ctota1Tb)
-
-            Dim ctota2Tb As Double = 0
-            Double.TryParse(tota2Tb.Text, ctota2Tb)
-
-            Dim cfacExeTb As Double = 0
-            Double.TryParse(facExeTb.Text, cfacExeTb)
-
-            Dim cfacTotTb As Double = 0
-            Double.TryParse(facTotTb.Text, cfacTotTb)
-
-            Dim cfacCanTB As Double = 0
-            Double.TryParse(facCanTB.Text, cfacCanTB)
-
-            Dim perMes = Val(perMesCB.Text)
-
-            Dim perSem = Val(perSemCB.Text)
-
-            guardar = New MySqlCommand("INSERT INTO camiones (nFactura, Fecha, Hora, propietario, Empresa, rtn, tipoPag, facCantidad, facExe, facTotal, comentario, cantd1, cantd2, descrip1, descrip2, total1, total2, perMes, PerSem)" & Chr(13) &
-            "VALUES(@nFactura, @Fecha, @Hora, @propietario, @Empresa, @rtn, @tipoPag, @facCantidad, @facExe, @facTotal, @comentario, @cantd1, @cantd2, @descrip1, @descrip2, @total1, @total2, @perMes, @PerSem)", con)
 
             guardar.Parameters.AddWithValue("@nFactura", nFacTb.Text)
             guardar.Parameters.AddWithValue("@Fecha", fe)
@@ -180,7 +214,8 @@ Public Class factura
             guardar.Parameters.AddWithValue("@total2", ctota2Tb)
             guardar.Parameters.AddWithValue("@perMes", perMes)
             guardar.Parameters.AddWithValue("@PerSem", perSem)
-
+            guardar.Parameters.AddWithValue("@preUni1Tb", cpreUni1Tb)
+            guardar.Parameters.AddWithValue("@preUni2Tb", cpreUni2Tb)
 
             guardar.ExecuteNonQuery()
             MsgBox("Registo guardado")
@@ -211,7 +246,7 @@ Public Class factura
     End Sub
     Public Sub actual()
         Dim actualizar As String
-        actualizar = "UPDATE factura SET nFactura = '" & nFacTb.Text & "', propietario = '" & propTb.Text & "', Empresa = '" & empTb.Text & "', rtn = '" & rtnTb.Text & "', tipoPag = '" & tipoPagTb.Text & "', facCantidad = '" & facCanTB.Text & "', facExe = '" & facExeTb.Text & "', facTotal = '" & facTotTb.Text & "', comentario = '" & comentaTb.Text & "', cantd1 = '" & cant1Tb.Text & "', cantd2 = '" & cant2Tb.Text & "', descrip1 = '" & desc1Tb.Text & "', descrip2 = '" & desc2Tb.Text & "', total1 = '" & tota1Tb.Text & "', total2 = '" & tota2Tb.Text & "', perMes = '" & perMesCB.Text & "', PerSem = '" & perSemCB.Text & "'"
+        actualizar = "UPDATE factura SET nFactura = '" & nFacTb.Text & "', propietario = '" & propTb.Text & "', Empresa = '" & empTb.Text & "', rtn = '" & rtnTb.Text & "', tipoPag = '" & tipoPagTb.Text & "', facCantidad = '" & facCanTB.Text & "', facExe = '" & facExeTb.Text & "', facTotal = '" & facTotTb.Text & "', comentario = '" & comentaTb.Text & "', cantd1 = '" & cant1Tb.Text & "', cantd2 = '" & cant2Tb.Text & "', descrip1 = '" & desc1Tb.Text & "', descrip2 = '" & desc2Tb.Text & "', total1 = '" & tota1Tb.Text & "', total2 = '" & tota2Tb.Text & "', perMes = '" & perMesCB.Text & "', PerSem = '" & perSemCB.Text & "', preUni1 = '" & preUni1Tb.Text & "', preUni2 = '" & preUni2Tb.Text & "'"
 
         Dim act As New MySqlCommand(actualizar, con)
         act.ExecuteNonQuery()
@@ -245,32 +280,32 @@ Public Class factura
         Dim adaptadoListado As New MySqlDataAdapter("SELECT idCamiones, placa, propietario, documentos, revision, contrato, codProp FROM camiones", con)
         adaptadoListado.Fill(table)
 
-        CamDGV.DataSource = table
+        CamDgv.DataSource = table
 
         ListadoD()
 
     End Sub
     Private Sub ListadoD()
-        CamDGV.Columns(0).HeaderText = "Id"
-        CamDGV.Columns(0).Width = 1
+        CamDgv.Columns(0).HeaderText = "Id"
+        CamDgv.Columns(0).Width = 1
 
-        CamDGV.Columns(1).HeaderText = "Placa"
-        CamDGV.Columns(1).Width = 100
+        CamDgv.Columns(1).HeaderText = "Placa"
+        CamDgv.Columns(1).Width = 100
 
-        CamDGV.Columns(2).HeaderText = "Propietario"
-        CamDGV.Columns(2).Width = 175
+        CamDgv.Columns(2).HeaderText = "Propietario"
+        CamDgv.Columns(2).Width = 175
 
-        CamDGV.Columns(3).HeaderText = "Documentos"
-        CamDGV.Columns(3).Width = 75
+        CamDgv.Columns(3).HeaderText = "Documentos"
+        CamDgv.Columns(3).Width = 75
 
-        CamDGV.Columns(4).HeaderText = "Revision"
-        CamDGV.Columns(4).Width = 50
+        CamDgv.Columns(4).HeaderText = "Revision"
+        CamDgv.Columns(4).Width = 50
 
-        CamDGV.Columns(5).HeaderText = "Contrato"
-        CamDGV.Columns(5).Width = 175
+        CamDgv.Columns(5).HeaderText = "Contrato"
+        CamDgv.Columns(5).Width = 175
 
-        CamDGV.Columns(6).HeaderText = "Código Propietario"
-        CamDGV.Columns(6).Width = 90
+        CamDgv.Columns(6).HeaderText = "Código Propietario"
+        CamDgv.Columns(6).Width = 90
     End Sub
     Private Sub calcularletras()  '============  CALCULO DE LETRAS   =============
         pLetras.Text = ""
@@ -321,14 +356,187 @@ Public Class factura
     End Sub
 
     Private Sub ButtonX5_Click(sender As Object, e As EventArgs) Handles ButtonX5.Click
-        calcularletras
+        calcularletras()
     End Sub
-
+    Public Sub LoadImage()
+        img = Image.FromFile("C:\emtracc\camion.jpg") ' Cambia la ruta según tu imagen
+    End Sub
     Private Sub PrintFactura_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintFactura.PrintPage
+        con.Close()
+        con.Open()
 
+        Try
+
+            ' Consulta para obtener el último registro (campo nFactura)
+            Dim query As String = "SELECT nEmpre, nPropie, nombLocal, dire1, dire2 ,dire3, local, rtn, correoE, cai, tel1, cel2, fax, ochoDig, rangoIni, rangoFin, fechaLimit FROM empresa"
+            Dim comando As New MySqlCommand(query, con)
+            Dim lector As MySqlDataReader = comando.ExecuteReader()
+
+
+            ' Verificar si hay registros
+            ' If lector.Read() Then
+
+            Dim ConteoL As Integer = Integer.Parse(TextBox1.Text) ' Conteo Lineas, baja automaticamente la lineas de Productos
+            ConteoL = (ConteoL * 23)
+            Dim LIM = 0
+            Dim L As String = "L. "
+
+            Dim i As Integer = 0
+            Dim displayRectangle As New Rectangle(New Point(5, 5), New Size(240, 200)) ' Como la columna es de un rango de 240, el centrado en el texto debe de ser la mitad o sea 120
+
+            Dim format1 As New StringFormat(StringFormatFlags.NoClip)
+            Dim format2 As New StringFormat(format1)
+
+            format1.LineAlignment = StringAlignment.Near
+            format1.Alignment = StringAlignment.Center
+            format2.LineAlignment = StringAlignment.Center
+            format2.Alignment = StringAlignment.Far
+
+            While lector.Read()
+
+                Dim caiP As String = lector("cai").ToString()
+                Dim ochoDigP As String = lector("ochoDig").ToString()
+                Dim rangoIniP As String = lector("rangoIni").ToString()
+                Dim rangoFinP As String = lector("rangoFin").ToString()
+                Dim FechaLimitP As String = lector("fechaLimit").ToString()
+
+                Dim nEmpreP As String = lector("nEmpre").ToString()
+                Dim dire1P As String = lector("dire1").ToString()
+                Dim dire2P As String = lector("dire2").ToString()
+                Dim dire3P As String = lector("dire3").ToString()
+                Dim tel1P As String = lector("tel1").ToString()
+                Dim rtnP As String = lector("rtn").ToString()
+                Dim CorreoEP As String = lector("CorreoE").ToString()
+
+
+                Dim fe As String = fechaPk.Value.ToString("dd-MM-yyyy")
+
+                img = Image.FromFile("C:\emtracc\camion.jpg") ' Cambia la ruta según tu imagen
+                '''''
+                If img IsNot Nothing Then
+                    ' Dibujar la imagen en la página (ajustar posición y tamaño según sea necesario)
+                    e.Graphics.DrawImage(img, 5, 5, 250, 100) ' Usa valores fijos como prueba
+                    'e.Graphics.DrawImage(img, 50.0F, 50.0F, CType(img.Width / 2, Single), CType(img.Height / 2, Single))
+                End If
+
+                'e.Graphics.DrawRectangle(Pens.White, displayRectangle)
+
+                Dim prFont As New Font("Calibri", 5.5, FontStyle.Bold, GraphicsUnit.Point)
+                Dim DFont2 As New Font("Calibri", 8, FontStyle.Bold, GraphicsUnit.Point)
+                Dim mFont As New Font("Calibri", 8, GraphicsUnit.Point)
+                Dim GFont As New Font("Calibri", 11, GraphicsUnit.Point)
+                Dim uFont As New Font("Calibri", 10, FontStyle.Bold, GraphicsUnit.Point)
+                Dim mFont2 As New Font("Calibri", 10, FontStyle.Bold, GraphicsUnit.Point)
+                Dim mGFont As New Font("Calibri", 16, GraphicsUnit.Point)
+                Dim mFont3 As New Font("Calibri", 6, GraphicsUnit.Point)
+
+                Dim tGFont As New Font("Calibri", 12, FontStyle.Underline, GraphicsUnit.Point)
+                Dim mFont1 As New Font("Calibri", 8, FontStyle.Bold, GraphicsUnit.Point)
+
+                Dim DFont As New Font("Calibri", 13, FontStyle.Bold, GraphicsUnit.Point)
+
+
+                Dim cFont As New Font("Arial Black", 6, GraphicsUnit.Point)
+                Dim nFont As New Font("Verdana", 8, GraphicsUnit.Point)
+                Dim sFont As New Font("Verdana", 4, GraphicsUnit.Point)
+                Dim BIGFont As New Font("Verdana", 10, FontStyle.Bold, GraphicsUnit.Point)
+                Dim BIGFont2 As New Font("Verdana", 16, FontStyle.Bold, GraphicsUnit.Point)
+                Dim BIGFont3 As New Font("Verdana", 12, FontStyle.Bold, GraphicsUnit.Point)
+
+
+                ' Dim sf As New StringFormat()
+                ' sf.Trimming = StringTrimming.EllipsisWord
+
+                ' e.Graphics.DrawString("fecha      Hora", prFont, Brushes.Black, 580, 30)
+                ' e.Graphics.DrawString(Label46.Text, prFont, Brushes.Black, 650, 50)
+
+                ' Dim DR As New StringFormat With {.Alignment = StringAlignment.Far} ' Alineamiento a la derecha
+
+                'e.Graphics.DrawString(nEmpreP, DFont2, Brushes.Black, RectangleF.op_Implicit(displayRectangle), format1) 'NOMBRE EMPRESA
+                e.Graphics.DrawString(nEmpreP, BIGFont, Brushes.Black, 270, 20)
+                e.Graphics.DrawString("BOMBA DE PATIO", BIGFont2, Brushes.Black, 400, 40)
+
+                e.Graphics.DrawString("CAI: " & caiP, GFont, Brushes.Black, 10, 120)
+                e.Graphics.DrawString("Fecha Límite de emisión: " & FechaLimitP, GFont, Brushes.Black, 10, 135)
+                e.Graphics.DrawString("Rango Inicial: " & rangoIniP, GFont, Brushes.Black, 10, 150)
+                e.Graphics.DrawString("Rango Final: " & rangoFinP, GFont, Brushes.Black, 10, 165)
+                e.Graphics.DrawString("FECHA: " & fe, GFont, Brushes.Black, 10, 180)
+
+
+                e.Graphics.DrawString(dire1P, GFont, Brushes.Black, 470, 120)
+                e.Graphics.DrawString(dire2P, GFont, Brushes.Black, 470, 135)
+                e.Graphics.DrawString(dire3P, GFont, Brushes.Black, 470, 150)
+                e.Graphics.DrawString(rtnP, GFont, Brushes.Black, 470, 165)
+                e.Graphics.DrawString(tel1P, GFont, Brushes.Black, 470, 180)
+                e.Graphics.DrawString(CorreoEP, GFont, Brushes.Black, 470, 195)
+
+                e.Graphics.DrawString("TIPO FACTURA:" & tipoPagTb.Text, GFont, Brushes.Black, 10, 210)
+                e.Graphics.DrawString("FACTURA N°: " & ochoDigP & nFacTb.Text, BIGFont3, Brushes.Black, 10, 250)
+
+                e.Graphics.DrawString("EMPRESA: " & empTb.Text, DFont, Brushes.Black, 10, 300)
+                e.Graphics.DrawString("PROPIETARIO: " & propTb.Text, DFont, Brushes.Black, 10, 320)
+                e.Graphics.DrawString("RTN: " & rtnTb.Text, DFont, Brushes.Black, 10, 340)
+
+                e.Graphics.DrawString("Descripción ", DFont, Brushes.Black, 10, 400)
+                e.Graphics.DrawString(desc1Tb.Text, GFont, Brushes.Black, 15, 425)
+                e.Graphics.DrawString(desc2Tb.Text, GFont, Brushes.Black, 15, 445)
+
+                e.Graphics.DrawString("Cantd. ", DFont, Brushes.Black, 390, 400)
+                e.Graphics.DrawString(cant1Tb.Text, GFont, Brushes.Black, 395, 425)
+                e.Graphics.DrawString(cant2Tb.Text, GFont, Brushes.Black, 395, 445)
+
+                e.Graphics.DrawString("Precio Unit. ", DFont, Brushes.Black, 495, 400)
+                e.Graphics.DrawString("L. " & preUni1Tb.Text, GFont, Brushes.Black, 500, 425)
+                e.Graphics.DrawString("L. " & preUni2Tb.Text, GFont, Brushes.Black, 500, 445)
+
+                e.Graphics.DrawString("ISV ", DFont, Brushes.Black, 650, 400)
+                e.Graphics.DrawString("L. 0.00 ", GFont, Brushes.Black, 655, 425)
+                e.Graphics.DrawString("L. 0.00 ", GFont, Brushes.Black, 655, 445)
+
+                e.Graphics.DrawString("Total ", DFont, Brushes.Black, 725, 400)
+                e.Graphics.DrawString("L. " & tota1Tb.Text, GFont, Brushes.Black, 730, 425)
+                e.Graphics.DrawString("L. " & tota1Tb.Text, GFont, Brushes.Black, 730, 445)
+
+                e.Graphics.DrawString("____________________________________________________________________________________________________", DFont, Brushes.Black, 10, 400)
+                e.Graphics.DrawString("____________________________________________________________________________________________________", DFont, Brushes.Black, 10, 405)
+
+
+
+                e.Graphics.DrawString("____________________________________________________________________________________________________", DFont, Brushes.Black, 10, 475)
+                e.Graphics.DrawString("OBSERVACIONES ", DFont, Brushes.Black, 10, 495)
+
+                e.Graphics.DrawString("Registro SAG: N/A Nº Orden Exenta: N/A Nº Registro exonerado: N/A ", nFont, Brushes.Black, 10, 800)
+
+                e.Graphics.DrawString("Exento: ", DFont, Brushes.Black, 650, 800, format2)
+                e.Graphics.DrawString("Exonerado: ", DFont, Brushes.Black, 650, 820, format2)
+                e.Graphics.DrawString("Gravado al 15%: ", DFont, Brushes.Black, 650, 840, format2)
+                e.Graphics.DrawString("Gravado al 18%: ", DFont, Brushes.Black, 650, 860, format2)
+                e.Graphics.DrawString("ISV 15%: ", DFont, Brushes.Black, 650, 880, format2)
+                e.Graphics.DrawString("ISV 18%: ", DFont, Brushes.Black, 650, 900, format2)
+                e.Graphics.DrawString("TOTAL: ", BIGFont2, Brushes.Black, 650, 930, format2)
+
+
+            End While
+            ' lector.Close()
+
+        Catch ex As Exception
+            MessageBox.Show("Error: " & ex.Message)
+        Finally
+            ' Cerrar la conexión
+            con.Close()
+        End Try
     End Sub
 
     Private Sub facTotTb_TextChanged(sender As Object, e As EventArgs) Handles facTotTb.TextChanged
         calcularletras()
+    End Sub
+
+    Private Sub ButtonX4_Click(sender As Object, e As EventArgs) Handles PreviaBtn.Click
+        PrintPreviewFactura.Document = PrintFactura()
+        PrintPreviewFactura.ShowDialog()
+    End Sub
+
+    Private Sub CancelarBtn_Click(sender As Object, e As EventArgs) Handles CancelarBtn.Click
+        Me.PreviaBtn.Enabled = False
     End Sub
 End Class

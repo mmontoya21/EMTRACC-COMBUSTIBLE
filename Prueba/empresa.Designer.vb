@@ -446,7 +446,7 @@ Partial Class empresa
         Me.tel1Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.tel1Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tel1Tb.Location = New System.Drawing.Point(106, 247)
-        Me.tel1Tb.MaxLength = 16
+        Me.tel1Tb.MaxLength = 30
         Me.tel1Tb.Name = "tel1Tb"
         Me.tel1Tb.PreventEnterBeep = True
         Me.tel1Tb.Size = New System.Drawing.Size(176, 30)
@@ -506,7 +506,7 @@ Partial Class empresa
         Me.rangoFinTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.rangoFinTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rangoFinTb.Location = New System.Drawing.Point(400, 367)
-        Me.rangoFinTb.MaxLength = 16
+        Me.rangoFinTb.MaxLength = 20
         Me.rangoFinTb.Name = "rangoFinTb"
         Me.rangoFinTb.PreventEnterBeep = True
         Me.rangoFinTb.Size = New System.Drawing.Size(333, 30)
@@ -536,7 +536,7 @@ Partial Class empresa
         Me.rangoIniTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.rangoIniTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rangoIniTb.Location = New System.Drawing.Point(400, 327)
-        Me.rangoIniTb.MaxLength = 16
+        Me.rangoIniTb.MaxLength = 20
         Me.rangoIniTb.Name = "rangoIniTb"
         Me.rangoIniTb.PreventEnterBeep = True
         Me.rangoIniTb.Size = New System.Drawing.Size(333, 30)
@@ -566,7 +566,7 @@ Partial Class empresa
         Me.dire3Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.dire3Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dire3Tb.Location = New System.Drawing.Point(809, 152)
-        Me.dire3Tb.MaxLength = 40
+        Me.dire3Tb.MaxLength = 60
         Me.dire3Tb.Multiline = True
         Me.dire3Tb.Name = "dire3Tb"
         Me.dire3Tb.PreventEnterBeep = True
@@ -598,7 +598,7 @@ Partial Class empresa
         Me.dire1Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.dire1Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dire1Tb.Location = New System.Drawing.Point(108, 152)
-        Me.dire1Tb.MaxLength = 40
+        Me.dire1Tb.MaxLength = 60
         Me.dire1Tb.Multiline = True
         Me.dire1Tb.Name = "dire1Tb"
         Me.dire1Tb.PreventEnterBeep = True
@@ -614,7 +614,7 @@ Partial Class empresa
         Me.cel2Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.cel2Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cel2Tb.Location = New System.Drawing.Point(106, 287)
-        Me.cel2Tb.MaxLength = 16
+        Me.cel2Tb.MaxLength = 30
         Me.cel2Tb.Name = "cel2Tb"
         Me.cel2Tb.PreventEnterBeep = True
         Me.cel2Tb.Size = New System.Drawing.Size(176, 30)
@@ -674,7 +674,7 @@ Partial Class empresa
         Me.dire2Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.dire2Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dire2Tb.Location = New System.Drawing.Point(464, 152)
-        Me.dire2Tb.MaxLength = 40
+        Me.dire2Tb.MaxLength = 60
         Me.dire2Tb.Multiline = True
         Me.dire2Tb.Name = "dire2Tb"
         Me.dire2Tb.PreventEnterBeep = True
