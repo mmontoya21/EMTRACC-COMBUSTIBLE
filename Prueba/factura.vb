@@ -82,6 +82,7 @@ Public Class factura
         CamDgv.Enabled = False
         CancelarBtn.Enabled = True
         Me.PreviaBtn.Enabled = True
+        NuevoBtn.Enabled = False
 
         Try
 
@@ -111,6 +112,17 @@ Public Class factura
             ' Cerrar la conexión
             con.Close()
         End Try
+
+        Me.cant1Tb.Text = 0
+        Me.cant2Tb.Text = 0
+        Me.preUni1Tb.Text = 0
+        Me.preUni2Tb.Text = 0
+        Me.tota1Tb.Text = 0
+        Me.tota2Tb.Text = 0
+
+        Me.facTotTb.Text = 0
+        Me.facExeTb.Text = 0
+        Me.facCanTB.Text = 0
 
     End Sub
     Sub limpiar()
@@ -314,7 +326,7 @@ Public Class factura
             ' Else
             '     MessageBox.Show("Ingrese por favor números", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
-        facTotTb.Focus()
+        'facTotTb.Focus()
         facTotTb.SelectionStart = 0
         facTotTb.SelectionLength = facTotTb.ToString.Length
     End Sub
@@ -495,7 +507,7 @@ Public Class factura
 
                 e.Graphics.DrawString("Total ", DFont, Brushes.Black, 725, 400)
                 e.Graphics.DrawString("L. " & tota1Tb.Text, GFont, Brushes.Black, 730, 425)
-                e.Graphics.DrawString("L. " & tota1Tb.Text, GFont, Brushes.Black, 730, 445)
+                e.Graphics.DrawString("L. " & tota2Tb.Text, GFont, Brushes.Black, 730, 445)
 
                 e.Graphics.DrawString("____________________________________________________________________________________________________", DFont, Brushes.Black, 10, 400)
                 e.Graphics.DrawString("____________________________________________________________________________________________________", DFont, Brushes.Black, 10, 405)
@@ -505,15 +517,35 @@ Public Class factura
                 e.Graphics.DrawString("____________________________________________________________________________________________________", DFont, Brushes.Black, 10, 475)
                 e.Graphics.DrawString("OBSERVACIONES ", DFont, Brushes.Black, 10, 495)
 
+                Dim xRect As New Rectangle(10, 525, 800, 405)
+                e.Graphics.DrawString(comentaTb.Text, New Font("Arial", 10), Brushes.Black, xRect)
+
+                'e.Graphics.DrawString(comentaTb.Text, DFont, Brushes.Black, 10, 525)
+
+
                 e.Graphics.DrawString("Registro SAG: N/A Nº Orden Exenta: N/A Nº Registro exonerado: N/A ", nFont, Brushes.Black, 10, 800)
+                e.Graphics.DrawString(pLetras.Text, nFont, Brushes.Black, 10, 770)
 
                 e.Graphics.DrawString("Exento: ", DFont, Brushes.Black, 650, 800, format2)
+                e.Graphics.DrawString("L. " & facTotTb.Text, DFont, Brushes.Black, 660, 787)
+
                 e.Graphics.DrawString("Exonerado: ", DFont, Brushes.Black, 650, 820, format2)
+                e.Graphics.DrawString("L. " & "0.00 ", DFont, Brushes.Black, 660, 807)
+
                 e.Graphics.DrawString("Gravado al 15%: ", DFont, Brushes.Black, 650, 840, format2)
+                e.Graphics.DrawString("L. " & "0.00 ", DFont, Brushes.Black, 660, 827)
+
                 e.Graphics.DrawString("Gravado al 18%: ", DFont, Brushes.Black, 650, 860, format2)
+                e.Graphics.DrawString("L. " & "0.00 ", DFont, Brushes.Black, 660, 847)
+
                 e.Graphics.DrawString("ISV 15%: ", DFont, Brushes.Black, 650, 880, format2)
+                e.Graphics.DrawString("L. " & "0.00 ", DFont, Brushes.Black, 660, 867)
+
                 e.Graphics.DrawString("ISV 18%: ", DFont, Brushes.Black, 650, 900, format2)
+                e.Graphics.DrawString("L. " & "0.00 ", DFont, Brushes.Black, 660, 887)
+
                 e.Graphics.DrawString("TOTAL: ", BIGFont2, Brushes.Black, 650, 930, format2)
+                e.Graphics.DrawString("L. " & facTotTb.Text, BIGFont2, Brushes.Black, 660, 917)
 
 
             End While
@@ -526,17 +558,52 @@ Public Class factura
             con.Close()
         End Try
     End Sub
-
-    Private Sub facTotTb_TextChanged(sender As Object, e As EventArgs) Handles facTotTb.TextChanged
-        calcularletras()
-    End Sub
-
     Private Sub ButtonX4_Click(sender As Object, e As EventArgs) Handles PreviaBtn.Click
         PrintPreviewFactura.Document = PrintFactura()
         PrintPreviewFactura.ShowDialog()
+
     End Sub
 
     Private Sub CancelarBtn_Click(sender As Object, e As EventArgs) Handles CancelarBtn.Click
         Me.PreviaBtn.Enabled = False
+        NuevoBtn.Enabled = True
     End Sub
+
+    Private Sub preUni1Tb_TextChanged(sender As Object, e As EventArgs) Handles preUni1Tb.TextChanged
+        sumas()
+    End Sub
+    Private Sub preUni2Tb_TextChanged(sender As Object, e As EventArgs) Handles preUni2Tb.TextChanged
+        sumas()
+    End Sub
+
+    Private Sub cant1Tb_TextChanged(sender As Object, e As EventArgs) Handles cant1Tb.TextChanged
+        sumas()
+    End Sub
+    Private Sub cant2Tb_TextChanged(sender As Object, e As EventArgs) Handles cant2Tb.TextChanged
+        sumas()
+    End Sub
+    Private Sub sumas()
+        Try
+            Dim preu2 As Double = Double.Parse(preUni2Tb.Text)
+            Dim preu1 As Double = Double.Parse(preUni1Tb.Text)
+            Dim cant1 As Double = Double.Parse(cant1Tb.Text)
+            Dim cant2 As Double = Double.Parse(cant2Tb.Text)
+
+            tota1Tb.Text = Format(preu1 * cant1, "#,##0.00")
+            tota2Tb.Text = Format(preu2 * cant2, "#,##0.00")
+
+            Dim tot1 As Double = Double.Parse(tota1Tb.Text)
+            Dim tot2 As Double = Double.Parse(tota2Tb.Text)
+
+            facTotTb.Text = Format(tot1 + tot2, "#,##0.00")
+
+            facCanTB.Text = Format(cant1 + cant2, "#,##0.00")
+
+            calcularletras()
+
+        Catch
+        End Try
+
+    End Sub
+
 End Class

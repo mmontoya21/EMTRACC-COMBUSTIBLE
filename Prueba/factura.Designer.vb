@@ -31,6 +31,8 @@ Partial Class factura
         Me.GuardarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.ModificarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.PanelP = New System.Windows.Forms.Panel()
+        Me.preUni2Tb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.preUni1Tb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.fechaPk = New DevComponents.Editors.DateTimeAdv.DateTimeInput()
         Me.Line2 = New DevComponents.DotNetBar.Controls.Line()
         Me.Line1 = New DevComponents.DotNetBar.Controls.Line()
@@ -49,6 +51,7 @@ Partial Class factura
         Me.pLetras = New DevComponents.DotNetBar.LabelX()
         Me.LabelX11 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX4 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX20 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX16 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX10 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX3 = New DevComponents.DotNetBar.LabelX()
@@ -88,8 +91,6 @@ Partial Class factura
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.PrintFactura = New System.Drawing.Printing.PrintDocument()
         Me.PrintPreviewFactura = New System.Windows.Forms.PrintPreviewDialog()
-        Me.preUni1Tb = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.preUni2Tb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.PanelP.SuspendLayout()
         CType(Me.fechaPk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CamDgv, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -193,6 +194,7 @@ Partial Class factura
         Me.PanelP.Controls.Add(Me.pLetras)
         Me.PanelP.Controls.Add(Me.LabelX11)
         Me.PanelP.Controls.Add(Me.LabelX4)
+        Me.PanelP.Controls.Add(Me.LabelX20)
         Me.PanelP.Controls.Add(Me.LabelX16)
         Me.PanelP.Controls.Add(Me.LabelX10)
         Me.PanelP.Controls.Add(Me.LabelX3)
@@ -223,6 +225,34 @@ Partial Class factura
         Me.PanelP.Name = "PanelP"
         Me.PanelP.Size = New System.Drawing.Size(804, 523)
         Me.PanelP.TabIndex = 30
+        '
+        'preUni2Tb
+        '
+        '
+        '
+        '
+        Me.preUni2Tb.Border.Class = "TextBoxBorder"
+        Me.preUni2Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.preUni2Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.preUni2Tb.Location = New System.Drawing.Point(486, 247)
+        Me.preUni2Tb.Name = "preUni2Tb"
+        Me.preUni2Tb.PreventEnterBeep = True
+        Me.preUni2Tb.Size = New System.Drawing.Size(120, 30)
+        Me.preUni2Tb.TabIndex = 42
+        '
+        'preUni1Tb
+        '
+        '
+        '
+        '
+        Me.preUni1Tb.Border.Class = "TextBoxBorder"
+        Me.preUni1Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.preUni1Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.preUni1Tb.Location = New System.Drawing.Point(486, 211)
+        Me.preUni1Tb.Name = "preUni1Tb"
+        Me.preUni1Tb.PreventEnterBeep = True
+        Me.preUni1Tb.Size = New System.Drawing.Size(120, 30)
+        Me.preUni1Tb.TabIndex = 42
         '
         'fechaPk
         '
@@ -413,7 +443,7 @@ Partial Class factura
         Me.pLetras.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.pLetras.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.pLetras.ForeColor = System.Drawing.Color.Maroon
-        Me.pLetras.Location = New System.Drawing.Point(109, 283)
+        Me.pLetras.Location = New System.Drawing.Point(109, 285)
         Me.pLetras.Name = "pLetras"
         Me.pLetras.Size = New System.Drawing.Size(676, 23)
         Me.pLetras.TabIndex = 30
@@ -444,6 +474,19 @@ Partial Class factura
         Me.LabelX4.Size = New System.Drawing.Size(72, 23)
         Me.LabelX4.TabIndex = 30
         Me.LabelX4.Text = "Cantidad"
+        '
+        'LabelX20
+        '
+        '
+        '
+        '
+        Me.LabelX20.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX20.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX20.Location = New System.Drawing.Point(491, 186)
+        Me.LabelX20.Name = "LabelX20"
+        Me.LabelX20.Size = New System.Drawing.Size(114, 23)
+        Me.LabelX20.TabIndex = 30
+        Me.LabelX20.Text = "Precio Unit."
         '
         'LabelX16
         '
@@ -652,7 +695,7 @@ Partial Class factura
         Me.comentaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.comentaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.comentaTb.Location = New System.Drawing.Point(91, 315)
-        Me.comentaTb.MaxLength = 600
+        Me.comentaTb.MaxLength = 1000
         Me.comentaTb.Multiline = True
         Me.comentaTb.Name = "comentaTb"
         Me.comentaTb.PreventEnterBeep = True
@@ -969,34 +1012,6 @@ Partial Class factura
         Me.PrintPreviewFactura.Name = "PrintPreviewFactura"
         Me.PrintPreviewFactura.Visible = False
         '
-        'preUni1Tb
-        '
-        '
-        '
-        '
-        Me.preUni1Tb.Border.Class = "TextBoxBorder"
-        Me.preUni1Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.preUni1Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.preUni1Tb.Location = New System.Drawing.Point(486, 211)
-        Me.preUni1Tb.Name = "preUni1Tb"
-        Me.preUni1Tb.PreventEnterBeep = True
-        Me.preUni1Tb.Size = New System.Drawing.Size(120, 30)
-        Me.preUni1Tb.TabIndex = 42
-        '
-        'preUni2Tb
-        '
-        '
-        '
-        '
-        Me.preUni2Tb.Border.Class = "TextBoxBorder"
-        Me.preUni2Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.preUni2Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.preUni2Tb.Location = New System.Drawing.Point(486, 247)
-        Me.preUni2Tb.Name = "preUni2Tb"
-        Me.preUni2Tb.PreventEnterBeep = True
-        Me.preUni2Tb.Size = New System.Drawing.Size(120, 30)
-        Me.preUni2Tb.TabIndex = 42
-        '
         'factura
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1096,4 +1111,5 @@ Partial Class factura
     Friend WithEvents fechaPk As DevComponents.Editors.DateTimeAdv.DateTimeInput
     Friend WithEvents preUni2Tb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents preUni1Tb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents LabelX20 As DevComponents.DotNetBar.LabelX
 End Class
