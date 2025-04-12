@@ -1,6 +1,10 @@
 ﻿Imports System.Data
 Imports MySql.Data.MySqlClient
 Imports MySql.Data
+
+Module Globales
+    Public facturaF As factura
+End Module
 Public Class propietario
     Dim con As New MySqlConnection
     Dim cm As New MySqlCommand
@@ -15,6 +19,9 @@ Public Class propietario
 
     Dim colorFondo = Color.FromArgb(106, 126, 168)
     Dim colorTextbox = Color.FromArgb(240, 210, 249)
+
+
+
     Private Sub propietario_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         conectar()
         act()
@@ -290,5 +297,15 @@ Public Class propietario
 
     End Sub
 
+    Private Sub EnviarTb_Click(sender As Object, e As EventArgs)
 
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        If facturaF IsNot Nothing Then
+            facturaF.LabelX1.Text = Me.nPropietarioTb.Text
+            'factura.LabelX1.Text = Me.Label1.Text
+            'Me.placaBusqTB.Text = nPropietarioTb.Text
+        End If
+    End Sub
 End Class

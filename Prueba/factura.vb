@@ -19,6 +19,8 @@ Public Class factura
 
     Dim colorFondo = Color.FromArgb(106, 126, 168)
     Dim colorTextbox = Color.FromArgb(240, 210, 249)
+
+
     Private Sub factura_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         On Error Resume Next
@@ -32,12 +34,13 @@ Public Class factura
 
         conectar()
         act()
-        'listadoCamDgv()
-        'CamDGV.BackgroundColor = colorFondo
-        'CamDGV.RowsDefaultCellStyle.BackColor = Color.Bisque
-        'CamDGV.AlternatingRowsDefaultCellStyle.BackColor = Color.Lavender
+        listadoCamDgv()
+        CamDgv.BackgroundColor = colorFondo
+        CamDgv.RowsDefaultCellStyle.BackColor = Color.Bisque
+        CamDgv.AlternatingRowsDefaultCellStyle.BackColor = Color.Lavender
 
         PanelP.Enabled = False
+
     End Sub
 
     Private Sub conectar()
@@ -76,6 +79,9 @@ Public Class factura
         Me.PreviaBtn.Enabled = False
     End Sub
     Private Sub NuevoBtn_Click(sender As Object, e As EventArgs) Handles NuevoBtn.Click '============  NUEVO  ===========
+        If con.State = ConnectionState.Closed Then
+            con.Open()
+        End If
         limpiar()
         PanelP.Enabled = True
         GuardarBtn.Enabled = True
@@ -94,9 +100,9 @@ Public Class factura
             ' Verificar si hay registros
             If lector.Read() Then
                 ' Asignar el valor de nFactura al TextBox
-                TextBox1.Text = lector("nFactura").ToString()
+                CodproBTb.Text = lector("nFactura").ToString()
 
-                Dim nfacta As Double = Double.Parse(TextBox1.Text)
+                Dim nfacta As Double = Double.Parse(CodproBTb.Text)
                 nFacTb.Text = nfacta + 1 ' Suma factura
                 amplitud()
             Else
@@ -105,7 +111,7 @@ Public Class factura
             End If
 
             lector.Close()
-
+            ''
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.Message)
         Finally
@@ -147,15 +153,19 @@ Public Class factura
         Me.perSemCB.Text = ""
         Me.preUni1Tb.Text = ""
         Me.preUni2Tb.Text = ""
-
+        Me.codPropTb.Text = ""
     End Sub
 
     Private Sub EditarBtn_Click(sender As Object, e As EventArgs) Handles EditarBtn.Click  '============  EDITAR  ===========
-        limpiar()
+
         PanelP.Enabled = True
-        GuardarBtn.Enabled = True
-        'CamDGV.Enabled = False
+        GuardarBtn.Enabled = False
+        ModificarBtn.Enabled = True
+        CamDgv.Enabled = False
         CancelarBtn.Enabled = True
+        GuardarBtn.Visible = False
+        ModificarBtn.Visible = True
+
     End Sub
 
     Private Sub GuardarBtn_Click(sender As Object, e As EventArgs) Handles GuardarBtn.Click '============  GUARDADO  ===========
@@ -204,8 +214,8 @@ Public Class factura
 
         ' Dim perSem = Val(perSemCB.Text)
         Try
-            guardar = New MySqlCommand("INSERT INTO factura (nFactura, Fecha, propietario, Empresa, rtn, tipoPag, facCantidad, facExe, facTotal, comentario, cantd1, cantd2, descrip1, descrip2, total1, total2, perMes, PerSem, preUni1, preUni2)" & Chr(13) &
-            "VALUES(@nFactura, @Fecha, @propietario, @Empresa, @rtn, @tipoPag, @facCantidad, @facExe, @facTotal, @comentario, @cantd1, @cantd2, @descrip1, @descrip2, @total1, @total2, @perMes, @PerSem, @preUni1Tb, @preUni2Tb)", con)
+            guardar = New MySqlCommand("INSERT INTO factura (nFactura, Fecha, propietario, Empresa, rtn, tipoPag, facCantidad, facExe, facTotal, comentario, cantd1, cantd2, descrip1, descrip2, total1, total2, perMes, PerSem, preUni1, preUni2, codProp)" & Chr(13) &
+            "VALUES(@nFactura, @Fecha, @propietario, @Empresa, @rtn, @tipoPag, @facCantidad, @facExe, @facTotal, @comentario, @cantd1, @cantd2, @descrip1, @descrip2, @total1, @total2, @perMes, @PerSem, @preUni1Tb, @preUni2Tb, @codProp)", con)
 
 
             guardar.Parameters.AddWithValue("@nFactura", nFacTb.Text)
@@ -228,6 +238,7 @@ Public Class factura
             guardar.Parameters.AddWithValue("@PerSem", perSem)
             guardar.Parameters.AddWithValue("@preUni1Tb", cpreUni1Tb)
             guardar.Parameters.AddWithValue("@preUni2Tb", cpreUni2Tb)
+            guardar.Parameters.AddWithValue("@codProp", codPropTb.Text)
 
             guardar.ExecuteNonQuery()
             MsgBox("Registo guardado")
@@ -240,29 +251,44 @@ Public Class factura
 
         act()
 
-        ' CamDGV.Enabled = True
-        ' listadoCamDgv()
+        CamDgv.Enabled = True
+        listadoCamDgv()
 
-        'articulosPanel.Enabled = False
-        'ItemDgv.Enabled = True
-        'Me.GuardarBtn.Visible = True
+        PanelP.Enabled = False
+        CamDgv.Enabled = True
+        Me.GuardarBtn.Visible = True
     End Sub
 
     Private Sub ModificarBtn_Click(sender As Object, e As EventArgs) Handles ModificarBtn.Click '============  MODIFICAR  ===========
         actual()
         act()
         PanelP.Enabled = False
-        'CamDGV.Enabled = True
+        CamDgv.Enabled = True
         Me.GuardarBtn.Visible = True
-        'listadoCamDgv()
+        listadoCamDgv()
+        con.Close()
     End Sub
     Public Sub actual()
+        ' Try
+        If con.State = ConnectionState.Closed Then
+            con.Open()
+        End If
+
+        Dim fe As Date = fechaPk.Value.ToString("yyyy-MM-dd")
+        facTotTb.Text = facTotTb.Text.Replace(",", "")
+        tota1Tb.Text = tota1Tb.Text.Replace(",", "")
+        tota2Tb.Text = tota2Tb.Text.Replace(",", "")
+
         Dim actualizar As String
-        actualizar = "UPDATE factura SET nFactura = '" & nFacTb.Text & "', propietario = '" & propTb.Text & "', Empresa = '" & empTb.Text & "', rtn = '" & rtnTb.Text & "', tipoPag = '" & tipoPagTb.Text & "', facCantidad = '" & facCanTB.Text & "', facExe = '" & facExeTb.Text & "', facTotal = '" & facTotTb.Text & "', comentario = '" & comentaTb.Text & "', cantd1 = '" & cant1Tb.Text & "', cantd2 = '" & cant2Tb.Text & "', descrip1 = '" & desc1Tb.Text & "', descrip2 = '" & desc2Tb.Text & "', total1 = '" & tota1Tb.Text & "', total2 = '" & tota2Tb.Text & "', perMes = '" & perMesCB.Text & "', PerSem = '" & perSemCB.Text & "', preUni1 = '" & preUni1Tb.Text & "', preUni2 = '" & preUni2Tb.Text & "'"
+        actualizar = "UPDATE factura SET nFactura = '" & nFacTb.Text & "', propietario = '" & propTb.Text & "', Empresa = '" & empTb.Text & "', rtn = '" & rtnTb.Text & "', tipoPag = '" & tipoPagTb.Text & "', facCantidad = '" & facCanTB.Text & "', facExe = '" & facExeTb.Text & "', facTotal = '" & facTotTb.Text & "', comentario = '" & comentaTb.Text & "', cantd1 = '" & cant1Tb.Text & "', cantd2 = '" & cant2Tb.Text & "', descrip1 = '" & desc1Tb.Text & "', descrip2 = '" & desc2Tb.Text & "', total1 = '" & tota1Tb.Text & "', total2 = '" & tota2Tb.Text & "', perMes = '" & perMesCB.Text & "', PerSem = '" & perSemCB.Text & "', preUni1 = '" & preUni1Tb.Text & "', preUni2 = '" & preUni2Tb.Text & "', fecha = '" & fe & "', codProp = '" & codPropTb.Text & "' WHERE idfactura = '" & propBusqTB.Text & "'"
 
         Dim act As New MySqlCommand(actualizar, con)
         act.ExecuteNonQuery()
         MsgBox("Registo Actualizado")
+        'Catch
+        'MsgBox("No deben haber registros vacios, colocar 0 en tal caso.")
+        'End Try
+
     End Sub
 
     Private Sub EliminarBtn_Click(sender As Object, e As EventArgs) Handles EliminarBtn.Click '============  ELIMINAR  ===========
@@ -273,7 +299,7 @@ Public Class factura
 
                 Dim eliminar As String
 
-                eliminar = "DELETE FROM factura WHERE idCamiones = '" & Conversion.Int(Me.buscartxt.Text) & "'"
+                eliminar = "DELETE FROM factura WHERE idfactura = '" & Conversion.Int(Me.buscartxt.Text) & "'"
                 Dim eli As New MySqlCommand(eliminar, con)
                 eli.ExecuteNonQuery()
 
@@ -289,7 +315,7 @@ Public Class factura
     End Sub
     Private Sub listadoCamDgv() 'Muestra los datos
         Dim table As New DataTable()
-        Dim adaptadoListado As New MySqlDataAdapter("SELECT idCamiones, placa, propietario, documentos, revision, contrato, codProp FROM camiones", con)
+        Dim adaptadoListado As New MySqlDataAdapter("SELECT idFactura, codProp, empresa, propietario, nfactura FROM factura", con)
         adaptadoListado.Fill(table)
 
         CamDgv.DataSource = table
@@ -301,23 +327,18 @@ Public Class factura
         CamDgv.Columns(0).HeaderText = "Id"
         CamDgv.Columns(0).Width = 1
 
-        CamDgv.Columns(1).HeaderText = "Placa"
-        CamDgv.Columns(1).Width = 100
+        CamDgv.Columns(1).HeaderText = "Código"
+        CamDgv.Columns(1).Width = 50
 
-        CamDgv.Columns(2).HeaderText = "Propietario"
+        CamDgv.Columns(2).HeaderText = "Empresa"
         CamDgv.Columns(2).Width = 175
 
-        CamDgv.Columns(3).HeaderText = "Documentos"
-        CamDgv.Columns(3).Width = 75
+        CamDgv.Columns(3).HeaderText = "Propietario"
+        CamDgv.Columns(3).Width = 175
 
-        CamDgv.Columns(4).HeaderText = "Revision"
-        CamDgv.Columns(4).Width = 50
+        CamDgv.Columns(4).HeaderText = "Factura"
+        CamDgv.Columns(4).Width = 100
 
-        CamDgv.Columns(5).HeaderText = "Contrato"
-        CamDgv.Columns(5).Width = 175
-
-        CamDgv.Columns(6).HeaderText = "Código Propietario"
-        CamDgv.Columns(6).Width = 90
     End Sub
     Private Sub calcularletras()  '============  CALCULO DE LETRAS   =============
         pLetras.Text = ""
@@ -367,8 +388,8 @@ Public Class factura
         End If
     End Sub
 
-    Private Sub ButtonX5_Click(sender As Object, e As EventArgs) Handles ButtonX5.Click
-        calcularletras()
+    Private Sub ButtonX5_Click(sender As Object, e As EventArgs)
+        Me.propTb.Text = propietario.nPropietarioTb.Text
     End Sub
     Public Sub LoadImage()
         img = Image.FromFile("C:\emtracc\camion.jpg") ' Cambia la ruta según tu imagen
@@ -388,7 +409,7 @@ Public Class factura
             ' Verificar si hay registros
             ' If lector.Read() Then
 
-            Dim ConteoL As Integer = Integer.Parse(TextBox1.Text) ' Conteo Lineas, baja automaticamente la lineas de Productos
+            Dim ConteoL As Integer = Integer.Parse(CodproBTb.Text) ' Conteo Lineas, baja automaticamente la lineas de Productos
             ConteoL = (ConteoL * 23)
             Dim LIM = 0
             Dim L As String = "L. "
@@ -489,6 +510,10 @@ Public Class factura
                 e.Graphics.DrawString("PROPIETARIO: " & propTb.Text, DFont, Brushes.Black, 10, 320)
                 e.Graphics.DrawString("RTN: " & rtnTb.Text, DFont, Brushes.Black, 10, 340)
 
+                e.Graphics.DrawString("PERIODO " & perMesCB.Text & perSemCB.Text, DFont, Brushes.Black, 470, 300)
+
+
+
                 e.Graphics.DrawString("Descripción ", DFont, Brushes.Black, 10, 400)
                 e.Graphics.DrawString(desc1Tb.Text, GFont, Brushes.Black, 15, 425)
                 e.Graphics.DrawString(desc2Tb.Text, GFont, Brushes.Black, 15, 445)
@@ -547,26 +572,36 @@ Public Class factura
                 e.Graphics.DrawString("TOTAL: ", BIGFont2, Brushes.Black, 650, 930, format2)
                 e.Graphics.DrawString("L. " & facTotTb.Text, BIGFont2, Brushes.Black, 660, 917)
 
+                e.Graphics.DrawString("____________________________________________________________________________________________________", DFont, Brushes.Black, 10, 1010)
+                e.Graphics.DrawString("ORIGINAL: Cliente", DFont, Brushes.Black, 10, 1030)
+                e.Graphics.DrawString("COPIA: Obligatorio Tributario Emisor", GFont, Brushes.Black, 10, 1050)
 
             End While
-            ' lector.Close()
+            lector.Close()
 
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.Message)
         Finally
             ' Cerrar la conexión
+
             con.Close()
         End Try
     End Sub
     Private Sub ButtonX4_Click(sender As Object, e As EventArgs) Handles PreviaBtn.Click
+        PanelP.Enabled = True
         PrintPreviewFactura.Document = PrintFactura()
         PrintPreviewFactura.ShowDialog()
-
+        CancelarBtn.Enabled = True
     End Sub
 
     Private Sub CancelarBtn_Click(sender As Object, e As EventArgs) Handles CancelarBtn.Click
         Me.PreviaBtn.Enabled = False
         NuevoBtn.Enabled = True
+        GuardarBtn.Enabled = False
+        PanelP.Enabled = False
+        CancelarBtn.Enabled = False
+        CamDgv.Enabled = True
+        con.Close()
     End Sub
 
     Private Sub preUni1Tb_TextChanged(sender As Object, e As EventArgs) Handles preUni1Tb.TextChanged
@@ -606,4 +641,169 @@ Public Class factura
 
     End Sub
 
+    Private Sub ButtonX2_Click(sender As Object, e As EventArgs) Handles ButtonX2.Click
+        seleccion()
+
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
+    End Sub
+
+    Public Sub seleccion()
+        Dim consulta As String
+        Dim lista As Byte
+
+        If CodBusqTB.Text <> "" Then
+            consulta = "SELECT * FROM propietario WHERE codProp = '" & CodBusqTB.Text & "'"
+            adaptador = New MySqlDataAdapter(consulta, con)
+            datos = New DataSet
+            adaptador.Fill(datos, "propietario")
+            lista = datos.Tables("propietario").Rows.Count
+        End If
+
+        If lista <> 0 Then
+
+            empTb.Text = datos.Tables("propietario").Rows(0).Item("nEmpresa").ToString
+            propTb.Text = datos.Tables("propietario").Rows(0).Item("nPropietario").ToString
+            rtnTb.Text = datos.Tables("propietario").Rows(0).Item("RTN").ToString
+            codPropTb.Text = datos.Tables("propietario").Rows(0).Item("codProp").ToString
+
+
+
+
+
+        Else
+            MsgBox("Datos no encontrados")
+        End If
+        'listadoCamDgv()
+    End Sub
+
+    Public Sub seleccion2()
+        Dim consulta As String
+        Dim lista As Byte
+
+        If propBusqTB.Text <> "" Then
+            consulta = "SELECT * FROM factura WHERE codProp = '" & propBusqTB.Text & "'"
+            adaptador = New MySqlDataAdapter(consulta, con)
+            datos = New DataSet
+            adaptador.Fill(datos, "factura")
+            lista = datos.Tables("factura").Rows.Count
+        End If
+
+        If lista <> 0 Then
+
+            llenado()
+
+
+        Else
+            MsgBox("Datos no encontrados")
+        End If
+        'listadoCamDgv()
+    End Sub
+    Public Sub seleccion3()
+        Dim consulta As String
+        Dim lista As Byte
+
+        If propBusqTB.Text <> "" Then
+            consulta = "SELECT * FROM factura WHERE idFactura = '" & propBusqTB.Text & "'"
+            adaptador = New MySqlDataAdapter(consulta, con)
+            datos = New DataSet
+            adaptador.Fill(datos, "factura")
+            lista = datos.Tables("factura").Rows.Count
+        End If
+
+        If lista <> 0 Then
+
+            llenado()
+
+        Else
+            MsgBox("Datos no encontrados")
+        End If
+        'listadoCamDgv()
+    End Sub
+    Sub llenado()
+        nFacTb.Text = datos.Tables("factura").Rows(0).Item("nFactura").ToString
+        fechaPk.Text = datos.Tables("factura").Rows(0).Item("fecha").ToString
+        propTb.Text = datos.Tables("factura").Rows(0).Item("propietario").ToString
+        empTb.Text = datos.Tables("factura").Rows(0).Item("empresa").ToString
+        rtnTb.Text = datos.Tables("factura").Rows(0).Item("rtn").ToString
+        tipoPagTb.Text = datos.Tables("factura").Rows(0).Item("tipoPag").ToString
+        facCanTB.Text = datos.Tables("factura").Rows(0).Item("facCantidad").ToString
+        facExeTb.Text = datos.Tables("factura").Rows(0).Item("facExe").ToString
+        facTotTb.Text = datos.Tables("factura").Rows(0).Item("facTotal").ToString.Replace(",", "")
+        comentaTb.Text = datos.Tables("factura").Rows(0).Item("comentario").ToString
+        cant1Tb.Text = datos.Tables("factura").Rows(0).Item("cantd1").ToString
+        cant2Tb.Text = datos.Tables("factura").Rows(0).Item("cantd2").ToString
+        desc1Tb.Text = datos.Tables("factura").Rows(0).Item("descrip1").ToString
+        desc2Tb.Text = datos.Tables("factura").Rows(0).Item("descrip2").ToString
+        tota1Tb.Text = datos.Tables("factura").Rows(0).Item("total1").ToString.Replace(",", "")
+        tota2Tb.Text = datos.Tables("factura").Rows(0).Item("total2").ToString.Replace(",", "")
+        perMesCB.Text = datos.Tables("factura").Rows(0).Item("perMes").ToString
+        perSemCB.Text = datos.Tables("factura").Rows(0).Item("PerSem").ToString
+        preUni1Tb.Text = datos.Tables("factura").Rows(0).Item("preUni1").ToString
+        preUni2Tb.Text = datos.Tables("factura").Rows(0).Item("preUni2").ToString
+        codPropTb.Text = datos.Tables("factura").Rows(0).Item("codProp").ToString
+
+
+
+    End Sub
+    Private Sub CodproBTb_TextChanged(sender As Object, e As EventArgs) Handles CodproBTb.TextChanged
+
+        codCamDgv()
+
+    End Sub
+    Private Sub codCamDgv() 'Autobusqueda Codigo
+
+        Try
+
+            Dim table As New DataTable()
+            Dim adaptadoListado As New MySqlDataAdapter("SELECT * FROM factura WHERE codProp LIKE '%" & CodproBTb.Text & "%'", con)
+            adaptadoListado.Fill(table)
+
+            CamDgv.DataSource = table
+
+            ListadoD()
+
+        Catch
+        End Try
+
+    End Sub
+
+    Private Sub ButtonX4_Click_1(sender As Object, e As EventArgs) Handles ButtonX4.Click
+        CodBusqTB.Text = ""
+        empTb.Text = ""
+        propTb.Text = ""
+        rtnTb.Text = ""
+    End Sub
+
+    Private Sub ButtonX5_Click_1(sender As Object, e As EventArgs) Handles ButtonX5.Click
+        seleccion2()
+    End Sub
+    Private Sub ButtonX7_Click(sender As Object, e As EventArgs) Handles ButtonX7.Click
+        limpiar()
+    End Sub
+
+    Private Sub CamDgv_Click(sender As Object, e As EventArgs) Handles CamDgv.Click
+        limpiar()
+
+        If Me.CamDgv.RowCount = 0 Then
+            MessageBox.Show("No hay datos a mostrar")
+        Else
+            Dim i As Integer = Me.CamDgv.CurrentRow.Index
+            Me.propBusqTB.Text = Me.CamDgv.Item(0, i).Value
+
+            Dim y As Integer = Me.CamDgv.CurrentRow.Index
+            Dim idcod As Integer = Me.CamDgv.Item(0, y).Value
+            propBusqTB.Text = idcod
+            seleccion3()
+            Me.EditarBtn.Enabled = True
+            Me.EliminarBtn.Enabled = True
+            PreviaBtn.Enabled = True
+        End If
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        facTotTb.Text = facTotTb.Text.Replace(",", "")
+    End Sub
 End Class

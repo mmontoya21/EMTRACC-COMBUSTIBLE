@@ -53,6 +53,7 @@ Partial Class propietario
         Me.ButtonX6 = New DevComponents.DotNetBar.ButtonX()
         Me.LabelX10 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX9 = New DevComponents.DotNetBar.LabelX()
+        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.CamDGV, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelP.SuspendLayout()
         Me.SuspendLayout()
@@ -458,12 +459,22 @@ Partial Class propietario
         Me.LabelX9.TabIndex = 37
         Me.LabelX9.Text = "Cóodigo"
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(916, 44)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 42
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'propietario
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ClientSize = New System.Drawing.Size(1328, 572)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.buscartxt)
         Me.Controls.Add(Me.propBusqTB)
         Me.Controls.Add(Me.placaBusqTB)
@@ -516,4 +527,5 @@ Partial Class propietario
     Friend WithEvents ButtonX6 As DevComponents.DotNetBar.ButtonX
     Friend WithEvents LabelX10 As DevComponents.DotNetBar.LabelX
     Friend WithEvents LabelX9 As DevComponents.DotNetBar.LabelX
+    Friend WithEvents Button1 As Button
 End Class
