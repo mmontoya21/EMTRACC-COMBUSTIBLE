@@ -44,7 +44,8 @@ Public Class factura
     End Sub
 
     Private Sub conectar()
-        Dim servidor As String = "localhost"
+        'Dim servidor As String = "localhost"
+        Dim servidor As String = "192.168.68.101"
         Dim baseDatos As String = "givemefuel"
         Dim userid As String = "root"
         Dim clave As String = ""
@@ -60,11 +61,12 @@ Public Class factura
 
             con.Open()
 
-            MsgBox("La Wea se conectó")
+            'MsgBox("El sistema se conectó")
+            MessageBox.Show("El sistema esá conectado", "Combustible")
 
         Catch ex As Exception
-
             MsgBox("No se conecto por: " & ex.Message)
+
         End Try
 
 
@@ -89,6 +91,7 @@ Public Class factura
         CancelarBtn.Enabled = True
         Me.PreviaBtn.Enabled = True
         NuevoBtn.Enabled = False
+        tipoPagTb.Text = "CONTADO"
 
         Try
 

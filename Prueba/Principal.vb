@@ -17,7 +17,8 @@ Public Class Principal
         camiBt.BackColor = Color.FromArgb(153, 180, 209)
     End Sub
     Public Sub conectar()
-        Dim servidor As String = "localhost"
+        'Dim servidor As String = "localhost"
+        Dim servidor As String = "192.168.68.101"
         Dim baseDatos As String = "givemefuel"
         Dim userid As String = "root"
         Dim clave As String = ""
@@ -26,7 +27,7 @@ Public Class Principal
 
         Try
             con.Open()
-            MsgBox("La Wea se conectó")
+            MsgBox("La Base de Datos se conectó")
         Catch ex As Exception
             MsgBox("No se conecto por: " & ex.Message)
         End Try
@@ -173,5 +174,13 @@ Public Class Principal
     Private Sub ButtonX10_Click(sender As Object, e As EventArgs) Handles ButtonX10.Click
         abrirformulario(New propietario)
         Panel1.Visible = False
+    End Sub
+
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
+    End Sub
+
+    Private Sub PanelForm_Paint(sender As Object, e As PaintEventArgs) Handles PanelForm.Paint
+
     End Sub
 End Class

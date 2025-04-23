@@ -1044,12 +1044,13 @@ Partial Class factura
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(320, 87)
+        Me.Button1.Location = New System.Drawing.Point(847, 13)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 42
         Me.Button1.Text = "Button1"
         Me.Button1.UseVisualStyleBackColor = True
+        Me.Button1.Visible = False
         '
         'ButtonX4
         '
@@ -1093,6 +1094,7 @@ Partial Class factura
         Me.Button2.TabIndex = 46
         Me.Button2.Text = "Button2"
         Me.Button2.UseVisualStyleBackColor = True
+        Me.Button2.Visible = False
         '
         'factura
         '

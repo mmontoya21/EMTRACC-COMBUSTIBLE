@@ -34,7 +34,8 @@ Public Class propietario
 
     End Sub
     Private Sub conectar()
-        Dim servidor As String = "localhost"
+        'Dim servidor As String = "localhost"
+        Dim servidor As String = "192.168.68.101"
         Dim baseDatos As String = "givemefuel"
         Dim userid As String = "root"
         Dim clave As String = ""
