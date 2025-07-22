@@ -80,6 +80,7 @@ Partial Class propietario
         '
         Me.nPropietarioTb.Border.Class = "TextBoxBorder"
         Me.nPropietarioTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.nPropietarioTb.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.nPropietarioTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.nPropietarioTb.Location = New System.Drawing.Point(102, 46)
         Me.nPropietarioTb.MaxLength = 80
@@ -120,6 +121,7 @@ Partial Class propietario
         '
         Me.nEmpresaTb.Border.Class = "TextBoxBorder"
         Me.nEmpresaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.nEmpresaTb.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.nEmpresaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.nEmpresaTb.Location = New System.Drawing.Point(102, 82)
         Me.nEmpresaTb.MaxLength = 80
@@ -357,7 +359,7 @@ Partial Class propietario
         Me.CamDGV.Name = "CamDGV"
         Me.CamDGV.ReadOnly = True
         Me.CamDGV.RowHeadersVisible = False
-        Me.CamDGV.Size = New System.Drawing.Size(803, 295)
+        Me.CamDGV.Size = New System.Drawing.Size(803, 490)
         Me.CamDGV.TabIndex = 34
         '
         'PanelP

@@ -51,7 +51,7 @@ Public Class propietario
 
             con.Open()
 
-            MsgBox("La Wea se conectó")
+            MsgBox("Sistema conectado")
 
         Catch ex As Exception
 
@@ -85,6 +85,7 @@ Public Class propietario
 
         EditarBtn.Enabled = False
         EliminarBtn.Enabled = False
+        NuevoBtn.Enabled = False
 
         propBusqTB.Text = ""
         placaBusqTB.Text = ""
@@ -148,7 +149,7 @@ Public Class propietario
     End Sub
     Public Sub actual()
         Dim actualizar As String
-        actualizar = "UPDATE propietario SET codProP= '" & codProTb.Text & "', nEmpresa= '" & nEmpresaTb.Text & "', nPropietario= '" & nPropietarioTb.Text & "', RTN= '" & RTNTb.Text & "' ,Tel1= '" & Tel1TB.Text & "' ,Tel2= '" & Tel2Tb.Text & "' ,Direccion= '" & DireccionTb.Text & "' ,correoE= '" & correoETb.Text & "' WHERE codProp = '" & buscartxt.Text & "'"
+        actualizar = "UPDATE propietario SET codProP= '" & codProTb.Text & "', nEmpresa= '" & nEmpresaTb.Text & "', nPropietario= '" & nPropietarioTb.Text & "', RTN= '" & RTNTb.Text & "' ,Tel1= '" & Tel1TB.Text & "' ,Tel2= '" & Tel2Tb.Text & "' ,Direccion= '" & DireccionTb.Text & "' ,correoE= '" & correoETb.Text & "' WHERE codigoP = '" & buscartxt.Text & "'"
         Dim act As New MySqlCommand(actualizar, con)
         act.ExecuteNonQuery()
         MsgBox("Registo Actualizado")
@@ -161,10 +162,11 @@ Public Class propietario
 
                 Dim eliminar As String
 
-                eliminar = "DELETE FROM propietario WHERE codProP = '" & Conversion.Int(Me.buscartxt.Text) & "'"
+                eliminar = "DELETE FROM propietario WHERE codigoP = '" & Conversion.Int(Me.buscartxt.Text) & "'"
                 Dim eli As New MySqlCommand(eliminar, con)
                 eli.ExecuteNonQuery()
 
+                limpiar()
                 listadoCamDgv()
 
             End If

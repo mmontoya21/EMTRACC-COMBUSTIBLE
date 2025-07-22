@@ -44,8 +44,8 @@ Public Class factura
     End Sub
 
     Private Sub conectar()
-        'Dim servidor As String = "localhost"
-        Dim servidor As String = "192.168.68.101"
+        Dim servidor As String = "localhost"
+        'Dim servidor As String = "192.168.68.101"
         Dim baseDatos As String = "givemefuel"
         Dim userid As String = "root"
         Dim clave As String = ""
@@ -133,6 +133,8 @@ Public Class factura
         Me.facExeTb.Text = 0
         Me.facCanTB.Text = 0
 
+        Me.desc1Tb.Text = "Diessel"
+
     End Sub
     Sub limpiar()
 
@@ -201,11 +203,11 @@ Public Class factura
         Dim cfacCanTB As Double = 0
         Double.TryParse(facCanTB.Text, cfacCanTB)
 
-        Dim perMes As Integer = 0
-        Integer.TryParse(perMesCB.Text, perMes)
+        'Dim perMes As Integer = 0
+        'Integer.TryParse(perMesCB.Text, perMes)
 
-        Dim perSem As Integer = 0
-        Integer.TryParse(perSemCB.Text, perSem)
+        'Dim perSem As Integer = 0
+        'Integer.TryParse(perSemCB.Text, perSem)
 
         Dim cpreUni1Tb As Double = 0
         Double.TryParse(preUni1Tb.Text, cpreUni1Tb)
@@ -237,8 +239,8 @@ Public Class factura
             guardar.Parameters.AddWithValue("@descrip2", desc2Tb.Text)
             guardar.Parameters.AddWithValue("@total1", ctota1Tb)
             guardar.Parameters.AddWithValue("@total2", ctota2Tb)
-            guardar.Parameters.AddWithValue("@perMes", perMes)
-            guardar.Parameters.AddWithValue("@PerSem", perSem)
+            guardar.Parameters.AddWithValue("@perMes", perMesCB.Text)
+            guardar.Parameters.AddWithValue("@PerSem", perSemCB.Text)
             guardar.Parameters.AddWithValue("@preUni1Tb", cpreUni1Tb)
             guardar.Parameters.AddWithValue("@preUni2Tb", cpreUni2Tb)
             guardar.Parameters.AddWithValue("@codProp", codPropTb.Text)
@@ -513,7 +515,7 @@ Public Class factura
                 e.Graphics.DrawString("PROPIETARIO: " & propTb.Text, DFont, Brushes.Black, 10, 320)
                 e.Graphics.DrawString("RTN: " & rtnTb.Text, DFont, Brushes.Black, 10, 340)
 
-                e.Graphics.DrawString("PERIODO " & perMesCB.Text & perSemCB.Text, DFont, Brushes.Black, 470, 300)
+                e.Graphics.DrawString("PERIODO:  " & perMesCB.Text & " - " & perSemCB.Text, DFont, Brushes.Black, 470, 300)
 
 
 
@@ -591,10 +593,17 @@ Public Class factura
         End Try
     End Sub
     Private Sub ButtonX4_Click(sender As Object, e As EventArgs) Handles PreviaBtn.Click
-        PanelP.Enabled = True
-        PrintPreviewFactura.Document = PrintFactura()
-        PrintPreviewFactura.ShowDialog()
-        CancelarBtn.Enabled = True
+
+        If con.State = ConnectionState.Closed Then
+            con.Open()
+        End If
+        Try
+            PanelP.Enabled = True
+            PrintPreviewFactura.Document = PrintFactura()
+            PrintPreviewFactura.ShowDialog()
+            CancelarBtn.Enabled = True
+        Catch
+        End Try
     End Sub
 
     Private Sub CancelarBtn_Click(sender As Object, e As EventArgs) Handles CancelarBtn.Click
@@ -773,7 +782,7 @@ Public Class factura
 
     End Sub
 
-    Private Sub ButtonX4_Click_1(sender As Object, e As EventArgs) Handles ButtonX4.Click
+    Private Sub ButtonX4_Click_1(sender As Object, e As EventArgs) Handles DelBtn.Click
         CodBusqTB.Text = ""
         empTb.Text = ""
         propTb.Text = ""
@@ -788,6 +797,8 @@ Public Class factura
     End Sub
 
     Private Sub CamDgv_Click(sender As Object, e As EventArgs) Handles CamDgv.Click
+        NuevoBtn.PerformClick()
+        CancelarBtn.PerformClick()
         limpiar()
 
         If Me.CamDgv.RowCount = 0 Then
@@ -808,5 +819,22 @@ Public Class factura
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         facTotTb.Text = facTotTb.Text.Replace(",", "")
+    End Sub
+    Private Sub PrintPreviewFactura_Leave(sender As Object, e As EventArgs) Handles PrintPreviewFactura.Leave
+        Me.CancelarBtn.PerformClick()
+    End Sub
+    Private Sub PrintPreviewFactura_FormClosed(sender As Object, e As FormClosedEventArgs) Handles PrintPreviewFactura.FormClosed
+        Me.PanelP.Enabled = False
+        Me.CancelarBtn.PerformClick()
+        medicion.CancelarBtn.Enabled = False
+    End Sub
+
+    Private Sub CodBusqTB_KeyDown(sender As Object, e As KeyEventArgs) Handles CodBusqTB.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            seleccion()
+        End If
+        If e.KeyCode = Keys.Delete Then
+            DelBtn.PerformClick()
+        End If
     End Sub
 End Class

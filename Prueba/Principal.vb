@@ -183,4 +183,9 @@ Public Class Principal
     Private Sub PanelForm_Paint(sender As Object, e As PaintEventArgs) Handles PanelForm.Paint
 
     End Sub
+
+    Private Sub ButtonX11_Click(sender As Object, e As EventArgs) Handles ButtonX11.Click
+        abrirformulario(New consumo)
+        Panel1.Visible = False
+    End Sub
 End Class

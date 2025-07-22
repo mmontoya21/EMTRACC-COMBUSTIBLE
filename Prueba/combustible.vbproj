@@ -151,6 +151,12 @@
     <Compile Include="propietario.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="consumo.Designer.vb">
+      <DependentUpon>consumo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="consumo.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="tanque.Designer.vb">
       <DependentUpon>tanque.vb</DependentUpon>
     </Compile>
@@ -197,6 +203,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="propietario.resx">
       <DependentUpon>propietario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="consumo.resx">
+      <DependentUpon>consumo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="tanque.resx">
       <DependentUpon>tanque.vb</DependentUpon>
