@@ -14,7 +14,7 @@ Public Class factura
     Private m_tmr As Timer
     Public img As Image
 
-    Private isMouseDown As Boolean = False
+    Private isMouseDown As Boolean = True
     Private mouseOffset As Point
 
     Dim colorFondo = Color.FromArgb(106, 126, 168)
@@ -44,8 +44,8 @@ Public Class factura
     End Sub
 
     Private Sub conectar()
-        Dim servidor As String = "localhost"
-        'Dim servidor As String = "192.168.68.101"
+        'Dim servidor As String = "localhost"
+        Dim servidor As String = "192.168.68.101"
         Dim baseDatos As String = "givemefuel"
         Dim userid As String = "root"
         Dim clave As String = ""
@@ -836,5 +836,15 @@ Public Class factura
         If e.KeyCode = Keys.Delete Then
             DelBtn.PerformClick()
         End If
+    End Sub
+
+    Private Sub btnPaste_Click(sender As Object, e As EventArgs) Handles btnPaste.Click
+        If Clipboard.ContainsText() Then
+            comentaTb.Text = Clipboard.GetText()
+        End If
+    End Sub
+
+    Private Sub ButtonX4_Click_2(sender As Object, e As EventArgs) Handles ButtonX4.Click
+        comentaTb.Text = ""
     End Sub
 End Class

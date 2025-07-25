@@ -51,7 +51,8 @@ Public Class propietario
 
             con.Open()
 
-            MsgBox("Sistema conectado")
+            'MsgBox("Sistema conectado")
+            MessageBox.Show("El sistema esá conectado", "Combustible")
 
         Catch ex As Exception
 
