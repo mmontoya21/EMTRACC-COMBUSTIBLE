@@ -180,4 +180,13 @@ Public Class Principal
         abrirformulario(New consumo)
         Panel1.Visible = False
     End Sub
+
+    Private Sub ButtonX12_Click(sender As Object, e As EventArgs) Handles ButtonX12.Click
+
+    End Sub
+
+    Private Sub PictureBox1_DoubleClick(sender As Object, e As EventArgs) Handles PictureBox1.DoubleClick
+        abrirformulario(New conexion)
+        Panel1.Visible = False
+    End Sub
 End Class

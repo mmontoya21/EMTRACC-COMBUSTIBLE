@@ -134,6 +134,7 @@ Public Class factura
         Me.facCanTB.Text = 0
 
         Me.desc1Tb.Text = "Diessel"
+        Me.desc2Tb.Text = "Diessel"
 
     End Sub
     Sub limpiar()
@@ -846,5 +847,179 @@ Public Class factura
 
     Private Sub ButtonX4_Click_2(sender As Object, e As EventArgs) Handles ButtonX4.Click
         comentaTb.Text = ""
+    End Sub
+
+    Private Sub cant1Tb_KeyDown(sender As Object, e As KeyEventArgs) Handles cant1Tb.KeyDown
+        Try
+            Select Case e.KeyData
+                Case Keys.Enter
+                    desc1Tb.Select()
+                Case Keys.Tab
+                    desc1Tb.Select()
+            End Select
+        Catch
+        End Try
+    End Sub
+
+    Private Sub desc1Tb_KeyDown(sender As Object, e As KeyEventArgs) Handles desc1Tb.KeyDown
+        Try
+            Select Case e.KeyData
+                Case Keys.Enter
+                    preUni1Tb.Select()
+                Case Keys.Tab
+                    preUni1Tb.Select()
+            End Select
+        Catch
+        End Try
+    End Sub
+
+    Private Sub preUni1Tb_KeyDown(sender As Object, e As KeyEventArgs) Handles preUni1Tb.KeyDown
+        Try
+            Select Case e.KeyData
+                Case Keys.Enter
+                    tota1Tb.Select()
+                Case Keys.Tab
+                    tota1Tb.Select()
+            End Select
+        Catch
+        End Try
+    End Sub
+
+    Private Sub tota1Tb_KeyDown(sender As Object, e As KeyEventArgs) Handles tota1Tb.KeyDown
+        Try
+            Select Case e.KeyData
+                Case Keys.Enter
+                    cant2Tb.Select()
+                Case Keys.Tab
+                    cant2Tb.Select()
+            End Select
+        Catch
+        End Try
+    End Sub
+
+    Private Sub cant2Tb_KeyDown(sender As Object, e As KeyEventArgs) Handles cant2Tb.KeyDown
+        Try
+            Select Case e.KeyData
+                Case Keys.Enter
+                    desc2Tb.Select()
+                Case Keys.Tab
+                    desc2Tb.Select()
+            End Select
+        Catch
+        End Try
+    End Sub
+
+    Private Sub desc2Tb_KeyDown(sender As Object, e As KeyEventArgs) Handles desc2Tb.KeyDown
+        Try
+            Select Case e.KeyData
+                Case Keys.Enter
+                    preUni2Tb.Select()
+                Case Keys.Tab
+                    preUni2Tb.Select()
+            End Select
+        Catch
+        End Try
+    End Sub
+
+    Private Sub preUni2Tb_KeyDown(sender As Object, e As KeyEventArgs) Handles preUni2Tb.KeyDown
+        Try
+            Select Case e.KeyData
+                Case Keys.Enter
+                    tota2Tb.Select()
+                Case Keys.Tab
+                    tota2Tb.Select()
+            End Select
+        Catch
+        End Try
+    End Sub
+
+    Private Sub tota2Tb_KeyDown(sender As Object, e As KeyEventArgs) Handles tota2Tb.KeyDown
+        Try
+            Select Case e.KeyData
+                Case Keys.Enter
+                    cant1Tb.Select()
+                Case Keys.Tab
+                    cant1Tb.Select()
+            End Select
+        Catch
+        End Try
+    End Sub
+
+    Private Sub cant1Tb_Enter(sender As Object, e As EventArgs) Handles cant1Tb.Enter
+        cant1Tb.BackColor = Color.Yellow
+        cant1Tb.ForeColor = Color.Black
+    End Sub
+
+    Private Sub cant1Tb_Leave(sender As Object, e As EventArgs) Handles cant1Tb.Leave
+        cant1Tb.BackColor = Color.White
+        cant1Tb.ForeColor = Color.Black
+    End Sub
+
+    Private Sub desc1Tb_Enter(sender As Object, e As EventArgs) Handles desc1Tb.Enter
+        desc1Tb.BackColor = Color.Yellow
+        desc1Tb.ForeColor = Color.Black
+    End Sub
+
+    Private Sub desc1Tb_Leave(sender As Object, e As EventArgs) Handles desc1Tb.Leave
+        desc1Tb.BackColor = Color.White
+        desc1Tb.ForeColor = Color.Black
+    End Sub
+
+    Private Sub preUni1Tb_Enter(sender As Object, e As EventArgs) Handles preUni1Tb.Enter
+        preUni1Tb.BackColor = Color.Yellow
+        preUni1Tb.ForeColor = Color.Black
+    End Sub
+
+    Private Sub preUni1Tb_Leave(sender As Object, e As EventArgs) Handles preUni1Tb.Leave
+        preUni1Tb.BackColor = Color.White
+        preUni1Tb.ForeColor = Color.Black
+    End Sub
+
+    Private Sub tota1Tb_Enter(sender As Object, e As EventArgs) Handles tota1Tb.Enter
+        tota1Tb.BackColor = Color.Yellow
+        tota1Tb.ForeColor = Color.Black
+    End Sub
+    Private Sub tota1Tb_Leave(sender As Object, e As EventArgs) Handles tota1Tb.Leave
+        tota1Tb.BackColor = Color.White
+        tota1Tb.ForeColor = Color.Black
+    End Sub
+    Private Sub cant12b_Enter(sender As Object, e As EventArgs) Handles cant2Tb.Enter
+        cant2Tb.BackColor = Color.Yellow
+        cant2Tb.ForeColor = Color.Black
+    End Sub
+
+    Private Sub cant2Tb_Leave(sender As Object, e As EventArgs) Handles cant2Tb.Leave
+        cant2Tb.BackColor = Color.White
+        cant2Tb.ForeColor = Color.Black
+    End Sub
+
+    Private Sub desc2Tb_Enter(sender As Object, e As EventArgs) Handles desc2Tb.Enter
+        desc2Tb.BackColor = Color.Yellow
+        desc2Tb.ForeColor = Color.Black
+    End Sub
+
+    Private Sub desc2Tb_Leave(sender As Object, e As EventArgs) Handles desc2Tb.Leave
+        desc2Tb.BackColor = Color.White
+        desc2Tb.ForeColor = Color.Black
+    End Sub
+
+    Private Sub preUni2Tb_Enter(sender As Object, e As EventArgs) Handles preUni2Tb.Enter
+        preUni2Tb.BackColor = Color.Yellow
+        preUni2Tb.ForeColor = Color.Black
+    End Sub
+
+    Private Sub preUni2Tb_Leave(sender As Object, e As EventArgs) Handles preUni2Tb.Leave
+        preUni2Tb.BackColor = Color.White
+        preUni2Tb.ForeColor = Color.Black
+    End Sub
+
+    Private Sub tota2Tb_Enter(sender As Object, e As EventArgs) Handles tota2Tb.Enter
+        tota2Tb.BackColor = Color.Yellow
+        tota2Tb.ForeColor = Color.Black
+    End Sub
+
+    Private Sub tota2Tb_Leave(sender As Object, e As EventArgs) Handles tota2Tb.Leave
+        tota2Tb.BackColor = Color.White
+        tota2Tb.ForeColor = Color.Black
     End Sub
 End Class

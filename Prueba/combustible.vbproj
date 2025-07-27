@@ -86,6 +86,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Aletras.vb" />
+    <Compile Include="conexion.Designer.vb">
+      <DependentUpon>conexion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="conexion.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="camiones.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +179,9 @@
   <ItemGroup>
     <EmbeddedResource Include="acceso.resx">
       <DependentUpon>acceso.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="conexion.resx">
+      <DependentUpon>conexion.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="camiones.resx">
       <DependentUpon>camiones.vb</DependentUpon>
