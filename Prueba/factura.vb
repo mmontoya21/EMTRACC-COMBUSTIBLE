@@ -44,8 +44,8 @@ Public Class factura
     End Sub
 
     Private Sub conectar()
-        'Dim servidor As String = "localhost"
-        Dim servidor As String = "192.168.68.101"
+        Dim servidor As String = "localhost"
+        'Dim servidor As String = "192.168.68.101"
         Dim baseDatos As String = "givemefuel"
         Dim userid As String = "root"
         Dim clave As String = ""
@@ -263,6 +263,10 @@ Public Class factura
         PanelP.Enabled = False
         CamDgv.Enabled = True
         Me.GuardarBtn.Visible = True
+
+        Dim query As String = "SELECT * FROM factura ORDER BY idFactura DESC LIMIT 1"
+        CamDgv.CurrentCell = CamDgv.Rows(CamDgv.Rows.Count - 1).Cells(0)
+
     End Sub
 
     Private Sub ModificarBtn_Click(sender As Object, e As EventArgs) Handles ModificarBtn.Click '============  MODIFICAR  ===========
@@ -600,8 +604,16 @@ Public Class factura
         End If
         Try
             PanelP.Enabled = True
-            PrintPreviewFactura.Document = PrintFactura()
+
+            'PrintPreviewFactura.Document = PrintFactura()
+            PrintFactura.PrinterSettings.Copies = 2
+
+            ' Mostrar vista previa
+            PrintPreviewFactura.Document = PrintFactura
             PrintPreviewFactura.ShowDialog()
+
+
+
             CancelarBtn.Enabled = True
         Catch
         End Try
@@ -1021,5 +1033,9 @@ Public Class factura
     Private Sub tota2Tb_Leave(sender As Object, e As EventArgs) Handles tota2Tb.Leave
         tota2Tb.BackColor = Color.White
         tota2Tb.ForeColor = Color.Black
+    End Sub
+
+    Private Sub ImprimirBt_Click(sender As Object, e As EventArgs) Handles ImprimirBt.Click
+
     End Sub
 End Class

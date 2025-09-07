@@ -22,7 +22,7 @@ Partial Class factura
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(factura))
         Me.CancelarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.EliminarBtn = New DevComponents.DotNetBar.ButtonX()
@@ -31,6 +31,13 @@ Partial Class factura
         Me.GuardarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.ModificarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.PanelP = New System.Windows.Forms.Panel()
+        Me.LabelX17 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX11 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX20 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX16 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX21 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX13 = New DevComponents.DotNetBar.LabelX()
+        Me.LabelX1 = New DevComponents.DotNetBar.LabelX()
         Me.ButtonX4 = New DevComponents.DotNetBar.ButtonX()
         Me.btnPaste = New DevComponents.DotNetBar.ButtonX()
         Me.codPropTb = New DevComponents.DotNetBar.Controls.TextBoxX()
@@ -48,14 +55,9 @@ Partial Class factura
         Me.Transferencia = New DevComponents.Editors.ComboItem()
         Me.ButtonX1 = New DevComponents.DotNetBar.ButtonX()
         Me.LabelX18 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX17 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX19 = New DevComponents.DotNetBar.LabelX()
         Me.pLetras = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX11 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX4 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX20 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX16 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX21 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX10 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX3 = New DevComponents.DotNetBar.LabelX()
         Me.tota2Tb = New DevComponents.DotNetBar.Controls.TextBoxX()
@@ -73,13 +75,11 @@ Partial Class factura
         Me.empTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.tota1Tb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.cant1Tb = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.LabelX13 = New DevComponents.DotNetBar.LabelX()
         Me.nFacTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.LabelX7 = New DevComponents.DotNetBar.LabelX()
         Me.desc1Tb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.facCanTB = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.rtnTb = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.LabelX1 = New DevComponents.DotNetBar.LabelX()
         Me.propTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.ButtonX2 = New DevComponents.DotNetBar.ButtonX()
         Me.buscartxt = New DevComponents.DotNetBar.LabelX()
@@ -88,7 +88,7 @@ Partial Class factura
         Me.ButtonX6 = New DevComponents.DotNetBar.ButtonX()
         Me.LabelX14 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX15 = New DevComponents.DotNetBar.LabelX()
-        Me.ButtonX3 = New DevComponents.DotNetBar.ButtonX()
+        Me.ImprimirBt = New DevComponents.DotNetBar.ButtonX()
         Me.PreviaBtn = New DevComponents.DotNetBar.ButtonX()
         Me.CamDgv = New DevComponents.DotNetBar.Controls.DataGridViewX()
         Me.CodproBTb = New System.Windows.Forms.TextBox()
@@ -108,9 +108,11 @@ Partial Class factura
         '
         Me.CancelarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.CancelarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.CancelarBtn.Location = New System.Drawing.Point(535, 13)
+        Me.CancelarBtn.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CancelarBtn.Location = New System.Drawing.Point(434, 13)
         Me.CancelarBtn.Name = "CancelarBtn"
-        Me.CancelarBtn.Size = New System.Drawing.Size(82, 40)
+        Me.CancelarBtn.Shape = New DevComponents.DotNetBar.RoundRectangleShapeDescriptor(2, 2, 2, 10)
+        Me.CancelarBtn.Size = New System.Drawing.Size(82, 33)
         Me.CancelarBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.CancelarBtn.Symbol = ""
         Me.CancelarBtn.SymbolSize = 12.0!
@@ -121,9 +123,11 @@ Partial Class factura
         '
         Me.EliminarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.EliminarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.EliminarBtn.Location = New System.Drawing.Point(408, 16)
+        Me.EliminarBtn.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.EliminarBtn.Location = New System.Drawing.Point(345, 13)
         Me.EliminarBtn.Name = "EliminarBtn"
-        Me.EliminarBtn.Size = New System.Drawing.Size(71, 37)
+        Me.EliminarBtn.Shape = New DevComponents.DotNetBar.RoundRectangleShapeDescriptor(2, 2, 10, 2)
+        Me.EliminarBtn.Size = New System.Drawing.Size(83, 34)
         Me.EliminarBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.EliminarBtn.Symbol = ""
         Me.EliminarBtn.SymbolColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
@@ -135,9 +139,10 @@ Partial Class factura
         '
         Me.EditarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.EditarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.EditarBtn.Location = New System.Drawing.Point(125, 12)
+        Me.EditarBtn.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.EditarBtn.Location = New System.Drawing.Point(125, 13)
         Me.EditarBtn.Name = "EditarBtn"
-        Me.EditarBtn.Size = New System.Drawing.Size(82, 40)
+        Me.EditarBtn.Size = New System.Drawing.Size(82, 33)
         Me.EditarBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.EditarBtn.Symbol = ""
         Me.EditarBtn.SymbolSize = 12.0!
@@ -148,9 +153,11 @@ Partial Class factura
         '
         Me.NuevoBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.NuevoBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.NuevoBtn.Location = New System.Drawing.Point(37, 12)
+        Me.NuevoBtn.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.NuevoBtn.Location = New System.Drawing.Point(37, 13)
         Me.NuevoBtn.Name = "NuevoBtn"
-        Me.NuevoBtn.Size = New System.Drawing.Size(82, 38)
+        Me.NuevoBtn.Shape = New DevComponents.DotNetBar.RoundRectangleShapeDescriptor(2, 2, 10, 2)
+        Me.NuevoBtn.Size = New System.Drawing.Size(82, 33)
         Me.NuevoBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.NuevoBtn.Symbol = ""
         Me.NuevoBtn.SymbolSize = 12.0!
@@ -161,9 +168,11 @@ Partial Class factura
         '
         Me.GuardarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.GuardarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.GuardarBtn.Location = New System.Drawing.Point(212, 12)
+        Me.GuardarBtn.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GuardarBtn.Location = New System.Drawing.Point(212, 13)
         Me.GuardarBtn.Name = "GuardarBtn"
-        Me.GuardarBtn.Size = New System.Drawing.Size(82, 40)
+        Me.GuardarBtn.Shape = New DevComponents.DotNetBar.RoundRectangleShapeDescriptor(2, 2, 2, 10)
+        Me.GuardarBtn.Size = New System.Drawing.Size(82, 33)
         Me.GuardarBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.GuardarBtn.Symbol = ""
         Me.GuardarBtn.SymbolColor = System.Drawing.Color.Green
@@ -175,9 +184,11 @@ Partial Class factura
         '
         Me.ModificarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ModificarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.ModificarBtn.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ModificarBtn.Location = New System.Drawing.Point(212, 13)
         Me.ModificarBtn.Name = "ModificarBtn"
-        Me.ModificarBtn.Size = New System.Drawing.Size(82, 38)
+        Me.ModificarBtn.Shape = New DevComponents.DotNetBar.RoundRectangleShapeDescriptor(2, 2, 2, 10)
+        Me.ModificarBtn.Size = New System.Drawing.Size(82, 33)
         Me.ModificarBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.ModificarBtn.Symbol = ""
         Me.ModificarBtn.SymbolSize = 12.0!
@@ -186,6 +197,13 @@ Partial Class factura
         '
         'PanelP
         '
+        Me.PanelP.Controls.Add(Me.LabelX17)
+        Me.PanelP.Controls.Add(Me.LabelX11)
+        Me.PanelP.Controls.Add(Me.LabelX20)
+        Me.PanelP.Controls.Add(Me.LabelX16)
+        Me.PanelP.Controls.Add(Me.LabelX21)
+        Me.PanelP.Controls.Add(Me.LabelX13)
+        Me.PanelP.Controls.Add(Me.LabelX1)
         Me.PanelP.Controls.Add(Me.ButtonX4)
         Me.PanelP.Controls.Add(Me.btnPaste)
         Me.PanelP.Controls.Add(Me.codPropTb)
@@ -199,14 +217,9 @@ Partial Class factura
         Me.PanelP.Controls.Add(Me.tipoPagTb)
         Me.PanelP.Controls.Add(Me.ButtonX1)
         Me.PanelP.Controls.Add(Me.LabelX18)
-        Me.PanelP.Controls.Add(Me.LabelX17)
         Me.PanelP.Controls.Add(Me.LabelX19)
         Me.PanelP.Controls.Add(Me.pLetras)
-        Me.PanelP.Controls.Add(Me.LabelX11)
         Me.PanelP.Controls.Add(Me.LabelX4)
-        Me.PanelP.Controls.Add(Me.LabelX20)
-        Me.PanelP.Controls.Add(Me.LabelX16)
-        Me.PanelP.Controls.Add(Me.LabelX21)
         Me.PanelP.Controls.Add(Me.LabelX10)
         Me.PanelP.Controls.Add(Me.LabelX3)
         Me.PanelP.Controls.Add(Me.tota2Tb)
@@ -224,24 +237,120 @@ Partial Class factura
         Me.PanelP.Controls.Add(Me.empTb)
         Me.PanelP.Controls.Add(Me.tota1Tb)
         Me.PanelP.Controls.Add(Me.cant1Tb)
-        Me.PanelP.Controls.Add(Me.LabelX13)
         Me.PanelP.Controls.Add(Me.nFacTb)
         Me.PanelP.Controls.Add(Me.LabelX7)
         Me.PanelP.Controls.Add(Me.desc1Tb)
         Me.PanelP.Controls.Add(Me.facCanTB)
         Me.PanelP.Controls.Add(Me.rtnTb)
-        Me.PanelP.Controls.Add(Me.LabelX1)
         Me.PanelP.Controls.Add(Me.propTb)
-        Me.PanelP.Location = New System.Drawing.Point(12, 116)
+        Me.PanelP.Location = New System.Drawing.Point(12, 88)
         Me.PanelP.Name = "PanelP"
-        Me.PanelP.Size = New System.Drawing.Size(778, 621)
+        Me.PanelP.Size = New System.Drawing.Size(765, 638)
         Me.PanelP.TabIndex = 30
+        '
+        'LabelX17
+        '
+        '
+        '
+        '
+        Me.LabelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX17.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX17.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX17.Location = New System.Drawing.Point(587, 175)
+        Me.LabelX17.Name = "LabelX17"
+        Me.LabelX17.Size = New System.Drawing.Size(54, 23)
+        Me.LabelX17.TabIndex = 30
+        Me.LabelX17.Text = "Total"
+        '
+        'LabelX11
+        '
+        '
+        '
+        '
+        Me.LabelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX11.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX11.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX11.Location = New System.Drawing.Point(65, 175)
+        Me.LabelX11.Name = "LabelX11"
+        Me.LabelX11.Size = New System.Drawing.Size(78, 23)
+        Me.LabelX11.TabIndex = 30
+        Me.LabelX11.Text = "Cantidad"
+        '
+        'LabelX20
+        '
+        '
+        '
+        '
+        Me.LabelX20.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX20.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX20.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX20.Location = New System.Drawing.Point(456, 175)
+        Me.LabelX20.Name = "LabelX20"
+        Me.LabelX20.Size = New System.Drawing.Size(114, 23)
+        Me.LabelX20.TabIndex = 30
+        Me.LabelX20.Text = "Precio Unit."
+        '
+        'LabelX16
+        '
+        '
+        '
+        '
+        Me.LabelX16.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX16.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX16.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX16.Location = New System.Drawing.Point(171, 175)
+        Me.LabelX16.Name = "LabelX16"
+        Me.LabelX16.Size = New System.Drawing.Size(114, 23)
+        Me.LabelX16.TabIndex = 30
+        Me.LabelX16.Text = "Descripción"
+        '
+        'LabelX21
+        '
+        '
+        '
+        '
+        Me.LabelX21.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX21.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX21.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX21.Location = New System.Drawing.Point(22, 112)
+        Me.LabelX21.Name = "LabelX21"
+        Me.LabelX21.Size = New System.Drawing.Size(36, 23)
+        Me.LabelX21.TabIndex = 30
+        Me.LabelX21.Text = "Cod."
+        '
+        'LabelX13
+        '
+        '
+        '
+        '
+        Me.LabelX13.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX13.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX13.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX13.Location = New System.Drawing.Point(16, 53)
+        Me.LabelX13.Name = "LabelX13"
+        Me.LabelX13.Size = New System.Drawing.Size(82, 23)
+        Me.LabelX13.TabIndex = 31
+        Me.LabelX13.Text = "Empresa"
+        '
+        'LabelX1
+        '
+        '
+        '
+        '
+        Me.LabelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX1.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX1.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX1.Location = New System.Drawing.Point(9, 3)
+        Me.LabelX1.Name = "LabelX1"
+        Me.LabelX1.Size = New System.Drawing.Size(89, 23)
+        Me.LabelX1.TabIndex = 31
+        Me.LabelX1.Text = "Factura N°"
         '
         'ButtonX4
         '
         Me.ButtonX4.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX4.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX4.Location = New System.Drawing.Point(560, 308)
+        Me.ButtonX4.Location = New System.Drawing.Point(553, 292)
         Me.ButtonX4.Name = "ButtonX4"
         Me.ButtonX4.Size = New System.Drawing.Size(100, 23)
         Me.ButtonX4.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -252,7 +361,7 @@ Partial Class factura
         '
         Me.btnPaste.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.btnPaste.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnPaste.Location = New System.Drawing.Point(422, 308)
+        Me.btnPaste.Location = New System.Drawing.Point(415, 292)
         Me.btnPaste.Name = "btnPaste"
         Me.btnPaste.Size = New System.Drawing.Size(132, 23)
         Me.btnPaste.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -261,13 +370,21 @@ Partial Class factura
         '
         'codPropTb
         '
+        Me.codPropTb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.codPropTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.codPropTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.codPropTb.Border.BorderBottomWidth = 2
+        Me.codPropTb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.codPropTb.Border.BorderLeftWidth = 2
+        Me.codPropTb.Border.BorderRightWidth = 2
+        Me.codPropTb.Border.BorderTopWidth = 2
         Me.codPropTb.Border.Class = "TextBoxBorder"
         Me.codPropTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.codPropTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.codPropTb.Location = New System.Drawing.Point(297, 122)
+        Me.codPropTb.Location = New System.Drawing.Point(22, 130)
         Me.codPropTb.MaxLength = 60
         Me.codPropTb.Name = "codPropTb"
         Me.codPropTb.PreventEnterBeep = True
@@ -276,13 +393,21 @@ Partial Class factura
         '
         'preUni2Tb
         '
+        Me.preUni2Tb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.preUni2Tb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.preUni2Tb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.preUni2Tb.Border.BorderBottomWidth = 2
+        Me.preUni2Tb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.preUni2Tb.Border.BorderLeftWidth = 2
+        Me.preUni2Tb.Border.BorderRightWidth = 2
+        Me.preUni2Tb.Border.BorderTopWidth = 2
         Me.preUni2Tb.Border.Class = "TextBoxBorder"
         Me.preUni2Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.preUni2Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.preUni2Tb.Location = New System.Drawing.Point(454, 247)
+        Me.preUni2Tb.Location = New System.Drawing.Point(454, 231)
         Me.preUni2Tb.Name = "preUni2Tb"
         Me.preUni2Tb.PreventEnterBeep = True
         Me.preUni2Tb.Size = New System.Drawing.Size(120, 30)
@@ -290,13 +415,21 @@ Partial Class factura
         '
         'preUni1Tb
         '
+        Me.preUni1Tb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.preUni1Tb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.preUni1Tb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.preUni1Tb.Border.BorderBottomWidth = 2
+        Me.preUni1Tb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.preUni1Tb.Border.BorderLeftWidth = 2
+        Me.preUni1Tb.Border.BorderRightWidth = 2
+        Me.preUni1Tb.Border.BorderTopWidth = 2
         Me.preUni1Tb.Border.Class = "TextBoxBorder"
         Me.preUni1Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.preUni1Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.preUni1Tb.Location = New System.Drawing.Point(454, 211)
+        Me.preUni1Tb.Location = New System.Drawing.Point(454, 195)
         Me.preUni1Tb.Name = "preUni1Tb"
         Me.preUni1Tb.PreventEnterBeep = True
         Me.preUni1Tb.Size = New System.Drawing.Size(120, 30)
@@ -313,7 +446,7 @@ Partial Class factura
         Me.fechaPk.ButtonDropDown.Visible = True
         Me.fechaPk.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fechaPk.IsPopupCalendarOpen = False
-        Me.fechaPk.Location = New System.Drawing.Point(562, 17)
+        Me.fechaPk.Location = New System.Drawing.Point(564, 27)
         '
         '
         '
@@ -349,38 +482,44 @@ Partial Class factura
         '
         'Line2
         '
-        Me.Line2.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Line2.Location = New System.Drawing.Point(482, 167)
+        Me.Line2.ForeColor = System.Drawing.Color.DarkSlateBlue
+        Me.Line2.Location = New System.Drawing.Point(3, 158)
         Me.Line2.Name = "Line2"
-        Me.Line2.Size = New System.Drawing.Size(264, 8)
+        Me.Line2.Size = New System.Drawing.Size(736, 13)
         Me.Line2.TabIndex = 40
         Me.Line2.Text = "Line2"
+        Me.Line2.Thickness = 2
         '
         'Line1
         '
-        Me.Line1.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Line1.Location = New System.Drawing.Point(482, 90)
+        Me.Line1.ForeColor = System.Drawing.Color.DarkSlateBlue
+        Me.Line1.Location = New System.Drawing.Point(6, 111)
         Me.Line1.Name = "Line1"
-        Me.Line1.Size = New System.Drawing.Size(264, 8)
+        Me.Line1.Size = New System.Drawing.Size(733, 10)
         Me.Line1.TabIndex = 39
         Me.Line1.Text = "Line1"
+        Me.Line1.Thickness = 2
         '
         'perSemCB
         '
+        Me.perSemCB.BackColor = System.Drawing.Color.SteelBlue
+        Me.perSemCB.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.perSemCB.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.perSemCB.FormattingEnabled = True
         Me.perSemCB.Items.AddRange(New Object() {"01", "02", "03", "04", "05"})
-        Me.perSemCB.Location = New System.Drawing.Point(673, 135)
+        Me.perSemCB.Location = New System.Drawing.Point(669, 127)
         Me.perSemCB.Name = "perSemCB"
         Me.perSemCB.Size = New System.Drawing.Size(64, 26)
         Me.perSemCB.TabIndex = 37
         '
         'perMesCB
         '
+        Me.perMesCB.BackColor = System.Drawing.Color.SteelBlue
+        Me.perMesCB.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.perMesCB.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.perMesCB.FormattingEnabled = True
         Me.perMesCB.Items.AddRange(New Object() {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"})
-        Me.perMesCB.Location = New System.Drawing.Point(673, 103)
+        Me.perMesCB.Location = New System.Drawing.Point(459, 127)
         Me.perMesCB.Name = "perMesCB"
         Me.perMesCB.Size = New System.Drawing.Size(64, 26)
         Me.perMesCB.TabIndex = 36
@@ -393,7 +532,7 @@ Partial Class factura
         Me.tipoPagTb.FormattingEnabled = True
         Me.tipoPagTb.ItemHeight = 18
         Me.tipoPagTb.Items.AddRange(New Object() {Me.Contado, Me.Credito, Me.Tarjeta, Me.Transferencia})
-        Me.tipoPagTb.Location = New System.Drawing.Point(564, 58)
+        Me.tipoPagTb.Location = New System.Drawing.Point(564, 83)
         Me.tipoPagTb.Name = "tipoPagTb"
         Me.tipoPagTb.Size = New System.Drawing.Size(173, 24)
         Me.tipoPagTb.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -423,7 +562,7 @@ Partial Class factura
         '
         Me.ButtonX1.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX1.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX1.Location = New System.Drawing.Point(10, 211)
+        Me.ButtonX1.Location = New System.Drawing.Point(10, 195)
         Me.ButtonX1.Name = "ButtonX1"
         Me.ButtonX1.Size = New System.Drawing.Size(43, 30)
         Me.ButtonX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -436,26 +575,14 @@ Partial Class factura
         '
         '
         Me.LabelX18.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX18.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX18.Location = New System.Drawing.Point(9, 305)
+        Me.LabelX18.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX18.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX18.Location = New System.Drawing.Point(8, 297)
         Me.LabelX18.Name = "LabelX18"
         Me.LabelX18.Size = New System.Drawing.Size(86, 23)
         Me.LabelX18.TabIndex = 30
         Me.LabelX18.Text = "Comentario"
         Me.LabelX18.TextAlignment = System.Drawing.StringAlignment.Far
-        '
-        'LabelX17
-        '
-        '
-        '
-        '
-        Me.LabelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX17.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX17.Location = New System.Drawing.Point(608, 186)
-        Me.LabelX17.Name = "LabelX17"
-        Me.LabelX17.Size = New System.Drawing.Size(54, 23)
-        Me.LabelX17.TabIndex = 30
-        Me.LabelX17.Text = "Total"
         '
         'LabelX19
         '
@@ -463,10 +590,11 @@ Partial Class factura
         '
         '
         Me.LabelX19.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX19.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX19.Location = New System.Drawing.Point(6, 283)
+        Me.LabelX19.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX19.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX19.Location = New System.Drawing.Point(6, 267)
         Me.LabelX19.Name = "LabelX19"
-        Me.LabelX19.Size = New System.Drawing.Size(96, 23)
+        Me.LabelX19.Size = New System.Drawing.Size(117, 23)
         Me.LabelX19.TabIndex = 30
         Me.LabelX19.Text = "Cantd. Letras:"
         Me.LabelX19.TextAlignment = System.Drawing.StringAlignment.Far
@@ -479,24 +607,11 @@ Partial Class factura
         Me.pLetras.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.pLetras.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.pLetras.ForeColor = System.Drawing.Color.Maroon
-        Me.pLetras.Location = New System.Drawing.Point(104, 281)
+        Me.pLetras.Location = New System.Drawing.Point(129, 267)
         Me.pLetras.Name = "pLetras"
-        Me.pLetras.Size = New System.Drawing.Size(664, 23)
+        Me.pLetras.Size = New System.Drawing.Size(631, 23)
         Me.pLetras.TabIndex = 30
         Me.pLetras.Text = "-"
-        '
-        'LabelX11
-        '
-        '
-        '
-        '
-        Me.LabelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX11.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX11.Location = New System.Drawing.Point(75, 186)
-        Me.LabelX11.Name = "LabelX11"
-        Me.LabelX11.Size = New System.Drawing.Size(78, 23)
-        Me.LabelX11.TabIndex = 30
-        Me.LabelX11.Text = "Cantidad"
         '
         'LabelX4
         '
@@ -504,52 +619,13 @@ Partial Class factura
         '
         '
         Me.LabelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX4.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX4.Location = New System.Drawing.Point(678, 326)
+        Me.LabelX4.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX4.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX4.Location = New System.Drawing.Point(669, 310)
         Me.LabelX4.Name = "LabelX4"
         Me.LabelX4.Size = New System.Drawing.Size(72, 23)
         Me.LabelX4.TabIndex = 30
         Me.LabelX4.Text = "Cantidad"
-        '
-        'LabelX20
-        '
-        '
-        '
-        '
-        Me.LabelX20.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX20.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX20.Location = New System.Drawing.Point(459, 186)
-        Me.LabelX20.Name = "LabelX20"
-        Me.LabelX20.Size = New System.Drawing.Size(114, 23)
-        Me.LabelX20.TabIndex = 30
-        Me.LabelX20.Text = "Precio Unit."
-        '
-        'LabelX16
-        '
-        '
-        '
-        '
-        Me.LabelX16.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX16.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX16.Location = New System.Drawing.Point(190, 186)
-        Me.LabelX16.Name = "LabelX16"
-        Me.LabelX16.Size = New System.Drawing.Size(114, 23)
-        Me.LabelX16.TabIndex = 30
-        Me.LabelX16.Text = "Descripción"
-        '
-        'LabelX21
-        '
-        '
-        '
-        '
-        Me.LabelX21.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX21.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX21.Location = New System.Drawing.Point(254, 121)
-        Me.LabelX21.Name = "LabelX21"
-        Me.LabelX21.Size = New System.Drawing.Size(36, 23)
-        Me.LabelX21.TabIndex = 30
-        Me.LabelX21.Text = "Cod."
-        Me.LabelX21.TextAlignment = System.Drawing.StringAlignment.Far
         '
         'LabelX10
         '
@@ -557,13 +633,13 @@ Partial Class factura
         '
         '
         Me.LabelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX10.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX10.Location = New System.Drawing.Point(55, 121)
+        Me.LabelX10.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX10.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX10.Location = New System.Drawing.Point(377, 55)
         Me.LabelX10.Name = "LabelX10"
         Me.LabelX10.Size = New System.Drawing.Size(36, 23)
         Me.LabelX10.TabIndex = 30
         Me.LabelX10.Text = "RTN"
-        Me.LabelX10.TextAlignment = System.Drawing.StringAlignment.Far
         '
         'LabelX3
         '
@@ -571,23 +647,31 @@ Partial Class factura
         '
         '
         Me.LabelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX3.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX3.Location = New System.Drawing.Point(9, 84)
+        Me.LabelX3.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX3.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX3.Location = New System.Drawing.Point(207, 1)
         Me.LabelX3.Name = "LabelX3"
-        Me.LabelX3.Size = New System.Drawing.Size(82, 23)
+        Me.LabelX3.Size = New System.Drawing.Size(99, 23)
         Me.LabelX3.TabIndex = 30
         Me.LabelX3.Text = "Propietario"
-        Me.LabelX3.TextAlignment = System.Drawing.StringAlignment.Far
         '
         'tota2Tb
         '
+        Me.tota2Tb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.tota2Tb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.tota2Tb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.tota2Tb.Border.BorderBottomWidth = 2
+        Me.tota2Tb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.tota2Tb.Border.BorderLeftWidth = 2
+        Me.tota2Tb.Border.BorderRightWidth = 2
+        Me.tota2Tb.Border.BorderTopWidth = 2
         Me.tota2Tb.Border.Class = "TextBoxBorder"
         Me.tota2Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.tota2Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tota2Tb.Location = New System.Drawing.Point(580, 247)
+        Me.tota2Tb.Location = New System.Drawing.Point(580, 231)
         Me.tota2Tb.MaxLength = 6
         Me.tota2Tb.Name = "tota2Tb"
         Me.tota2Tb.PreventEnterBeep = True
@@ -596,13 +680,21 @@ Partial Class factura
         '
         'cant2Tb
         '
+        Me.cant2Tb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.cant2Tb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.cant2Tb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.cant2Tb.Border.BorderBottomWidth = 2
+        Me.cant2Tb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.cant2Tb.Border.BorderLeftWidth = 2
+        Me.cant2Tb.Border.BorderRightWidth = 2
+        Me.cant2Tb.Border.BorderTopWidth = 2
         Me.cant2Tb.Border.Class = "TextBoxBorder"
         Me.cant2Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.cant2Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cant2Tb.Location = New System.Drawing.Point(59, 247)
+        Me.cant2Tb.Location = New System.Drawing.Point(59, 231)
         Me.cant2Tb.MaxLength = 6
         Me.cant2Tb.Name = "cant2Tb"
         Me.cant2Tb.PreventEnterBeep = True
@@ -611,13 +703,21 @@ Partial Class factura
         '
         'facExeTb
         '
+        Me.facExeTb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.facExeTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.facExeTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.facExeTb.Border.BorderBottomWidth = 2
+        Me.facExeTb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.facExeTb.Border.BorderLeftWidth = 2
+        Me.facExeTb.Border.BorderRightWidth = 2
+        Me.facExeTb.Border.BorderTopWidth = 2
         Me.facExeTb.Border.Class = "TextBoxBorder"
         Me.facExeTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.facExeTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.facExeTb.Location = New System.Drawing.Point(674, 406)
+        Me.facExeTb.Location = New System.Drawing.Point(665, 390)
         Me.facExeTb.MaxLength = 20
         Me.facExeTb.Name = "facExeTb"
         Me.facExeTb.PreventEnterBeep = True
@@ -630,8 +730,9 @@ Partial Class factura
         '
         '
         Me.LabelX5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX5.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX5.Location = New System.Drawing.Point(679, 386)
+        Me.LabelX5.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX5.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX5.Location = New System.Drawing.Point(670, 370)
         Me.LabelX5.Name = "LabelX5"
         Me.LabelX5.Size = New System.Drawing.Size(54, 23)
         Me.LabelX5.TabIndex = 31
@@ -639,13 +740,21 @@ Partial Class factura
         '
         'desc2Tb
         '
+        Me.desc2Tb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.desc2Tb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.desc2Tb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.desc2Tb.Border.BorderBottomWidth = 2
+        Me.desc2Tb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.desc2Tb.Border.BorderLeftWidth = 2
+        Me.desc2Tb.Border.BorderRightWidth = 2
+        Me.desc2Tb.Border.BorderTopWidth = 2
         Me.desc2Tb.Border.Class = "TextBoxBorder"
         Me.desc2Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.desc2Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.desc2Tb.Location = New System.Drawing.Point(164, 247)
+        Me.desc2Tb.Location = New System.Drawing.Point(164, 231)
         Me.desc2Tb.MaxLength = 45
         Me.desc2Tb.Name = "desc2Tb"
         Me.desc2Tb.PreventEnterBeep = True
@@ -654,13 +763,21 @@ Partial Class factura
         '
         'facTotTb
         '
+        Me.facTotTb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.facTotTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.facTotTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.facTotTb.Border.BorderBottomWidth = 2
+        Me.facTotTb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.facTotTb.Border.BorderLeftWidth = 2
+        Me.facTotTb.Border.BorderRightWidth = 2
+        Me.facTotTb.Border.BorderTopWidth = 2
         Me.facTotTb.Border.Class = "TextBoxBorder"
         Me.facTotTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.facTotTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.facTotTb.Location = New System.Drawing.Point(674, 471)
+        Me.facTotTb.Location = New System.Drawing.Point(665, 455)
         Me.facTotTb.MaxLength = 20
         Me.facTotTb.Name = "facTotTb"
         Me.facTotTb.PreventEnterBeep = True
@@ -673,8 +790,9 @@ Partial Class factura
         '
         '
         Me.LabelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX8.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX8.Location = New System.Drawing.Point(680, 446)
+        Me.LabelX8.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX8.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX8.Location = New System.Drawing.Point(671, 430)
         Me.LabelX8.Name = "LabelX8"
         Me.LabelX8.Size = New System.Drawing.Size(54, 23)
         Me.LabelX8.TabIndex = 31
@@ -686,13 +804,13 @@ Partial Class factura
         '
         '
         Me.LabelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX12.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX12.Location = New System.Drawing.Point(581, 138)
+        Me.LabelX12.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX12.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX12.Location = New System.Drawing.Point(603, 130)
         Me.LabelX12.Name = "LabelX12"
-        Me.LabelX12.Size = New System.Drawing.Size(86, 23)
+        Me.LabelX12.Size = New System.Drawing.Size(60, 23)
         Me.LabelX12.TabIndex = 31
         Me.LabelX12.Text = "Semana"
-        Me.LabelX12.TextAlignment = System.Drawing.StringAlignment.Far
         '
         'LabelX9
         '
@@ -700,13 +818,13 @@ Partial Class factura
         '
         '
         Me.LabelX9.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX9.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX9.Location = New System.Drawing.Point(581, 104)
+        Me.LabelX9.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX9.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX9.Location = New System.Drawing.Point(407, 128)
         Me.LabelX9.Name = "LabelX9"
-        Me.LabelX9.Size = New System.Drawing.Size(86, 23)
+        Me.LabelX9.Size = New System.Drawing.Size(46, 23)
         Me.LabelX9.TabIndex = 31
         Me.LabelX9.Text = "Mes"
-        Me.LabelX9.TextAlignment = System.Drawing.StringAlignment.Far
         '
         'LabelX6
         '
@@ -714,13 +832,13 @@ Partial Class factura
         '
         '
         Me.LabelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX6.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX6.Location = New System.Drawing.Point(472, 103)
+        Me.LabelX6.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX6.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX6.Location = New System.Drawing.Point(268, 129)
         Me.LabelX6.Name = "LabelX6"
-        Me.LabelX6.Size = New System.Drawing.Size(86, 23)
+        Me.LabelX6.Size = New System.Drawing.Size(61, 23)
         Me.LabelX6.TabIndex = 31
         Me.LabelX6.Text = "Periodo"
-        Me.LabelX6.TextAlignment = System.Drawing.StringAlignment.Far
         '
         'LabelX2
         '
@@ -728,23 +846,31 @@ Partial Class factura
         '
         '
         Me.LabelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX2.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX2.Location = New System.Drawing.Point(472, 57)
+        Me.LabelX2.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX2.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX2.Location = New System.Drawing.Point(562, 59)
         Me.LabelX2.Name = "LabelX2"
         Me.LabelX2.Size = New System.Drawing.Size(86, 23)
         Me.LabelX2.TabIndex = 31
         Me.LabelX2.Text = "Tipo Pago"
-        Me.LabelX2.TextAlignment = System.Drawing.StringAlignment.Far
         '
         'comentaTb
         '
+        Me.comentaTb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.comentaTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.comentaTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.comentaTb.Border.BorderBottomWidth = 2
+        Me.comentaTb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.comentaTb.Border.BorderLeftWidth = 2
+        Me.comentaTb.Border.BorderRightWidth = 2
+        Me.comentaTb.Border.BorderTopWidth = 2
         Me.comentaTb.Border.Class = "TextBoxBorder"
         Me.comentaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.comentaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.comentaTb.Location = New System.Drawing.Point(12, 332)
+        Me.comentaTb.Location = New System.Drawing.Point(5, 316)
         Me.comentaTb.MaxLength = 2000
         Me.comentaTb.Multiline = True
         Me.comentaTb.Name = "comentaTb"
@@ -754,13 +880,21 @@ Partial Class factura
         '
         'empTb
         '
+        Me.empTb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.empTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.empTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.empTb.Border.BorderBottomWidth = 2
+        Me.empTb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.empTb.Border.BorderLeftWidth = 2
+        Me.empTb.Border.BorderRightWidth = 2
+        Me.empTb.Border.BorderTopWidth = 2
         Me.empTb.Border.Class = "TextBoxBorder"
         Me.empTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.empTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.empTb.Location = New System.Drawing.Point(104, 50)
+        Me.empTb.Location = New System.Drawing.Point(10, 73)
         Me.empTb.MaxLength = 25
         Me.empTb.Name = "empTb"
         Me.empTb.PreventEnterBeep = True
@@ -769,13 +903,21 @@ Partial Class factura
         '
         'tota1Tb
         '
+        Me.tota1Tb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.tota1Tb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.tota1Tb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.tota1Tb.Border.BorderBottomWidth = 2
+        Me.tota1Tb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.tota1Tb.Border.BorderLeftWidth = 2
+        Me.tota1Tb.Border.BorderRightWidth = 2
+        Me.tota1Tb.Border.BorderTopWidth = 2
         Me.tota1Tb.Border.Class = "TextBoxBorder"
         Me.tota1Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.tota1Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tota1Tb.Location = New System.Drawing.Point(580, 211)
+        Me.tota1Tb.Location = New System.Drawing.Point(580, 195)
         Me.tota1Tb.MaxLength = 15
         Me.tota1Tb.Name = "tota1Tb"
         Me.tota1Tb.PreventEnterBeep = True
@@ -784,42 +926,44 @@ Partial Class factura
         '
         'cant1Tb
         '
+        Me.cant1Tb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.cant1Tb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.cant1Tb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.cant1Tb.Border.BorderBottomWidth = 2
+        Me.cant1Tb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.cant1Tb.Border.BorderLeftWidth = 2
+        Me.cant1Tb.Border.BorderRightWidth = 2
+        Me.cant1Tb.Border.BorderTopWidth = 2
         Me.cant1Tb.Border.Class = "TextBoxBorder"
         Me.cant1Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.cant1Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cant1Tb.Location = New System.Drawing.Point(59, 211)
+        Me.cant1Tb.Location = New System.Drawing.Point(59, 195)
         Me.cant1Tb.MaxLength = 15
         Me.cant1Tb.Name = "cant1Tb"
         Me.cant1Tb.PreventEnterBeep = True
         Me.cant1Tb.Size = New System.Drawing.Size(94, 30)
         Me.cant1Tb.TabIndex = 32
         '
-        'LabelX13
-        '
-        '
-        '
-        '
-        Me.LabelX13.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX13.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX13.Location = New System.Drawing.Point(9, 48)
-        Me.LabelX13.Name = "LabelX13"
-        Me.LabelX13.Size = New System.Drawing.Size(82, 23)
-        Me.LabelX13.TabIndex = 31
-        Me.LabelX13.Text = "Empresa"
-        Me.LabelX13.TextAlignment = System.Drawing.StringAlignment.Far
-        '
         'nFacTb
         '
+        Me.nFacTb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.nFacTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.nFacTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.nFacTb.Border.BorderBottomWidth = 2
+        Me.nFacTb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.nFacTb.Border.BorderLeftWidth = 2
+        Me.nFacTb.Border.BorderRightWidth = 2
+        Me.nFacTb.Border.BorderTopWidth = 2
         Me.nFacTb.Border.Class = "TextBoxBorder"
         Me.nFacTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.nFacTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.nFacTb.Location = New System.Drawing.Point(104, 14)
+        Me.nFacTb.Location = New System.Drawing.Point(9, 21)
         Me.nFacTb.MaxLength = 6
         Me.nFacTb.Name = "nFacTb"
         Me.nFacTb.PreventEnterBeep = True
@@ -832,23 +976,31 @@ Partial Class factura
         '
         '
         Me.LabelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX7.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX7.Location = New System.Drawing.Point(493, 12)
+        Me.LabelX7.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX7.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX7.Location = New System.Drawing.Point(562, 2)
         Me.LabelX7.Name = "LabelX7"
         Me.LabelX7.Size = New System.Drawing.Size(54, 23)
         Me.LabelX7.TabIndex = 31
         Me.LabelX7.Text = "Fecha"
-        Me.LabelX7.TextAlignment = System.Drawing.StringAlignment.Far
         '
         'desc1Tb
         '
+        Me.desc1Tb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.desc1Tb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.desc1Tb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.desc1Tb.Border.BorderBottomWidth = 2
+        Me.desc1Tb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.desc1Tb.Border.BorderLeftWidth = 2
+        Me.desc1Tb.Border.BorderRightWidth = 2
+        Me.desc1Tb.Border.BorderTopWidth = 2
         Me.desc1Tb.Border.Class = "TextBoxBorder"
         Me.desc1Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.desc1Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.desc1Tb.Location = New System.Drawing.Point(164, 211)
+        Me.desc1Tb.Location = New System.Drawing.Point(164, 195)
         Me.desc1Tb.MaxLength = 45
         Me.desc1Tb.Name = "desc1Tb"
         Me.desc1Tb.PreventEnterBeep = True
@@ -857,13 +1009,21 @@ Partial Class factura
         '
         'facCanTB
         '
+        Me.facCanTB.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.facCanTB.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.facCanTB.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.facCanTB.Border.BorderBottomWidth = 2
+        Me.facCanTB.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.facCanTB.Border.BorderLeftWidth = 2
+        Me.facCanTB.Border.BorderRightWidth = 2
+        Me.facCanTB.Border.BorderTopWidth = 2
         Me.facCanTB.Border.Class = "TextBoxBorder"
         Me.facCanTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.facCanTB.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.facCanTB.Location = New System.Drawing.Point(674, 350)
+        Me.facCanTB.Location = New System.Drawing.Point(665, 334)
         Me.facCanTB.MaxLength = 20
         Me.facCanTB.Name = "facCanTB"
         Me.facCanTB.PreventEnterBeep = True
@@ -872,42 +1032,44 @@ Partial Class factura
         '
         'rtnTb
         '
+        Me.rtnTb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.rtnTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.rtnTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.rtnTb.Border.BorderBottomWidth = 2
+        Me.rtnTb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.rtnTb.Border.BorderLeftWidth = 2
+        Me.rtnTb.Border.BorderRightWidth = 2
+        Me.rtnTb.Border.BorderTopWidth = 2
         Me.rtnTb.Border.Class = "TextBoxBorder"
         Me.rtnTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.rtnTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rtnTb.Location = New System.Drawing.Point(104, 121)
+        Me.rtnTb.Location = New System.Drawing.Point(377, 73)
         Me.rtnTb.MaxLength = 16
         Me.rtnTb.Name = "rtnTb"
         Me.rtnTb.PreventEnterBeep = True
         Me.rtnTb.Size = New System.Drawing.Size(144, 30)
         Me.rtnTb.TabIndex = 32
         '
-        'LabelX1
-        '
-        '
-        '
-        '
-        Me.LabelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX1.Location = New System.Drawing.Point(9, 14)
-        Me.LabelX1.Name = "LabelX1"
-        Me.LabelX1.Size = New System.Drawing.Size(82, 23)
-        Me.LabelX1.TabIndex = 31
-        Me.LabelX1.Text = "Factura N°"
-        Me.LabelX1.TextAlignment = System.Drawing.StringAlignment.Far
-        '
         'propTb
         '
+        Me.propTb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.propTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.propTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.propTb.Border.BorderBottomWidth = 2
+        Me.propTb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.propTb.Border.BorderLeftWidth = 2
+        Me.propTb.Border.BorderRightWidth = 2
+        Me.propTb.Border.BorderTopWidth = 2
         Me.propTb.Border.Class = "TextBoxBorder"
         Me.propTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.propTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.propTb.Location = New System.Drawing.Point(104, 86)
+        Me.propTb.Location = New System.Drawing.Point(202, 19)
         Me.propTb.MaxLength = 30
         Me.propTb.Name = "propTb"
         Me.propTb.PreventEnterBeep = True
@@ -918,7 +1080,7 @@ Partial Class factura
         '
         Me.ButtonX2.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX2.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX2.Location = New System.Drawing.Point(129, 87)
+        Me.ButtonX2.Location = New System.Drawing.Point(129, 59)
         Me.ButtonX2.Name = "ButtonX2"
         Me.ButtonX2.Size = New System.Drawing.Size(32, 26)
         Me.ButtonX2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -932,7 +1094,7 @@ Partial Class factura
         '
         '
         Me.buscartxt.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.buscartxt.Location = New System.Drawing.Point(239, 90)
+        Me.buscartxt.Location = New System.Drawing.Point(239, 62)
         Me.buscartxt.Name = "buscartxt"
         Me.buscartxt.Size = New System.Drawing.Size(75, 23)
         Me.buscartxt.TabIndex = 36
@@ -945,7 +1107,7 @@ Partial Class factura
         '
         Me.propBusqTB.Border.Class = "TextBoxBorder"
         Me.propBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.propBusqTB.Location = New System.Drawing.Point(974, 93)
+        Me.propBusqTB.Location = New System.Drawing.Point(974, 63)
         Me.propBusqTB.Name = "propBusqTB"
         Me.propBusqTB.PreventEnterBeep = True
         Me.propBusqTB.Size = New System.Drawing.Size(100, 20)
@@ -953,12 +1115,15 @@ Partial Class factura
         '
         'CodBusqTB
         '
+        Me.CodBusqTB.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.CodBusqTB.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.CodBusqTB.Border.BackColor2 = System.Drawing.Color.SteelBlue
         Me.CodBusqTB.Border.Class = "TextBoxBorder"
         Me.CodBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.CodBusqTB.Location = New System.Drawing.Point(23, 90)
+        Me.CodBusqTB.Location = New System.Drawing.Point(23, 66)
         Me.CodBusqTB.Name = "CodBusqTB"
         Me.CodBusqTB.PreventEnterBeep = True
         Me.CodBusqTB.Size = New System.Drawing.Size(100, 20)
@@ -968,7 +1133,7 @@ Partial Class factura
         '
         Me.ButtonX6.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX6.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX6.Location = New System.Drawing.Point(638, 87)
+        Me.ButtonX6.Location = New System.Drawing.Point(638, 59)
         Me.ButtonX6.Name = "ButtonX6"
         Me.ButtonX6.Size = New System.Drawing.Size(36, 23)
         Me.ButtonX6.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -983,7 +1148,7 @@ Partial Class factura
         '
         Me.LabelX14.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX14.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX14.Location = New System.Drawing.Point(809, 68)
+        Me.LabelX14.Location = New System.Drawing.Point(809, 38)
         Me.LabelX14.Name = "LabelX14"
         Me.LabelX14.Size = New System.Drawing.Size(75, 23)
         Me.LabelX14.TabIndex = 31
@@ -996,31 +1161,36 @@ Partial Class factura
         '
         Me.LabelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX15.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX15.Location = New System.Drawing.Point(24, 70)
+        Me.LabelX15.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX15.Location = New System.Drawing.Point(24, 45)
         Me.LabelX15.Name = "LabelX15"
         Me.LabelX15.Size = New System.Drawing.Size(44, 23)
         Me.LabelX15.TabIndex = 32
         Me.LabelX15.Text = "Código"
         '
-        'ButtonX3
+        'ImprimirBt
         '
-        Me.ButtonX3.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.ButtonX3.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX3.Location = New System.Drawing.Point(708, 11)
-        Me.ButtonX3.Name = "ButtonX3"
-        Me.ButtonX3.Size = New System.Drawing.Size(82, 39)
-        Me.ButtonX3.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.ButtonX3.Symbol = ""
-        Me.ButtonX3.TabIndex = 37
-        Me.ButtonX3.Text = "Imprimir"
+        Me.ImprimirBt.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.ImprimirBt.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.ImprimirBt.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ImprimirBt.Location = New System.Drawing.Point(572, 13)
+        Me.ImprimirBt.Name = "ImprimirBt"
+        Me.ImprimirBt.Shape = New DevComponents.DotNetBar.RoundRectangleShapeDescriptor(10, 10, 2, 2)
+        Me.ImprimirBt.Size = New System.Drawing.Size(98, 33)
+        Me.ImprimirBt.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.ImprimirBt.Symbol = ""
+        Me.ImprimirBt.TabIndex = 37
+        Me.ImprimirBt.Text = "Imprimir"
         '
         'PreviaBtn
         '
         Me.PreviaBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.PreviaBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.PreviaBtn.Location = New System.Drawing.Point(708, 52)
+        Me.PreviaBtn.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PreviaBtn.Location = New System.Drawing.Point(674, 13)
         Me.PreviaBtn.Name = "PreviaBtn"
-        Me.PreviaBtn.Size = New System.Drawing.Size(82, 39)
+        Me.PreviaBtn.Shape = New DevComponents.DotNetBar.RoundRectangleShapeDescriptor(2, 2, 10, 10)
+        Me.PreviaBtn.Size = New System.Drawing.Size(98, 33)
         Me.PreviaBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.PreviaBtn.Symbol = ""
         Me.PreviaBtn.TabIndex = 38
@@ -1032,25 +1202,25 @@ Partial Class factura
         Me.CamDgv.AllowUserToDeleteRows = False
         Me.CamDgv.AllowUserToOrderColumns = True
         Me.CamDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.CamDgv.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.CamDgv.DefaultCellStyle = DataGridViewCellStyle1
         Me.CamDgv.GridColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer))
-        Me.CamDgv.Location = New System.Drawing.Point(795, 116)
+        Me.CamDgv.Location = New System.Drawing.Point(781, 86)
         Me.CamDgv.Name = "CamDgv"
         Me.CamDgv.ReadOnly = True
         Me.CamDgv.RowHeadersVisible = False
-        Me.CamDgv.Size = New System.Drawing.Size(516, 616)
+        Me.CamDgv.Size = New System.Drawing.Size(516, 640)
         Me.CamDgv.TabIndex = 39
         '
         'CodproBTb
         '
-        Me.CodproBTb.Location = New System.Drawing.Point(809, 92)
+        Me.CodproBTb.Location = New System.Drawing.Point(809, 62)
         Me.CodproBTb.Name = "CodproBTb"
         Me.CodproBTb.Size = New System.Drawing.Size(100, 20)
         Me.CodproBTb.TabIndex = 41
@@ -1082,7 +1252,7 @@ Partial Class factura
         '
         Me.DelBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.DelBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.DelBtn.Location = New System.Drawing.Point(167, 87)
+        Me.DelBtn.Location = New System.Drawing.Point(167, 59)
         Me.DelBtn.Name = "DelBtn"
         Me.DelBtn.Size = New System.Drawing.Size(30, 26)
         Me.DelBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1093,7 +1263,7 @@ Partial Class factura
         '
         Me.ButtonX5.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX5.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX5.Location = New System.Drawing.Point(1080, 87)
+        Me.ButtonX5.Location = New System.Drawing.Point(1080, 57)
         Me.ButtonX5.Name = "ButtonX5"
         Me.ButtonX5.Size = New System.Drawing.Size(32, 26)
         Me.ButtonX5.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1105,8 +1275,9 @@ Partial Class factura
         '
         Me.ButtonX7.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX7.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX7.Location = New System.Drawing.Point(1118, 87)
+        Me.ButtonX7.Location = New System.Drawing.Point(1118, 57)
         Me.ButtonX7.Name = "ButtonX7"
+        Me.ButtonX7.Shape = New DevComponents.DotNetBar.RoundRectangleShapeDescriptor(2)
         Me.ButtonX7.Size = New System.Drawing.Size(30, 26)
         Me.ButtonX7.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.ButtonX7.Symbol = ""
@@ -1114,7 +1285,7 @@ Partial Class factura
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(847, 39)
+        Me.Button2.Location = New System.Drawing.Point(928, 13)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(75, 23)
         Me.Button2.TabIndex = 46
@@ -1126,7 +1297,8 @@ Partial Class factura
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1330, 749)
+        Me.BackColor = System.Drawing.Color.SteelBlue
+        Me.ClientSize = New System.Drawing.Size(1317, 733)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.ButtonX7)
         Me.Controls.Add(Me.ButtonX5)
@@ -1135,7 +1307,7 @@ Partial Class factura
         Me.Controls.Add(Me.CodproBTb)
         Me.Controls.Add(Me.CamDgv)
         Me.Controls.Add(Me.PreviaBtn)
-        Me.Controls.Add(Me.ButtonX3)
+        Me.Controls.Add(Me.ImprimirBt)
         Me.Controls.Add(Me.buscartxt)
         Me.Controls.Add(Me.propBusqTB)
         Me.Controls.Add(Me.CodBusqTB)
@@ -1212,7 +1384,7 @@ Partial Class factura
     Friend WithEvents ButtonX6 As DevComponents.DotNetBar.ButtonX
     Friend WithEvents LabelX14 As DevComponents.DotNetBar.LabelX
     Friend WithEvents LabelX15 As DevComponents.DotNetBar.LabelX
-    Friend WithEvents ButtonX3 As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents ImprimirBt As DevComponents.DotNetBar.ButtonX
     Friend WithEvents PreviaBtn As DevComponents.DotNetBar.ButtonX
     Friend WithEvents Line2 As DevComponents.DotNetBar.Controls.Line
     Friend WithEvents Line1 As DevComponents.DotNetBar.Controls.Line

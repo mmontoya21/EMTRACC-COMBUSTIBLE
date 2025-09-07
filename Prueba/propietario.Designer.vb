@@ -382,7 +382,7 @@ Partial Class propietario
         Me.PanelP.Controls.Add(Me.codProTb)
         Me.PanelP.Location = New System.Drawing.Point(10, 60)
         Me.PanelP.Name = "PanelP"
-        Me.PanelP.Size = New System.Drawing.Size(487, 313)
+        Me.PanelP.Size = New System.Drawing.Size(487, 500)
         Me.PanelP.TabIndex = 35
         '
         'buscartxt

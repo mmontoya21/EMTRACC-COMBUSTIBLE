@@ -40,12 +40,12 @@ Public Class propietario
         Dim userid As String = "root"
         Dim clave As String = ""
 
-
-        'con.ConnectionString = "Server=168.119.90.215; Database=datasafe_eda; Uid=datasafe_edausr; Pwd=@Paradoja18"
+        'EMTRACC NUBE
+        con.ConnectionString = "Server=193.203.166.219   ; Database=u282951626_emtraccF; Uid=u282951626_mmontoya; Pwd=Paradoja25"
 
         'con.ConnectionString = "Server=185.224.137.172; Database=u282951626_eda; Uid=u282951626_edauser; Pwd=@Paradoja18"
 
-        con.ConnectionString = "Server=" & servidor & "; Database=" & baseDatos & "; Uid = " & userid & "; Pwd = " & clave
+        'con.ConnectionString = "Server=" & servidor & "; Database=" & baseDatos & "; Uid = " & userid & "; Pwd = " & clave
 
         Try
 
