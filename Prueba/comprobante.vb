@@ -142,7 +142,7 @@ Public Class comprobante
 
         Try
 
-            ' Consulta para obtener el último registro (campo nFactura)
+            'Consulta para obtener el último registro (campo nFactura)
             Dim query As String = "SELECT nCompro FROM comprobante ORDER BY idcprbnt DESC LIMIT 1"
             Dim comando As New MySqlCommand(query, con)
             Dim lector As MySqlDataReader = comando.ExecuteReader()
@@ -150,7 +150,7 @@ Public Class comprobante
 
             'lector.Close()
 
-            ' Verificar si hay registros
+            'Verificar si hay registros
             If lector.Read() Then
                 ' Asignar el valor de nFactura al TextBox
                 codiPropTb.Text = lector("nCompro").ToString()
