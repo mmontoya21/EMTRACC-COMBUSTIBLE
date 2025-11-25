@@ -169,6 +169,7 @@ Public Class camiones
         Me.tContraTb.Text = ""
         Me.cAduaneTb.Text = ""
         Me.codePTb.Text = ""
+
     End Sub
     Private Sub ListadoD()
         CamDGV.Columns(0).HeaderText = "Id"

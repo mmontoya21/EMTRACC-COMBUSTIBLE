@@ -218,7 +218,7 @@
 
             '**********UNE LA PARTE ENTERA Y LA PARTE DECIMAL*************
             If DEC <> "" Then
-                LETRAS = PALABRAS & "CON " & DEC & "/100 "
+                LETRAS = PALABRAS & "CON " & DEC & " CTVS"
             Else
                 LETRAS = PALABRAS
             End If

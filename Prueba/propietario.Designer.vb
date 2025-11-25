@@ -54,6 +54,7 @@ Partial Class propietario
         Me.LabelX10 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX9 = New DevComponents.DotNetBar.LabelX()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         CType(Me.CamDGV, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelP.SuspendLayout()
         Me.SuspendLayout()
@@ -470,12 +471,20 @@ Partial Class propietario
         Me.Button1.Text = "Button1"
         Me.Button1.UseVisualStyleBackColor = True
         '
+        'DateTimePicker1
+        '
+        Me.DateTimePicker1.Location = New System.Drawing.Point(767, 148)
+        Me.DateTimePicker1.Name = "DateTimePicker1"
+        Me.DateTimePicker1.Size = New System.Drawing.Size(8, 20)
+        Me.DateTimePicker1.TabIndex = 43
+        '
         'propietario
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ClientSize = New System.Drawing.Size(1328, 572)
+        Me.Controls.Add(Me.DateTimePicker1)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.buscartxt)
         Me.Controls.Add(Me.propBusqTB)
@@ -530,4 +539,5 @@ Partial Class propietario
     Friend WithEvents LabelX10 As DevComponents.DotNetBar.LabelX
     Friend WithEvents LabelX9 As DevComponents.DotNetBar.LabelX
     Friend WithEvents Button1 As Button
+    Friend WithEvents DateTimePicker1 As DateTimePicker
 End Class

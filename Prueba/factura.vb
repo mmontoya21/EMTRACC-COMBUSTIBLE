@@ -25,7 +25,7 @@ Public Class factura
 
         On Error Resume Next
 
-        System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("es-CO")
+        System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("es-HN")
         System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern = "yyyy/MM/dd"
         System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyDecimalSeparator = "."
         System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyGroupSeparator = ","
@@ -84,6 +84,7 @@ Public Class factura
         If con.State = ConnectionState.Closed Then
             con.Open()
         End If
+
         limpiar()
         PanelP.Enabled = True
         GuardarBtn.Enabled = True
