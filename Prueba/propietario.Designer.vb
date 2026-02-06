@@ -22,6 +22,7 @@ Partial Class propietario
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.codProTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.nPropietarioTb = New DevComponents.DotNetBar.Controls.TextBoxX()
@@ -55,39 +56,65 @@ Partial Class propietario
         Me.LabelX9 = New DevComponents.DotNetBar.LabelX()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.PanelPlacas = New System.Windows.Forms.Panel()
+        Me.PlacasDGV = New System.Windows.Forms.DataGridView()
         CType(Me.CamDGV, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelP.SuspendLayout()
+        Me.PanelPlacas.SuspendLayout()
+        CType(Me.PlacasDGV, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'codProTb
         '
+        Me.codProTb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.codProTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.codProTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.codProTb.Border.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.codProTb.Border.BorderColor = System.Drawing.Color.White
+        Me.codProTb.Border.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.codProTb.Border.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.codProTb.Border.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Dash
         Me.codProTb.Border.Class = "TextBoxBorder"
         Me.codProTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.codProTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.codProTb.FocusHighlightColor = System.Drawing.Color.Yellow
+        Me.codProTb.FocusHighlightEnabled = True
+        Me.codProTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.codProTb.ForeColor = System.Drawing.Color.White
         Me.codProTb.Location = New System.Drawing.Point(102, 10)
         Me.codProTb.MaxLength = 10
         Me.codProTb.Name = "codProTb"
         Me.codProTb.PreventEnterBeep = True
-        Me.codProTb.Size = New System.Drawing.Size(152, 30)
+        Me.codProTb.Size = New System.Drawing.Size(118, 34)
         Me.codProTb.TabIndex = 1
         '
         'nPropietarioTb
         '
+        Me.nPropietarioTb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.nPropietarioTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.nPropietarioTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.nPropietarioTb.Border.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.nPropietarioTb.Border.BorderColor = System.Drawing.Color.White
+        Me.nPropietarioTb.Border.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.nPropietarioTb.Border.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.nPropietarioTb.Border.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Dash
         Me.nPropietarioTb.Border.Class = "TextBoxBorder"
         Me.nPropietarioTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.nPropietarioTb.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.nPropietarioTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nPropietarioTb.FocusHighlightColor = System.Drawing.Color.Yellow
+        Me.nPropietarioTb.FocusHighlightEnabled = True
+        Me.nPropietarioTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nPropietarioTb.ForeColor = System.Drawing.Color.White
         Me.nPropietarioTb.Location = New System.Drawing.Point(102, 46)
         Me.nPropietarioTb.MaxLength = 80
         Me.nPropietarioTb.Name = "nPropietarioTb"
         Me.nPropietarioTb.PreventEnterBeep = True
-        Me.nPropietarioTb.Size = New System.Drawing.Size(372, 30)
+        Me.nPropietarioTb.Size = New System.Drawing.Size(344, 34)
         Me.nPropietarioTb.TabIndex = 3
         '
         'Label1
@@ -102,63 +129,107 @@ Partial Class propietario
         '
         'RTNTb
         '
+        Me.RTNTb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.RTNTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.RTNTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.RTNTb.Border.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.RTNTb.Border.BorderColor = System.Drawing.Color.White
+        Me.RTNTb.Border.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.RTNTb.Border.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.RTNTb.Border.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Dash
         Me.RTNTb.Border.Class = "TextBoxBorder"
         Me.RTNTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.RTNTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RTNTb.Location = New System.Drawing.Point(322, 10)
+        Me.RTNTb.FocusHighlightColor = System.Drawing.Color.Yellow
+        Me.RTNTb.FocusHighlightEnabled = True
+        Me.RTNTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RTNTb.ForeColor = System.Drawing.Color.White
+        Me.RTNTb.Location = New System.Drawing.Point(276, 10)
         Me.RTNTb.MaxLength = 15
         Me.RTNTb.Name = "RTNTb"
         Me.RTNTb.PreventEnterBeep = True
-        Me.RTNTb.Size = New System.Drawing.Size(152, 30)
+        Me.RTNTb.Size = New System.Drawing.Size(170, 34)
         Me.RTNTb.TabIndex = 2
         '
         'nEmpresaTb
         '
+        Me.nEmpresaTb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.nEmpresaTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.nEmpresaTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.nEmpresaTb.Border.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.nEmpresaTb.Border.BorderColor = System.Drawing.Color.White
+        Me.nEmpresaTb.Border.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.nEmpresaTb.Border.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.nEmpresaTb.Border.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Dash
         Me.nEmpresaTb.Border.Class = "TextBoxBorder"
         Me.nEmpresaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.nEmpresaTb.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.nEmpresaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nEmpresaTb.FocusHighlightColor = System.Drawing.Color.Yellow
+        Me.nEmpresaTb.FocusHighlightEnabled = True
+        Me.nEmpresaTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nEmpresaTb.ForeColor = System.Drawing.Color.White
         Me.nEmpresaTb.Location = New System.Drawing.Point(102, 82)
         Me.nEmpresaTb.MaxLength = 80
         Me.nEmpresaTb.Name = "nEmpresaTb"
         Me.nEmpresaTb.PreventEnterBeep = True
-        Me.nEmpresaTb.Size = New System.Drawing.Size(372, 30)
+        Me.nEmpresaTb.Size = New System.Drawing.Size(344, 34)
         Me.nEmpresaTb.TabIndex = 4
         '
         'Tel2Tb
         '
+        Me.Tel2Tb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.Tel2Tb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.Tel2Tb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.Tel2Tb.Border.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.Tel2Tb.Border.BorderColor = System.Drawing.Color.White
+        Me.Tel2Tb.Border.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.Tel2Tb.Border.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.Tel2Tb.Border.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Dash
         Me.Tel2Tb.Border.Class = "TextBoxBorder"
         Me.Tel2Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.Tel2Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tel2Tb.FocusHighlightColor = System.Drawing.Color.Yellow
+        Me.Tel2Tb.FocusHighlightEnabled = True
+        Me.Tel2Tb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tel2Tb.ForeColor = System.Drawing.Color.White
         Me.Tel2Tb.Location = New System.Drawing.Point(322, 118)
         Me.Tel2Tb.MaxLength = 12
         Me.Tel2Tb.Name = "Tel2Tb"
         Me.Tel2Tb.PreventEnterBeep = True
-        Me.Tel2Tb.Size = New System.Drawing.Size(152, 30)
+        Me.Tel2Tb.Size = New System.Drawing.Size(124, 34)
         Me.Tel2Tb.TabIndex = 6
         '
         'correoETb
         '
+        Me.correoETb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.correoETb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.correoETb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.correoETb.Border.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.correoETb.Border.BorderColor = System.Drawing.Color.White
+        Me.correoETb.Border.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.correoETb.Border.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.correoETb.Border.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Dash
         Me.correoETb.Border.Class = "TextBoxBorder"
         Me.correoETb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.correoETb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.correoETb.FocusHighlightColor = System.Drawing.Color.Yellow
+        Me.correoETb.FocusHighlightEnabled = True
+        Me.correoETb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.correoETb.ForeColor = System.Drawing.Color.White
         Me.correoETb.Location = New System.Drawing.Point(102, 154)
         Me.correoETb.MaxLength = 50
         Me.correoETb.Name = "correoETb"
         Me.correoETb.PreventEnterBeep = True
-        Me.correoETb.Size = New System.Drawing.Size(173, 30)
+        Me.correoETb.Size = New System.Drawing.Size(173, 34)
         Me.correoETb.TabIndex = 7
         '
         'Label2
@@ -173,33 +244,55 @@ Partial Class propietario
         '
         'DireccionTb
         '
+        Me.DireccionTb.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.DireccionTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.DireccionTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.DireccionTb.Border.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.DireccionTb.Border.BorderColor = System.Drawing.Color.White
+        Me.DireccionTb.Border.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.DireccionTb.Border.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.DireccionTb.Border.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Dash
         Me.DireccionTb.Border.Class = "TextBoxBorder"
         Me.DireccionTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.DireccionTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DireccionTb.Location = New System.Drawing.Point(102, 190)
+        Me.DireccionTb.FocusHighlightColor = System.Drawing.Color.Yellow
+        Me.DireccionTb.FocusHighlightEnabled = True
+        Me.DireccionTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DireccionTb.ForeColor = System.Drawing.Color.White
+        Me.DireccionTb.Location = New System.Drawing.Point(102, 194)
         Me.DireccionTb.MaxLength = 300
         Me.DireccionTb.Multiline = True
         Me.DireccionTb.Name = "DireccionTb"
         Me.DireccionTb.PreventEnterBeep = True
-        Me.DireccionTb.Size = New System.Drawing.Size(364, 115)
+        Me.DireccionTb.Size = New System.Drawing.Size(336, 89)
         Me.DireccionTb.TabIndex = 8
         '
         'Tel1TB
         '
+        Me.Tel1TB.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.Tel1TB.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.Tel1TB.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.Tel1TB.Border.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.Tel1TB.Border.BorderColor = System.Drawing.Color.White
+        Me.Tel1TB.Border.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.Tel1TB.Border.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.Tel1TB.Border.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Dash
         Me.Tel1TB.Border.Class = "TextBoxBorder"
         Me.Tel1TB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.Tel1TB.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tel1TB.FocusHighlightColor = System.Drawing.Color.Yellow
+        Me.Tel1TB.FocusHighlightEnabled = True
+        Me.Tel1TB.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tel1TB.ForeColor = System.Drawing.Color.White
         Me.Tel1TB.Location = New System.Drawing.Point(102, 118)
         Me.Tel1TB.MaxLength = 12
         Me.Tel1TB.Name = "Tel1TB"
         Me.Tel1TB.PreventEnterBeep = True
-        Me.Tel1TB.Size = New System.Drawing.Size(148, 30)
+        Me.Tel1TB.Size = New System.Drawing.Size(148, 34)
         Me.Tel1TB.TabIndex = 5
         '
         'Label3
@@ -215,9 +308,9 @@ Partial Class propietario
         'Label4
         '
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(276, 16)
+        Me.Label4.Location = New System.Drawing.Point(230, 16)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(42, 19)
+        Me.Label4.Size = New System.Drawing.Size(45, 19)
         Me.Label4.TabIndex = 11
         Me.Label4.Text = "RTN"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -347,20 +440,20 @@ Partial Class propietario
         Me.CamDGV.AllowUserToAddRows = False
         Me.CamDGV.AllowUserToDeleteRows = False
         Me.CamDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.CamDGV.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.CamDGV.DefaultCellStyle = DataGridViewCellStyle1
         Me.CamDGV.GridColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer))
-        Me.CamDGV.Location = New System.Drawing.Point(503, 70)
+        Me.CamDGV.Location = New System.Drawing.Point(471, 70)
         Me.CamDGV.Name = "CamDGV"
         Me.CamDGV.ReadOnly = True
         Me.CamDGV.RowHeadersVisible = False
-        Me.CamDGV.Size = New System.Drawing.Size(803, 490)
+        Me.CamDGV.Size = New System.Drawing.Size(798, 490)
         Me.CamDGV.TabIndex = 34
         '
         'PanelP
@@ -383,7 +476,7 @@ Partial Class propietario
         Me.PanelP.Controls.Add(Me.codProTb)
         Me.PanelP.Location = New System.Drawing.Point(10, 60)
         Me.PanelP.Name = "PanelP"
-        Me.PanelP.Size = New System.Drawing.Size(487, 500)
+        Me.PanelP.Size = New System.Drawing.Size(455, 288)
         Me.PanelP.TabIndex = 35
         '
         'buscartxt
@@ -392,43 +485,67 @@ Partial Class propietario
         '
         '
         Me.buscartxt.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.buscartxt.Location = New System.Drawing.Point(720, 41)
+        Me.buscartxt.Location = New System.Drawing.Point(738, 30)
         Me.buscartxt.Name = "buscartxt"
-        Me.buscartxt.Size = New System.Drawing.Size(75, 23)
+        Me.buscartxt.Size = New System.Drawing.Size(38, 23)
         Me.buscartxt.TabIndex = 41
         Me.buscartxt.Text = "-"
         '
         'propBusqTB
         '
+        Me.propBusqTB.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.propBusqTB.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.propBusqTB.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.propBusqTB.Border.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.propBusqTB.Border.BorderColor = System.Drawing.Color.White
+        Me.propBusqTB.Border.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.propBusqTB.Border.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.propBusqTB.Border.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Dash
         Me.propBusqTB.Border.Class = "TextBoxBorder"
-        Me.propBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.propBusqTB.Location = New System.Drawing.Point(614, 44)
+        Me.propBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.propBusqTB.FocusHighlightColor = System.Drawing.Color.Yellow
+        Me.propBusqTB.FocusHighlightEnabled = True
+        Me.propBusqTB.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.propBusqTB.ForeColor = System.Drawing.Color.White
+        Me.propBusqTB.Location = New System.Drawing.Point(632, 33)
         Me.propBusqTB.Name = "propBusqTB"
         Me.propBusqTB.PreventEnterBeep = True
-        Me.propBusqTB.Size = New System.Drawing.Size(100, 20)
+        Me.propBusqTB.Size = New System.Drawing.Size(100, 34)
         Me.propBusqTB.TabIndex = 40
         '
         'placaBusqTB
         '
+        Me.placaBusqTB.BackColor = System.Drawing.Color.SteelBlue
         '
         '
         '
+        Me.placaBusqTB.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.placaBusqTB.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.placaBusqTB.Border.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.placaBusqTB.Border.BorderColor = System.Drawing.Color.White
+        Me.placaBusqTB.Border.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.placaBusqTB.Border.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Dash
+        Me.placaBusqTB.Border.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Dash
         Me.placaBusqTB.Border.Class = "TextBoxBorder"
-        Me.placaBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.placaBusqTB.Location = New System.Drawing.Point(504, 44)
+        Me.placaBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.placaBusqTB.FocusHighlightColor = System.Drawing.Color.Yellow
+        Me.placaBusqTB.FocusHighlightEnabled = True
+        Me.placaBusqTB.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.placaBusqTB.ForeColor = System.Drawing.Color.White
+        Me.placaBusqTB.Location = New System.Drawing.Point(522, 33)
         Me.placaBusqTB.Name = "placaBusqTB"
         Me.placaBusqTB.PreventEnterBeep = True
-        Me.placaBusqTB.Size = New System.Drawing.Size(100, 20)
+        Me.placaBusqTB.Size = New System.Drawing.Size(100, 34)
         Me.placaBusqTB.TabIndex = 39
         '
         'ButtonX6
         '
         Me.ButtonX6.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX6.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX6.Location = New System.Drawing.Point(837, 41)
+        Me.ButtonX6.Location = New System.Drawing.Point(480, 30)
         Me.ButtonX6.Name = "ButtonX6"
         Me.ButtonX6.Size = New System.Drawing.Size(36, 23)
         Me.ButtonX6.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -443,7 +560,7 @@ Partial Class propietario
         '
         Me.LabelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX10.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX10.Location = New System.Drawing.Point(614, 24)
+        Me.LabelX10.Location = New System.Drawing.Point(632, 13)
         Me.LabelX10.Name = "LabelX10"
         Me.LabelX10.Size = New System.Drawing.Size(75, 23)
         Me.LabelX10.TabIndex = 36
@@ -456,7 +573,7 @@ Partial Class propietario
         '
         Me.LabelX9.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX9.Location = New System.Drawing.Point(505, 24)
+        Me.LabelX9.Location = New System.Drawing.Point(523, 13)
         Me.LabelX9.Name = "LabelX9"
         Me.LabelX9.Size = New System.Drawing.Size(62, 23)
         Me.LabelX9.TabIndex = 37
@@ -470,20 +587,53 @@ Partial Class propietario
         Me.Button1.TabIndex = 42
         Me.Button1.Text = "Button1"
         Me.Button1.UseVisualStyleBackColor = True
+        Me.Button1.Visible = False
         '
         'DateTimePicker1
         '
-        Me.DateTimePicker1.Location = New System.Drawing.Point(767, 148)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(1105, 40)
         Me.DateTimePicker1.Name = "DateTimePicker1"
         Me.DateTimePicker1.Size = New System.Drawing.Size(8, 20)
         Me.DateTimePicker1.TabIndex = 43
+        Me.DateTimePicker1.Visible = False
+        '
+        'PanelPlacas
+        '
+        Me.PanelPlacas.Controls.Add(Me.PlacasDGV)
+        Me.PanelPlacas.Location = New System.Drawing.Point(12, 354)
+        Me.PanelPlacas.Name = "PanelPlacas"
+        Me.PanelPlacas.Size = New System.Drawing.Size(451, 206)
+        Me.PanelPlacas.TabIndex = 44
+        '
+        'PlacasDGV
+        '
+        Me.PlacasDGV.AllowUserToAddRows = False
+        Me.PlacasDGV.AllowUserToDeleteRows = False
+        Me.PlacasDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.PlacasDGV.DefaultCellStyle = DataGridViewCellStyle2
+        Me.PlacasDGV.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PlacasDGV.GridColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer))
+        Me.PlacasDGV.Location = New System.Drawing.Point(0, 0)
+        Me.PlacasDGV.Name = "PlacasDGV"
+        Me.PlacasDGV.ReadOnly = True
+        Me.PlacasDGV.RowHeadersVisible = False
+        Me.PlacasDGV.Size = New System.Drawing.Size(451, 206)
+        Me.PlacasDGV.TabIndex = 0
         '
         'propietario
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.ClientSize = New System.Drawing.Size(1328, 572)
+        Me.ClientSize = New System.Drawing.Size(1281, 575)
+        Me.Controls.Add(Me.PanelPlacas)
         Me.Controls.Add(Me.DateTimePicker1)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.buscartxt)
@@ -504,6 +654,8 @@ Partial Class propietario
         Me.Text = "=== Propietario ==="
         CType(Me.CamDGV, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelP.ResumeLayout(False)
+        Me.PanelPlacas.ResumeLayout(False)
+        CType(Me.PlacasDGV, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -540,4 +692,6 @@ Partial Class propietario
     Friend WithEvents LabelX9 As DevComponents.DotNetBar.LabelX
     Friend WithEvents Button1 As Button
     Friend WithEvents DateTimePicker1 As DateTimePicker
+    Friend WithEvents PanelPlacas As Panel
+    Friend WithEvents PlacasDGV As DataGridView
 End Class

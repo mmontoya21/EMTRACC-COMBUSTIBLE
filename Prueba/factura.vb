@@ -23,54 +23,50 @@ Public Class factura
 
     Private Sub factura_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        On Error Resume Next
+        Try
+            System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("es-HN")
+            System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern = "yyyy/MM/dd"
+            System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyDecimalSeparator = "."
+            System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyGroupSeparator = ","
+            System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator = "."
+            System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberGroupSeparator = ","
 
-        System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("es-HN")
-        System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern = "yyyy/MM/dd"
-        System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyDecimalSeparator = "."
-        System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyGroupSeparator = ","
-        System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator = "."
-        System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberGroupSeparator = ","
+            conectar()
+            act()
+            listadoCamDgv()
+            CamDgv.BackgroundColor = colorFondo
+            CamDgv.RowsDefaultCellStyle.BackColor = Color.Bisque
+            CamDgv.AlternatingRowsDefaultCellStyle.BackColor = Color.Lavender
 
-        conectar()
-        act()
-        listadoCamDgv()
-        CamDgv.BackgroundColor = colorFondo
-        CamDgv.RowsDefaultCellStyle.BackColor = Color.Bisque
-        CamDgv.AlternatingRowsDefaultCellStyle.BackColor = Color.Lavender
+            PanelP.Enabled = False
+        Catch ex As Exception
+            MessageBox.Show("Error al cargar el formulario: " & ex.Message, "Error")
+        End Try
 
-        PanelP.Enabled = False
+    End Sub
 
+    Private Sub factura_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        ' Cerrar la conexión al cerrar el formulario
+        Try
+            If con IsNot Nothing AndAlso con.State = ConnectionState.Open Then
+                con.Close()
+            End If
+        Catch ex As Exception
+            ' Ignorar errores al cerrar
+        End Try
     End Sub
 
     Private Sub conectar()
-        Dim servidor As String = "localhost"
-        'Dim servidor As String = "192.168.68.101"
-        Dim baseDatos As String = "givemefuel"
-        Dim userid As String = "root"
-        Dim clave As String = ""
-
-
-        'con.ConnectionString = "Server=168.119.90.215; Database=datasafe_eda; Uid=datasafe_edausr; Pwd=@Paradoja18"
-
-        'con.ConnectionString = "Server=185.224.137.172; Database=u282951626_eda; Uid=u282951626_edauser; Pwd=@Paradoja18"
-
-        con.ConnectionString = "Server=" & servidor & "; Database=" & baseDatos & "; Uid = " & userid & "; Pwd = " & clave
-
+        con = ModuloConexion.ObtenerConexion()
         Try
-
-            con.Open()
-
-            'MsgBox("El sistema se conectó")
-            MessageBox.Show("El sistema esá conectado", "Combustible")
-
+            If con.State = ConnectionState.Closed Then
+                con.Open()
+            End If
         Catch ex As Exception
             MsgBox("No se conecto por: " & ex.Message)
-
         End Try
-
-
     End Sub
+
     Private Sub act()
         Me.NuevoBtn.Enabled = True
         Me.EditarBtn.Enabled = False
@@ -81,61 +77,58 @@ Public Class factura
         Me.PreviaBtn.Enabled = False
     End Sub
     Private Sub NuevoBtn_Click(sender As Object, e As EventArgs) Handles NuevoBtn.Click '============  NUEVO  ===========
-        If con.State = ConnectionState.Closed Then
-            con.Open()
-        End If
-
-        limpiar()
-        PanelP.Enabled = True
-        GuardarBtn.Enabled = True
-        CamDgv.Enabled = False
-        CancelarBtn.Enabled = True
-        Me.PreviaBtn.Enabled = True
-        NuevoBtn.Enabled = False
-        tipoPagTb.Text = "CONTADO"
-
         Try
+            limpiar()
+            PanelP.Enabled = True
+            GuardarBtn.Enabled = True
+            CamDgv.Enabled = False
+            CancelarBtn.Enabled = True
+            Me.PreviaBtn.Enabled = True
+            NuevoBtn.Enabled = False
+            tipoPagTb.Text = "CONTADO"
 
-            ' Consulta para obtener el último registro (campo nFactura)
-            Dim query As String = "SELECT nFactura FROM factura ORDER BY idFactura DESC LIMIT 1"
-            Dim comando As New MySqlCommand(query, con)
-            Dim lector As MySqlDataReader = comando.ExecuteReader()
+            ' Usar conexión local para evitar conflicto con DataReaders abiertos
+            Dim ultimaFactura As String = ""
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+                Dim query As String = "SELECT nFactura FROM factura ORDER BY idFactura DESC LIMIT 1"
+                Using comando As New MySqlCommand(query, conLocal)
+                    Using lector As MySqlDataReader = comando.ExecuteReader()
+                        If lector.Read() Then
+                            ultimaFactura = lector("nFactura").ToString()
+                        End If
+                    End Using
+                End Using
+            End Using
 
-            ' Verificar si hay registros
-            If lector.Read() Then
-                ' Asignar el valor de nFactura al TextBox
-                CodproBTb.Text = lector("nFactura").ToString()
-
-                Dim nfacta As Double = Double.Parse(CodproBTb.Text)
-                nFacTb.Text = nfacta + 1 ' Suma factura
+            ' Asignar valores después de cerrar la conexión local
+            If Not String.IsNullOrEmpty(ultimaFactura) Then
+                CodproBTb.Text = ultimaFactura
+                Dim nfacta As Double = Double.Parse(ultimaFactura)
+                nFacTb.Text = nfacta + 1
                 amplitud()
             Else
                 nFacTb.Text = 1
                 amplitud()
             End If
 
-            lector.Close()
-            ''
+            Me.cant1Tb.Text = 0
+            Me.cant2Tb.Text = 0
+            Me.preUni1Tb.Text = 0
+            Me.preUni2Tb.Text = 0
+            Me.tota1Tb.Text = 0
+            Me.tota2Tb.Text = 0
+
+            Me.facTotTb.Text = 0
+            Me.facExeTb.Text = 0
+            Me.facCanTB.Text = 0
+
+            Me.desc1Tb.Text = "Diessel"
+            Me.desc2Tb.Text = "Diessel"
+
         Catch ex As Exception
-            MessageBox.Show("Error: " & ex.Message)
-        Finally
-            ' Cerrar la conexión
-            con.Close()
+            MessageBox.Show("Error: " & ex.Message, "Error")
         End Try
-
-        Me.cant1Tb.Text = 0
-        Me.cant2Tb.Text = 0
-        Me.preUni1Tb.Text = 0
-        Me.preUni2Tb.Text = 0
-        Me.tota1Tb.Text = 0
-        Me.tota2Tb.Text = 0
-
-        Me.facTotTb.Text = 0
-        Me.facExeTb.Text = 0
-        Me.facCanTB.Text = 0
-
-        Me.desc1Tb.Text = "Diessel"
-        Me.desc2Tb.Text = "Diessel"
 
     End Sub
     Sub limpiar()
@@ -176,97 +169,86 @@ Public Class factura
     End Sub
 
     Private Sub GuardarBtn_Click(sender As Object, e As EventArgs) Handles GuardarBtn.Click '============  GUARDADO  ===========
-
-        Me.PreviaBtn.Enabled = False
-
-        con.Close()
-        con.Open()
-
-        Dim fe As Date = fechaPk.Value.ToString("yyyy-MM-dd")
-
-        Dim ccant1Tb As Double = 0
-        Double.TryParse(cant1Tb.Text, ccant1Tb)
-
-        Dim ccant2Tb As Double = 0
-        Double.TryParse(cant2Tb.Text, ccant2Tb)
-
-        Dim ctota1Tb As Double = 0
-        Double.TryParse(tota1Tb.Text, ctota1Tb)
-
-        Dim ctota2Tb As Double = 0
-        Double.TryParse(tota2Tb.Text, ctota2Tb)
-
-        Dim cfacExeTb As Double = 0
-        Double.TryParse(facExeTb.Text, cfacExeTb)
-
-        Dim cfacTotTb As Double = 0
-        Double.TryParse(facTotTb.Text, cfacTotTb)
-
-        Dim cfacCanTB As Double = 0
-        Double.TryParse(facCanTB.Text, cfacCanTB)
-
-        'Dim perMes As Integer = 0
-        'Integer.TryParse(perMesCB.Text, perMes)
-
-        'Dim perSem As Integer = 0
-        'Integer.TryParse(perSemCB.Text, perSem)
-
-        Dim cpreUni1Tb As Double = 0
-        Double.TryParse(preUni1Tb.Text, cpreUni1Tb)
-
-        Dim cpreUni2Tb As Double = 0
-        Double.TryParse(preUni2Tb.Text, cpreUni2Tb)
-
-        'Dim perMes = Val(perMesCB.Text)
-
-        ' Dim perSem = Val(perSemCB.Text)
         Try
-            guardar = New MySqlCommand("INSERT INTO factura (nFactura, Fecha, propietario, Empresa, rtn, tipoPag, facCantidad, facExe, facTotal, comentario, cantd1, cantd2, descrip1, descrip2, total1, total2, perMes, PerSem, preUni1, preUni2, codProp)" & Chr(13) &
-            "VALUES(@nFactura, @Fecha, @propietario, @Empresa, @rtn, @tipoPag, @facCantidad, @facExe, @facTotal, @comentario, @cantd1, @cantd2, @descrip1, @descrip2, @total1, @total2, @perMes, @PerSem, @preUni1Tb, @preUni2Tb, @codProp)", con)
+            Me.PreviaBtn.Enabled = False
 
+            If con.State = ConnectionState.Closed Then con.Open()
 
-            guardar.Parameters.AddWithValue("@nFactura", nFacTb.Text)
-            guardar.Parameters.AddWithValue("@Fecha", fe)
-            guardar.Parameters.AddWithValue("@propietario", propTb.Text)
-            guardar.Parameters.AddWithValue("@Empresa", empTb.Text)
-            guardar.Parameters.AddWithValue("@rtn", rtnTb.Text)
-            guardar.Parameters.AddWithValue("@tipoPag", tipoPagTb.Text)
-            guardar.Parameters.AddWithValue("@facCantidad", cfacCanTB)
-            guardar.Parameters.AddWithValue("@facExe", cfacExeTb)
-            guardar.Parameters.AddWithValue("@facTotal", cfacTotTb)
-            guardar.Parameters.AddWithValue("@comentario", comentaTb.Text)
-            guardar.Parameters.AddWithValue("@cantd1", ccant1Tb)
-            guardar.Parameters.AddWithValue("@cantd2", ccant2Tb)
-            guardar.Parameters.AddWithValue("@descrip1", desc1Tb.Text)
-            guardar.Parameters.AddWithValue("@descrip2", desc2Tb.Text)
-            guardar.Parameters.AddWithValue("@total1", ctota1Tb)
-            guardar.Parameters.AddWithValue("@total2", ctota2Tb)
-            guardar.Parameters.AddWithValue("@perMes", perMesCB.Text)
-            guardar.Parameters.AddWithValue("@PerSem", perSemCB.Text)
-            guardar.Parameters.AddWithValue("@preUni1Tb", cpreUni1Tb)
-            guardar.Parameters.AddWithValue("@preUni2Tb", cpreUni2Tb)
-            guardar.Parameters.AddWithValue("@codProp", codPropTb.Text)
+            Dim fe As Date = fechaPk.Value.ToString("yyyy-MM-dd")
 
-            guardar.ExecuteNonQuery()
-            MsgBox("Registo guardado")
+            Dim ccant1Tb As Double = 0
+            Double.TryParse(cant1Tb.Text, ccant1Tb)
+
+            Dim ccant2Tb As Double = 0
+            Double.TryParse(cant2Tb.Text, ccant2Tb)
+
+            Dim ctota1Tb As Double = 0
+            Double.TryParse(tota1Tb.Text, ctota1Tb)
+
+            Dim ctota2Tb As Double = 0
+            Double.TryParse(tota2Tb.Text, ctota2Tb)
+
+            Dim cfacExeTb As Double = 0
+            Double.TryParse(facExeTb.Text, cfacExeTb)
+
+            Dim cfacTotTb As Double = 0
+            Double.TryParse(facTotTb.Text, cfacTotTb)
+
+            Dim cfacCanTB As Double = 0
+            Double.TryParse(facCanTB.Text, cfacCanTB)
+
+            Dim cpreUni1Tb As Double = 0
+            Double.TryParse(preUni1Tb.Text, cpreUni1Tb)
+
+            Dim cpreUni2Tb As Double = 0
+            Double.TryParse(preUni2Tb.Text, cpreUni2Tb)
+
+            Using cmd As New MySqlCommand("INSERT INTO factura (nFactura, Fecha, propietario, Empresa, rtn, tipoPag, facCantidad, facExe, facTotal, comentario, cantd1, cantd2, descrip1, descrip2, total1, total2, perMes, PerSem, preUni1, preUni2, codProp) VALUES(@nFactura, @Fecha, @propietario, @Empresa, @rtn, @tipoPag, @facCantidad, @facExe, @facTotal, @comentario, @cantd1, @cantd2, @descrip1, @descrip2, @total1, @total2, @perMes, @PerSem, @preUni1Tb, @preUni2Tb, @codProp)", con)
+
+                cmd.Parameters.AddWithValue("@nFactura", nFacTb.Text)
+                cmd.Parameters.AddWithValue("@Fecha", fe)
+                cmd.Parameters.AddWithValue("@propietario", propTb.Text)
+                cmd.Parameters.AddWithValue("@Empresa", empTb.Text)
+                cmd.Parameters.AddWithValue("@rtn", rtnTb.Text)
+                cmd.Parameters.AddWithValue("@tipoPag", tipoPagTb.Text)
+                cmd.Parameters.AddWithValue("@facCantidad", cfacCanTB)
+                cmd.Parameters.AddWithValue("@facExe", cfacExeTb)
+                cmd.Parameters.AddWithValue("@facTotal", cfacTotTb)
+                cmd.Parameters.AddWithValue("@comentario", comentaTb.Text)
+                cmd.Parameters.AddWithValue("@cantd1", ccant1Tb)
+                cmd.Parameters.AddWithValue("@cantd2", ccant2Tb)
+                cmd.Parameters.AddWithValue("@descrip1", desc1Tb.Text)
+                cmd.Parameters.AddWithValue("@descrip2", desc2Tb.Text)
+                cmd.Parameters.AddWithValue("@total1", ctota1Tb)
+                cmd.Parameters.AddWithValue("@total2", ctota2Tb)
+                cmd.Parameters.AddWithValue("@perMes", perMesCB.Text)
+                cmd.Parameters.AddWithValue("@PerSem", perSemCB.Text)
+                cmd.Parameters.AddWithValue("@preUni1Tb", cpreUni1Tb)
+                cmd.Parameters.AddWithValue("@preUni2Tb", cpreUni2Tb)
+                cmd.Parameters.AddWithValue("@codProp", codPropTb.Text)
+
+                cmd.ExecuteNonQuery()
+            End Using
+
+            MsgBox("Registro guardado")
+
+            limpiar()
+            act()
+
+            CamDgv.Enabled = True
+            listadoCamDgv()
+
+            PanelP.Enabled = False
+            CamDgv.Enabled = True
+            Me.GuardarBtn.Visible = True
+
+            If CamDgv.Rows.Count > 0 Then
+                CamDgv.CurrentCell = CamDgv.Rows(CamDgv.Rows.Count - 1).Cells(0)
+            End If
 
         Catch ex As Exception
-            MsgBox("Elemento no pudo se almacenado", ex.StackTrace)
+            MessageBox.Show("Error al guardar: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
-        limpiar()
-
-        act()
-
-        CamDgv.Enabled = True
-        listadoCamDgv()
-
-        PanelP.Enabled = False
-        CamDgv.Enabled = True
-        Me.GuardarBtn.Visible = True
-
-        Dim query As String = "SELECT * FROM factura ORDER BY idFactura DESC LIMIT 1"
-        CamDgv.CurrentCell = CamDgv.Rows(CamDgv.Rows.Count - 1).Cells(0)
 
     End Sub
 
@@ -277,61 +259,86 @@ Public Class factura
         CamDgv.Enabled = True
         Me.GuardarBtn.Visible = True
         listadoCamDgv()
-        con.Close()
     End Sub
+
     Public Sub actual()
-        ' Try
-        If con.State = ConnectionState.Closed Then
-            con.Open()
-        End If
+        Try
+            If con.State = ConnectionState.Closed Then con.Open()
 
-        Dim fe As Date = fechaPk.Value.ToString("yyyy-MM-dd")
-        facTotTb.Text = facTotTb.Text.Replace(",", "")
-        tota1Tb.Text = tota1Tb.Text.Replace(",", "")
-        tota2Tb.Text = tota2Tb.Text.Replace(",", "")
+            Dim fe As Date = fechaPk.Value.ToString("yyyy-MM-dd")
+            Dim facTotVal As String = facTotTb.Text.Replace(",", "")
+            Dim tota1Val As String = tota1Tb.Text.Replace(",", "")
+            Dim tota2Val As String = tota2Tb.Text.Replace(",", "")
 
-        Dim actualizar As String
-        actualizar = "UPDATE factura SET nFactura = '" & nFacTb.Text & "', propietario = '" & propTb.Text & "', Empresa = '" & empTb.Text & "', rtn = '" & rtnTb.Text & "', tipoPag = '" & tipoPagTb.Text & "', facCantidad = '" & facCanTB.Text & "', facExe = '" & facExeTb.Text & "', facTotal = '" & facTotTb.Text & "', comentario = '" & comentaTb.Text & "', cantd1 = '" & cant1Tb.Text & "', cantd2 = '" & cant2Tb.Text & "', descrip1 = '" & desc1Tb.Text & "', descrip2 = '" & desc2Tb.Text & "', total1 = '" & tota1Tb.Text & "', total2 = '" & tota2Tb.Text & "', perMes = '" & perMesCB.Text & "', PerSem = '" & perSemCB.Text & "', preUni1 = '" & preUni1Tb.Text & "', preUni2 = '" & preUni2Tb.Text & "', fecha = '" & fe & "', codProp = '" & codPropTb.Text & "' WHERE idfactura = '" & propBusqTB.Text & "'"
-
-        Dim act As New MySqlCommand(actualizar, con)
-        act.ExecuteNonQuery()
-        MsgBox("Registo Actualizado")
-        'Catch
-        'MsgBox("No deben haber registros vacios, colocar 0 en tal caso.")
-        'End Try
+            Using cmd As New MySqlCommand("UPDATE factura SET nFactura = @nFactura, propietario = @propietario, Empresa = @Empresa, rtn = @rtn, tipoPag = @tipoPag, facCantidad = @facCantidad, facExe = @facExe, facTotal = @facTotal, comentario = @comentario, cantd1 = @cantd1, cantd2 = @cantd2, descrip1 = @descrip1, descrip2 = @descrip2, total1 = @total1, total2 = @total2, perMes = @perMes, PerSem = @PerSem, preUni1 = @preUni1, preUni2 = @preUni2, fecha = @fecha, codProp = @codProp WHERE idfactura = @idfactura", con)
+                cmd.Parameters.AddWithValue("@nFactura", nFacTb.Text)
+                cmd.Parameters.AddWithValue("@propietario", propTb.Text)
+                cmd.Parameters.AddWithValue("@Empresa", empTb.Text)
+                cmd.Parameters.AddWithValue("@rtn", rtnTb.Text)
+                cmd.Parameters.AddWithValue("@tipoPag", tipoPagTb.Text)
+                cmd.Parameters.AddWithValue("@facCantidad", facCanTB.Text)
+                cmd.Parameters.AddWithValue("@facExe", facExeTb.Text)
+                cmd.Parameters.AddWithValue("@facTotal", facTotVal)
+                cmd.Parameters.AddWithValue("@comentario", comentaTb.Text)
+                cmd.Parameters.AddWithValue("@cantd1", cant1Tb.Text)
+                cmd.Parameters.AddWithValue("@cantd2", cant2Tb.Text)
+                cmd.Parameters.AddWithValue("@descrip1", desc1Tb.Text)
+                cmd.Parameters.AddWithValue("@descrip2", desc2Tb.Text)
+                cmd.Parameters.AddWithValue("@total1", tota1Val)
+                cmd.Parameters.AddWithValue("@total2", tota2Val)
+                cmd.Parameters.AddWithValue("@perMes", perMesCB.Text)
+                cmd.Parameters.AddWithValue("@PerSem", perSemCB.Text)
+                cmd.Parameters.AddWithValue("@preUni1", preUni1Tb.Text)
+                cmd.Parameters.AddWithValue("@preUni2", preUni2Tb.Text)
+                cmd.Parameters.AddWithValue("@fecha", fe)
+                cmd.Parameters.AddWithValue("@codProp", codPropTb.Text)
+                cmd.Parameters.AddWithValue("@idfactura", propBusqTB.Text)
+                cmd.ExecuteNonQuery()
+            End Using
+            MsgBox("Registro Actualizado")
+        Catch ex As Exception
+            MessageBox.Show("Error al actualizar: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
     End Sub
 
     Private Sub EliminarBtn_Click(sender As Object, e As EventArgs) Handles EliminarBtn.Click '============  ELIMINAR  ===========
         Try
-
             Dim opc As DialogResult = MsgBox("¿Desea Eliminar este registro?", MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Eliminar")
             If opc = Windows.Forms.DialogResult.Yes Then
 
-                Dim eliminar As String
+                If con.State = ConnectionState.Closed Then con.Open()
 
-                eliminar = "DELETE FROM factura WHERE idfactura = '" & Conversion.Int(Me.buscartxt.Text) & "'"
-                Dim eli As New MySqlCommand(eliminar, con)
-                eli.ExecuteNonQuery()
+                Using cmd As New MySqlCommand("DELETE FROM factura WHERE idfactura = @idfactura", con)
+                    cmd.Parameters.AddWithValue("@idfactura", Conversion.Int(Me.buscartxt.Text))
+                    cmd.ExecuteNonQuery()
+                End Using
 
+                MsgBox("Registro eliminado correctamente", MsgBoxStyle.Information, "Éxito")
                 listadoCamDgv()
-
             End If
-        Catch
-            MessageBox.Show("Actualización Base de Datos, " & Chr(13) & "favor escoger de nuevo el registro y eliminarlo", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
-
+        Catch ex As Exception
+            MessageBox.Show("Error al eliminar: " & ex.Message & Chr(13) & "Favor escoger de nuevo el registro y eliminarlo", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try
 
         act()
     End Sub
     Private Sub listadoCamDgv() 'Muestra los datos
-        Dim table As New DataTable()
-        Dim adaptadoListado As New MySqlDataAdapter("SELECT idFactura, codProp, empresa, propietario, nfactura FROM factura", con)
-        adaptadoListado.Fill(table)
+        Try
+            If con.State = ConnectionState.Closed Then con.Open()
 
-        CamDgv.DataSource = table
+            Dim table As New DataTable()
+            Dim adaptadoListado As New MySqlDataAdapter("SELECT idFactura, codProp, empresa, propietario, nfactura FROM factura", con)
+            adaptadoListado.Fill(table)
 
-        ListadoD()
+            CamDgv.DataSource = table
+
+            ListadoD()
+        Catch ex As Exception
+            MessageBox.Show("Error al cargar datos: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            If con.State = ConnectionState.Open Then con.Close()
+        End Try
 
     End Sub
     Private Sub ListadoD()
@@ -406,15 +413,15 @@ Public Class factura
         img = Image.FromFile("C:\emtracc\camion.jpg") ' Cambia la ruta según tu imagen
     End Sub
     Private Sub PrintFactura_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintFactura.PrintPage
-        con.Close()
-        con.Open()
+        ' Usar conexión local para no interferir con la conexión del formulario
+        Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+            Try
+                conLocal.Open()
 
-        Try
-
-            ' Consulta para obtener el último registro (campo nFactura)
-            Dim query As String = "SELECT nEmpre, nPropie, nombLocal, dire1, dire2 ,dire3, local, rtn, correoE, cai, tel1, cel2, fax, ochoDig, rangoIni, rangoFin, fechaLimit FROM empresa"
-            Dim comando As New MySqlCommand(query, con)
-            Dim lector As MySqlDataReader = comando.ExecuteReader()
+                ' Consulta para obtener el último registro (campo nFactura)
+                Dim query As String = "SELECT nEmpre, nPropie, nombLocal, dire1, dire2 ,dire3, local, rtn, correoE, cai, tel1, cel2, fax, ochoDig, rangoIni, rangoFin, fechaLimit FROM empresa"
+                Using comando As New MySqlCommand(query, conLocal)
+                    Using lector As MySqlDataReader = comando.ExecuteReader()
 
 
             ' Verificar si hay registros
@@ -587,36 +594,29 @@ Public Class factura
                 e.Graphics.DrawString("ORIGINAL: Cliente", DFont, Brushes.Black, 10, 1030)
                 e.Graphics.DrawString("COPIA: Obligatorio Tributario Emisor", GFont, Brushes.Black, 10, 1050)
 
-            End While
-            lector.Close()
+                        End While
+                    End Using
+                End Using
 
-        Catch ex As Exception
-            MessageBox.Show("Error: " & ex.Message)
-        Finally
-            ' Cerrar la conexión
-
-            con.Close()
-        End Try
+            Catch ex As Exception
+                MessageBox.Show("Error: " & ex.Message)
+            End Try
+        End Using
     End Sub
-    Private Sub ButtonX4_Click(sender As Object, e As EventArgs) Handles PreviaBtn.Click
 
-        If con.State = ConnectionState.Closed Then
-            con.Open()
-        End If
+    Private Sub ButtonX4_Click(sender As Object, e As EventArgs) Handles PreviaBtn.Click
         Try
             PanelP.Enabled = True
 
-            'PrintPreviewFactura.Document = PrintFactura()
             PrintFactura.PrinterSettings.Copies = 2
 
             ' Mostrar vista previa
             PrintPreviewFactura.Document = PrintFactura
             PrintPreviewFactura.ShowDialog()
 
-
-
             CancelarBtn.Enabled = True
-        Catch
+        Catch ex As Exception
+            MessageBox.Show("Error en vista previa: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -627,7 +627,6 @@ Public Class factura
         PanelP.Enabled = False
         CancelarBtn.Enabled = False
         CamDgv.Enabled = True
-        con.Close()
     End Sub
 
     Private Sub preUni1Tb_TextChanged(sender As Object, e As EventArgs) Handles preUni1Tb.TextChanged
@@ -645,16 +644,23 @@ Public Class factura
     End Sub
     Private Sub sumas()
         Try
-            Dim preu2 As Double = Double.Parse(preUni2Tb.Text)
-            Dim preu1 As Double = Double.Parse(preUni1Tb.Text)
-            Dim cant1 As Double = Double.Parse(cant1Tb.Text)
-            Dim cant2 As Double = Double.Parse(cant2Tb.Text)
+            Dim preu2 As Double = 0
+            Dim preu1 As Double = 0
+            Dim cant1 As Double = 0
+            Dim cant2 As Double = 0
+
+            Double.TryParse(preUni2Tb.Text, preu2)
+            Double.TryParse(preUni1Tb.Text, preu1)
+            Double.TryParse(cant1Tb.Text, cant1)
+            Double.TryParse(cant2Tb.Text, cant2)
 
             tota1Tb.Text = Format(preu1 * cant1, "#,##0.00")
             tota2Tb.Text = Format(preu2 * cant2, "#,##0.00")
 
-            Dim tot1 As Double = Double.Parse(tota1Tb.Text)
-            Dim tot2 As Double = Double.Parse(tota2Tb.Text)
+            Dim tot1 As Double = 0
+            Dim tot2 As Double = 0
+            Double.TryParse(tota1Tb.Text, tot1)
+            Double.TryParse(tota2Tb.Text, tot2)
 
             facTotTb.Text = Format(tot1 + tot2, "#,##0.00")
 
@@ -662,7 +668,8 @@ Public Class factura
 
             calcularletras()
 
-        Catch
+        Catch ex As Exception
+            ' Error silencioso en cálculos - no mostrar al usuario
         End Try
 
     End Sub
@@ -677,76 +684,78 @@ Public Class factura
     End Sub
 
     Public Sub seleccion()
-        Dim consulta As String
-        Dim lista As Byte
+        Try
+            Dim lista As Integer = 0
 
-        If CodBusqTB.Text <> "" Then
-            consulta = "SELECT * FROM propietario WHERE codProp = '" & CodBusqTB.Text & "'"
-            adaptador = New MySqlDataAdapter(consulta, con)
-            datos = New DataSet
-            adaptador.Fill(datos, "propietario")
-            lista = datos.Tables("propietario").Rows.Count
-        End If
+            If CodBusqTB.Text <> "" Then
+                If con.State = ConnectionState.Closed Then con.Open()
+                Dim cmd As New MySqlCommand("SELECT * FROM propietario WHERE codProp = @codProp", con)
+                cmd.Parameters.AddWithValue("@codProp", CodBusqTB.Text)
+                adaptador = New MySqlDataAdapter(cmd)
+                datos = New DataSet
+                adaptador.Fill(datos, "propietario")
+                lista = datos.Tables("propietario").Rows.Count
+            End If
 
-        If lista <> 0 Then
-
-            empTb.Text = datos.Tables("propietario").Rows(0).Item("nEmpresa").ToString
-            propTb.Text = datos.Tables("propietario").Rows(0).Item("nPropietario").ToString
-            rtnTb.Text = datos.Tables("propietario").Rows(0).Item("RTN").ToString
-            codPropTb.Text = datos.Tables("propietario").Rows(0).Item("codProp").ToString
-
-
-
-
-
-        Else
-            MsgBox("Datos no encontrados")
-        End If
-        'listadoCamDgv()
+            If lista <> 0 Then
+                empTb.Text = datos.Tables("propietario").Rows(0).Item("nEmpresa").ToString
+                propTb.Text = datos.Tables("propietario").Rows(0).Item("nPropietario").ToString
+                rtnTb.Text = datos.Tables("propietario").Rows(0).Item("RTN").ToString
+                codPropTb.Text = datos.Tables("propietario").Rows(0).Item("codProp").ToString
+            Else
+                MsgBox("Datos no encontrados")
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error al buscar: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Public Sub seleccion2()
-        Dim consulta As String
-        Dim lista As Byte
+        Try
+            Dim lista As Integer = 0
 
-        If propBusqTB.Text <> "" Then
-            consulta = "SELECT * FROM factura WHERE codProp = '" & propBusqTB.Text & "'"
-            adaptador = New MySqlDataAdapter(consulta, con)
-            datos = New DataSet
-            adaptador.Fill(datos, "factura")
-            lista = datos.Tables("factura").Rows.Count
-        End If
+            If propBusqTB.Text <> "" Then
+                If con.State = ConnectionState.Closed Then con.Open()
+                Dim cmd As New MySqlCommand("SELECT * FROM factura WHERE codProp = @codProp", con)
+                cmd.Parameters.AddWithValue("@codProp", propBusqTB.Text)
+                adaptador = New MySqlDataAdapter(cmd)
+                datos = New DataSet
+                adaptador.Fill(datos, "factura")
+                lista = datos.Tables("factura").Rows.Count
+            End If
 
-        If lista <> 0 Then
-
-            llenado()
-
-
-        Else
-            MsgBox("Datos no encontrados")
-        End If
-        'listadoCamDgv()
+            If lista <> 0 Then
+                llenado()
+            Else
+                MsgBox("Datos no encontrados")
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error al buscar factura: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
+
     Public Sub seleccion3()
-        Dim consulta As String
-        Dim lista As Byte
+        Try
+            Dim lista As Integer = 0
 
-        If propBusqTB.Text <> "" Then
-            consulta = "SELECT * FROM factura WHERE idFactura = '" & propBusqTB.Text & "'"
-            adaptador = New MySqlDataAdapter(consulta, con)
-            datos = New DataSet
-            adaptador.Fill(datos, "factura")
-            lista = datos.Tables("factura").Rows.Count
-        End If
+            If propBusqTB.Text <> "" Then
+                If con.State = ConnectionState.Closed Then con.Open()
+                Dim cmd As New MySqlCommand("SELECT * FROM factura WHERE idFactura = @idFactura", con)
+                cmd.Parameters.AddWithValue("@idFactura", propBusqTB.Text)
+                adaptador = New MySqlDataAdapter(cmd)
+                datos = New DataSet
+                adaptador.Fill(datos, "factura")
+                lista = datos.Tables("factura").Rows.Count
+            End If
 
-        If lista <> 0 Then
-
-            llenado()
-
-        Else
-            MsgBox("Datos no encontrados")
-        End If
-        'listadoCamDgv()
+            If lista <> 0 Then
+                llenado()
+            Else
+                MsgBox("Datos no encontrados")
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error al buscar factura: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
     Sub llenado()
         nFacTb.Text = datos.Tables("factura").Rows(0).Item("nFactura").ToString
@@ -780,18 +789,23 @@ Public Class factura
 
     End Sub
     Private Sub codCamDgv() 'Autobusqueda Codigo
-
         Try
+            If con.State = ConnectionState.Closed Then con.Open()
 
             Dim table As New DataTable()
-            Dim adaptadoListado As New MySqlDataAdapter("SELECT * FROM factura WHERE codProp LIKE '%" & CodproBTb.Text & "%'", con)
+            Dim cmd As New MySqlCommand("SELECT * FROM factura WHERE codProp LIKE @codProp", con)
+            cmd.Parameters.AddWithValue("@codProp", "%" & CodproBTb.Text & "%")
+            Dim adaptadoListado As New MySqlDataAdapter(cmd)
             adaptadoListado.Fill(table)
 
             CamDgv.DataSource = table
 
             ListadoD()
 
-        Catch
+        Catch ex As Exception
+            MessageBox.Show("Error en búsqueda: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            If con.State = ConnectionState.Open Then con.Close()
         End Try
 
     End Sub
@@ -811,24 +825,29 @@ Public Class factura
     End Sub
 
     Private Sub CamDgv_Click(sender As Object, e As EventArgs) Handles CamDgv.Click
-        NuevoBtn.PerformClick()
-        CancelarBtn.PerformClick()
-        limpiar()
+        Try
+            NuevoBtn.PerformClick()
+            CancelarBtn.PerformClick()
+            limpiar()
 
-        If Me.CamDgv.RowCount = 0 Then
-            MessageBox.Show("No hay datos a mostrar")
-        Else
-            Dim i As Integer = Me.CamDgv.CurrentRow.Index
-            Me.propBusqTB.Text = Me.CamDgv.Item(0, i).Value
+            If Me.CamDgv.RowCount = 0 Then
+                MessageBox.Show("No hay datos a mostrar")
+            Else
+                Dim i As Integer = Me.CamDgv.CurrentRow.Index
+                Me.propBusqTB.Text = Me.CamDgv.Item(0, i).Value.ToString()
 
-            Dim y As Integer = Me.CamDgv.CurrentRow.Index
-            Dim idcod As Integer = Me.CamDgv.Item(0, y).Value
-            propBusqTB.Text = idcod
-            seleccion3()
-            Me.EditarBtn.Enabled = True
-            Me.EliminarBtn.Enabled = True
-            PreviaBtn.Enabled = True
-        End If
+                Dim y As Integer = Me.CamDgv.CurrentRow.Index
+                Dim idcod As Integer = Convert.ToInt32(Me.CamDgv.Item(0, y).Value)
+                propBusqTB.Text = idcod.ToString()
+                buscartxt.Text = idcod.ToString()
+                seleccion3()
+                Me.EditarBtn.Enabled = True
+                Me.EliminarBtn.Enabled = True
+                PreviaBtn.Enabled = True
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error al seleccionar registro: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -1037,6 +1056,10 @@ Public Class factura
     End Sub
 
     Private Sub ImprimirBt_Click(sender As Object, e As EventArgs) Handles ImprimirBt.Click
+
+    End Sub
+
+    Private Sub PrintPreviewFactura_Load(sender As Object, e As EventArgs) Handles PrintPreviewFactura.Load
 
     End Sub
 End Class

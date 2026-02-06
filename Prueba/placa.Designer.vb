@@ -29,13 +29,6 @@ Partial Class placa
         Me.NuevoBtn = New DevComponents.DotNetBar.ButtonX()
         Me.GuardarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.ModificarBtn = New DevComponents.DotNetBar.ButtonX()
-        Me.buscartxt = New DevComponents.DotNetBar.LabelX()
-        Me.propBusqTB = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.placaBusqTB = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.ButtonX6 = New DevComponents.DotNetBar.ButtonX()
-        Me.LabelX10 = New DevComponents.DotNetBar.LabelX()
-        Me.LabelX9 = New DevComponents.DotNetBar.LabelX()
-        Me.CamDGV = New DevComponents.DotNetBar.Controls.DataGridViewX()
         Me.BalloonTip1 = New DevComponents.DotNetBar.BalloonTip()
         Me.codTb = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.propTb = New DevComponents.DotNetBar.Controls.TextBoxX()
@@ -46,8 +39,18 @@ Partial Class placa
         Me.LabelX2 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX6 = New DevComponents.DotNetBar.LabelX()
         Me.PanelP = New System.Windows.Forms.Panel()
-        CType(Me.CamDGV, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.CamDGV = New System.Windows.Forms.DataGridView()
+        Me.PanelBusqueda = New System.Windows.Forms.Panel()
+        Me.LabelBusqCod = New DevComponents.DotNetBar.LabelX()
+        Me.codBusqTB = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.LabelBusqProp = New DevComponents.DotNetBar.LabelX()
+        Me.propBusqTB = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.LabelBusqPlaca = New DevComponents.DotNetBar.LabelX()
+        Me.placaBusqTB = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.buscartxt = New System.Windows.Forms.TextBox()
         Me.PanelP.SuspendLayout()
+        CType(Me.CamDGV, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.PanelBusqueda.SuspendLayout()
         Me.SuspendLayout()
         '
         'CancelarBtn
@@ -143,124 +146,6 @@ Partial Class placa
         Me.ModificarBtn.TabIndex = 21
         Me.ModificarBtn.Text = "Modificar"
         '
-        'buscartxt
-        '
-        '
-        '
-        '
-        Me.buscartxt.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.buscartxt.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.buscartxt.ForeColor = System.Drawing.Color.White
-        Me.buscartxt.Location = New System.Drawing.Point(254, 365)
-        Me.buscartxt.Name = "buscartxt"
-        Me.buscartxt.Size = New System.Drawing.Size(75, 23)
-        Me.buscartxt.TabIndex = 28
-        Me.buscartxt.Text = "-"
-        '
-        'propBusqTB
-        '
-        Me.propBusqTB.BackColor = System.Drawing.Color.SteelBlue
-        '
-        '
-        '
-        Me.propBusqTB.Border.BorderBottomWidth = 2
-        Me.propBusqTB.Border.BorderLeftWidth = 2
-        Me.propBusqTB.Border.BorderRightWidth = 2
-        Me.propBusqTB.Border.BorderTopWidth = 2
-        Me.propBusqTB.Border.Class = "TextBoxBorder"
-        Me.propBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.propBusqTB.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.propBusqTB.ForeColor = System.Drawing.Color.White
-        Me.propBusqTB.Location = New System.Drawing.Point(148, 361)
-        Me.propBusqTB.Name = "propBusqTB"
-        Me.propBusqTB.PreventEnterBeep = True
-        Me.propBusqTB.Size = New System.Drawing.Size(100, 34)
-        Me.propBusqTB.TabIndex = 27
-        '
-        'placaBusqTB
-        '
-        Me.placaBusqTB.BackColor = System.Drawing.Color.SteelBlue
-        '
-        '
-        '
-        Me.placaBusqTB.Border.BorderBottomWidth = 2
-        Me.placaBusqTB.Border.BorderLeftWidth = 2
-        Me.placaBusqTB.Border.BorderRightWidth = 2
-        Me.placaBusqTB.Border.BorderTopWidth = 2
-        Me.placaBusqTB.Border.Class = "TextBoxBorder"
-        Me.placaBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.placaBusqTB.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.placaBusqTB.ForeColor = System.Drawing.Color.White
-        Me.placaBusqTB.Location = New System.Drawing.Point(38, 361)
-        Me.placaBusqTB.Name = "placaBusqTB"
-        Me.placaBusqTB.PreventEnterBeep = True
-        Me.placaBusqTB.Size = New System.Drawing.Size(100, 34)
-        Me.placaBusqTB.TabIndex = 26
-        '
-        'ButtonX6
-        '
-        Me.ButtonX6.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.ButtonX6.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX6.Location = New System.Drawing.Point(653, 358)
-        Me.ButtonX6.Name = "ButtonX6"
-        Me.ButtonX6.Size = New System.Drawing.Size(36, 23)
-        Me.ButtonX6.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.ButtonX6.Symbol = ""
-        Me.ButtonX6.SymbolSize = 10.0!
-        Me.ButtonX6.TabIndex = 25
-        '
-        'LabelX10
-        '
-        '
-        '
-        '
-        Me.LabelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX10.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX10.FontBold = True
-        Me.LabelX10.ForeColor = System.Drawing.Color.DarkBlue
-        Me.LabelX10.Location = New System.Drawing.Point(148, 347)
-        Me.LabelX10.Name = "LabelX10"
-        Me.LabelX10.Size = New System.Drawing.Size(75, 23)
-        Me.LabelX10.TabIndex = 23
-        Me.LabelX10.Text = "Código"
-        '
-        'LabelX9
-        '
-        '
-        '
-        '
-        Me.LabelX9.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.LabelX9.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX9.FontBold = True
-        Me.LabelX9.ForeColor = System.Drawing.Color.DarkBlue
-        Me.LabelX9.Location = New System.Drawing.Point(39, 347)
-        Me.LabelX9.Name = "LabelX9"
-        Me.LabelX9.Size = New System.Drawing.Size(44, 23)
-        Me.LabelX9.TabIndex = 24
-        Me.LabelX9.Text = "Placa"
-        '
-        'CamDGV
-        '
-        Me.CamDGV.AllowUserToAddRows = False
-        Me.CamDGV.AllowUserToDeleteRows = False
-        Me.CamDGV.BackgroundColor = System.Drawing.SystemColors.ActiveCaption
-        Me.CamDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.CamDGV.DefaultCellStyle = DataGridViewCellStyle1
-        Me.CamDGV.GridColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer))
-        Me.CamDGV.Location = New System.Drawing.Point(38, 403)
-        Me.CamDGV.Name = "CamDGV"
-        Me.CamDGV.ReadOnly = True
-        Me.CamDGV.RowHeadersVisible = False
-        Me.CamDGV.Size = New System.Drawing.Size(695, 197)
-        Me.CamDGV.TabIndex = 29
-        '
         'BalloonTip1
         '
         Me.BalloonTip1.AlertAnimationDuration = 50
@@ -272,6 +157,7 @@ Partial Class placa
         Me.codTb.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
         Me.codTb.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource
         Me.codTb.BackColor = System.Drawing.Color.SteelBlue
+        Me.BalloonTip1.SetBalloonCaption(Me.codTb, Nothing)
         Me.BalloonTip1.SetBalloonText(Me.codTb, "Para buscar un código, escriba los primeros digitos y luego escoja el que busca e" &
         "n el listado.")
         '
@@ -280,20 +166,21 @@ Partial Class placa
         Me.codTb.Border.BackColor = System.Drawing.Color.SteelBlue
         Me.codTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
         Me.codTb.Border.BorderBottomWidth = 2
-        Me.codTb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.codTb.Border.BorderColor = System.Drawing.Color.White
         Me.codTb.Border.BorderLeftWidth = 2
-        Me.codTb.Border.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.codTb.Border.BorderRightWidth = 2
         Me.codTb.Border.BorderTopWidth = 2
         Me.codTb.Border.Class = "TextBoxBorder"
         Me.codTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.codTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.codTb.FocusHighlightColor = System.Drawing.Color.Yellow
+        Me.codTb.FocusHighlightEnabled = True
+        Me.codTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.codTb.ForeColor = System.Drawing.Color.White
         Me.codTb.Location = New System.Drawing.Point(12, 27)
         Me.codTb.MaxLength = 6
         Me.codTb.Name = "codTb"
         Me.codTb.PreventEnterBeep = True
-        Me.codTb.Size = New System.Drawing.Size(173, 30)
+        Me.codTb.Size = New System.Drawing.Size(173, 34)
         Me.codTb.TabIndex = 0
         '
         'propTb
@@ -307,19 +194,21 @@ Partial Class placa
         Me.propTb.Border.BackColor = System.Drawing.Color.SteelBlue
         Me.propTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
         Me.propTb.Border.BorderBottomWidth = 2
-        Me.propTb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.propTb.Border.BorderColor = System.Drawing.Color.White
         Me.propTb.Border.BorderLeftWidth = 2
         Me.propTb.Border.BorderRightWidth = 2
         Me.propTb.Border.BorderTopWidth = 2
         Me.propTb.Border.Class = "TextBoxBorder"
         Me.propTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.propTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.propTb.FocusHighlightColor = System.Drawing.Color.Yellow
+        Me.propTb.FocusHighlightEnabled = True
+        Me.propTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.propTb.ForeColor = System.Drawing.Color.White
         Me.propTb.Location = New System.Drawing.Point(216, 27)
         Me.propTb.MaxLength = 30
         Me.propTb.Name = "propTb"
         Me.propTb.PreventEnterBeep = True
-        Me.propTb.Size = New System.Drawing.Size(340, 30)
+        Me.propTb.Size = New System.Drawing.Size(340, 34)
         Me.propTb.TabIndex = 1
         '
         'placaTb
@@ -328,16 +217,20 @@ Partial Class placa
         '
         '
         '
+        Me.placaTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.placaTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
         Me.placaTb.Border.BorderBottomWidth = 2
-        Me.placaTb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.placaTb.Border.BorderColor = System.Drawing.Color.White
         Me.placaTb.Border.BorderLeftWidth = 2
         Me.placaTb.Border.BorderRightWidth = 2
         Me.placaTb.Border.BorderTopWidth = 2
         Me.placaTb.Border.Class = "TextBoxBorder"
         Me.placaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.placaTb.FocusHighlightColor = System.Drawing.Color.Yellow
+        Me.placaTb.FocusHighlightEnabled = True
         Me.placaTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.placaTb.ForeColor = System.Drawing.Color.White
-        Me.placaTb.Location = New System.Drawing.Point(12, 74)
+        Me.placaTb.Location = New System.Drawing.Point(575, 21)
         Me.placaTb.MaxLength = 15
         Me.placaTb.Name = "placaTb"
         Me.placaTb.PreventEnterBeep = True
@@ -352,7 +245,7 @@ Partial Class placa
         Me.LabelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX3.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX3.ForeColor = System.Drawing.Color.DarkBlue
-        Me.LabelX3.Location = New System.Drawing.Point(16, 61)
+        Me.LabelX3.Location = New System.Drawing.Point(579, 8)
         Me.LabelX3.Name = "LabelX3"
         Me.LabelX3.Size = New System.Drawing.Size(54, 23)
         Me.LabelX3.TabIndex = 1
@@ -364,21 +257,25 @@ Partial Class placa
         '
         '
         '
+        Me.obserTb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.obserTb.Border.BackColor2 = System.Drawing.Color.SteelBlue
         Me.obserTb.Border.BorderBottomWidth = 2
-        Me.obserTb.Border.BorderColor = System.Drawing.SystemColors.Window
+        Me.obserTb.Border.BorderColor = System.Drawing.Color.White
         Me.obserTb.Border.BorderLeftWidth = 2
         Me.obserTb.Border.BorderRightWidth = 2
         Me.obserTb.Border.BorderTopWidth = 2
         Me.obserTb.Border.Class = "TextBoxBorder"
         Me.obserTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.obserTb.FocusHighlightColor = System.Drawing.Color.Yellow
+        Me.obserTb.FocusHighlightEnabled = True
         Me.obserTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.obserTb.ForeColor = System.Drawing.Color.White
-        Me.obserTb.Location = New System.Drawing.Point(12, 126)
+        Me.obserTb.Location = New System.Drawing.Point(12, 82)
         Me.obserTb.MaxLength = 200
         Me.obserTb.Multiline = True
         Me.obserTb.Name = "obserTb"
         Me.obserTb.PreventEnterBeep = True
-        Me.obserTb.Size = New System.Drawing.Size(683, 131)
+        Me.obserTb.Size = New System.Drawing.Size(770, 104)
         Me.obserTb.TabIndex = 3
         '
         'LabelX1
@@ -417,9 +314,9 @@ Partial Class placa
         Me.LabelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX6.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX6.ForeColor = System.Drawing.Color.DarkBlue
-        Me.LabelX6.Location = New System.Drawing.Point(17, 110)
+        Me.LabelX6.Location = New System.Drawing.Point(17, 66)
         Me.LabelX6.Name = "LabelX6"
-        Me.LabelX6.Size = New System.Drawing.Size(115, 23)
+        Me.LabelX6.Size = New System.Drawing.Size(129, 23)
         Me.LabelX6.TabIndex = 1
         Me.LabelX6.Text = "Observaciones"
         '
@@ -433,24 +330,169 @@ Partial Class placa
         Me.PanelP.Controls.Add(Me.codTb)
         Me.PanelP.Controls.Add(Me.propTb)
         Me.PanelP.Controls.Add(Me.placaTb)
-        Me.PanelP.Location = New System.Drawing.Point(26, 74)
+        Me.PanelP.Location = New System.Drawing.Point(26, 51)
         Me.PanelP.Name = "PanelP"
-        Me.PanelP.Size = New System.Drawing.Size(707, 267)
+        Me.PanelP.Size = New System.Drawing.Size(797, 206)
         Me.PanelP.TabIndex = 22
+        '
+        'CamDGV
+        '
+        Me.CamDGV.AllowUserToAddRows = False
+        Me.CamDGV.AllowUserToDeleteRows = False
+        Me.CamDGV.BackgroundColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(30, Byte), Integer), CType(CType(48, Byte), Integer))
+        Me.CamDGV.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.CamDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(CType(CType(25, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(65, Byte), Integer))
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(200, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(240, Byte), Integer))
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(50, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer))
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.CamDGV.DefaultCellStyle = DataGridViewCellStyle1
+        Me.CamDGV.GridColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(55, Byte), Integer), CType(CType(80, Byte), Integer))
+        Me.CamDGV.Location = New System.Drawing.Point(26, 337)
+        Me.CamDGV.MultiSelect = False
+        Me.CamDGV.Name = "CamDGV"
+        Me.CamDGV.ReadOnly = True
+        Me.CamDGV.RowHeadersVisible = False
+        Me.CamDGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.CamDGV.Size = New System.Drawing.Size(797, 261)
+        Me.CamDGV.TabIndex = 23
+        '
+        'PanelBusqueda
+        '
+        Me.PanelBusqueda.BackColor = System.Drawing.Color.SteelBlue
+        Me.PanelBusqueda.Controls.Add(Me.LabelBusqCod)
+        Me.PanelBusqueda.Controls.Add(Me.codBusqTB)
+        Me.PanelBusqueda.Controls.Add(Me.LabelBusqProp)
+        Me.PanelBusqueda.Controls.Add(Me.propBusqTB)
+        Me.PanelBusqueda.Controls.Add(Me.LabelBusqPlaca)
+        Me.PanelBusqueda.Controls.Add(Me.placaBusqTB)
+        Me.PanelBusqueda.Location = New System.Drawing.Point(26, 263)
+        Me.PanelBusqueda.Name = "PanelBusqueda"
+        Me.PanelBusqueda.Size = New System.Drawing.Size(707, 68)
+        Me.PanelBusqueda.TabIndex = 24
+        '
+        'LabelBusqCod
+        '
+        '
+        '
+        '
+        Me.LabelBusqCod.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelBusqCod.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelBusqCod.ForeColor = System.Drawing.Color.White
+        Me.LabelBusqCod.Location = New System.Drawing.Point(10, 5)
+        Me.LabelBusqCod.Name = "LabelBusqCod"
+        Me.LabelBusqCod.Size = New System.Drawing.Size(100, 20)
+        Me.LabelBusqCod.TabIndex = 0
+        Me.LabelBusqCod.Text = "Buscar Código:"
+        '
+        'codBusqTB
+        '
+        Me.codBusqTB.BackColor = System.Drawing.Color.SteelBlue
+        '
+        '
+        '
+        Me.codBusqTB.Border.BorderBottomWidth = 2
+        Me.codBusqTB.Border.BorderLeftWidth = 2
+        Me.codBusqTB.Border.BorderRightWidth = 2
+        Me.codBusqTB.Border.BorderTopWidth = 2
+        Me.codBusqTB.Border.Class = "TextBoxBorder"
+        Me.codBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.codBusqTB.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.codBusqTB.ForeColor = System.Drawing.Color.White
+        Me.codBusqTB.Location = New System.Drawing.Point(10, 28)
+        Me.codBusqTB.Name = "codBusqTB"
+        Me.codBusqTB.PreventEnterBeep = True
+        Me.codBusqTB.Size = New System.Drawing.Size(120, 34)
+        Me.codBusqTB.TabIndex = 1
+        '
+        'LabelBusqProp
+        '
+        '
+        '
+        '
+        Me.LabelBusqProp.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelBusqProp.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelBusqProp.ForeColor = System.Drawing.Color.White
+        Me.LabelBusqProp.Location = New System.Drawing.Point(145, 5)
+        Me.LabelBusqProp.Name = "LabelBusqProp"
+        Me.LabelBusqProp.Size = New System.Drawing.Size(120, 20)
+        Me.LabelBusqProp.TabIndex = 2
+        Me.LabelBusqProp.Text = "Buscar Propietario:"
+        '
+        'propBusqTB
+        '
+        Me.propBusqTB.BackColor = System.Drawing.Color.SteelBlue
+        '
+        '
+        '
+        Me.propBusqTB.Border.BorderBottomWidth = 2
+        Me.propBusqTB.Border.BorderLeftWidth = 2
+        Me.propBusqTB.Border.BorderRightWidth = 2
+        Me.propBusqTB.Border.BorderTopWidth = 2
+        Me.propBusqTB.Border.Class = "TextBoxBorder"
+        Me.propBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.propBusqTB.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.propBusqTB.ForeColor = System.Drawing.Color.White
+        Me.propBusqTB.Location = New System.Drawing.Point(145, 28)
+        Me.propBusqTB.Name = "propBusqTB"
+        Me.propBusqTB.PreventEnterBeep = True
+        Me.propBusqTB.Size = New System.Drawing.Size(280, 34)
+        Me.propBusqTB.TabIndex = 3
+        '
+        'LabelBusqPlaca
+        '
+        '
+        '
+        '
+        Me.LabelBusqPlaca.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelBusqPlaca.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelBusqPlaca.ForeColor = System.Drawing.Color.White
+        Me.LabelBusqPlaca.Location = New System.Drawing.Point(440, 5)
+        Me.LabelBusqPlaca.Name = "LabelBusqPlaca"
+        Me.LabelBusqPlaca.Size = New System.Drawing.Size(100, 20)
+        Me.LabelBusqPlaca.TabIndex = 4
+        Me.LabelBusqPlaca.Text = "Buscar Placa:"
+        '
+        'placaBusqTB
+        '
+        Me.placaBusqTB.BackColor = System.Drawing.Color.SteelBlue
+        '
+        '
+        '
+        Me.placaBusqTB.Border.BorderBottomWidth = 2
+        Me.placaBusqTB.Border.BorderLeftWidth = 2
+        Me.placaBusqTB.Border.BorderRightWidth = 2
+        Me.placaBusqTB.Border.BorderTopWidth = 2
+        Me.placaBusqTB.Border.Class = "TextBoxBorder"
+        Me.placaBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.placaBusqTB.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.placaBusqTB.ForeColor = System.Drawing.Color.White
+        Me.placaBusqTB.Location = New System.Drawing.Point(440, 28)
+        Me.placaBusqTB.Name = "placaBusqTB"
+        Me.placaBusqTB.PreventEnterBeep = True
+        Me.placaBusqTB.Size = New System.Drawing.Size(150, 34)
+        Me.placaBusqTB.TabIndex = 5
+        '
+        'buscartxt
+        '
+        Me.buscartxt.Location = New System.Drawing.Point(765, 23)
+        Me.buscartxt.Name = "buscartxt"
+        Me.buscartxt.Size = New System.Drawing.Size(20, 20)
+        Me.buscartxt.TabIndex = 25
+        Me.buscartxt.Visible = False
         '
         'placa
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.SteelBlue
-        Me.ClientSize = New System.Drawing.Size(744, 604)
-        Me.Controls.Add(Me.LabelX10)
-        Me.Controls.Add(Me.LabelX9)
-        Me.Controls.Add(Me.CamDGV)
+        Me.ClientSize = New System.Drawing.Size(842, 604)
         Me.Controls.Add(Me.buscartxt)
-        Me.Controls.Add(Me.propBusqTB)
-        Me.Controls.Add(Me.placaBusqTB)
-        Me.Controls.Add(Me.ButtonX6)
+        Me.Controls.Add(Me.PanelBusqueda)
+        Me.Controls.Add(Me.CamDGV)
         Me.Controls.Add(Me.PanelP)
         Me.Controls.Add(Me.CancelarBtn)
         Me.Controls.Add(Me.EliminarBtn)
@@ -460,9 +502,11 @@ Partial Class placa
         Me.Controls.Add(Me.ModificarBtn)
         Me.Name = "placa"
         Me.Text = "Placa"
-        CType(Me.CamDGV, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelP.ResumeLayout(False)
+        CType(Me.CamDGV, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.PanelBusqueda.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -472,13 +516,6 @@ Partial Class placa
     Friend WithEvents NuevoBtn As DevComponents.DotNetBar.ButtonX
     Friend WithEvents GuardarBtn As DevComponents.DotNetBar.ButtonX
     Friend WithEvents ModificarBtn As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents buscartxt As DevComponents.DotNetBar.LabelX
-    Friend WithEvents propBusqTB As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents placaBusqTB As DevComponents.DotNetBar.Controls.TextBoxX
-    Friend WithEvents ButtonX6 As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents LabelX10 As DevComponents.DotNetBar.LabelX
-    Friend WithEvents LabelX9 As DevComponents.DotNetBar.LabelX
-    Friend WithEvents CamDGV As DevComponents.DotNetBar.Controls.DataGridViewX
     Friend WithEvents BalloonTip1 As DevComponents.DotNetBar.BalloonTip
     Friend WithEvents codTb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents propTb As DevComponents.DotNetBar.Controls.TextBoxX
@@ -489,4 +526,13 @@ Partial Class placa
     Friend WithEvents LabelX2 As DevComponents.DotNetBar.LabelX
     Friend WithEvents LabelX6 As DevComponents.DotNetBar.LabelX
     Friend WithEvents PanelP As Panel
+    Friend WithEvents CamDGV As DataGridView
+    Friend WithEvents PanelBusqueda As Panel
+    Friend WithEvents codBusqTB As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents propBusqTB As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents placaBusqTB As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents LabelBusqCod As DevComponents.DotNetBar.LabelX
+    Friend WithEvents LabelBusqProp As DevComponents.DotNetBar.LabelX
+    Friend WithEvents LabelBusqPlaca As DevComponents.DotNetBar.LabelX
+    Friend WithEvents buscartxt As TextBox
 End Class

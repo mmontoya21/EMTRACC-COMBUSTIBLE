@@ -20,34 +20,17 @@ Public Class empresa
         conectar()
         act()
         'listadoCamDgv()
-        'CamDGV.BackgroundColor = colorFondo
-        'CamDGV.RowsDefaultCellStyle.BackColor = Color.Bisque
-        'CamDGV.AlternatingRowsDefaultCellStyle.BackColor = Color.Lavender
         seleccion()
         PanelP.Enabled = False
     End Sub
     Private Sub conectar()
-        'Dim servidor As String = "localhost"54
-        Dim servidor As String = "192.168.68.101"
-        Dim baseDatos As String = "givemefuel"
-        Dim userid As String = "root"
-        Dim clave As String = ""
-
-
-        'con.ConnectionString = "Server=168.119.90.215; Database=datasafe_eda; Uid=datasafe_edausr; Pwd=@Paradoja18"
-
-        'con.ConnectionString = "Server=185.224.137.172; Database=u282951626_eda; Uid=u282951626_edauser; Pwd=@Paradoja18"
-
-        con.ConnectionString = "Server=" & servidor & "; Database=" & baseDatos & "; Uid = " & userid & "; Pwd = " & clave
-
+        con = ModuloConexion.ObtenerConexion()
         Try
-
-            con.Open()
-
-            MsgBox("La Wea se conectó")
-
+            If con.State = ConnectionState.Closed Then
+                con.Open()
+            End If
+            MsgBox("Sistema conectado")
         Catch ex As Exception
-
             MsgBox("No se conecto por: " & ex.Message)
         End Try
     End Sub

@@ -27,9 +27,7 @@ Public Class acceso
         conectar()
         act()
         listadoCamDgv()
-        CamDGV.BackgroundColor = colorFondo
-        CamDGV.RowsDefaultCellStyle.BackColor = Color.Bisque
-        CamDGV.AlternatingRowsDefaultCellStyle.BackColor = Color.Lavender
+        EstilizarDataGridView(CamDGV)
 
         PanelP.Enabled = False
     End Sub
@@ -52,20 +50,15 @@ Public Class acceso
         End Using
     End Function
     Public Sub conectar()
-        Dim servidor As String = "localhost"
-        Dim baseDatos As String = "givemefuel"
-        Dim userid As String = "root"
-        Dim clave As String = ""
-
-        con.ConnectionString = "Server=" & servidor & "; Database=" & baseDatos & "; Uid = " & userid & "; Pwd = " & clave
-
+        con = ModuloConexion.ObtenerConexion()
         Try
-            con.Open()
-            MsgBox("La Wea se conectó")
+            If con.State = ConnectionState.Closed Then
+                con.Open()
+            End If
+            MsgBox("Sistema conectado")
         Catch ex As Exception
             MsgBox("No se conecto por: " & ex.Message)
         End Try
-
     End Sub
     Private Sub listadoCamDgv() 'Muestra los datos
         Dim table As New DataTable()

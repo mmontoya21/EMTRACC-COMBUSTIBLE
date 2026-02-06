@@ -21,15 +21,25 @@ Public Class placa
 
         act()
         listadoCamDgv()
-        CamDGV.BackgroundColor = colorFondo
-        CamDGV.RowsDefaultCellStyle.BackColor = Color.Bisque
-        CamDGV.AlternatingRowsDefaultCellStyle.BackColor = Color.Lavender
+        EstilizarDataGridView(CamDGV)
 
         Me.BackColor = Color.SteelBlue
 
         PanelP.Enabled = False
 
     End Sub
+
+    Private Sub placa_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        ' Cerrar la conexión al cerrar el formulario
+        Try
+            If con IsNot Nothing AndAlso con.State = ConnectionState.Open Then
+                con.Close()
+            End If
+        Catch ex As Exception
+            ' Ignorar errores al cerrar
+        End Try
+    End Sub
+
     Private Sub act()
         Me.NuevoBtn.Enabled = True
         Me.EditarBtn.Enabled = False
@@ -39,119 +49,140 @@ Public Class placa
         Me.EliminarBtn.Enabled = False
     End Sub
     Private Sub conectar()
-
-        Dim servidor As String = "localhost"
-        'Dim servidor As String = "192.168.68.101"
-        Dim baseDatos As String = "givemefuel"
-        Dim userid As String = "root"
-        Dim clave As String = ""
-
-
-        'con.ConnectionString = "Server=168.119.90.215; Database=datasafe_eda; Uid=datasafe_edausr; Pwd=@Paradoja18"
-
-        'con.ConnectionString = "Server=185.224.137.172; Database=u282951626_eda; Uid=u282951626_edauser; Pwd=@Paradoja18"
-
-        con.ConnectionString = "Server=" & servidor & "; Database=" & baseDatos & "; Uid = " & userid & "; Pwd = " & clave
-
+        con = ModuloConexion.ObtenerConexion()
         Try
-
-            con.Open()
-
-            'MsgBox("El sistema se conectó")
-            MessageBox.Show("El sistema esá conectado", "Combustible")
-
+            If con.State = ConnectionState.Closed Then
+                con.Open()
+                MessageBox.Show("El sistema está conectado", "Combustible")
+            End If
         Catch ex As Exception
             MsgBox("No se conecto por: " & ex.Message)
-
         End Try
+    End Sub
 
+    Private Sub AbrirConexion()
+        Try
+            ' Si la conexión es nula o está rota, obtener una nueva
+            If con Is Nothing OrElse con.State = ConnectionState.Broken Then
+                con = ModuloConexion.ObtenerConexion()
+            End If
+            ' Abrir si está cerrada
+            If con.State = ConnectionState.Closed Then
+                con.Open()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error al abrir conexión: " & ex.Message, "Error")
+        End Try
+    End Sub
 
+    Private Sub CerrarConexion()
+        Try
+            If con IsNot Nothing AndAlso con.State = ConnectionState.Open Then
+                con.Close()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error al cerrar conexión: " & ex.Message, "Error")
+        End Try
+    End Sub
+
+    Private Sub VerificarConexion()
+        Try
+            ' Si la conexión es nula o está rota, obtener una nueva
+            If con Is Nothing OrElse con.State = ConnectionState.Broken Then
+                con = ModuloConexion.ObtenerConexion()
+            End If
+            ' Abrir si está cerrada
+            If con.State = ConnectionState.Closed Then
+                con.Open()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error al verificar conexión: " & ex.Message, "Error")
+        End Try
     End Sub
 
     Public Sub placaAutoC()
-        con.Close()
         Try
             Dim query As String = "SELECT codProp FROM propietario;"
-
             Dim autoCompleteSource As New AutoCompleteStringCollection()
 
-
+            AbrirConexion()
             Using cmd As New MySqlCommand(query, con)
-                con.Open()
-                Dim reader As MySqlDataReader = cmd.ExecuteReader()
-
-                While reader.Read()
-                    autoCompleteSource.Add(reader("codProp").ToString())
-                End While
-
-                reader.Close()
+                Using reader As MySqlDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        autoCompleteSource.Add(reader("codProp").ToString())
+                    End While
+                End Using
             End Using
 
-            'placaCbzTb.AutoCompleteMode = AutoCompleteMode.Suggest
-            'placaCbzTb.AutoCompleteSource = autoCompleteSource.cu
             codTb.AutoCompleteCustomSource = autoCompleteSource
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.Message)
         Finally
-            conexion.Close()
+            CerrarConexion()
         End Try
     End Sub
     Public Sub propiet()
-        con.Close()
         Try
             Dim query As String = "SELECT nPropietario FROM propietario;"
-
             Dim autoCompleteSource As New AutoCompleteStringCollection()
 
-
+            AbrirConexion()
             Using cmd As New MySqlCommand(query, con)
-                con.Open()
-                Dim reader As MySqlDataReader = cmd.ExecuteReader()
-
-                While reader.Read()
-                    autoCompleteSource.Add(reader("nPropietario").ToString())
-                End While
-
-                reader.Close()
+                Using reader As MySqlDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        autoCompleteSource.Add(reader("nPropietario").ToString())
+                    End While
+                End Using
             End Using
 
-            'placaCbzTb.AutoCompleteMode = AutoCompleteMode.Suggest
-            'placaCbzTb.AutoCompleteSource = autoCompleteSource.cu
             propTb.AutoCompleteCustomSource = autoCompleteSource
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.Message)
         Finally
-            conexion.Close()
+            CerrarConexion()
         End Try
     End Sub
     Private Sub listadoCamDgv() 'Muestra los datos
-        Dim table As New DataTable()
-        Dim adaptadoListado As New MySqlDataAdapter("SELECT idPlaca, codigoPro, placa, propietario,  observaciones FROM placa", con)
-        adaptadoListado.Fill(table)
+        Try
+            Dim table As New DataTable()
+            AbrirConexion()
+            Using adaptadoListado As New MySqlDataAdapter("SELECT idPlaca, codigoPro, placa, propietario,  observaciones FROM placa", con)
+                adaptadoListado.Fill(table)
+            End Using
 
-        CamDGV.DataSource = table
-
-        ListadoD()
-
+            CamDGV.DataSource = table
+            ListadoD()
+        Catch ex As Exception
+            MessageBox.Show("Error al cargar datos: " & ex.Message, "Error")
+        Finally
+            CerrarConexion()
+        End Try
     End Sub
     Private Sub ListadoD()
+        If CamDGV.Columns.Count < 5 Then Return
+
         CamDGV.Columns(0).HeaderText = "Id"
         CamDGV.Columns(0).Width = 1
+        CamDGV.Columns(0).Visible = False
 
-        CamDGV.Columns(1).HeaderText = "Placa"
+        CamDGV.Columns(1).HeaderText = "Código"
         CamDGV.Columns(1).Width = 100
 
-        CamDGV.Columns(2).HeaderText = "Codigo"
-        CamDGV.Columns(2).Width = 75
+        CamDGV.Columns(2).HeaderText = "Placa"
+        CamDGV.Columns(2).Width = 100
 
         CamDGV.Columns(3).HeaderText = "Propietario"
-        CamDGV.Columns(3).Width = 200
+        CamDGV.Columns(3).Width = 250
+
+        CamDGV.Columns(4).HeaderText = "Observaciones"
+        CamDGV.Columns(4).Width = 250
     End Sub
     Sub limpiar()
         Me.codTb.Text = ""
         Me.propTb.Text = ""
         Me.placaTb.Text = ""
         Me.obserTb.Text = ""
+        Me.buscartxt.Text = ""
     End Sub
     Private Sub NuevoBtn_Click(sender As Object, e As EventArgs) Handles NuevoBtn.Click  '============  NUEVO  ===========
         limpiar()
@@ -160,47 +191,44 @@ Public Class placa
         CamDGV.Enabled = False
         CancelarBtn.Enabled = True
         NuevoBtn.Enabled = False
+
     End Sub
     Private Sub EditarBtn_Click(sender As Object, e As EventArgs) Handles EditarBtn.Click  '============ EDITAR  ===========
         PanelP.Enabled = True
         Me.CamDGV.Enabled = False
         Me.GuardarBtn.Enabled = False
-        Me.GuardarBtn.Visible = False +
+        Me.GuardarBtn.Visible = False
         Me.ModificarBtn.Enabled = True
         Me.EditarBtn.Enabled = False
         Me.CancelarBtn.Enabled = True
         Me.NuevoBtn.Enabled = False
         Me.EliminarBtn.Enabled = False
-
+        Me.ModificarBtn.Enabled = True
     End Sub
     Private Sub GuardarBtn_Click(sender As Object, e As EventArgs) Handles GuardarBtn.Click  '============ GUARDAR  ===========
-        con.Close()
-        con.Open()
         Try
+            AbrirConexion()
+            Using guardarCmd As New MySqlCommand("INSERT INTO placa (codigoPro, propietario, placa, observaciones)" & Chr(13) &
+                "VALUES(@codigoPro, @propietario, @placa, @observaciones)", con)
 
-            guardar = New MySqlCommand("INSERT INTO placa (codigoPro, propietario, placa, observaciones)" & Chr(13) &
-            "VALUES(@codigoPro, @propietario, @placa, @observaciones)", con)
+                guardarCmd.Parameters.AddWithValue("@codigoPro", codTb.Text)
+                guardarCmd.Parameters.AddWithValue("@propietario", propTb.Text)
+                guardarCmd.Parameters.AddWithValue("@placa", placaTb.Text)
+                guardarCmd.Parameters.AddWithValue("@observaciones", obserTb.Text)
 
+                guardarCmd.ExecuteNonQuery()
+                MsgBox("Registo guardado")
+            End Using
 
-            guardar.Parameters.AddWithValue("@codigoPro", codTb.Text)
-            guardar.Parameters.AddWithValue("@propietario", propTb.Text)
-            guardar.Parameters.AddWithValue("@placa", placaTb.Text)
-            guardar.Parameters.AddWithValue("@observaciones", obserTb.Text)
-
-
-            guardar.ExecuteNonQuery()
-            MsgBox("Registo guardado")
-
+            limpiar()
+            act()
+            CamDGV.Enabled = True
+            listadoCamDgv()
         Catch ex As Exception
-            MsgBox("Elemento no pudo se almacenado", ex.StackTrace)
+            MsgBox("Elemento no pudo se almacenado: " & ex.Message)
+        Finally
+            CerrarConexion()
         End Try
-
-        limpiar()
-
-        act()
-
-        CamDGV.Enabled = True
-        listadoCamDgv()
     End Sub
     Private Sub ModificarBtn_Click(sender As Object, e As EventArgs) Handles ModificarBtn.Click  '============ MODIFICAR  ===========
         actual()
@@ -211,33 +239,49 @@ Public Class placa
         listadoCamDgv()
     End Sub
     Public Sub actual()
-        Dim actualizar As String
-        actualizar = "UPDATE placa SET codigoPro = '" & codTb.Text & "', placa = '" & placaTb.Text & "', observaciones = '" & obserTb.Text & "' WHERE idPlaca = '" & buscartxt.Text & "'"
-        Dim act As New MySqlCommand(actualizar, con)
-        act.ExecuteNonQuery()
-        MsgBox("Registo Actualizado")
+        Try
+            AbrirConexion()
+            Using cmd As New MySqlCommand("UPDATE placa SET codigoPro = @codigoPro, propietario = @propietario, placa = @placa, observaciones = @observaciones WHERE idPlaca = @idPlaca", con)
+                cmd.Parameters.AddWithValue("@codigoPro", codTb.Text)
+                cmd.Parameters.AddWithValue("@propietario", propTb.Text)
+                cmd.Parameters.AddWithValue("@placa", placaTb.Text)
+                cmd.Parameters.AddWithValue("@observaciones", obserTb.Text)
+                cmd.Parameters.AddWithValue("@idPlaca", buscartxt.Text)
+                cmd.ExecuteNonQuery()
+            End Using
+            MsgBox("Registro Actualizado")
+        Catch ex As Exception
+            MessageBox.Show("Error al actualizar: " & ex.Message, "Error")
+        Finally
+            CerrarConexion()
+        End Try
     End Sub
     Private Sub EliminarBtn_Click(sender As Object, e As EventArgs) Handles EliminarBtn.Click  '============ ELIMINAR  ===========
         Try
-
-            Dim opc As DialogResult = MsgBox("¿Desea Eliminar este registro?", MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Eliminar")
+            Dim opc As DialogResult = MessageBox.Show("¿Desea Eliminar este registro?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If opc = Windows.Forms.DialogResult.Yes Then
+                If String.IsNullOrEmpty(buscartxt.Text) Then
+                    MessageBox.Show("No se ha seleccionado un registro para eliminar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Return
+                End If
 
-                Dim eliminar As String
+                AbrirConexion()
+                Dim eliminar As String = "DELETE FROM placa WHERE idPlaca = @idPlaca"
+                Using eli As New MySqlCommand(eliminar, con)
+                    eli.Parameters.AddWithValue("@idPlaca", Conversion.Int(Me.buscartxt.Text))
+                    eli.ExecuteNonQuery()
+                    MessageBox.Show("Registro eliminado correctamente", "Eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End Using
 
-                eliminar = "DELETE FROM placas WHERE idplaca = '" & Conversion.Int(Me.buscartxt.Text) & "'"
-                Dim eli As New MySqlCommand(eliminar, con)
-                eli.ExecuteNonQuery()
-
+                limpiar()
+                act()
                 listadoCamDgv()
-
             End If
-        Catch
-            MessageBox.Show("Actualización Base de Datos, " & Chr(13) & "favor escoger de nuevo el registro y eliminarlo", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
-
+        Catch ex As Exception
+            MessageBox.Show("Error al eliminar registro: " & ex.Message & Chr(13) & "Favor escoger de nuevo el registro y eliminarlo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        Finally
+            CerrarConexion()
         End Try
-
-        act()
     End Sub
     Private Sub CancelarBtn_Click(sender As Object, e As EventArgs) Handles CancelarBtn.Click  '============ CANCELAR  ===========
         act()
@@ -246,44 +290,33 @@ Public Class placa
         Me.GuardarBtn.Visible = True
     End Sub
 
-    Private Sub CamDGV_Click(sender As Object, e As EventArgs) Handles CamDGV.Click
-        If Me.CamDGV.RowCount = 0 Then
-            MessageBox.Show("No hay datos a mostrar")
-        Else
-            Dim i As Integer = Me.CamDGV.CurrentRow.Index
-            Me.placaBusqTB.Text = Me.CamDGV.Item(1, i).Value
-            PanelP.Enabled = True 'Para que se vea el Panel
-            Dim y As Integer = Me.CamDGV.CurrentRow.Index
-            Dim idcod As Integer = Me.CamDGV.Item(0, y).Value
-            buscartxt.Text = idcod
-            Seleccion()
-            Me.EditarBtn.Enabled = True
-            Me.EliminarBtn.Enabled = True
-        End If
-    End Sub
     Public Sub Seleccion()
-        Dim consulta As String
-        Dim lista As Byte
+        Try
+            Dim lista As Integer = 0
 
-        If placaBusqTB.Text <> "" Then
-            consulta = "SELECT * FROM placa WHERE idPlaca = '" & buscartxt.Text & "'"
-            adaptador = New MySqlDataAdapter(consulta, con)
-            datos = New DataSet
-            adaptador.Fill(datos, "placa")
-            lista = datos.Tables("placa").Rows.Count
-        End If
+            If buscartxt.Text <> "" Then
+                AbrirConexion()
+                Dim cmd As New MySqlCommand("SELECT * FROM placa WHERE idPlaca = @idPlaca", con)
+                cmd.Parameters.AddWithValue("@idPlaca", buscartxt.Text)
+                adaptador = New MySqlDataAdapter(cmd)
+                datos = New DataSet
+                adaptador.Fill(datos, "placa")
+                lista = datos.Tables("placa").Rows.Count
+            End If
 
-        If lista <> 0 Then
-
-            codTb.Text = datos.Tables("placa").Rows(0).Item("codigoPro").ToString
-            propTb.Text = datos.Tables("placa").Rows(0).Item("propietario").ToString
-            placaTb.Text = datos.Tables("placa").Rows(0).Item("placa").ToString
-            obserTb.Text = datos.Tables("placa").Rows(0).Item("observaciones").ToString
-
-        Else
-            MsgBox("Datos no encontrados")
-        End If
-        'listadoCamDgv()
+            If lista <> 0 Then
+                codTb.Text = datos.Tables("placa").Rows(0).Item("codigoPro").ToString
+                propTb.Text = datos.Tables("placa").Rows(0).Item("propietario").ToString
+                placaTb.Text = datos.Tables("placa").Rows(0).Item("placa").ToString
+                obserTb.Text = datos.Tables("placa").Rows(0).Item("observaciones").ToString
+            Else
+                MsgBox("Datos no encontrados")
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error al seleccionar: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            CerrarConexion()
+        End Try
     End Sub
 
     Private Sub propTb_KeyDown(sender As Object, e As KeyEventArgs) Handles propTb.KeyDown
@@ -295,23 +328,29 @@ Public Class placa
         End If
     End Sub
     Public Sub Seleccion2()
-        Dim consulta As String
-        Dim lista As Byte
+        Try
+            Dim lista As Integer = 0
 
-        If propTb.Text <> "" Then
-            consulta = "SELECT * FROM propietario WHERE nPropietario = '" & propTb.Text & "'"
-            adaptador = New MySqlDataAdapter(consulta, con)
-            datos = New DataSet
-            adaptador.Fill(datos, "propietario")
-            lista = datos.Tables("propietario").Rows.Count
-        End If
+            If propTb.Text <> "" Then
+                AbrirConexion()
+                Dim cmd As New MySqlCommand("SELECT * FROM propietario WHERE nPropietario = @nPropietario", con)
+                cmd.Parameters.AddWithValue("@nPropietario", propTb.Text)
+                adaptador = New MySqlDataAdapter(cmd)
+                datos = New DataSet
+                adaptador.Fill(datos, "propietario")
+                lista = datos.Tables("propietario").Rows.Count
+            End If
 
-        If lista <> 0 Then
-            codTb.Text = datos.Tables("propietario").Rows(0).Item("codProP").ToString
-        Else
-            MsgBox("Datos no encontrados")
-        End If
-        'listadoCamDgv()
+            If lista <> 0 Then
+                codTb.Text = datos.Tables("propietario").Rows(0).Item("codProp").ToString
+            Else
+                MsgBox("Datos no encontrados")
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error al buscar propietario: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            CerrarConexion()
+        End Try
     End Sub
     Private Sub codTb_KeyDown(sender As Object, e As KeyEventArgs) Handles codTb.KeyDown
         If e.KeyCode = Keys.Enter Then
@@ -322,30 +361,114 @@ Public Class placa
         End If
     End Sub
     Public Sub Seleccion3()
-        Dim consulta As String
-        Dim lista As Byte
+        Try
+            Dim lista As Integer = 0
 
-        If codTb.Text <> "" Then
-            consulta = "SELECT * FROM propietario WHERE codProp  = '" & codTb.Text & "'"
-            adaptador = New MySqlDataAdapter(consulta, con)
-            datos = New DataSet
-            adaptador.Fill(datos, "propietario")
-            lista = datos.Tables("propietario").Rows.Count
+            If codTb.Text <> "" Then
+                AbrirConexion()
+                Dim cmd As New MySqlCommand("SELECT * FROM propietario WHERE codProp = @codProp", con)
+                cmd.Parameters.AddWithValue("@codProp", codTb.Text)
+                adaptador = New MySqlDataAdapter(cmd)
+                datos = New DataSet
+                adaptador.Fill(datos, "propietario")
+                lista = datos.Tables("propietario").Rows.Count
+            End If
+
+            If lista <> 0 Then
+                propTb.Text = datos.Tables("propietario").Rows(0).Item("nPropietario").ToString
+            Else
+                MsgBox("Datos no encontrados")
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error al buscar código: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            CerrarConexion()
+        End Try
+    End Sub
+
+
+    ' ============ MÉTODOS DE BÚSQUEDA ============
+    Private Sub buscarPlacas()
+        Try
+            Dim filtro As String = ""
+            Dim parametros As New List(Of MySqlParameter)()
+
+            ' Construir filtro dinámico basado en los campos de búsqueda
+            If Not String.IsNullOrEmpty(codBusqTB.Text.Trim()) Then
+                filtro &= " codigoPro LIKE @codigo"
+                parametros.Add(New MySqlParameter("@codigo", "%" & codBusqTB.Text.Trim() & "%"))
+            End If
+
+            If Not String.IsNullOrEmpty(propBusqTB.Text.Trim()) Then
+                If filtro <> "" Then filtro &= " AND"
+                filtro &= " propietario LIKE @propietario"
+                parametros.Add(New MySqlParameter("@propietario", "%" & propBusqTB.Text.Trim() & "%"))
+            End If
+
+            If Not String.IsNullOrEmpty(placaBusqTB.Text.Trim()) Then
+                If filtro <> "" Then filtro &= " AND"
+                filtro &= " placa LIKE @placa"
+                parametros.Add(New MySqlParameter("@placa", "%" & placaBusqTB.Text.Trim() & "%"))
+            End If
+
+            Dim consulta As String = "SELECT idPlaca, codigoPro, placa, propietario, observaciones FROM placa"
+            If filtro <> "" Then
+                consulta &= " WHERE" & filtro
+            End If
+
+            Dim table As New DataTable()
+            AbrirConexion()
+            Using cmd As New MySqlCommand(consulta, con)
+                For Each param As MySqlParameter In parametros
+                    cmd.Parameters.Add(param)
+                Next
+                Using adaptadorBusq As New MySqlDataAdapter(cmd)
+                    adaptadorBusq.Fill(table)
+                End Using
+            End Using
+
+            CamDGV.DataSource = table
+            ListadoD()
+
+        Catch ex As Exception
+            MessageBox.Show("Error al buscar: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            CerrarConexion()
+        End Try
+    End Sub
+
+    Private Sub codBusqTB_TextChanged(sender As Object, e As EventArgs) Handles codBusqTB.TextChanged
+        buscarPlacas()
+    End Sub
+
+    Private Sub propBusqTB_TextChanged(sender As Object, e As EventArgs) Handles propBusqTB.TextChanged
+        buscarPlacas()
+    End Sub
+
+    Private Sub placaBusqTB_TextChanged(sender As Object, e As EventArgs) Handles placaBusqTB.TextChanged
+        buscarPlacas()
+    End Sub
+
+    Private Sub limpiarBusqueda()
+        codBusqTB.Text = ""
+        propBusqTB.Text = ""
+        placaBusqTB.Text = ""
+    End Sub
+
+    Private Sub CamDGV_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles CamDGV.CellClick
+        If e.RowIndex >= 0 AndAlso Me.CamDGV.RowCount > 0 Then
+            Dim i As Integer = e.RowIndex
+            ' Evitar triggear búsqueda al seleccionar
+            RemoveHandler Me.placaBusqTB.TextChanged, AddressOf placaBusqTB_TextChanged
+            Me.placaBusqTB.Text = Me.CamDGV.Item(2, i).Value.ToString()
+            AddHandler Me.placaBusqTB.TextChanged, AddressOf placaBusqTB_TextChanged
+            PanelP.Enabled = True
+            Dim idcod As Integer = Convert.ToInt32(Me.CamDGV.Item(0, i).Value)
+            buscartxt.Text = idcod.ToString()
+            Seleccion()
+            Me.EditarBtn.Enabled = True
+            Me.EliminarBtn.Enabled = True
         End If
-
-        If lista <> 0 Then
-            propTb.Text = datos.Tables("propietario").Rows(0).Item("nPropietario").ToString
-        Else
-            MsgBox("Datos no encontrados")
-        End If
-        'listadoCamDgv()
     End Sub
 
-    Private Sub CamDGV_MouseLeave(sender As Object, e As EventArgs) Handles CamDGV.MouseLeave
-        PanelP.Enabled = False
-    End Sub
-
-    Private Sub CamDGV_MouseEnter(sender As Object, e As EventArgs) Handles CamDGV.MouseEnter
-        PanelP.Enabled = True
-    End Sub
 End Class

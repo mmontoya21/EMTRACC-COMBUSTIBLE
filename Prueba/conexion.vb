@@ -20,9 +20,7 @@ Public Class conexion
         'conectar()
         act()
         'listadoCamDgv()
-        CamDGV.BackgroundColor = colorFondo
-        CamDGV.RowsDefaultCellStyle.BackColor = Color.Bisque
-        CamDGV.AlternatingRowsDefaultCellStyle.BackColor = Color.Lavender
+        EstilizarDataGridView(CamDGV)
 
         PanelP.Enabled = False
     End Sub

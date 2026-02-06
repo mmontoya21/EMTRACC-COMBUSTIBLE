@@ -17,21 +17,15 @@ Public Class Principal
         camiBt.BackColor = Color.FromArgb(153, 180, 209)
     End Sub
     Public Sub conectar()
-        'Dim servidor As String = "localhost"
-        Dim servidor As String = "192.168.68.101"
-        Dim baseDatos As String = "givemefuel"
-        Dim userid As String = "root"
-        Dim clave As String = ""
-
-        con.ConnectionString = "Server=" & servidor & "; Database=" & baseDatos & "; Uid = " & userid & "; Pwd = " & clave
-
+        con = ModuloConexion.ObtenerConexion()
         Try
-            con.Open()
+            If con.State = ConnectionState.Closed Then
+                con.Open()
+            End If
             MsgBox("La Base de Datos se conectó")
         Catch ex As Exception
             MsgBox("No se conecto por: " & ex.Message)
         End Try
-
     End Sub
     Public Sub abrirformulario(frmh As Object)
         If (PanelForm.Controls.Count > 0) Then
@@ -181,12 +175,23 @@ Public Class Principal
         Panel1.Visible = False
     End Sub
 
-    Private Sub ButtonX12_Click(sender As Object, e As EventArgs) Handles ButtonX12.Click
-
-    End Sub
-
     Private Sub PictureBox1_DoubleClick(sender As Object, e As EventArgs) Handles PictureBox1.DoubleClick
         abrirformulario(New conexion)
+        Panel1.Visible = False
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        abrirformulario(New reporte)
+        Panel1.Visible = False
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        abrirformulario(New valorComb)
+        Panel1.Visible = False
+    End Sub
+
+    Private Sub RutasBt_Click(sender As Object, e As EventArgs) Handles RutasBt.Click
+        abrirformulario(New rutas)
         Panel1.Visible = False
     End Sub
 End Class

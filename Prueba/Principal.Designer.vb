@@ -24,6 +24,8 @@ Partial Class Principal
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Principal))
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.ButtonX12 = New DevComponents.DotNetBar.ButtonX()
         Me.ButtonX11 = New DevComponents.DotNetBar.ButtonX()
         Me.ButtonX10 = New DevComponents.DotNetBar.ButtonX()
@@ -36,6 +38,7 @@ Partial Class Principal
         Me.ButtonX3 = New DevComponents.DotNetBar.ButtonX()
         Me.ButtonX2 = New DevComponents.DotNetBar.ButtonX()
         Me.camiBt = New DevComponents.DotNetBar.ButtonX()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.PanelForm = New System.Windows.Forms.Panel()
         Me.notiLb = New DevComponents.DotNetBar.LabelX()
         Me.PanelUp = New DevComponents.DotNetBar.PanelEx()
@@ -44,16 +47,19 @@ Partial Class Principal
         Me.resBt = New DevComponents.DotNetBar.ButtonX()
         Me.maxBt = New DevComponents.DotNetBar.ButtonX()
         Me.closeBt = New DevComponents.DotNetBar.ButtonX()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.RutasBt = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelForm.SuspendLayout()
         Me.PanelUp.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Panel1.Controls.Add(Me.RutasBt)
+        Me.Panel1.Controls.Add(Me.Button2)
+        Me.Panel1.Controls.Add(Me.Button1)
         Me.Panel1.Controls.Add(Me.ButtonX12)
         Me.Panel1.Controls.Add(Me.ButtonX11)
         Me.Panel1.Controls.Add(Me.ButtonX10)
@@ -70,8 +76,26 @@ Partial Class Principal
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Left
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(149, 599)
+        Me.Panel1.Size = New System.Drawing.Size(149, 645)
         Me.Panel1.TabIndex = 0
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(3, 336)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(140, 29)
+        Me.Button2.TabIndex = 14
+        Me.Button2.Text = "Valor Combustible"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(3, 572)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(140, 30)
+        Me.Button1.TabIndex = 13
+        Me.Button1.Text = "Reporte"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'ButtonX12
         '
@@ -91,7 +115,7 @@ Partial Class Principal
         Me.ButtonX11.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX11.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ButtonX11.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX11.Location = New System.Drawing.Point(3, 517)
+        Me.ButtonX11.Location = New System.Drawing.Point(3, 531)
         Me.ButtonX11.Name = "ButtonX11"
         Me.ButtonX11.Size = New System.Drawing.Size(143, 35)
         Me.ButtonX11.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -105,7 +129,7 @@ Partial Class Principal
         Me.ButtonX10.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX10.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ButtonX10.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX10.Location = New System.Drawing.Point(3, 198)
+        Me.ButtonX10.Location = New System.Drawing.Point(3, 189)
         Me.ButtonX10.Name = "ButtonX10"
         Me.ButtonX10.Size = New System.Drawing.Size(143, 35)
         Me.ButtonX10.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -119,7 +143,7 @@ Partial Class Principal
         Me.ButtonX9.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX9.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ButtonX9.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX9.Location = New System.Drawing.Point(3, 446)
+        Me.ButtonX9.Location = New System.Drawing.Point(3, 460)
         Me.ButtonX9.Name = "ButtonX9"
         Me.ButtonX9.Size = New System.Drawing.Size(143, 35)
         Me.ButtonX9.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -132,7 +156,7 @@ Partial Class Principal
         Me.ButtonX8.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX8.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ButtonX8.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX8.Location = New System.Drawing.Point(3, 306)
+        Me.ButtonX8.Location = New System.Drawing.Point(3, 297)
         Me.ButtonX8.Name = "ButtonX8"
         Me.ButtonX8.Size = New System.Drawing.Size(143, 35)
         Me.ButtonX8.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -146,7 +170,7 @@ Partial Class Principal
         Me.ButtonX7.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX7.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ButtonX7.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX7.Location = New System.Drawing.Point(3, 393)
+        Me.ButtonX7.Location = New System.Drawing.Point(3, 407)
         Me.ButtonX7.Name = "ButtonX7"
         Me.ButtonX7.Size = New System.Drawing.Size(143, 35)
         Me.ButtonX7.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -186,7 +210,7 @@ Partial Class Principal
         Me.ButtonX4.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX4.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ButtonX4.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX4.Location = New System.Drawing.Point(3, 481)
+        Me.ButtonX4.Location = New System.Drawing.Point(3, 495)
         Me.ButtonX4.Name = "ButtonX4"
         Me.ButtonX4.Size = New System.Drawing.Size(143, 35)
         Me.ButtonX4.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -200,7 +224,7 @@ Partial Class Principal
         Me.ButtonX3.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX3.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ButtonX3.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX3.Location = New System.Drawing.Point(3, 357)
+        Me.ButtonX3.Location = New System.Drawing.Point(3, 371)
         Me.ButtonX3.Name = "ButtonX3"
         Me.ButtonX3.Size = New System.Drawing.Size(143, 35)
         Me.ButtonX3.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -214,7 +238,7 @@ Partial Class Principal
         Me.ButtonX2.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX2.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ButtonX2.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX2.Location = New System.Drawing.Point(3, 270)
+        Me.ButtonX2.Location = New System.Drawing.Point(3, 261)
         Me.ButtonX2.Name = "ButtonX2"
         Me.ButtonX2.Size = New System.Drawing.Size(143, 35)
         Me.ButtonX2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -227,13 +251,23 @@ Partial Class Principal
         Me.camiBt.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.camiBt.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.camiBt.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.camiBt.Location = New System.Drawing.Point(3, 234)
+        Me.camiBt.Location = New System.Drawing.Point(3, 225)
         Me.camiBt.Name = "camiBt"
         Me.camiBt.Size = New System.Drawing.Size(143, 35)
         Me.camiBt.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.camiBt.Symbol = ""
         Me.camiBt.TabIndex = 1
         Me.camiBt.Text = "CAMIONES"
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
+        Me.PictureBox1.Location = New System.Drawing.Point(25, 30)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(87, 74)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1.TabIndex = 12
+        Me.PictureBox1.TabStop = False
         '
         'PanelForm
         '
@@ -242,7 +276,7 @@ Partial Class Principal
         Me.PanelForm.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PanelForm.Location = New System.Drawing.Point(149, 27)
         Me.PanelForm.Name = "PanelForm"
-        Me.PanelForm.Size = New System.Drawing.Size(651, 572)
+        Me.PanelForm.Size = New System.Drawing.Size(651, 618)
         Me.PanelForm.TabIndex = 5
         '
         'notiLb
@@ -253,7 +287,7 @@ Partial Class Principal
         '
         Me.notiLb.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.notiLb.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.notiLb.Location = New System.Drawing.Point(0, 545)
+        Me.notiLb.Location = New System.Drawing.Point(0, 591)
         Me.notiLb.Name = "notiLb"
         Me.notiLb.Size = New System.Drawing.Size(651, 27)
         Me.notiLb.TabIndex = 6
@@ -349,21 +383,20 @@ Partial Class Principal
         Me.closeBt.SymbolColor = System.Drawing.Color.Red
         Me.closeBt.TabIndex = 0
         '
-        'PictureBox1
+        'RutasBt
         '
-        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(25, 30)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(87, 74)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox1.TabIndex = 12
-        Me.PictureBox1.TabStop = False
+        Me.RutasBt.Location = New System.Drawing.Point(3, 608)
+        Me.RutasBt.Name = "RutasBt"
+        Me.RutasBt.Size = New System.Drawing.Size(140, 25)
+        Me.RutasBt.TabIndex = 15
+        Me.RutasBt.Text = "Rutas"
+        Me.RutasBt.UseVisualStyleBackColor = True
         '
         'Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 599)
+        Me.ClientSize = New System.Drawing.Size(800, 645)
         Me.Controls.Add(Me.PanelForm)
         Me.Controls.Add(Me.PanelUp)
         Me.Controls.Add(Me.Panel1)
@@ -372,9 +405,9 @@ Partial Class Principal
         Me.Name = "Principal"
         Me.Text = "COMBUSTIBLE"
         Me.Panel1.ResumeLayout(False)
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelForm.ResumeLayout(False)
         Me.PanelUp.ResumeLayout(False)
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -401,4 +434,7 @@ Partial Class Principal
     Friend WithEvents ButtonX11 As DevComponents.DotNetBar.ButtonX
     Friend WithEvents ButtonX12 As DevComponents.DotNetBar.ButtonX
     Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Button2 As Button
+    Friend WithEvents RutasBt As Button
 End Class
