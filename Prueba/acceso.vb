@@ -5,17 +5,14 @@ Imports System.Text
 Imports System.Data
 Imports MySql.Data
 Public Class acceso
-    Dim con As New MySqlConnection
-    Dim cm As New MySqlCommand
-    Dim guardar As New MySqlCommand
     Dim adaptador As New MySqlDataAdapter
     Dim datos As DataSet
+
+    ' Permisos: array de checkboxes (se inicializa en Load desde controles del Designer)
+    Private chkModulos() As CheckBox
+    Private ReadOnly moduloKeys() As String = {"camiones", "placa", "transportistas", "tanque", "empresa", "acceso", "medicion", "comprobante", "factura", "propietario", "consumo", "reporte", "valorComb", "rutas", "reporteFact"}
+
     Private Sub acceso_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim colorFondo = Color.FromArgb(106, 126, 168)
-        Dim colorTextbox = Color.FromArgb(240, 210, 249)
-
-        On Error Resume Next
-
         System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("es-CO")
         System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern = "yyyy/MM/dd"
         System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyDecimalSeparator = "."
@@ -23,76 +20,245 @@ Public Class acceso
         System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator = "."
         System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberGroupSeparator = ","
 
+        EstilizarFormulario()
+        EnsurePermisosColumn()
 
-        conectar()
+        ' Inicializar array de checkboxes desde controles del Designer
+        chkModulos = New CheckBox() {chkCamiones, chkPlacas, chkTransportistas, chkTanque, chkEmpresa, chkAccesos, chkMedicion, chkComprobante, chkFactura, chkPropietario, chkConsumo, chkReporte, chkValorComb, chkRutas, chkReporteFact}
+        PanelPermisos.Enabled = False
+
         act()
         listadoCamDgv()
-        EstilizarDataGridView(CamDGV)
+        EstilizarDataGridViewWinUI(AcceDGV)
 
-        PanelP.Enabled = False
+        HabilitarControles(False)
     End Sub
+
+    Private Sub EstilizarFormulario()
+        ' === WinUI 3 Dark Theme ===
+        Dim fondoForm As Color = Color.FromArgb(32, 32, 32)
+        Dim fondoCard As Color = Color.FromArgb(44, 44, 44)
+        Dim fondoControl As Color = Color.FromArgb(55, 55, 55)
+        Dim colorAccent As Color = Color.FromArgb(96, 205, 255)
+
+        ' === Formulario ===
+        Me.BackColor = fondoForm
+        Me.Text = "EMTRACC - Accesos"
+
+        ' === Paneles (tarjetas) ===
+        PanelP.BackColor = fondoCard
+        PanelPermisos.BackColor = fondoCard
+
+        ' === Labels en PanelP ===
+        For Each ctrl As Control In PanelP.Controls
+            If TypeOf ctrl Is Label Then
+                Dim lbl = DirectCast(ctrl, Label)
+                lbl.Font = New Font("Segoe UI Semibold", 11, FontStyle.Bold)
+                lbl.ForeColor = Color.White
+            End If
+        Next
+
+        ' === TextBoxes en PanelP ===
+        For Each ctrl As Control In PanelP.Controls
+            If TypeOf ctrl Is TextBox Then
+                Dim tb = DirectCast(ctrl, TextBox)
+                tb.BackColor = fondoControl
+                tb.ForeColor = Color.White
+                tb.Font = New Font("Segoe UI", 11)
+                tb.BorderStyle = BorderStyle.FixedSingle
+            End If
+        Next
+
+        ' === ComboBoxes en PanelP ===
+        For Each ctrl As Control In PanelP.Controls
+            If TypeOf ctrl Is ComboBox Then
+                Dim cb = DirectCast(ctrl, ComboBox)
+                cb.BackColor = fondoControl
+                cb.ForeColor = Color.White
+                cb.Font = New Font("Segoe UI", 11)
+                cb.FlatStyle = FlatStyle.Flat
+            End If
+        Next
+
+        ' === DateTimePicker ===
+        fechDpk.Font = New Font("Segoe UI", 11)
+
+        ' === Botones de accion ===
+        EstilizarBoton(NuevoBtn, fondoControl)
+        EstilizarBoton(EditarBtn, fondoControl)
+        EstilizarBoton(GuardarBtn, Color.FromArgb(16, 137, 62))
+        EstilizarBoton(ModificarBtn, Color.FromArgb(255, 180, 0), Color.Black)
+        EstilizarBoton(EliminarBtn, Color.FromArgb(232, 17, 35))
+        EstilizarBoton(CancelarBtn, fondoControl)
+
+        ' === Boton ojo (toggle clave) ===
+        ButtonX1.FlatStyle = FlatStyle.Flat
+        ButtonX1.FlatAppearance.BorderSize = 0
+        ButtonX1.BackColor = fondoControl
+        ButtonX1.ForeColor = Color.White
+        ButtonX1.Cursor = Cursors.Hand
+
+        ' === Checkboxes en PanelPermisos ===
+        For Each ctrl As Control In PanelPermisos.Controls
+            If TypeOf ctrl Is CheckBox Then
+                Dim chk = DirectCast(ctrl, CheckBox)
+                chk.ForeColor = Color.FromArgb(200, 215, 240)
+                chk.Font = New Font("Segoe UI", 9)
+                chk.BackColor = Color.Transparent
+            End If
+        Next
+
+        ' === Titulo permisos ===
+        LblPermisos.ForeColor = colorAccent
+        LblPermisos.Font = New Font("Segoe UI Semibold", 10, FontStyle.Bold)
+    End Sub
+
+    Private Sub EstilizarBoton(btn As Button, bgColor As Color, Optional fgColor As Color = Nothing)
+        If fgColor = Nothing Then fgColor = Color.White
+        btn.FlatStyle = FlatStyle.Flat
+        btn.FlatAppearance.BorderSize = 1
+        btn.FlatAppearance.BorderColor = bgColor
+        btn.FlatAppearance.MouseOverBackColor = ControlPaint.Light(bgColor, 0.15F)
+        btn.FlatAppearance.MouseDownBackColor = ControlPaint.Dark(bgColor, 0.15F)
+        btn.BackColor = bgColor
+        btn.ForeColor = fgColor
+        btn.Font = New Font("Segoe UI", 9.5!, FontStyle.Bold)
+        btn.Cursor = Cursors.Hand
+    End Sub
+
+    Private Sub HabilitarControles(habilitar As Boolean)
+        For Each ctrl As Control In PanelP.Controls
+            If TypeOf ctrl Is TextBox OrElse
+               TypeOf ctrl Is ComboBox OrElse
+               TypeOf ctrl Is DateTimePicker OrElse
+               TypeOf ctrl Is Button Then
+                ctrl.Enabled = habilitar
+            End If
+        Next
+        PanelPermisos.Enabled = habilitar
+    End Sub
+
     Private Function ComputeSHA256(input As String) As String
-        ' Crear instancia del algoritmo SHA256
         Using sha256 As SHA256 = SHA256.Create()
-            ' Convertir el texto de entrada en bytes
             Dim inputBytes As Byte() = Encoding.UTF8.GetBytes(input)
-
-            ' Calcular el hash
             Dim hashBytes As Byte() = sha256.ComputeHash(inputBytes)
-
-            ' Convertir los bytes del hash a una cadena hexadecimal
             Dim sb As New StringBuilder()
             For Each b As Byte In hashBytes
                 sb.Append(b.ToString("X2"))
             Next
-
             Return sb.ToString()
         End Using
     End Function
-    Public Sub conectar()
-        con = ModuloConexion.ObtenerConexion()
+
+    ' ============ PANEL DE PERMISOS ============
+    Private Sub EnsurePermisosColumn()
         Try
-            If con.State = ConnectionState.Closed Then
-                con.Open()
-            End If
-            MsgBox("Sistema conectado")
-        Catch ex As Exception
-            MsgBox("No se conecto por: " & ex.Message)
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+                Using cmd As New MySqlCommand("ALTER TABLE accesos ADD COLUMN permisos TEXT", conLocal)
+                    cmd.ExecuteNonQuery()
+                End Using
+            End Using
+        Catch
+            ' Columna ya existe
         End Try
     End Sub
-    Private Sub listadoCamDgv() 'Muestra los datos
-        Dim table As New DataTable()
-        Dim adaptadoListado As New MySqlDataAdapter("SELECT id, nombre, apellido, usuario , tipo, status, fecha FROM accesos", con)
-        adaptadoListado.Fill(table)
 
-        CamDGV.DataSource = table
+    Private Function ObtenerPermisos() As String
+        Dim permisos As New List(Of String)
+        For i As Integer = 0 To 14
+            If chkModulos(i).Checked Then
+                permisos.Add(moduloKeys(i))
+            End If
+        Next
+        Return String.Join(",", permisos)
+    End Function
 
-        ListadoD()
+    Private Sub CargarPermisos(permisos As String)
+        If String.IsNullOrEmpty(permisos) Then
+            For i As Integer = 0 To 14
+                chkModulos(i).Checked = True
+            Next
+            Return
+        End If
 
+        Dim lista() As String = permisos.Split(","c)
+        For i As Integer = 0 To 14
+            chkModulos(i).Checked = lista.Contains(moduloKeys(i))
+        Next
+    End Sub
+
+    Private Sub AplicarDefaultsPorTipo()
+        ' Primero marcar todos
+        For i As Integer = 0 To 14
+            chkModulos(i).Checked = True
+        Next
+
+        Select Case tipoTbx.Text.ToUpper()
+            Case "ADMIN"
+                For i As Integer = 0 To 14
+                    If moduloKeys(i) = "empresa" OrElse moduloKeys(i) = "acceso" Then
+                        chkModulos(i).Checked = False
+                    End If
+                Next
+            Case "USUARIO"
+                For i As Integer = 0 To 14
+                    If moduloKeys(i) = "empresa" OrElse moduloKeys(i) = "acceso" OrElse moduloKeys(i) = "factura" Then
+                        chkModulos(i).Checked = False
+                    End If
+                Next
+            Case "TEST"
+                For i As Integer = 0 To 14
+                    If moduloKeys(i) = "acceso" Then
+                        chkModulos(i).Checked = False
+                    End If
+                Next
+        End Select
+    End Sub
+
+    Private Sub tipoTbx_SelectedIndexChanged(sender As Object, e As EventArgs) Handles tipoTbx.SelectedIndexChanged
+        If PanelPermisos.Enabled Then
+            AplicarDefaultsPorTipo()
+        End If
+    End Sub
+
+    ' ============ DATOS ============
+    Private Sub listadoCamDgv()
+        Try
+            Dim table As New DataTable()
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+                Using adaptadoListado As New MySqlDataAdapter("SELECT id, nombre, apellido, usuario, tipo, status, fecha FROM accesos", conLocal)
+                    adaptadoListado.Fill(table)
+                End Using
+            End Using
+            AcceDGV.DataSource = table
+            ListadoD()
+        Catch ex As Exception
+            MessageBox.Show("Error al cargar datos: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
     Private Sub ListadoD()
+        AcceDGV.Columns(0).HeaderText = "ID"
+        AcceDGV.Columns(0).Width = 10
 
-        CamDGV.Columns(0).HeaderText = "ID"
-        CamDGV.Columns(0).Width = 10
+        AcceDGV.Columns(1).HeaderText = "Nombre"
+        AcceDGV.Columns(1).Width = 100
 
-        CamDGV.Columns(1).HeaderText = "Nombre"
-        CamDGV.Columns(1).Width = 100
+        AcceDGV.Columns(2).HeaderText = "Apellido"
+        AcceDGV.Columns(2).Width = 100
 
-        CamDGV.Columns(2).HeaderText = "Apellido"
-        CamDGV.Columns(2).Width = 100
+        AcceDGV.Columns(3).HeaderText = "Usuario"
+        AcceDGV.Columns(3).Width = 175
 
-        CamDGV.Columns(3).HeaderText = "Usuario"
-        CamDGV.Columns(3).Width = 175
+        AcceDGV.Columns(4).HeaderText = "Tipo"
+        AcceDGV.Columns(4).Width = 100
 
-        CamDGV.Columns(4).HeaderText = "Tipo"
-        CamDGV.Columns(4).Width = 100
+        AcceDGV.Columns(5).HeaderText = "Estatus"
+        AcceDGV.Columns(5).Width = 100
 
-        CamDGV.Columns(5).HeaderText = "Estatus"
-        CamDGV.Columns(5).Width = 100
-
-        CamDGV.Columns(6).HeaderText = "Fecha"
-        CamDGV.Columns(6).Width = 100
-
+        AcceDGV.Columns(6).HeaderText = "Fecha"
+        AcceDGV.Columns(6).Width = 100
     End Sub
     Sub limpiar()
         Me.nombTbx.Text = ""
@@ -102,6 +268,9 @@ Public Class acceso
         Me.tipoTbx.Text = ""
         Me.statTbx.Text = ""
         Me.fechDpk.Value = Today
+        For i As Integer = 0 To 14
+            chkModulos(i).Checked = True
+        Next
     End Sub
     Private Sub act()
         Me.NuevoBtn.Enabled = True
@@ -116,7 +285,7 @@ Public Class acceso
 
         nombTbx.Focus()
 
-        CamDGV.Enabled = False
+        AcceDGV.Enabled = False
         Me.GuardarBtn.Enabled = True
         Me.ModificarBtn.Enabled = False
         Me.EditarBtn.Enabled = False
@@ -124,12 +293,12 @@ Public Class acceso
         Me.EliminarBtn.Enabled = False
         Me.NuevoBtn.Enabled = False
 
-        PanelP.Enabled = True
+        HabilitarControles(True)
     End Sub
 
     Private Sub EditarBtn_Click(sender As Object, e As EventArgs) Handles EditarBtn.Click  '============  EDITAR  ===========
-        PanelP.Enabled = True
-        Me.CamDGV.Enabled = False
+        HabilitarControles(True)
+        Me.AcceDGV.Enabled = False
         Me.GuardarBtn.Enabled = False
         Me.GuardarBtn.Visible = False
         Me.ModificarBtn.Enabled = True
@@ -141,103 +310,112 @@ Public Class acceso
 
     Private Sub CancelarBtn_Click(sender As Object, e As EventArgs) Handles CancelarBtn.Click  '============  CANCELAR  ===========
         act()
-        PanelP.Enabled = False
-        CamDGV.Enabled = True
+        HabilitarControles(False)
+        AcceDGV.Enabled = True
         Me.GuardarBtn.Visible = True
     End Sub
 
     Private Sub EliminarBtn_Click(sender As Object, e As EventArgs) Handles EliminarBtn.Click  '============  ELIMINAR  ===========
         Try
-
             Dim opc As DialogResult = MsgBox("¿Desea Eliminar este registro?", MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Eliminar")
             If opc = Windows.Forms.DialogResult.Yes Then
-
-                Dim eliminar As String
-
-                eliminar = "DELETE FROM accesos WHERE id = '" & Conversion.Int(Me.buscartxt.Text) & "'"
-                Dim eli As New MySqlCommand(eliminar, con)
-                eli.ExecuteNonQuery()
-
+                Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                    conLocal.Open()
+                    Using eli As New MySqlCommand("DELETE FROM accesos WHERE id = @id", conLocal)
+                        eli.Parameters.AddWithValue("@id", Conversion.Int(Me.buscartxt.Text))
+                        eli.ExecuteNonQuery()
+                    End Using
+                End Using
+                MsgBox("Registro eliminado correctamente", MsgBoxStyle.Information, "Eliminado")
                 listadoCamDgv()
-
             End If
-        Catch
-            MessageBox.Show("Actualización Base de Datos, " & Chr(13) & "favor escoger de nuevo el registro y eliminarlo", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
-
+        Catch ex As Exception
+            MessageBox.Show("Error al eliminar: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try
 
         act()
     End Sub
     Private Sub GuardarBtn_Click(sender As Object, e As EventArgs) Handles GuardarBtn.Click  '============  GUARDADO  ===========
-        con.Close()
-        con.Open()
-
         Dim fe As Date = fechDpk.Value.ToString("yyyy-MM-dd")
-
-        Dim claveHash As String = clavTbx.Text ' El texto del TextBox
-        Dim hashedClave As String = ComputeSHA256(claveHash)
+        Dim hashedClave As String = ComputeSHA256(clavTbx.Text)
+        Dim permisos As String = ObtenerPermisos()
 
         Try
-
-            guardar = New MySqlCommand("INSERT INTO accesos (nombre, apellido, usuario, clave, tipo, status, fecha)" & Chr(13) &
-                                                     "VALUES(@nombre, @apellido, @usuario, @clave, @tipo, @status, @fecha)", con)
-
-            'guardar = New MySqlCommand("INSERT INTO accesos (nombre, apellido, usuario, fecha)" & Chr(13) &
-            '"VALUES(@nombre, @apellido, @usuario, @clave)", con)
-
-            guardar.Parameters.AddWithValue("@nombre", nombTbx.Text)
-            guardar.Parameters.AddWithValue("@apellido", ApelTbx.Text)
-            guardar.Parameters.AddWithValue("@usuario", usuaTbx.Text)
-            guardar.Parameters.AddWithValue("@clave", hashedClave)
-            guardar.Parameters.AddWithValue("@tipo", tipoTbx.Text)
-            guardar.Parameters.AddWithValue("@status", statTbx.Text)
-            guardar.Parameters.AddWithValue("@fecha", fe)
-
-
-            guardar.ExecuteNonQuery()
-            MsgBox("Registo guardado")
-
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+                Using guardar As New MySqlCommand("INSERT INTO accesos (nombre, apellido, usuario, clave, tipo, status, fecha, permisos) VALUES(@nombre, @apellido, @usuario, @clave, @tipo, @status, @fecha, @permisos)", conLocal)
+                    guardar.Parameters.AddWithValue("@nombre", nombTbx.Text)
+                    guardar.Parameters.AddWithValue("@apellido", ApelTbx.Text)
+                    guardar.Parameters.AddWithValue("@usuario", usuaTbx.Text)
+                    guardar.Parameters.AddWithValue("@clave", hashedClave)
+                    guardar.Parameters.AddWithValue("@tipo", tipoTbx.Text)
+                    guardar.Parameters.AddWithValue("@status", statTbx.Text)
+                    guardar.Parameters.AddWithValue("@fecha", fe)
+                    guardar.Parameters.AddWithValue("@permisos", permisos)
+                    guardar.ExecuteNonQuery()
+                End Using
+            End Using
+            MsgBox("Registro guardado")
         Catch ex As Exception
-            MsgBox("Elemento no pudo se almacenado", ex.StackTrace)
+            MessageBox.Show("Error al guardar: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
         limpiar()
-
         act()
-
-        CamDGV.Enabled = True
+        HabilitarControles(False)
+        AcceDGV.Enabled = True
         listadoCamDgv()
     End Sub
 
     Private Sub ModificarBtn_Click(sender As Object, e As EventArgs) Handles ModificarBtn.Click  '============  MODIFICAR  ===========
         actual()
         act()
-        PanelP.Enabled = False
-        CamDGV.Enabled = True
+        HabilitarControles(False)
+        AcceDGV.Enabled = True
         Me.GuardarBtn.Visible = True
         listadoCamDgv()
     End Sub
     Public Sub actual()
-        Dim actualizar As String
+        Dim permisos As String = ObtenerPermisos()
 
-        Dim claveHash As String = clavTbx.Text ' El texto del TextBox
-        Dim hashedClave As String = ComputeSHA256(claveHash)
+        Try
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
 
-        actualizar = "UPDATE accesos SET nombre = '" & nombTbx.Text & "', apellido = '" & ApelTbx.Text & "', usuario = '" & usuaTbx.Text & "', clave = '" & hashedClave & "', tipo = '" & tipoTbx.Text & "', status = '" & statTbx.Text & "', fecha = '" & fechDpk.Text & "' WHERE id = '" & buscartxt.Text & "'"
-        Dim act As New MySqlCommand(actualizar, con)
-        act.ExecuteNonQuery()
-        MsgBox("Registo Actualizado")
+                Dim sql As String
+                If clavTbx.Text.Trim() <> "" Then
+                    sql = "UPDATE accesos SET nombre=@nombre, apellido=@apellido, usuario=@usuario, clave=@clave, tipo=@tipo, status=@status, fecha=@fecha, permisos=@permisos WHERE id=@id"
+                Else
+                    sql = "UPDATE accesos SET nombre=@nombre, apellido=@apellido, usuario=@usuario, tipo=@tipo, status=@status, fecha=@fecha, permisos=@permisos WHERE id=@id"
+                End If
+
+                Using cmd As New MySqlCommand(sql, conLocal)
+                    cmd.Parameters.AddWithValue("@nombre", nombTbx.Text)
+                    cmd.Parameters.AddWithValue("@apellido", ApelTbx.Text)
+                    cmd.Parameters.AddWithValue("@usuario", usuaTbx.Text)
+                    If clavTbx.Text.Trim() <> "" Then
+                        cmd.Parameters.AddWithValue("@clave", ComputeSHA256(clavTbx.Text))
+                    End If
+                    cmd.Parameters.AddWithValue("@tipo", tipoTbx.Text)
+                    cmd.Parameters.AddWithValue("@status", statTbx.Text)
+                    cmd.Parameters.AddWithValue("@fecha", fechDpk.Value.ToString("yyyy-MM-dd"))
+                    cmd.Parameters.AddWithValue("@permisos", permisos)
+                    cmd.Parameters.AddWithValue("@id", buscartxt.Text)
+                    cmd.ExecuteNonQuery()
+                End Using
+            End Using
+            MsgBox("Registro Actualizado")
+        Catch ex As Exception
+            MessageBox.Show("Error al actualizar: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
-    Private Sub CamDGV_Click(sender As Object, e As EventArgs) Handles CamDGV.Click
-        If Me.CamDGV.RowCount = 0 Then
+    Private Sub CamDGV_Click(sender As Object, e As EventArgs) Handles AcceDGV.Click
+        If Me.AcceDGV.RowCount = 0 Then
             MessageBox.Show("No hay datos a mostrar")
         Else
-            'Dim i As Integer = Me.CamDGV.CurrentRow.Index
-            'Me.placaBusqTB.Text = Me.CamDGV.Item(1, i).Value
-
-            Dim y As Integer = Me.CamDGV.CurrentRow.Index
-            Dim idcod As Integer = Me.CamDGV.Item(0, y).Value
+            Dim y As Integer = Me.AcceDGV.CurrentRow.Index
+            Dim idcod As Integer = Me.AcceDGV.Item(0, y).Value
             buscartxt.Text = idcod
             seleccion()
             Me.EditarBtn.Enabled = True
@@ -245,42 +423,77 @@ Public Class acceso
         End If
     End Sub
     Public Sub seleccion()
-        Dim consulta As String
-        Dim lista As Byte
+        Try
+            If buscartxt.Text = "" OrElse buscartxt.Text = "-" Then Return
 
-        If buscartxt.Text <> "" Then
-            consulta = "SELECT * FROM accesos WHERE id = '" & buscartxt.Text & "'"
-            adaptador = New MySqlDataAdapter(consulta, con)
-            datos = New DataSet
-            adaptador.Fill(datos, "accesos")
-            lista = datos.Tables("accesos").Rows.Count
-        End If
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+                Using cmd As New MySqlCommand("SELECT * FROM accesos WHERE id = @id", conLocal)
+                    cmd.Parameters.AddWithValue("@id", buscartxt.Text)
+                    adaptador = New MySqlDataAdapter(cmd)
+                    datos = New DataSet
+                    adaptador.Fill(datos, "accesos")
+                End Using
+            End Using
 
-        If lista <> 0 Then
-
-            nombTbx.Text = datos.Tables("accesos").Rows(0).Item("nombre").ToString
-            ApelTbx.Text = datos.Tables("accesos").Rows(0).Item("apellido").ToString
-            usuaTbx.Text = datos.Tables("accesos").Rows(0).Item("usuario").ToString
-            clavTbx.Text = datos.Tables("accesos").Rows(0).Item("clave").ToString
-            tipoTbx.Text = datos.Tables("accesos").Rows(0).Item("tipo").ToString
-            statTbx.Text = datos.Tables("accesos").Rows(0).Item("status").ToString
-            Try
-                fechDpk.Value = datos.Tables("accesos").Rows(0).Item("fecha")
-            Catch
-                fechDpk.Value = Today
-            End Try
-
-        Else
-            MsgBox("Datos no encontrados")
-        End If
-        listadoCamDgv()
+            If datos.Tables("accesos").Rows.Count <> 0 Then
+                Dim row = datos.Tables("accesos").Rows(0)
+                nombTbx.Text = row.Item("nombre").ToString
+                ApelTbx.Text = row.Item("apellido").ToString
+                usuaTbx.Text = row.Item("usuario").ToString
+                clavTbx.Text = ""
+                tipoTbx.Text = row.Item("tipo").ToString
+                statTbx.Text = row.Item("status").ToString
+                Try
+                    fechDpk.Value = row.Item("fecha")
+                Catch
+                    fechDpk.Value = Today
+                End Try
+                ' Cargar permisos
+                Try
+                    Dim permisos As String = row.Item("permisos").ToString()
+                    CargarPermisos(permisos)
+                Catch
+                    CargarPermisos("")
+                End Try
+            Else
+                MsgBox("Datos no encontrados")
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error al seleccionar: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub ButtonX1_Click(sender As Object, e As EventArgs) Handles ButtonX1.Click
-        If clavTbx.UseSystemPasswordChar = True Then
-            clavTbx.UseSystemPasswordChar = False
-        Else
-            clavTbx.UseSystemPasswordChar = True
-        End If
+        clavTbx.UseSystemPasswordChar = Not clavTbx.UseSystemPasswordChar
+    End Sub
+
+    Private Sub EstilizarDataGridViewWinUI(dgv As DataGridView)
+        dgv.BackgroundColor = Color.FromArgb(32, 32, 32)
+        dgv.GridColor = Color.FromArgb(60, 60, 60)
+        dgv.BorderStyle = BorderStyle.None
+
+        dgv.EnableHeadersVisualStyles = False
+        dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(44, 44, 44)
+        dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White
+        dgv.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI Semibold", 9.75, FontStyle.Bold)
+        dgv.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(44, 44, 44)
+        dgv.ColumnHeadersHeight = 36
+
+        dgv.DefaultCellStyle.Font = New Font("Segoe UI", 9.75)
+        dgv.DefaultCellStyle.ForeColor = Color.White
+        dgv.DefaultCellStyle.BackColor = Color.FromArgb(44, 44, 44)
+        dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(96, 205, 255)
+        dgv.DefaultCellStyle.SelectionForeColor = Color.Black
+        dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(50, 50, 50)
+        dgv.RowTemplate.Height = 30
+
+        dgv.RowHeadersVisible = False
+        dgv.AllowUserToAddRows = False
+        dgv.AllowUserToDeleteRows = False
+        dgv.AllowUserToResizeRows = False
+        dgv.ReadOnly = True
+        dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        dgv.MultiSelect = False
     End Sub
 End Class

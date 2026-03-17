@@ -221,6 +221,12 @@
     <Compile Include="reporte.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="reporteFact.Designer.vb">
+      <DependentUpon>reporteFact.vb</DependentUpon>
+    </Compile>
+    <Compile Include="reporteFact.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="tanque.Designer.vb">
       <DependentUpon>tanque.vb</DependentUpon>
     </Compile>
@@ -237,6 +243,12 @@
       <DependentUpon>rutas.vb</DependentUpon>
     </Compile>
     <Compile Include="rutas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="login.Designer.vb">
+      <DependentUpon>login.vb</DependentUpon>
+    </Compile>
+    <Compile Include="login.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -289,6 +301,9 @@
     <EmbeddedResource Include="reporte.resx">
       <DependentUpon>reporte.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="reporteFact.resx">
+      <DependentUpon>reporteFact.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="tanque.resx">
       <DependentUpon>tanque.vb</DependentUpon>
     </EmbeddedResource>
@@ -297,6 +312,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="rutas.resx">
       <DependentUpon>rutas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="login.resx">
+      <DependentUpon>login.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -311,6 +329,9 @@
     </None>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\truckyellow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

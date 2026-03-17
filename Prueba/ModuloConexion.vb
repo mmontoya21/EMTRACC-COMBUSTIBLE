@@ -7,6 +7,12 @@ Imports MySql.Data.MySqlClient
 ''' </summary>
 Module ModuloConexion
 
+    ' Variables de sesión (se llenan en login, se usan en comprobante)
+    Public PeriodoSesion As String = ""
+    Public SemanaSesion As String = ""
+    Public DespachadorSesion As String = ""
+    Public TipoUsuarioSesion As String = ""
+
     ''' <summary>
     ''' Obtiene una nueva instancia de conexion MySQL con la cadena de conexion del App.config
     ''' </summary>
@@ -23,6 +29,24 @@ Module ModuloConexion
     Public Function ObtenerCadenaConexion() As String
         Return ConfigurationManager.ConnectionStrings("MySqlConexion").ConnectionString
     End Function
+
+    ''' <summary>
+    ''' Indica si el usuario actual es de tipo TEST (solo lectura)
+    ''' </summary>
+    Public Function EsSoloLectura() As Boolean
+        Return TipoUsuarioSesion.ToUpper() = "TEST"
+    End Function
+
+    ''' <summary>
+    ''' Deshabilita los botones de CRUD para usuarios TEST (solo lectura)
+    ''' </summary>
+    Public Sub AplicarSoloLectura(ParamArray botones() As Button)
+        If EsSoloLectura() Then
+            For Each btn In botones
+                btn.Enabled = False
+            Next
+        End If
+    End Sub
 
     Public Sub EstilizarDataGridView(dgv As DataGridView)
         ' Fondo

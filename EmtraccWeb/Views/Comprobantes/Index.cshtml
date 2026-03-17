@@ -1,0 +1,220 @@
+@model List<EmtraccWeb.Models.Comprobante>
+@{
+    ViewData["Title"] = "Comprobantes";
+    var ordenActual = (string?)ViewBag.Ordenar ?? "fecha";
+    var dirActual = (string?)ViewBag.Dir ?? "desc";
+}
+
+@functions {
+    string SortUrl(string campo) {
+        var newDir = (ViewBag.Ordenar == campo && ViewBag.Dir != "asc") ? "asc" : "desc";
+        return $"?fechaDesde={ViewBag.FechaDesde}&fechaHasta={ViewBag.FechaHasta}&periodo={ViewBag.PeriodoSeleccionado}&semana={ViewBag.SemanaSeleccionada}&despachador={ViewBag.DespachadorSeleccionado}&boleta={ViewBag.Boleta}&comprobante={ViewBag.Comprobante}&propietario={ViewBag.Propietario}&placa={ViewBag.Placa}&ordenar={campo}&dir={newDir}&pagina=1";
+    }
+    string SortIcon(string campo) {
+        if ((string?)ViewBag.Ordenar != campo) return "";
+        return (string?)ViewBag.Dir == "asc" ? " ▲" : " ▼";
+    }
+    string PageUrl(int pag) {
+        return $"?fechaDesde={ViewBag.FechaDesde}&fechaHasta={ViewBag.FechaHasta}&periodo={ViewBag.PeriodoSeleccionado}&semana={ViewBag.SemanaSeleccionada}&despachador={ViewBag.DespachadorSeleccionado}&boleta={ViewBag.Boleta}&comprobante={ViewBag.Comprobante}&propietario={ViewBag.Propietario}&placa={ViewBag.Placa}&ordenar={ViewBag.Ordenar}&dir={ViewBag.Dir}&pagina={pag}";
+    }
+}
+
+<style>
+    .row-white > td { background-color: #FFFFFF !important; }
+    .row-blue > td { background-color: #DCE6F1 !important; }
+    .row-anulado > td { background-color: #FFCCCC !important; }
+    th a { color: white; text-decoration: none; white-space: nowrap; }
+    th a:hover { color: #ffc107; }
+    @@media (max-width: 768px) {
+        .table { font-size: 0.7rem; }
+        .badge { font-size: 0.7rem !important; }
+        h4 { font-size: 1.1rem; }
+    }
+</style>
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
+    <h4 class="mb-0">Comprobantes de Combustible</h4>
+    <div>
+        <a href="@Url.Action("ExportarPdf", new { fechaDesde = ViewBag.FechaDesde, fechaHasta = ViewBag.FechaHasta, periodo = ViewBag.PeriodoSeleccionado, semana = ViewBag.SemanaSeleccionada, boleta = ViewBag.Boleta, comprobante = ViewBag.Comprobante, despachador = ViewBag.DespachadorSeleccionado, propietario = ViewBag.Propietario, placa = ViewBag.Placa })" class="btn btn-danger btn-sm">PDF</a>
+        <a href="@Url.Action("ExportarExcel", new { fechaDesde = ViewBag.FechaDesde, fechaHasta = ViewBag.FechaHasta, periodo = ViewBag.PeriodoSeleccionado, semana = ViewBag.SemanaSeleccionada, boleta = ViewBag.Boleta, comprobante = ViewBag.Comprobante, despachador = ViewBag.DespachadorSeleccionado, propietario = ViewBag.Propietario, placa = ViewBag.Placa })" class="btn btn-success btn-sm">Excel</a>
+    </div>
+</div>
+
+<!-- Filtros colapsables en móvil -->
+<div class="mb-3">
+    <button class="btn btn-outline-dark btn-sm d-md-none w-100 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#filtrosPanel">
+        Mostrar/Ocultar Filtros
+    </button>
+    <form method="get" id="filtrosPanel" class="collapse show">
+        <div class="row g-2 align-items-end">
+            <div class="col-6 col-md-auto">
+                <label class="form-label mb-0">Desde</label>
+                <input type="date" name="fechaDesde" value="@ViewBag.FechaDesde" class="form-control form-control-sm" />
+            </div>
+            <div class="col-6 col-md-auto">
+                <label class="form-label mb-0">Hasta</label>
+                <input type="date" name="fechaHasta" value="@ViewBag.FechaHasta" class="form-control form-control-sm" />
+            </div>
+            <div class="col-6 col-md-auto">
+                <label class="form-label mb-0">Período</label>
+                <select name="periodo" class="form-select form-select-sm">
+                    <option value="">-- Todos --</option>
+                    @foreach (var p in (List<string?>)ViewBag.Periodos)
+                    {
+                        <option value="@p" selected="@(p == (string?)ViewBag.PeriodoSeleccionado)">@p</option>
+                    }
+                </select>
+            </div>
+            <div class="col-6 col-md-auto">
+                <label class="form-label mb-0">Semana</label>
+                <select name="semana" class="form-select form-select-sm">
+                    <option value="">-- Todas --</option>
+                    @foreach (var s in (List<string?>)ViewBag.Semanas)
+                    {
+                        <option value="@s" selected="@(s == (string?)ViewBag.SemanaSeleccionada)">@s</option>
+                    }
+                </select>
+            </div>
+            <div class="col-6 col-md-auto">
+                <label class="form-label mb-0">Despachador</label>
+                <select name="despachador" class="form-select form-select-sm">
+                    <option value="">-- Todos --</option>
+                    @foreach (var d in (List<string?>)ViewBag.Despachadores)
+                    {
+                        <option value="@d" selected="@(d == (string?)ViewBag.DespachadorSeleccionado)">@d</option>
+                    }
+                </select>
+            </div>
+            <div class="col-6 col-md-auto">
+                <label class="form-label mb-0">Propietario</label>
+                <input type="text" name="propietario" value="@ViewBag.Propietario" class="form-control form-control-sm" placeholder="Buscar..." />
+            </div>
+            <div class="col-6 col-md-auto">
+                <label class="form-label mb-0">Placa</label>
+                <input type="text" name="placa" value="@ViewBag.Placa" class="form-control form-control-sm" placeholder="Buscar..." />
+            </div>
+            <div class="col-6 col-md-auto">
+                <label class="form-label mb-0">No. Boleta</label>
+                <input type="text" name="boleta" value="@ViewBag.Boleta" class="form-control form-control-sm" placeholder="Buscar..." />
+            </div>
+            <div class="col-6 col-md-auto">
+                <label class="form-label mb-0">No. Comprobante</label>
+                <input type="text" name="comprobante" value="@ViewBag.Comprobante" class="form-control form-control-sm" placeholder="Buscar..." />
+            </div>
+            <div class="col-12 col-md-auto">
+                <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+                <a href="@Url.Action("Index")" class="btn btn-outline-secondary btn-sm">Limpiar</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Resumen -->
+<div class="d-flex flex-wrap gap-2 mb-3">
+    <span class="badge bg-primary">Total: @ViewBag.TotalRegistros</span>
+    <span class="badge bg-danger">Anulados: @ViewBag.RegistrosAnulados</span>
+    <span class="badge bg-success">Galones: @(((decimal)ViewBag.TotalGalones).ToString("N2"))</span>
+    <span class="badge bg-info">Total Q: @(((decimal)ViewBag.TotalMonto).ToString("N2"))</span>
+</div>
+
+<!-- Tabla -->
+<div class="table-responsive">
+    <table class="table table-bordered table-sm">
+        <thead class="table-dark">
+            <tr>
+                <th><a href="@SortUrl("compro")">No. Compro@(SortIcon("compro"))</a></th>
+                <th><a href="@SortUrl("boleta")">No. Boleta@(SortIcon("boleta"))</a></th>
+                <th><a href="@SortUrl("fecha")">Fecha@(SortIcon("fecha"))</a></th>
+                <th><a href="@SortUrl("despachador")">Despachador@(SortIcon("despachador"))</a></th>
+                <th><a href="@SortUrl("propietario")">Propietario@(SortIcon("propietario"))</a></th>
+                <th><a href="@SortUrl("placa")">Placa@(SortIcon("placa"))</a></th>
+                <th>Período</th>
+                <th>Semana</th>
+                <th>Ruta</th>
+                <th><a href="@SortUrl("galones")">Galones@(SortIcon("galones"))</a></th>
+                <th>Valor</th>
+                <th><a href="@SortUrl("total")">Total@(SortIcon("total"))</a></th>
+                <th>Contenedor</th>
+                <th>Conductor</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int rowIndex = 0; }
+            @foreach (var c in Model)
+            {
+                string rowClass;
+                if (c.Anulado)
+                    rowClass = "row-anulado";
+                else
+                    rowClass = rowIndex % 2 == 0 ? "row-white" : "row-blue";
+                rowIndex++;
+                <tr class="@rowClass">
+                    <td>@c.NCompro</td>
+                    <td>@c.NBoleta</td>
+                    <td>@c.Fecha?.ToString("dd/MM/yyyy")</td>
+                    <td>@c.NombDesp</td>
+                    <td>@c.PropCbz</td>
+                    <td>@c.PlacaCbz</td>
+                    <td>@c.Periodo</td>
+                    <td>@c.Semana</td>
+                    <td>@c.Ruta</td>
+                    <td class="text-end">@((c.GalDesp ?? 0).ToString("N2"))</td>
+                    <td class="text-end">@((c.Valor ?? 0).ToString("N2"))</td>
+                    <td class="text-end">@((c.Total ?? 0).ToString("N2"))</td>
+                    <td>@c.NConte</td>
+                    <td>@c.NombCond</td>
+                    <td>
+                        @if (c.Anulado)
+                        {
+                            <span class="badge bg-danger">ANULADO</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">ACTIVO</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">No se encontraron comprobantes con los filtros seleccionados.</div>
+}
+
+<!-- Paginación -->
+@if ((int)ViewBag.TotalPaginas > 1)
+{
+    var paginaActual = (int)ViewBag.PaginaActual;
+    var totalPaginas = (int)ViewBag.TotalPaginas;
+    <nav>
+        <ul class="pagination pagination-sm justify-content-center">
+            <li class="page-item @(paginaActual <= 1 ? "disabled" : "")">
+                <a class="page-link" href="@PageUrl(1)">««</a>
+            </li>
+            <li class="page-item @(paginaActual <= 1 ? "disabled" : "")">
+                <a class="page-link" href="@PageUrl(paginaActual - 1)">«</a>
+            </li>
+            @{
+                int start = Math.Max(1, paginaActual - 3);
+                int end = Math.Min(totalPaginas, paginaActual + 3);
+            }
+            @for (int i = start; i <= end; i++)
+            {
+                <li class="page-item @(i == paginaActual ? "active" : "")">
+                    <a class="page-link" href="@PageUrl(i)">@i</a>
+                </li>
+            }
+            <li class="page-item @(paginaActual >= totalPaginas ? "disabled" : "")">
+                <a class="page-link" href="@PageUrl(paginaActual + 1)">»</a>
+            </li>
+            <li class="page-item @(paginaActual >= totalPaginas ? "disabled" : "")">
+                <a class="page-link" href="@PageUrl(totalPaginas)">»»</a>
+            </li>
+        </ul>
+        <p class="text-center text-muted small">Página @paginaActual de @totalPaginas</p>
+    </nav>
+}

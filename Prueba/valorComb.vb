@@ -11,8 +11,6 @@ Public Class valorComb
     Private Sub valorComb_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim colorFondo = Color.FromArgb(106, 126, 168)
 
-        On Error Resume Next
-
         System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("es-CO")
         System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern = "yyyy/MM/dd"
         System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyDecimalSeparator = "."
@@ -106,6 +104,7 @@ Public Class valorComb
         Me.ModificarBtn.Enabled = False
         Me.CancelarBtn.Enabled = False
         Me.EliminarBtn.Enabled = False
+        If ModuloConexion.EsSoloLectura() Then NuevoBtn.Enabled = False
     End Sub
 
     Private Sub NuevoBtn_Click(sender As Object, e As EventArgs) Handles NuevoBtn.Click
@@ -238,6 +237,10 @@ Public Class valorComb
         End If
 
         Try
+            If con.State = ConnectionState.Closed Then
+                con.Open()
+            End If
+
             Dim fe As String = fechaDtp.Value.ToString("yyyy-MM-dd")
 
             Dim sql As String = "UPDATE valorComb SET valorCombustible=@valor, fecha=@fecha, descripcion=@descripcion, activo=@activo WHERE valorId=@id"
@@ -255,6 +258,7 @@ Public Class valorComb
             MsgBox("Error al actualizar: " & ex.Message)
         End Try
 
+        limpiar()
         act()
         PanelP.Enabled = False
         CamDGV.Enabled = True
@@ -271,8 +275,8 @@ Public Class valorComb
             Dim idcod As Integer = Me.CamDGV.Item(0, y).Value
             buscartxt.Text = idcod.ToString()
             seleccion()
-            Me.EditarBtn.Enabled = True
-            Me.EliminarBtn.Enabled = True
+            Me.EditarBtn.Enabled = Not ModuloConexion.EsSoloLectura()
+            Me.EliminarBtn.Enabled = Not ModuloConexion.EsSoloLectura()
         End If
     End Sub
 

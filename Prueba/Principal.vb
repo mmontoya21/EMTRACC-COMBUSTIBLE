@@ -5,6 +5,7 @@ Public Class Principal
     Private isDragging As Boolean = False
     Private startPoint As Point
 
+    Public PermisosUsuario As String = ""
 
     Dim con As New MySqlConnection
     Dim cm As New MySqlCommand
@@ -13,8 +14,73 @@ Public Class Principal
     Dim datos As DataSet
     Private Sub Principal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         resBt.Visible = False
-
         camiBt.BackColor = Color.FromArgb(153, 180, 209)
+        AplicarPermisos()
+    End Sub
+
+    Private Sub AplicarPermisos()
+        Dim tipo As String = If(Me.Tag IsNot Nothing, Me.Tag.ToString().ToUpper(), "")
+
+        ' SUPERADMIN tiene acceso total
+        If tipo = "SUPERADMIN" Then
+            Return
+        End If
+
+        Dim colorBloqueado As Color = Color.FromArgb(80, 80, 80)
+
+        ' Mapa de botón -> clave de módulo
+        Dim botones As New Dictionary(Of String, Control) From {
+            {"camiones", camiBt},
+            {"placa", ButtonX2},
+            {"transportistas", ButtonX8},
+            {"tanque", ButtonX3},
+            {"empresa", ButtonX5},
+            {"acceso", ButtonX6},
+            {"medicion", ButtonX7},
+            {"comprobante", ButtonX9},
+            {"factura", ButtonX4},
+            {"propietario", ButtonX10},
+            {"consumo", ButtonX11},
+            {"reporte", Button1},
+            {"valorComb", Button2},
+            {"rutas", RutasBt},
+            {"reporteFact", Button3}
+        }
+
+        ' Si tiene permisos personalizados, usarlos
+        If PermisosUsuario <> "" Then
+            Dim permitidos() As String = PermisosUsuario.Split(","c)
+
+            For Each par In botones
+                If Not permitidos.Contains(par.Key) Then
+                    BloquearBoton(par.Value, colorBloqueado)
+                End If
+            Next
+            Return
+        End If
+
+        ' Si no tiene permisos personalizados, aplicar defaults por tipo
+        Select Case tipo
+            Case "ADMIN"
+                BloquearBoton(ButtonX5, colorBloqueado)  ' Empresa
+                BloquearBoton(ButtonX6, colorBloqueado)  ' Accesos
+            Case "USUARIO"
+                BloquearBoton(ButtonX5, colorBloqueado)  ' Empresa
+                BloquearBoton(ButtonX6, colorBloqueado)  ' Accesos
+                BloquearBoton(ButtonX4, colorBloqueado)  ' Factura
+            Case "TEST"
+                BloquearBoton(ButtonX6, colorBloqueado)  ' Accesos (solo SUPERADMIN)
+        End Select
+    End Sub
+
+    Private Sub BloquearBoton(btn As Control, colorBloqueado As Color)
+        btn.Enabled = False
+        btn.BackColor = colorBloqueado
+        btn.ForeColor = Color.DarkGray
+    End Sub
+
+    Private Sub Principal_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
+        Application.Exit()
     End Sub
     Public Sub conectar()
         con = ModuloConexion.ObtenerConexion()
@@ -139,7 +205,7 @@ Public Class Principal
     End Sub
 
     Private Sub closeBt_Click(sender As Object, e As EventArgs) Handles closeBt.Click
-        Me.Close()
+        Application.Exit()
     End Sub
     Private Sub minBt_Click(sender As Object, e As EventArgs) Handles minBt.Click
         Me.WindowState = FormWindowState.Minimized
@@ -192,6 +258,11 @@ Public Class Principal
 
     Private Sub RutasBt_Click(sender As Object, e As EventArgs) Handles RutasBt.Click
         abrirformulario(New rutas)
+        Panel1.Visible = False
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        abrirformulario(New reporteFact)
         Panel1.Visible = False
     End Sub
 End Class

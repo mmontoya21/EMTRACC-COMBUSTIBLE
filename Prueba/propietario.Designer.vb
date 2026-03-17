@@ -82,7 +82,7 @@ Partial Class propietario
         Me.codProTb.FocusHighlightColor = System.Drawing.Color.Yellow
         Me.codProTb.FocusHighlightEnabled = True
         Me.codProTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.codProTb.ForeColor = System.Drawing.Color.White
+        Me.codProTb.ForeColor = System.Drawing.Color.Black
         Me.codProTb.Location = New System.Drawing.Point(102, 10)
         Me.codProTb.MaxLength = 10
         Me.codProTb.Name = "codProTb"
@@ -109,7 +109,7 @@ Partial Class propietario
         Me.nPropietarioTb.FocusHighlightColor = System.Drawing.Color.Yellow
         Me.nPropietarioTb.FocusHighlightEnabled = True
         Me.nPropietarioTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.nPropietarioTb.ForeColor = System.Drawing.Color.White
+        Me.nPropietarioTb.ForeColor = System.Drawing.Color.Black
         Me.nPropietarioTb.Location = New System.Drawing.Point(102, 46)
         Me.nPropietarioTb.MaxLength = 80
         Me.nPropietarioTb.Name = "nPropietarioTb"
@@ -145,7 +145,7 @@ Partial Class propietario
         Me.RTNTb.FocusHighlightColor = System.Drawing.Color.Yellow
         Me.RTNTb.FocusHighlightEnabled = True
         Me.RTNTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RTNTb.ForeColor = System.Drawing.Color.White
+        Me.RTNTb.ForeColor = System.Drawing.Color.Black
         Me.RTNTb.Location = New System.Drawing.Point(276, 10)
         Me.RTNTb.MaxLength = 15
         Me.RTNTb.Name = "RTNTb"
@@ -172,7 +172,7 @@ Partial Class propietario
         Me.nEmpresaTb.FocusHighlightColor = System.Drawing.Color.Yellow
         Me.nEmpresaTb.FocusHighlightEnabled = True
         Me.nEmpresaTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.nEmpresaTb.ForeColor = System.Drawing.Color.White
+        Me.nEmpresaTb.ForeColor = System.Drawing.Color.Black
         Me.nEmpresaTb.Location = New System.Drawing.Point(102, 82)
         Me.nEmpresaTb.MaxLength = 80
         Me.nEmpresaTb.Name = "nEmpresaTb"
@@ -198,7 +198,7 @@ Partial Class propietario
         Me.Tel2Tb.FocusHighlightColor = System.Drawing.Color.Yellow
         Me.Tel2Tb.FocusHighlightEnabled = True
         Me.Tel2Tb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tel2Tb.ForeColor = System.Drawing.Color.White
+        Me.Tel2Tb.ForeColor = System.Drawing.Color.Black
         Me.Tel2Tb.Location = New System.Drawing.Point(322, 118)
         Me.Tel2Tb.MaxLength = 12
         Me.Tel2Tb.Name = "Tel2Tb"
@@ -224,7 +224,7 @@ Partial Class propietario
         Me.correoETb.FocusHighlightColor = System.Drawing.Color.Yellow
         Me.correoETb.FocusHighlightEnabled = True
         Me.correoETb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.correoETb.ForeColor = System.Drawing.Color.White
+        Me.correoETb.ForeColor = System.Drawing.Color.Black
         Me.correoETb.Location = New System.Drawing.Point(102, 154)
         Me.correoETb.MaxLength = 50
         Me.correoETb.Name = "correoETb"
@@ -260,7 +260,7 @@ Partial Class propietario
         Me.DireccionTb.FocusHighlightColor = System.Drawing.Color.Yellow
         Me.DireccionTb.FocusHighlightEnabled = True
         Me.DireccionTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DireccionTb.ForeColor = System.Drawing.Color.White
+        Me.DireccionTb.ForeColor = System.Drawing.Color.Black
         Me.DireccionTb.Location = New System.Drawing.Point(102, 194)
         Me.DireccionTb.MaxLength = 300
         Me.DireccionTb.Multiline = True
@@ -287,7 +287,7 @@ Partial Class propietario
         Me.Tel1TB.FocusHighlightColor = System.Drawing.Color.Yellow
         Me.Tel1TB.FocusHighlightEnabled = True
         Me.Tel1TB.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tel1TB.ForeColor = System.Drawing.Color.White
+        Me.Tel1TB.ForeColor = System.Drawing.Color.Black
         Me.Tel1TB.Location = New System.Drawing.Point(102, 118)
         Me.Tel1TB.MaxLength = 12
         Me.Tel1TB.Name = "Tel1TB"
@@ -509,7 +509,7 @@ Partial Class propietario
         Me.propBusqTB.FocusHighlightColor = System.Drawing.Color.Yellow
         Me.propBusqTB.FocusHighlightEnabled = True
         Me.propBusqTB.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.propBusqTB.ForeColor = System.Drawing.Color.White
+        Me.propBusqTB.ForeColor = System.Drawing.Color.Black
         Me.propBusqTB.Location = New System.Drawing.Point(632, 33)
         Me.propBusqTB.Name = "propBusqTB"
         Me.propBusqTB.PreventEnterBeep = True
@@ -534,7 +534,7 @@ Partial Class propietario
         Me.placaBusqTB.FocusHighlightColor = System.Drawing.Color.Yellow
         Me.placaBusqTB.FocusHighlightEnabled = True
         Me.placaBusqTB.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.placaBusqTB.ForeColor = System.Drawing.Color.White
+        Me.placaBusqTB.ForeColor = System.Drawing.Color.Black
         Me.placaBusqTB.Location = New System.Drawing.Point(522, 33)
         Me.placaBusqTB.Name = "placaBusqTB"
         Me.placaBusqTB.PreventEnterBeep = True

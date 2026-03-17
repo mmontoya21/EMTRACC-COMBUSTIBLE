@@ -14,10 +14,20 @@ Public Class comprobante
     Dim colorFondo = Color.FromArgb(106, 126, 168)
     Dim colorTextbox = Color.FromArgb(240, 210, 249)
 
+    ' Estado de anulacion del registro seleccionado
+    Private registroAnulado As Boolean = False
+
     ' Bandera para evitar cascada de eventos TextChanged
     Private actualizandoProgramaticamente As Boolean = False
     ' Bandera para evitar que los filtros se ejecuten durante la carga
     Private cargandoFormulario As Boolean = True
+
+    ' Cache local para evitar consultas repetidas a la nube
+    Private cachePlacasPorPropietario As New Dictionary(Of String, List(Of String))  ' propietario -> lista de placas
+    Private cachePlacasPorCodigo As New Dictionary(Of String, List(Of String))       ' codigoPro -> lista de placas
+    Private cachePropietarioPorCodigo As New Dictionary(Of String, String)           ' codProp -> nPropietario
+    Private cacheCodigoPorPropietario As New Dictionary(Of String, String)           ' propietario -> codigoPro
+    Private cachePlacaInfo As New Dictionary(Of String, String())                     ' placa -> {codigoPro, propietario}
 
     Private Sub comprobante_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -33,6 +43,8 @@ Public Class comprobante
         System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberGroupSeparator = ","
 
         conectar()
+        EnsureAnuladoColumn()
+        EnsureLogTable()
 
         cargarDespachadores()
 
@@ -47,10 +59,30 @@ Public Class comprobante
         PanelP.Enabled = False
 
         Rutas()
-        PPropietario()
-        PPlaca()
+        CargarCachePlacas()
+        PConductores()
+
+        cargarNivelTanque()
+
+        AddHandler CamDGV.CellFormatting, AddressOf CamDGV_CellFormatting
 
     End Sub
+
+    Private Sub CamDGV_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs)
+        If e.RowIndex < 0 Then Return
+        Dim dgv As DataGridView = CType(sender, DataGridView)
+        If Not dgv.Columns.Contains("anulado") Then Return
+
+        Dim anuladoVal As Object = dgv.Rows(e.RowIndex).Cells("anulado").Value
+        If anuladoVal IsNot Nothing AndAlso anuladoVal IsNot DBNull.Value AndAlso Convert.ToInt32(anuladoVal) = 1 Then
+            e.CellStyle.BackColor = Color.FromArgb(60, 60, 60)
+            e.CellStyle.ForeColor = Color.FromArgb(180, 180, 180)
+            e.CellStyle.Font = New Font(dgv.Font, FontStyle.Strikeout)
+            e.CellStyle.SelectionBackColor = Color.FromArgb(80, 80, 80)
+            e.CellStyle.SelectionForeColor = Color.FromArgb(200, 200, 200)
+        End If
+    End Sub
+
     Private Sub act()
         Me.NuevoBtn.Enabled = True
         Me.EditarBtn.Enabled = False
@@ -58,6 +90,9 @@ Public Class comprobante
         Me.ModificarBtn.Enabled = False
         Me.CancelarBtn.Enabled = False
         Me.EliminarBtn.Enabled = False
+        Me.AnularBtn.Enabled = False
+        Me.AnularBtn.Text = "Anular"
+        If ModuloConexion.EsSoloLectura() Then NuevoBtn.Enabled = False
     End Sub
     Private Sub conectar()
         con = ModuloConexion.ObtenerConexion()
@@ -71,33 +106,126 @@ Public Class comprobante
         End Try
     End Sub
 
+    Private Sub EnsureAnuladoColumn()
+        Try
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+                Using cmd As New MySqlCommand("ALTER TABLE comprobante ADD COLUMN anulado TINYINT(1) NOT NULL DEFAULT 0", conLocal)
+                    cmd.ExecuteNonQuery()
+                End Using
+            End Using
+        Catch
+            ' Columna ya existe
+        End Try
+    End Sub
+
+    ' ============ LOG DE EVENTOS ============
+    Private Sub EnsureLogTable()
+        Try
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+                Dim sql As String = "CREATE TABLE IF NOT EXISTS log_comprobante (" &
+                    "id INT AUTO_INCREMENT PRIMARY KEY, " &
+                    "idcprbnt VARCHAR(20), " &
+                    "accion VARCHAR(50) NOT NULL, " &
+                    "usuario VARCHAR(100), " &
+                    "detalle TEXT, " &
+                    "fecha_hora DATETIME DEFAULT CURRENT_TIMESTAMP)"
+                Using cmd As New MySqlCommand(sql, conLocal)
+                    cmd.ExecuteNonQuery()
+                End Using
+            End Using
+        Catch
+            ' Si falla la creacion, no bloquear el formulario
+        End Try
+    End Sub
+
+    Private Sub RegistrarLog(accion As String, idcprbnt As String, detalle As String)
+        Try
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+                Using cmd As New MySqlCommand("INSERT INTO log_comprobante (idcprbnt, accion, usuario, detalle) VALUES(@idcprbnt, @accion, @usuario, @detalle)", conLocal)
+                    cmd.Parameters.AddWithValue("@idcprbnt", idcprbnt)
+                    cmd.Parameters.AddWithValue("@accion", accion)
+                    cmd.Parameters.AddWithValue("@usuario", ModuloConexion.DespachadorSesion)
+                    cmd.Parameters.AddWithValue("@detalle", detalle)
+                    cmd.ExecuteNonQuery()
+                End Using
+            End Using
+        Catch
+            ' Si falla el log, no bloquear la operacion principal
+        End Try
+    End Sub
+
+    Private Sub listadoCamDgvPorFecha(fecha As Date)
+        Try
+            If con.State = ConnectionState.Closed Then con.Open()
+
+            Dim table As New DataTable()
+            Dim sql As String = "SELECT idcprbnt, nCompro, nBoleta, DATE_FORMAT(fecha, '%d/%m/%Y') AS fecha, nombDesp, propCbz, placaCbz, periodo, semana, ruta, galDesp, valor, total, COALESCE(anulado, 0) AS anulado FROM comprobante WHERE DATE(fecha) = @fecha ORDER BY nCompro DESC"
+            Using cmd As New MySqlCommand(sql, con)
+                cmd.Parameters.AddWithValue("@fecha", fecha.ToString("yyyy-MM-dd"))
+                Dim adapter As New MySqlDataAdapter(cmd)
+                adapter.Fill(table)
+            End Using
+
+            CamDGV.DataSource = table
+            ListadoD()
+
+            ' Calcular totales (excluyendo anulados)
+            Dim totalRegistros As Integer = 0
+            Dim totalGalones As Double = 0
+            Dim totalVenta As Double = 0
+            For Each row As DataRow In table.Rows
+                Dim esAnulado As Boolean = (row.Table.Columns.Contains("anulado") AndAlso row("anulado") IsNot DBNull.Value AndAlso Convert.ToInt32(row("anulado")) = 1)
+                If Not esAnulado Then
+                    totalRegistros += 1
+                    If row("galDesp") IsNot DBNull.Value Then
+                        totalGalones += Convert.ToDouble(row("galDesp"))
+                    End If
+                    If row("total") IsNot DBNull.Value Then
+                        totalVenta += Convert.ToDouble(row("total"))
+                    End If
+                End If
+            Next
+
+            lblTotales.Text = String.Format("Registros: {0}  |  Total Galones: {1:N2}", totalRegistros, totalGalones)
+            totVtalb.Text = String.Format("Total Venta: L. {0:N2}", totalVenta)
+
+        Catch ex As Exception
+            MessageBox.Show("Error al cargar datos: " & ex.Message, "Error")
+        Finally
+            If con.State = ConnectionState.Open Then con.Close()
+        End Try
+    End Sub
+
     Private Sub listadoCamDgv() 'Muestra los datos
         Try
             If con.State = ConnectionState.Closed Then con.Open()
 
             Dim table As New DataTable()
-            Dim adaptadoListado As New MySqlDataAdapter("SELECT idcprbnt, nCompro, nBoleta, DATE_FORMAT(fecha, '%d/%m/%Y') AS fecha, nombDesp, propCbz, placaCbz, periodo, semana, ruta, galDesp, valor FROM comprobante ORDER BY fecha DESC, nCompro DESC", con)
+            Dim adaptadoListado As New MySqlDataAdapter("SELECT idcprbnt, nCompro, nBoleta, DATE_FORMAT(fecha, '%d/%m/%Y') AS fecha, nombDesp, propCbz, placaCbz, periodo, semana, ruta, galDesp, valor, total, COALESCE(anulado, 0) AS anulado FROM comprobante ORDER BY fecha DESC, nCompro DESC", con)
             adaptadoListado.Fill(table)
 
             CamDGV.DataSource = table
 
             ListadoD()
 
-            ' Calcular totales
-            Dim totalRegistros As Integer = table.Rows.Count
+            ' Calcular totales (excluyendo anulados)
+            Dim totalRegistros As Integer = 0
             Dim totalGalones As Double = 0
             Dim totalVenta As Double = 0
             For Each row As DataRow In table.Rows
-                Dim gal As Double = 0
-                Dim val As Double = 0
-                If row("galDesp") IsNot DBNull.Value Then
-                    gal = Convert.ToDouble(row("galDesp"))
-                    totalGalones += gal
+                Dim esAnulado As Boolean = (row.Table.Columns.Contains("anulado") AndAlso row("anulado") IsNot DBNull.Value AndAlso Convert.ToInt32(row("anulado")) = 1)
+                If Not esAnulado Then
+                    totalRegistros += 1
+                    If row("galDesp") IsNot DBNull.Value Then
+                        totalGalones += Convert.ToDouble(row("galDesp"))
+                    End If
+                    If row("total") IsNot DBNull.Value Then
+                        totalVenta += Convert.ToDouble(row("total"))
+                    End If
                 End If
-                If row("valor") IsNot DBNull.Value Then
-                    val = Convert.ToDouble(row("valor"))
-                End If
-                totalVenta += gal * val
             Next
 
             ' Mostrar totales en los labels
@@ -143,12 +271,19 @@ Public Class comprobante
         CamDGV.Columns(9).HeaderText = "Ruta"
         CamDGV.Columns(9).Width = 250
 
-        ' Ocultar columnas galDesp y valor (usadas solo para calcular totales)
+        ' Ocultar columnas galDesp, valor y total (usadas solo para calcular totales)
         If CamDGV.Columns.Count > 10 Then
             CamDGV.Columns(10).Visible = False
         End If
         If CamDGV.Columns.Count > 11 Then
             CamDGV.Columns(11).Visible = False
+        End If
+        If CamDGV.Columns.Count > 12 Then
+            CamDGV.Columns(12).Visible = False
+        End If
+        ' Ocultar columna anulado (indice 13)
+        If CamDGV.Columns.Count > 13 Then
+            CamDGV.Columns(13).Visible = False
         End If
     End Sub
     Sub limpiar()
@@ -178,17 +313,15 @@ Public Class comprobante
             End If
             If con.State = ConnectionState.Closed Then con.Open()
 
-            ' Guardar valores antes de limpiar
-            Dim despAnterior As String = nombDespTb.Text
-            Dim periodoAnterior As String = periodoTb.Text
-            Dim semanaAnterior As String = semanaTb.Text
-
+            ' Activar bandera para evitar que limpiar() dispare TextChanged y cierre la conexión
+            actualizandoProgramaticamente = True
             limpiar()
 
-            ' Restaurar despachador, periodo y semana
-            nombDespTb.Text = despAnterior
-            periodoTb.Text = periodoAnterior
-            semanaTb.Text = semanaAnterior
+            ' Restaurar despachador, periodo y semana desde la sesión
+            nombDespTb.Text = ModuloConexion.DespachadorSesion
+            periodoTb.Text = ModuloConexion.PeriodoSesion
+            semanaTb.Text = ModuloConexion.SemanaSesion
+            actualizandoProgramaticamente = False
 
             ' Obtener el precio actual de combustible (solo el activo)
             Try
@@ -273,14 +406,17 @@ Public Class comprobante
 
         Try
 
-            guardar = New MySqlCommand("INSERT INTO comprobante (nCompro, nBoleta, galDesp, valor, placaCbz, nConte, propCbz, ruta, nombCond, nombDesp, fecha, periodo, semana, proxSem, codiProp)" & Chr(13) &
-            "VALUES(@nCompro, @nBoleta, @galDesp, @valor, @placaCbz, @nConte, @propCbz, @ruta, @nombCond, @nombDesp, @fecha, @periodo, @semana, @proxSem, @codiProp)", con)
+            Dim totalVenta As Double = combD * valorC
+
+            guardar = New MySqlCommand("INSERT INTO comprobante (nCompro, nBoleta, galDesp, valor, total, placaCbz, nConte, propCbz, ruta, nombCond, nombDesp, fecha, periodo, semana, proxSem, codiProp)" & Chr(13) &
+            "VALUES(@nCompro, @nBoleta, @galDesp, @valor, @total, @placaCbz, @nConte, @propCbz, @ruta, @nombCond, @nombDesp, @fecha, @periodo, @semana, @proxSem, @codiProp)", con)
 
 
             guardar.Parameters.AddWithValue("@nCompro", nComproTb.Text)
             guardar.Parameters.AddWithValue("@nBoleta", nBoletaTb.Text)
             guardar.Parameters.AddWithValue("@galDesp", combD)
             guardar.Parameters.AddWithValue("@valor", valorC)
+            guardar.Parameters.AddWithValue("@total", totalVenta)
             guardar.Parameters.AddWithValue("@placaCbz", placaCbzTb.Text)
             guardar.Parameters.AddWithValue("@nConte", nConteTb.Text)
             guardar.Parameters.AddWithValue("@propCbz", propCbzTb.Text)
@@ -295,23 +431,30 @@ Public Class comprobante
 
             If placaCbzTb.Text <> "" Then
                 guardar.ExecuteNonQuery()
-                MsgBox("Registo guardado")
+                RegistrarLog("CREAR", nComproTb.Text, "Placa: " & placaCbzTb.Text & " | Gal: " & galDespTb.Text & " | Prop: " & propCbzTb.Text)
+                MsgBox("Registro almacenado. Se procederá a imprimir.")
 
-                ' Guardar valores antes de limpiar
-                Dim despAnterior As String = nombDespTb.Text
-                Dim periodoAnterior As String = periodoTb.Text
-                Dim semanaAnterior As String = semanaTb.Text
+                ' Imprimir ambos documentos ANTES de limpiar (los handlers leen los TextBox)
+                PrintComprobante.Print()
+                PrintDocumento.Print()
 
+                ' Activar bandera para evitar que limpiar() dispare TextChanged y cierre la conexión
+                actualizandoProgramaticamente = True
                 limpiar()
 
-                ' Restaurar despachador, periodo y semana
-                nombDespTb.Text = despAnterior
-                periodoTb.Text = periodoAnterior
-                semanaTb.Text = semanaAnterior
+                ' Restaurar despachador, periodo y semana desde la sesión
+                nombDespTb.Text = ModuloConexion.DespachadorSesion
+                periodoTb.Text = ModuloConexion.PeriodoSesion
+                semanaTb.Text = ModuloConexion.SemanaSesion
+                actualizandoProgramaticamente = False
 
                 act()
                 CamDGV.Enabled = True
-                listadoCamDgv()
+                listadoCamDgvPorFecha(fe)
+
+                ' Actualizar tanquemed y refrescar nivel de tanque
+                actualizarTanquemed()
+                cargarNivelTanque()
             Else
                 MessageBox.Show("La casilla de Placa debe de ser llenada", "Combustible")
             End If
@@ -365,46 +508,163 @@ Public Class comprobante
         CamDGV.Enabled = True
         Me.GuardarBtn.Visible = True
         listadoCamDgv()
+
+        ' Actualizar tanquemed y refrescar nivel de tanque
+        actualizarTanquemed()
+        cargarNivelTanque()
     End Sub
     Public Sub actual()
+        Try
+            If con.State = ConnectionState.Closed Then
+                con.Open()
+            End If
 
-        If con.State = ConnectionState.Closed Then
-            con.Open()
-        End If
+            Dim fe As Date = fechaPkd.Value.ToString("yyyy-MM-dd")
+            galDespTb.Text = galDespTb.Text.Replace(",", "")
+            valorTb.Text = valorTb.Text.Replace(",", "")
 
-        Dim fe As Date = fechaPkd.Value.ToString("yyyy-MM-dd")
-        galDespTb.Text = galDespTb.Text.Replace(",", "")
-        valorTb.Text = valorTb.Text.Replace(",", "")
+            Dim combD As Double = 0
+            Dim valorC As Double = 0
+            Double.TryParse(galDespTb.Text, combD)
+            Double.TryParse(valorTb.Text, valorC)
+            Dim totalVenta As Double = combD * valorC
 
-        Dim actualizar As String
-        actualizar = "UPDATE comprobante SET nCompro = '" & nComproTb.Text & "', nBoleta = '" & nBoletaTb.Text & "', galDesp = '" & galDespTb.Text & "', valor = '" & valorTb.Text & "', placaCbz = '" & placaCbzTb.Text & "', nConte = '" & nConteTb.Text & "',propCbz = '" & propCbzTb.Text & "', ruta = '" & rutaTb.Text & "', nombCond = '" & nombCondTb.Text & "', nombDesp = '" & nombDespTb.Text & "', fecha = '" & fe & "', periodo = '" & periodoTb.Text & "', semana = '" & semanaTb.Text & "', proxSem = '" & proxSemTb.Text & "', codiProp = '" & codiPropTb.Text & "' WHERE idcprbnt = '" & buscartxt.Text & "'"
+            Dim actualizar As String = "UPDATE comprobante SET nCompro = @nCompro, nBoleta = @nBoleta, galDesp = @galDesp, valor = @valor, total = @total, placaCbz = @placaCbz, nConte = @nConte, propCbz = @propCbz, ruta = @ruta, nombCond = @nombCond, nombDesp = @nombDesp, fecha = @fecha, periodo = @periodo, semana = @semana, proxSem = @proxSem, codiProp = @codiProp WHERE idcprbnt = @idcprbnt"
 
-        Dim act As New MySqlCommand(actualizar, con)
-        act.ExecuteNonQuery()
-        MsgBox("Registo Actualizado")
+            Using cmd As New MySqlCommand(actualizar, con)
+                cmd.Parameters.AddWithValue("@nCompro", nComproTb.Text)
+                cmd.Parameters.AddWithValue("@nBoleta", nBoletaTb.Text)
+                cmd.Parameters.AddWithValue("@galDesp", combD)
+                cmd.Parameters.AddWithValue("@valor", valorC)
+                cmd.Parameters.AddWithValue("@total", totalVenta)
+                cmd.Parameters.AddWithValue("@placaCbz", placaCbzTb.Text)
+                cmd.Parameters.AddWithValue("@nConte", nConteTb.Text)
+                cmd.Parameters.AddWithValue("@propCbz", propCbzTb.Text)
+                cmd.Parameters.AddWithValue("@ruta", rutaTb.Text)
+                cmd.Parameters.AddWithValue("@nombCond", nombCondTb.Text)
+                cmd.Parameters.AddWithValue("@nombDesp", nombDespTb.Text)
+                cmd.Parameters.AddWithValue("@fecha", fe)
+                cmd.Parameters.AddWithValue("@periodo", periodoTb.Text)
+                cmd.Parameters.AddWithValue("@semana", semanaTb.Text)
+                cmd.Parameters.AddWithValue("@proxSem", proxSemTb.Text)
+                cmd.Parameters.AddWithValue("@codiProp", codiPropTb.Text)
+                cmd.Parameters.AddWithValue("@idcprbnt", buscartxt.Text)
+                cmd.ExecuteNonQuery()
+            End Using
+            RegistrarLog("EDITAR", buscartxt.Text, "Placa: " & placaCbzTb.Text & " | Gal: " & galDespTb.Text & " | Prop: " & propCbzTb.Text)
+            MsgBox("Registo Actualizado")
+        Catch ex As Exception
+            MessageBox.Show("Error al actualizar: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub EliminarBtn_Click(sender As Object, e As EventArgs) Handles EliminarBtn.Click '============  ELIMINAR  ===========
         Try
+            If buscartxt.Text = "" OrElse buscartxt.Text = "-" Then
+                MessageBox.Show("Seleccione un registro para eliminar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return
+            End If
 
-            Dim opc As DialogResult = MsgBox("¿Desea Eliminar este registro?", MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Eliminar")
-            If opc = Windows.Forms.DialogResult.Yes Then
+            Dim opc As DialogResult = MessageBox.Show("¿Desea Eliminar este registro permanentemente?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If opc = DialogResult.Yes Then
+                Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                    conLocal.Open()
+                    Using eli As New MySqlCommand("DELETE FROM comprobante WHERE idcprbnt = @id", conLocal)
+                        eli.Parameters.AddWithValue("@id", buscartxt.Text)
+                        eli.ExecuteNonQuery()
+                    End Using
+                End Using
 
-                Dim eliminar As String
+                RegistrarLog("ELIMINAR", buscartxt.Text, "Placa: " & placaCbzTb.Text & " | Prop: " & propCbzTb.Text)
+                MessageBox.Show("Registro eliminado correctamente.", "Eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-                eliminar = "DELETE FROM placas WHERE idplaca = '" & Conversion.Int(Me.buscartxt.Text) & "'"
-                Dim eli As New MySqlCommand(eliminar, con)
-                eli.ExecuteNonQuery()
-
+                limpiar()
+                act()
+                PanelP.Enabled = False
+                CamDGV.Enabled = True
                 listadoCamDgv()
 
+                ' Recalcular tanque
+                actualizarTanquemed()
+                cargarNivelTanque()
             End If
-        Catch
-            MessageBox.Show("Actualización Base de Datos, " & Chr(13) & "favor escoger de nuevo el registro y eliminarlo", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
-
+        Catch ex As Exception
+            MessageBox.Show("Error al eliminar: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try
+    End Sub
 
-        act()
+    Private Sub AnularBtn_Click(sender As Object, e As EventArgs) Handles AnularBtn.Click '============  ANULAR / DESANULAR  ===========
+        Try
+            If buscartxt.Text = "" OrElse buscartxt.Text = "-" Then
+                MessageBox.Show("Seleccione un registro.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return
+            End If
+
+            If registroAnulado Then
+                ' === DESANULAR (solo ADMIN/SUPERADMIN) ===
+                Dim tipoUsr As String = ModuloConexion.TipoUsuarioSesion.ToUpper()
+                If tipoUsr <> "ADMIN" AndAlso tipoUsr <> "SUPERADMIN" Then
+                    MessageBox.Show("Solo un usuario ADMIN puede quitar la anulacion.", "Acceso Denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Return
+                End If
+
+                Dim opc As DialogResult = MessageBox.Show("¿Desea quitar la anulacion de este comprobante?" & vbCrLf &
+                    "El registro volvera a sumar en reportes y calculos.",
+                    "Desanular Comprobante", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+                If opc = DialogResult.Yes Then
+                    Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                        conLocal.Open()
+                        Using cmd As New MySqlCommand("UPDATE comprobante SET anulado = 0 WHERE idcprbnt = @id", conLocal)
+                            cmd.Parameters.AddWithValue("@id", buscartxt.Text)
+                            cmd.ExecuteNonQuery()
+                        End Using
+                    End Using
+
+                    RegistrarLog("DESANULAR", buscartxt.Text, "Comprobante reactivado")
+                    MessageBox.Show("Comprobante reactivado correctamente.", "Desanulado", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                    limpiar()
+                    act()
+                    PanelP.Enabled = False
+                    CamDGV.Enabled = True
+                    listadoCamDgv()
+
+                    actualizarTanquemed()
+                    cargarNivelTanque()
+                End If
+            Else
+                ' === ANULAR ===
+                Dim opc As DialogResult = MessageBox.Show("¿Esta seguro que desea anular este comprobante?" & vbCrLf &
+                    "El registro se conservara pero no sumara en reportes ni calculos.",
+                    "Anular Comprobante", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+                If opc = DialogResult.Yes Then
+                    Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                        conLocal.Open()
+                        Using cmd As New MySqlCommand("UPDATE comprobante SET anulado = 1, galDesp = 0, total = 0, valor = 0 WHERE idcprbnt = @id", conLocal)
+                            cmd.Parameters.AddWithValue("@id", buscartxt.Text)
+                            cmd.ExecuteNonQuery()
+                        End Using
+                    End Using
+
+                    RegistrarLog("ANULAR", buscartxt.Text, "Comprobante anulado")
+                    MessageBox.Show("Comprobante anulado correctamente.", "Anulado", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                    limpiar()
+                    act()
+                    PanelP.Enabled = False
+                    CamDGV.Enabled = True
+                    listadoCamDgv()
+
+                    actualizarTanquemed()
+                    cargarNivelTanque()
+                End If
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub CancelarBtn_Click(sender As Object, e As EventArgs) Handles CancelarBtn.Click  '============  CANCELAR  ===========
@@ -425,9 +685,20 @@ Public Class comprobante
             buscartxt.Text = idcod
             Seleccion()
             calcularletras()
-            calcularTotalVenta()
-            Me.EditarBtn.Enabled = True
-            Me.EliminarBtn.Enabled = True
+            cargarTotalDesdeRegistro()
+            Me.EditarBtn.Enabled = Not ModuloConexion.EsSoloLectura()
+            Dim tipoUsr As String = ModuloConexion.TipoUsuarioSesion.ToUpper()
+            Dim esAdmin As Boolean = (tipoUsr = "ADMIN" OrElse tipoUsr = "SUPERADMIN")
+            ' Solo ADMIN y SUPERADMIN pueden eliminar
+            Me.EliminarBtn.Enabled = esAdmin
+            ' Anular: todos pueden anular; desanular: solo ADMIN
+            If registroAnulado Then
+                Me.AnularBtn.Text = "Desanular"
+                Me.AnularBtn.Enabled = esAdmin
+            Else
+                Me.AnularBtn.Text = "Anular"
+                Me.AnularBtn.Enabled = Not ModuloConexion.EsSoloLectura()
+            End If
         End If
     End Sub
     Public Sub Seleccion()
@@ -459,6 +730,18 @@ Public Class comprobante
             semanaTb.Text = datos.Tables("placa").Rows(0).Item("semana").ToString
             proxSemTb.Text = datos.Tables("placa").Rows(0).Item("proxSem").ToString
             codiPropTb.Text = datos.Tables("placa").Rows(0).Item("codiProp").ToString
+
+            ' Leer estado de anulacion
+            If datos.Tables("placa").Columns.Contains("anulado") AndAlso
+               datos.Tables("placa").Rows(0).Item("anulado") IsNot DBNull.Value Then
+                registroAnulado = (Convert.ToInt32(datos.Tables("placa").Rows(0).Item("anulado")) = 1)
+            Else
+                registroAnulado = False
+            End If
+
+            If registroAnulado Then
+                pLetras.Text = "ANULADO"
+            End If
 
         Else
             MsgBox("Datos no encontrados")
@@ -513,7 +796,7 @@ Public Class comprobante
             con.Open()
         End If
         Try
-            Dim query As String = "SELECT propietario FROM placa;"
+            Dim query As String = "SELECT propietario FROM placa WHERE activo = 1;"
 
             Dim autoCompleteSource As New AutoCompleteStringCollection()
 
@@ -543,7 +826,7 @@ Public Class comprobante
             con.Open()
         End If
         Try
-            Dim query As String = "SELECT placa FROM placa;"
+            Dim query As String = "SELECT placa FROM placa WHERE activo = 1;"
 
             Dim autoCompleteSource As New AutoCompleteStringCollection()
 
@@ -568,6 +851,105 @@ Public Class comprobante
             If con.State = ConnectionState.Open Then con.Close()
         End Try
     End Sub
+    Public Sub PConductores()
+        Try
+            If con.State = ConnectionState.Closed Then con.Open()
+            Dim query As String = "SELECT DISTINCT nombCond FROM comprobante WHERE nombCond IS NOT NULL AND nombCond <> '' ORDER BY nombCond"
+            Dim autoCompleteSource As New AutoCompleteStringCollection()
+            Using cmd As New MySqlCommand(query, con)
+                Dim reader As MySqlDataReader = cmd.ExecuteReader()
+                While reader.Read()
+                    autoCompleteSource.Add(reader("nombCond").ToString())
+                End While
+                reader.Close()
+            End Using
+            nombCondTb.AutoCompleteCustomSource = autoCompleteSource
+        Catch ex As Exception
+            MessageBox.Show("Error: " & ex.Message)
+        Finally
+            If con.State = ConnectionState.Open Then con.Close()
+        End Try
+    End Sub
+
+    Public Sub CargarCachePlacas()
+        ' Limpiar caches
+        cachePlacasPorPropietario.Clear()
+        cachePlacasPorCodigo.Clear()
+        cachePropietarioPorCodigo.Clear()
+        cacheCodigoPorPropietario.Clear()
+        cachePlacaInfo.Clear()
+
+        Dim autoCompleteProp As New AutoCompleteStringCollection()
+        Dim autoCompletePlaca As New AutoCompleteStringCollection()
+
+        Try
+            If con.State = ConnectionState.Closed Then con.Open()
+
+            ' Query 1: Cargar todas las placas activas
+            Dim sqlPlacas As String = "SELECT codigoPro, placa, propietario FROM placa WHERE activo = 1"
+            Using cmd As New MySqlCommand(sqlPlacas, con)
+                Using reader As MySqlDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        Dim codigo As String = If(reader("codigoPro") IsNot DBNull.Value, reader("codigoPro").ToString().Trim(), "")
+                        Dim placa As String = If(reader("placa") IsNot DBNull.Value, reader("placa").ToString().Trim(), "")
+                        Dim prop As String = If(reader("propietario") IsNot DBNull.Value, reader("propietario").ToString().Trim(), "")
+
+                        ' Cache: propietario -> lista de placas
+                        If prop <> "" Then
+                            If Not cachePlacasPorPropietario.ContainsKey(prop.ToUpper()) Then
+                                cachePlacasPorPropietario(prop.ToUpper()) = New List(Of String)
+                            End If
+                            If placa <> "" Then cachePlacasPorPropietario(prop.ToUpper()).Add(placa)
+                        End If
+
+                        ' Cache: codigoPro -> lista de placas
+                        If codigo <> "" Then
+                            If Not cachePlacasPorCodigo.ContainsKey(codigo) Then
+                                cachePlacasPorCodigo(codigo) = New List(Of String)
+                            End If
+                            If placa <> "" Then cachePlacasPorCodigo(codigo).Add(placa)
+                        End If
+
+                        ' Cache: propietario -> codigoPro
+                        If prop <> "" AndAlso codigo <> "" Then
+                            cacheCodigoPorPropietario(prop.ToUpper()) = codigo
+                        End If
+
+                        ' Cache: placa -> {codigoPro, propietario}
+                        If placa <> "" Then
+                            cachePlacaInfo(placa.ToUpper()) = {codigo, prop}
+                        End If
+
+                        ' AutoComplete
+                        If prop <> "" AndAlso Not autoCompleteProp.Contains(prop) Then autoCompleteProp.Add(prop)
+                        If placa <> "" AndAlso Not autoCompletePlaca.Contains(placa) Then autoCompletePlaca.Add(placa)
+                    End While
+                End Using
+            End Using
+
+            ' Query 2: Cargar propietarios (codProp -> nPropietario)
+            Dim sqlProp As String = "SELECT codProp, nPropietario FROM propietario"
+            Using cmd As New MySqlCommand(sqlProp, con)
+                Using reader As MySqlDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        Dim codProp As String = If(reader("codProp") IsNot DBNull.Value, reader("codProp").ToString().Trim(), "")
+                        Dim nProp As String = If(reader("nPropietario") IsNot DBNull.Value, reader("nPropietario").ToString().Trim(), "")
+                        If codProp <> "" AndAlso nProp <> "" Then
+                            cachePropietarioPorCodigo(codProp) = nProp
+                        End If
+                    End While
+                End Using
+            End Using
+
+            propCbzTb.AutoCompleteCustomSource = autoCompleteProp
+            placaCbzTb.AutoCompleteCustomSource = autoCompletePlaca
+
+        Catch ex As Exception
+            MessageBox.Show("Error cargando cache: " & ex.Message)
+        Finally
+            If con.State = ConnectionState.Open Then con.Close()
+        End Try
+    End Sub
 
     Private Sub propCbzTb_KeyDown(sender As Object, e As KeyEventArgs) Handles propCbzTb.KeyDown
         If e.KeyCode = Keys.Enter Then
@@ -578,67 +960,60 @@ Public Class comprobante
         End If
     End Sub
     Public Sub Seleccion2()
-        Dim consulta As String
-        Dim lista As Byte
+        If propCbzTb.Text = "" Then Return
 
-        If propCbzTb.Text <> "" Then
-            consulta = "SELECT * FROM placa WHERE propietario  = '" & propCbzTb.Text & "'"
-            adaptador = New MySqlDataAdapter(consulta, con)
-            datos = New DataSet
-            adaptador.Fill(datos, "propietario")
-            lista = datos.Tables("propietario").Rows.Count
+        Dim textoBusqueda As String = propCbzTb.Text.Trim().ToUpper()
+        Dim codigoEncontrado As String = ""
+
+        ' Buscar primero coincidencia exacta en cache
+        If cacheCodigoPorPropietario.ContainsKey(textoBusqueda) Then
+            codigoEncontrado = cacheCodigoPorPropietario(textoBusqueda)
+        Else
+            ' Buscar coincidencia parcial (LIKE)
+            For Each kvp In cacheCodigoPorPropietario
+                If kvp.Key.Contains(textoBusqueda) Then
+                    codigoEncontrado = kvp.Value
+                    Exit For
+                End If
+            Next
         End If
 
-        If lista <> 0 Then
-            codiPropTb.Text = datos.Tables("propietario").Rows(0).Item("codigoPro").ToString
+        If codigoEncontrado <> "" Then
+            codiPropTb.Text = codigoEncontrado
         Else
             MsgBox("Datos no encontrados")
         End If
     End Sub
     Private Sub codiPropTb_TextChanged(sender As Object, e As EventArgs) Handles codiPropTb.TextChanged
-        ' Si estamos actualizando programaticamente, no ejecutar para evitar cascada
         If actualizandoProgramaticamente Then Return
 
         Try
-            ' Limpiar lista antes de recargar
             placaCbzTb2.Items.Clear()
-            If con.State = ConnectionState.Closed Then con.Open()
-            ' Solo buscar si hay algo escrito
-            If codiPropTb.Text.Trim() <> "" Then
-                ' Buscar placas relacionadas
-                Dim sql As String = "SELECT placa FROM placa WHERE codigoPro LIKE @codi"
-                Using cmd As New MySqlCommand(sql, con)
-                    cmd.Parameters.AddWithValue("@codi", "%" & codiPropTb.Text & "%")
-                    Using drLocal As MySqlDataReader = cmd.ExecuteReader()
-                        While drLocal.Read()
-                            placaCbzTb2.Items.Add(drLocal("placa").ToString())
-                        End While
-                    End Using
-                End Using
 
-                ' Buscar propietario y llenar propCbzTb
-                Dim sqlProp As String = "SELECT nPropietario FROM propietario WHERE codProp = @codProp"
-                Using cmdProp As New MySqlCommand(sqlProp, con)
-                    cmdProp.Parameters.AddWithValue("@codProp", codiPropTb.Text.Trim())
-                    Using drProp As MySqlDataReader = cmdProp.ExecuteReader()
-                        If drProp.Read() Then
-                            propCbzTb.Text = drProp("nPropietario").ToString()
-                        Else
-                            propCbzTb.Text = ""
-                        End If
-                    End Using
-                End Using
+            If codiPropTb.Text.Trim() <> "" Then
+                Dim codigo As String = codiPropTb.Text.Trim()
+
+                ' Buscar placas por codigo en cache
+                For Each kvp In cachePlacasPorCodigo
+                    If kvp.Key.Contains(codigo) Then
+                        For Each placa In kvp.Value
+                            placaCbzTb2.Items.Add(placa)
+                        Next
+                    End If
+                Next
+
+                ' Buscar nombre propietario en cache
+                If cachePropietarioPorCodigo.ContainsKey(codigo) Then
+                    propCbzTb.Text = cachePropietarioPorCodigo(codigo)
+                Else
+                    propCbzTb.Text = ""
+                End If
             Else
-                ' Si el campo está vacío, limpiar propCbzTb
                 propCbzTb.Text = ""
             End If
 
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.Message)
-        Finally
-            If con.State = ConnectionState.Open Then
-                con.Close()
-            End If
         End Try
     End Sub
     Private Sub placaCbzTb2_ItemClick(sender As Object, e As EventArgs) Handles placaCbzTb2.ItemClick
@@ -854,38 +1229,44 @@ Public Class comprobante
                             e.Graphics.DrawString("=== Propietario Cabezal ===", mFont2, Brushes.Black, 50, y)
                             y = 292
                             e.Graphics.DrawString(propCbzTb.Text, mFont2, Brushes.Black, 10, y)
-                            y = 307
-                            e.Graphics.DrawString("Cabezal:   " & placaCbzTb.Text, mFont2, Brushes.Black, 30, y)
+
+                            y = 306
+                            e.Graphics.DrawString("Cod. Propietario: " & codiPropTb.Text, mFont2, Brushes.Black, 30, y)
+
                             y = 322
-                            e.Graphics.DrawString("Contenedor:   " & nConteTb.Text, mFont2, Brushes.Black, 30, y)
+                            e.Graphics.DrawString("Cabezal:   " & placaCbzTb.Text, mFont2, Brushes.Black, 30, y)
                             y = 337
-                            e.Graphics.DrawString("N° Boleta: " & nBoletaTb.Text, mFont2, Brushes.Black, 30, y)
+                            e.Graphics.DrawString("Contenedor:   " & nConteTb.Text, mFont2, Brushes.Black, 30, y)
                             y = 352
+                            e.Graphics.DrawString("N° Boleta: " & nBoletaTb.Text, mFont2, Brushes.Black, 30, y)
+
+
+                            y = 366
                             e.Graphics.DrawString("Ruta: " & rutaTb.Text, mFont4, Brushes.Black, 10, y)
-                            y = 360
-                            e.Graphics.DrawString("_____________________________", DFont, Brushes.Black, 10, y)
 
-                            y = 380
+                            y = 366
+                            e.Graphics.DrawString("_____________________________", DFont, Brushes.Black, 10, y)
+                            y = 386
                             e.Graphics.DrawString("=== Nombre Conductor ===", mFont2, Brushes.Black, 50, y)
-                            y = 395
+                            y = 401
                             e.Graphics.DrawString(nombCondTb.Text, mFont2, Brushes.Black, 10, y)
-                            y = 396
+                            y = 401
                             e.Graphics.DrawString("_____________________________", DFont, Brushes.Black, 10, y)
 
-                            y = 423
+                            y = 429
                             e.Graphics.DrawString("=== Nombre Despachador ===", mFont2, Brushes.Black, 50, y)
-                            y = 438
+                            y = 444
                             e.Graphics.DrawString(nombDespTb.Text, mFont2, Brushes.Black, 10, y)
-                            y = 442
+                            y = 448
                             e.Graphics.DrawString("_____________________________", DFont, Brushes.Black, 10, y)
 
-                            y = 466
+                            y = 472
                             e.Graphics.DrawString("Galones Despachados: " & galDespTb.Text, mFont2, Brushes.Black, 10, y)
-                            y = 481
+                            y = 487
                             e.Graphics.DrawString("Precio: " & valorTb.Text, mFont2, Brushes.Black, 10, y)
-                            y = 496
+                            y = 502
                             e.Graphics.DrawString(totVtalb.Text, mFont2, Brushes.Black, 10, y)
-                            y = 510
+                            y = 516
                             e.Graphics.DrawString("_____________________________", DFont, Brushes.Black, 10, y)
 
                             ' Liberar fuentes
@@ -946,13 +1327,30 @@ Public Class comprobante
         totVtalb.Text = String.Format("Total Venta: L. {0:N2}", gal * val)
     End Sub
 
+    Private Sub cargarTotalDesdeRegistro()
+        Try
+            If datos IsNot Nothing AndAlso datos.Tables("placa") IsNot Nothing AndAlso datos.Tables("placa").Rows.Count > 0 Then
+                Dim totalVal As Object = datos.Tables("placa").Rows(0).Item("total")
+                If totalVal IsNot Nothing AndAlso Not IsDBNull(totalVal) Then
+                    totVtalb.Text = String.Format("Total Venta: L. {0:N2}", Convert.ToDouble(totalVal))
+                Else
+                    calcularTotalVenta()
+                End If
+            Else
+                calcularTotalVenta()
+            End If
+        Catch
+            calcularTotalVenta()
+        End Try
+    End Sub
+
     Private Sub periodoTb_SelectedIndexChanged(sender As Object, e As EventArgs) Handles periodoTb.SelectedIndexChanged
 
     End Sub
 
     Private Sub placaCbzTb_TextChanged(sender As Object, e As EventArgs) Handles placaCbzTb.TextChanged
+        If actualizandoProgramaticamente Then Return
         Try
-            ' Activar bandera para evitar cascada de eventos
             actualizandoProgramaticamente = True
 
             If String.IsNullOrWhiteSpace(placaCbzTb.Text) Then
@@ -962,111 +1360,40 @@ Public Class comprobante
                 Return
             End If
 
-            ' Solo buscar si tiene al menos 3 caracteres (evita busquedas innecesarias)
             If placaCbzTb.Text.Trim().Length < 3 Then
                 actualizandoProgramaticamente = False
                 Return
             End If
 
-            ' Variables para almacenar los valores
+            Dim placaBuscada As String = placaCbzTb.Text.Trim().ToUpper()
             Dim codigoPro As String = ""
             Dim propietarioNombre As String = ""
-            Dim codPropResult As String = ""
-            Dim nPropietarioResult As String = ""
-            Dim encontroPlaca As Boolean = False
-            Dim encontroPropietario As Boolean = False
+            Dim encontro As Boolean = False
 
-            If con.State = ConnectionState.Closed Then
-                con.Open()
-            End If
-
-            ' Primera consulta: buscar placa (primero exacta, luego con LIKE)
-            Dim placaBuscada As String = placaCbzTb.Text.Trim().ToUpper()
-
-            ' Intentar busqueda exacta primero
-            Dim sqlPlaca As String = "SELECT codigoPro, propietario FROM placa WHERE UPPER(TRIM(placa)) = @placa"
-            Using cmdPlaca As New MySqlCommand(sqlPlaca, con)
-                cmdPlaca.Parameters.AddWithValue("@placa", placaBuscada)
-                Using drPlaca As MySqlDataReader = cmdPlaca.ExecuteReader()
-                    If drPlaca.Read() Then
-                        codigoPro = If(drPlaca("codigoPro") IsNot DBNull.Value, drPlaca("codigoPro").ToString().Trim(), "")
-                        propietarioNombre = If(drPlaca("propietario") IsNot DBNull.Value, drPlaca("propietario").ToString().Trim(), "")
-                        encontroPlaca = True
+            ' Buscar coincidencia exacta en cache
+            If cachePlacaInfo.ContainsKey(placaBuscada) Then
+                codigoPro = cachePlacaInfo(placaBuscada)(0)
+                propietarioNombre = cachePlacaInfo(placaBuscada)(1)
+                encontro = True
+            Else
+                ' Buscar coincidencia parcial
+                For Each kvp In cachePlacaInfo
+                    If kvp.Key.Contains(placaBuscada) Then
+                        codigoPro = kvp.Value(0)
+                        propietarioNombre = kvp.Value(1)
+                        encontro = True
+                        Exit For
                     End If
-                End Using
-            End Using
-
-            ' Si no encontró exacta, buscar con LIKE
-            If Not encontroPlaca Then
-                Dim sqlPlacaLike As String = "SELECT codigoPro, propietario FROM placa WHERE UPPER(placa) LIKE @placa LIMIT 1"
-                Using cmdPlacaLike As New MySqlCommand(sqlPlacaLike, con)
-                    cmdPlacaLike.Parameters.AddWithValue("@placa", "%" & placaBuscada & "%")
-                    Using drPlacaLike As MySqlDataReader = cmdPlacaLike.ExecuteReader()
-                        If drPlacaLike.Read() Then
-                            codigoPro = If(drPlacaLike("codigoPro") IsNot DBNull.Value, drPlacaLike("codigoPro").ToString().Trim(), "")
-                            propietarioNombre = If(drPlacaLike("propietario") IsNot DBNull.Value, drPlacaLike("propietario").ToString().Trim(), "")
-                            encontroPlaca = True
-                        End If
-                    End Using
-                End Using
+                Next
             End If
 
-            ' Segunda consulta: buscar propietario
-            If encontroPlaca Then
-                ' Primero intentar por codigoPro si no está vacío
-                If codigoPro <> "" Then
-                    Dim sqlPropietario As String = "SELECT codProp, nPropietario FROM propietario WHERE UPPER(TRIM(codProp)) = @codProp"
-                    Using cmdPropietario As New MySqlCommand(sqlPropietario, con)
-                        cmdPropietario.Parameters.AddWithValue("@codProp", codigoPro.ToUpper())
-                        Using drPropietario As MySqlDataReader = cmdPropietario.ExecuteReader()
-                            If drPropietario.Read() Then
-                                nPropietarioResult = drPropietario("nPropietario").ToString()
-                                codPropResult = drPropietario("codProp").ToString()
-                                encontroPropietario = True
-                            End If
-                        End Using
-                    End Using
+            If encontro AndAlso codigoPro <> "" Then
+                ' Buscar nombre formal del propietario en cache
+                If cachePropietarioPorCodigo.ContainsKey(codigoPro) Then
+                    propCbzTb.Text = cachePropietarioPorCodigo(codigoPro)
+                Else
+                    propCbzTb.Text = propietarioNombre
                 End If
-
-                ' Si no encontró por codProp, buscar por nombre de propietario
-                If Not encontroPropietario AndAlso propietarioNombre <> "" Then
-                    Dim sqlPropietario2 As String = "SELECT codProp, nPropietario FROM propietario WHERE UPPER(TRIM(nPropietario)) = @nPropietario"
-                    Using cmdPropietario2 As New MySqlCommand(sqlPropietario2, con)
-                        cmdPropietario2.Parameters.AddWithValue("@nPropietario", propietarioNombre.ToUpper())
-                        Using drPropietario2 As MySqlDataReader = cmdPropietario2.ExecuteReader()
-                            If drPropietario2.Read() Then
-                                nPropietarioResult = drPropietario2("nPropietario").ToString()
-                                codPropResult = drPropietario2("codProp").ToString()
-                                encontroPropietario = True
-                            End If
-                        End Using
-                    End Using
-                End If
-
-                ' Si aún no encuentra, buscar con LIKE en nombre
-                If Not encontroPropietario AndAlso propietarioNombre <> "" Then
-                    Dim sqlPropietario3 As String = "SELECT codProp, nPropietario FROM propietario WHERE UPPER(nPropietario) LIKE @nPropietario LIMIT 1"
-                    Using cmdPropietario3 As New MySqlCommand(sqlPropietario3, con)
-                        cmdPropietario3.Parameters.AddWithValue("@nPropietario", "%" & propietarioNombre.ToUpper() & "%")
-                        Using drPropietario3 As MySqlDataReader = cmdPropietario3.ExecuteReader()
-                            If drPropietario3.Read() Then
-                                nPropietarioResult = drPropietario3("nPropietario").ToString()
-                                codPropResult = drPropietario3("codProp").ToString()
-                                encontroPropietario = True
-                            End If
-                        End Using
-                    End Using
-                End If
-            End If
-
-            ' Asignar valores a los TextBox
-            If encontroPropietario Then
-                propCbzTb.Text = nPropietarioResult
-                codiPropTb.Text = codPropResult
-            ElseIf encontroPlaca AndAlso propietarioNombre <> "" Then
-                ' Si encontró la placa pero no el propietario en la tabla propietario,
-                ' usar el nombre guardado directamente en la tabla placa
-                propCbzTb.Text = propietarioNombre
                 codiPropTb.Text = codigoPro
             Else
                 propCbzTb.Text = ""
@@ -1077,9 +1404,6 @@ Public Class comprobante
             MessageBox.Show("Error al buscar datos de la placa: " & ex.Message, "Error")
         Finally
             actualizandoProgramaticamente = False
-            If con.State = ConnectionState.Open Then
-                con.Close()
-            End If
         End Try
     End Sub
 
@@ -1119,7 +1443,7 @@ Public Class comprobante
             If con.State = ConnectionState.Closed Then con.Open()
 
             Dim sql As New System.Text.StringBuilder()
-            sql.Append("SELECT idcprbnt, nCompro, nBoleta, DATE_FORMAT(fecha, '%d/%m/%Y') AS fecha, nombDesp, propCbz, placaCbz, periodo, semana, ruta, galDesp, valor ")
+            sql.Append("SELECT idcprbnt, nCompro, nBoleta, DATE_FORMAT(fecha, '%d/%m/%Y') AS fecha, nombDesp, propCbz, placaCbz, periodo, semana, ruta, galDesp, valor, total, COALESCE(anulado, 0) AS anulado ")
             sql.Append("FROM comprobante WHERE 1=1 ")
 
             Dim cmd As New MySqlCommand()
@@ -1160,21 +1484,21 @@ Public Class comprobante
             CamDGV.DataSource = dt
             ListadoD()
 
-            ' Calcular totales
-            Dim totalRegistros As Integer = dt.Rows.Count
+            ' Calcular totales (excluyendo anulados)
+            Dim totalRegistros As Integer = 0
             Dim totalGalones As Double = 0
             Dim totalVenta As Double = 0
             For Each row As DataRow In dt.Rows
-                Dim gal As Double = 0
-                Dim val As Double = 0
-                If row("galDesp") IsNot DBNull.Value Then
-                    gal = Convert.ToDouble(row("galDesp"))
-                    totalGalones += gal
+                Dim esAnulado As Boolean = (row.Table.Columns.Contains("anulado") AndAlso row("anulado") IsNot DBNull.Value AndAlso Convert.ToInt32(row("anulado")) = 1)
+                If Not esAnulado Then
+                    totalRegistros += 1
+                    If row("galDesp") IsNot DBNull.Value Then
+                        totalGalones += Convert.ToDouble(row("galDesp"))
+                    End If
+                    If row("total") IsNot DBNull.Value Then
+                        totalVenta += Convert.ToDouble(row("total"))
+                    End If
                 End If
-                If row("valor") IsNot DBNull.Value Then
-                    val = Convert.ToDouble(row("valor"))
-                End If
-                totalVenta += gal * val
             Next
 
             ' Mostrar totales en los labels
@@ -1226,5 +1550,157 @@ Public Class comprobante
         End Try
     End Sub
 
+    ' ============ NIVEL DE TANQUE ============
+
+    ''' <summary>
+    ''' Consulta tanquemed para el periodo/semana actual y muestra el nivel estimado del tanque.
+    ''' Nivel = galonesCalc (inicio) + galRecibidos - SUM(galDesp de comprobante)
+    ''' </summary>
+    Private Sub cargarNivelTanque()
+        Try
+            Dim periodo As String = ModuloConexion.PeriodoSesion
+            Dim semana As String = ModuloConexion.SemanaSesion
+
+            If String.IsNullOrEmpty(periodo) OrElse String.IsNullOrEmpty(semana) Then
+                lblNivelTanque.Text = "Tanque: sin periodo/semana"
+                lblNivelTanque.ForeColor = Color.Gray
+                Return
+            End If
+
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+
+                ' Buscar registro de tanquemed para este periodo/semana
+                Dim sqlTanque As String = "SELECT galonesCalc, galRecibidos, capacidadTanque FROM tanquemed WHERE periodo = @periodo AND semana = @semana ORDER BY idMedida DESC LIMIT 1"
+                Dim galInicio As Double = 0
+                Dim galRecibidos As Double = 0
+                Dim capacidad As Double = 0
+                Dim encontro As Boolean = False
+
+                Using cmd As New MySqlCommand(sqlTanque, conLocal)
+                    cmd.Parameters.AddWithValue("@periodo", periodo)
+                    cmd.Parameters.AddWithValue("@semana", semana)
+                    Using dr As MySqlDataReader = cmd.ExecuteReader()
+                        If dr.Read() Then
+                            If dr("galonesCalc") IsNot DBNull.Value Then galInicio = Convert.ToDouble(dr("galonesCalc"))
+                            If dr("galRecibidos") IsNot DBNull.Value Then galRecibidos = Convert.ToDouble(dr("galRecibidos"))
+                            If dr("capacidadTanque") IsNot DBNull.Value Then capacidad = Convert.ToDouble(dr("capacidadTanque"))
+                            encontro = True
+                        End If
+                    End Using
+                End Using
+
+                If Not encontro Then
+                    lblNivelTanque.Text = "Tanque: sin medicion P" & periodo & "-S" & semana
+                    lblNivelTanque.ForeColor = Color.Gray
+                    Return
+                End If
+
+                ' Sumar total despachado en comprobante para este periodo/semana
+                Dim sqlDesp As String = "SELECT COALESCE(SUM(galDesp), 0) FROM comprobante WHERE periodo = @periodo AND semana = @semana AND (anulado = 0 OR anulado IS NULL)"
+                Dim totalDespachado As Double = 0
+
+                Using cmdDesp As New MySqlCommand(sqlDesp, conLocal)
+                    cmdDesp.Parameters.AddWithValue("@periodo", periodo)
+                    cmdDesp.Parameters.AddWithValue("@semana", semana)
+                    totalDespachado = Convert.ToDouble(cmdDesp.ExecuteScalar())
+                End Using
+
+                ' Calcular nivel actual
+                Dim nivelActual As Double = galInicio + galRecibidos - totalDespachado
+
+                ' Mostrar con color segun porcentaje de capacidad
+                If capacidad > 0 Then
+                    Dim porcentaje As Double = (nivelActual / capacidad) * 100
+                    lblNivelTanque.Text = String.Format("Tanque: {0:N2} gal ({1:N0}%)", nivelActual, porcentaje)
+
+                    If porcentaje > 50 Then
+                        lblNivelTanque.ForeColor = Color.LightGreen
+                    ElseIf porcentaje > 25 Then
+                        lblNivelTanque.ForeColor = Color.Yellow
+                    Else
+                        lblNivelTanque.ForeColor = Color.OrangeRed
+                    End If
+                Else
+                    lblNivelTanque.Text = String.Format("Tanque: {0:N2} gal", nivelActual)
+                    lblNivelTanque.ForeColor = Color.LightGreen
+                End If
+
+            End Using
+
+        Catch ex As Exception
+            lblNivelTanque.Text = "Tanque: error"
+            lblNivelTanque.ForeColor = Color.Gray
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Actualiza galDespachados, galEsperados y diferencia en tanquemed
+    ''' despues de guardar/modificar un comprobante.
+    ''' </summary>
+    Private Sub actualizarTanquemed()
+        Try
+            Dim periodo As String = ModuloConexion.PeriodoSesion
+            Dim semana As String = ModuloConexion.SemanaSesion
+
+            If String.IsNullOrEmpty(periodo) OrElse String.IsNullOrEmpty(semana) Then Return
+
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+
+                ' Verificar que existe un registro en tanquemed para este periodo/semana
+                Dim sqlCheck As String = "SELECT idMedida, galonesCalc, galRecibidos, galonesMed FROM tanquemed WHERE periodo = @periodo AND semana = @semana ORDER BY idMedida DESC LIMIT 1"
+                Dim idMedida As Integer = 0
+                Dim galInicio As Double = 0
+                Dim galRecibidos As Double = 0
+                Dim galFinal As Double = 0
+
+                Using cmdCheck As New MySqlCommand(sqlCheck, conLocal)
+                    cmdCheck.Parameters.AddWithValue("@periodo", periodo)
+                    cmdCheck.Parameters.AddWithValue("@semana", semana)
+                    Using drCheck As MySqlDataReader = cmdCheck.ExecuteReader()
+                        If drCheck.Read() Then
+                            idMedida = Convert.ToInt32(drCheck("idMedida"))
+                            If drCheck("galonesCalc") IsNot DBNull.Value Then galInicio = Convert.ToDouble(drCheck("galonesCalc"))
+                            If drCheck("galRecibidos") IsNot DBNull.Value Then galRecibidos = Convert.ToDouble(drCheck("galRecibidos"))
+                            If drCheck("galonesMed") IsNot DBNull.Value Then galFinal = Convert.ToDouble(drCheck("galonesMed"))
+                        Else
+                            ' No hay registro de medicion para este periodo/semana, no actualizar
+                            Return
+                        End If
+                    End Using
+                End Using
+
+                ' Sumar total despachado en comprobante para este periodo/semana
+                Dim sqlDesp As String = "SELECT COALESCE(SUM(galDesp), 0) FROM comprobante WHERE periodo = @periodo AND semana = @semana AND (anulado = 0 OR anulado IS NULL)"
+                Dim totalDespachado As Double = 0
+
+                Using cmdDesp As New MySqlCommand(sqlDesp, conLocal)
+                    cmdDesp.Parameters.AddWithValue("@periodo", periodo)
+                    cmdDesp.Parameters.AddWithValue("@semana", semana)
+                    totalDespachado = Convert.ToDouble(cmdDesp.ExecuteScalar())
+                End Using
+
+                ' Calcular campos derivados
+                Dim galEsperados As Double = galInicio + galRecibidos - totalDespachado
+                Dim diferencia As Double = galFinal - galEsperados
+
+                ' Actualizar tanquemed
+                Dim sqlUpdate As String = "UPDATE tanquemed SET galDespachados = @galDesp, galEsperados = @galEsp, diferencia = @dif WHERE idMedida = @id"
+                Using cmdUpdate As New MySqlCommand(sqlUpdate, conLocal)
+                    cmdUpdate.Parameters.AddWithValue("@galDesp", totalDespachado)
+                    cmdUpdate.Parameters.AddWithValue("@galEsp", galEsperados)
+                    cmdUpdate.Parameters.AddWithValue("@dif", diferencia)
+                    cmdUpdate.Parameters.AddWithValue("@id", idMedida)
+                    cmdUpdate.ExecuteNonQuery()
+                End Using
+
+            End Using
+
+        Catch ex As Exception
+            ' No mostrar error al usuario para no interrumpir el flujo del comprobante
+            ' Solo fallar silenciosamente si tanquemed no tiene las columnas nuevas aun
+        End Try
+    End Sub
 
 End Class

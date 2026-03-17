@@ -1,0 +1,88 @@
+.row-white td { background-color: #FFFFFF !important; }
+.row-blue td { background-color: #DCE6F1 !important; }
+.row-anulado td { background-color: #FFCCCC !important; color: #8B0000 !important; text-decoration: line-through; }
+
+th a { color: white; text-decoration: none; white-space: nowrap; }
+th a:hover { color: #ffc107; }
+
+.footer { padding: 15px 0; margin-top: 20px; }
+
+/* Autocomplete dropdown */
+.autocomplete-dropdown {
+    position: absolute;
+    z-index: 1050;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    border-radius: 0 0 4px 4px;
+}
+.autocomplete-dropdown .item {
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+.autocomplete-dropdown .item:hover {
+    background-color: #e9ecef;
+}
+
+/* Table row selection */
+#tblComprobantes tbody tr,
+#tblPropietarios tbody tr,
+#tblPlacas tbody tr,
+#tblAccesos tbody tr,
+#tblRutas tbody tr,
+#tblValorComb tbody tr,
+#tblFacturas tbody tr { cursor: pointer; transition: background-color 0.15s; }
+
+#tblComprobantes tbody tr.selected > td,
+#tblPropietarios tbody tr.selected > td,
+#tblPlacas tbody tr.selected > td,
+#tblAccesos tbody tr.selected > td,
+#tblRutas tbody tr.selected > td,
+#tblValorComb tbody tr.selected > td,
+#tblFacturas tbody tr.selected > td { background-color: #b0c4de !important; color: #000 !important; text-decoration: none !important; }
+
+/* Blocked rows (placas) */
+.row-bloqueado td { background-color: #e9ecef !important; color: #999 !important; text-decoration: line-through; }
+
+/* Form panel disabled state */
+#formPanel:not(.enabled) input,
+#formPanel:not(.enabled) select,
+#formPanel:not(.enabled) textarea {
+    opacity: 0.65;
+}
+
+/* ===== READ-ONLY mode (TEST role) ===== */
+body.read-only #btnNuevo,
+body.read-only #btnGuardar,
+body.read-only #btnEditar,
+body.read-only #btnModificar,
+body.read-only #btnCancelar,
+body.read-only #btnEliminar,
+body.read-only #btnAnular,
+body.read-only #btnBloquear {
+    pointer-events: none !important;
+    opacity: 0.5 !important;
+}
+
+/* Tank indicator */
+#tankBadge { font-size: 0.85rem; }
+
+@media (max-width: 768px) {
+    .table { font-size: 0.7rem; }
+    .badge { font-size: 0.7rem !important; }
+    h4 { font-size: 1.1rem; }
+    h5 { font-size: 1rem; }
+    .btn-toolbar .btn { font-size: 0.7rem; padding: 0.2rem 0.5rem; }
+    #tankBadge { font-size: 0.7rem; }
+    .form-label { font-size: 0.7rem !important; }
+    .form-control-sm, .form-select-sm { font-size: 0.8rem !important; }
+}
+
+@media (max-width: 576px) {
+    .btn-toolbar .btn { font-size: 0.65rem; padding: 0.15rem 0.35rem; }
+}

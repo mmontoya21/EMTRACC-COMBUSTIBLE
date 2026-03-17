@@ -6,13 +6,8 @@ Module Globales
     Public facturaF As factura
 End Module
 Public Class propietario
-    Dim con As New MySqlConnection
-    Dim cm As New MySqlCommand
-    Dim guardar As New MySqlCommand
     Dim adaptador As New MySqlDataAdapter
     Dim datos As DataSet
-    Dim dr As MySqlDataReader
-    Private m_tmr As Timer
 
     Private isMouseDown As Boolean = False
     Private mouseOffset As Point
@@ -23,59 +18,12 @@ Public Class propietario
 
 
     Private Sub propietario_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        conectar()
         act()
         listadoCamDgv()
         EstilizarDataGridView(CamDGV)
         EstilizarDataGridView(PlacasDGV)
 
         PanelP.Enabled = False
-
-    End Sub
-
-    Private Sub propietario_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        ' Cerrar la conexión al cerrar el formulario
-        Try
-            If con.State = ConnectionState.Open Then
-                con.Close()
-            End If
-        Catch ex As Exception
-            ' Ignorar errores al cerrar la conexión
-        End Try
-    End Sub
-    Private Sub conectar()
-        con = ModuloConexion.ObtenerConexion()
-        Try
-            If con.State = ConnectionState.Broken Or con.State = ConnectionState.Closed Then
-                If con.State = ConnectionState.Broken Then
-                    con.Close()
-                End If
-                con.Open()
-                MessageBox.Show("El sistema está conectado", "Combustible")
-            End If
-        Catch ex As Exception
-            MsgBox("No se conecto por: " & ex.Message)
-        End Try
-    End Sub
-
-    Private Sub VerificarConexion()
-        Try
-            ' Si la conexión está cerrada o rota, reconectar
-            If con.State = ConnectionState.Broken Then
-                con.Close()
-            End If
-            If con.State = ConnectionState.Closed Then
-                con.Open()
-            End If
-        Catch ex As Exception
-            ' Intentar reconectar en caso de error
-            Try
-                con.Close()
-                con.Open()
-            Catch ex2 As Exception
-                MsgBox("Error de conexión: " & ex2.Message)
-            End Try
-        End Try
     End Sub
     Sub limpiar()
         Me.codProTb.Text = ""
@@ -94,6 +42,7 @@ Public Class propietario
         Me.ModificarBtn.Enabled = False
         Me.CancelarBtn.Enabled = False
         Me.EliminarBtn.Enabled = False
+        If ModuloConexion.EsSoloLectura() Then NuevoBtn.Enabled = False
     End Sub
     Private Sub NuevoBtn_Click(sender As Object, e As EventArgs) Handles NuevoBtn.Click '============== NUEVO =================
         limpiar()
@@ -123,38 +72,32 @@ Public Class propietario
         Me.EliminarBtn.Enabled = False
     End Sub
     Private Sub GuardarBtn_Click(sender As Object, e As EventArgs) Handles GuardarBtn.Click  '============== GUARDAR =============
-        ' Verificar y asegurar que la conexión esté abierta
-        VerificarConexion()
         If Me.codProTb.Text = "" Or Me.nEmpresaTb.Text = "" Or Me.nPropietarioTb.Text = "" Or Me.RTNTb.Text = "" Or Me.Tel1TB.Text = "" Or Me.Tel2Tb.Text = "" Or Me.DireccionTb.Text = "" Or Me.correoETb.Text = "" Then
             MsgBox("Existen Campos vacíos, colocar 'X' en caso de no contar con datos")
-
         Else
             Try
-                ' Limpiar parámetros previos si existen
-                guardar.Parameters.Clear()
+                Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                    conLocal.Open()
+                    Using cmd As New MySqlCommand("INSERT INTO propietario (codProp, nEmpresa, nPropietario, RTN, tel1, tel2, direccion, correoE) VALUES(@codProp, @nEmpresa, @nPropietario, @RTN, @tel1, @tel2, @direccion, @correoE)", conLocal)
+                        cmd.Parameters.AddWithValue("@codProp", codProTb.Text.Trim())
+                        cmd.Parameters.AddWithValue("@nEmpresa", nEmpresaTb.Text.Trim())
+                        cmd.Parameters.AddWithValue("@nPropietario", nPropietarioTb.Text.Trim())
+                        cmd.Parameters.AddWithValue("@RTN", RTNTb.Text.Trim())
+                        cmd.Parameters.AddWithValue("@tel1", Tel1TB.Text.Trim())
+                        cmd.Parameters.AddWithValue("@tel2", Tel2Tb.Text.Trim())
+                        cmd.Parameters.AddWithValue("@direccion", DireccionTb.Text.Trim())
+                        cmd.Parameters.AddWithValue("@correoE", correoETb.Text.Trim())
+                        cmd.ExecuteNonQuery()
+                    End Using
+                End Using
 
-                guardar = New MySqlCommand("INSERT INTO propietario (codProp, nEmpresa, nPropietario, RTN, tel1, tel2, direccion, correoE) VALUES(@codProp, @nEmpresa, @nPropietario, @RTN, @tel1, @tel2, @direccion, @correoE)", con)
-
-                guardar.Parameters.AddWithValue("@codProp", codProTb.Text.Trim())
-                guardar.Parameters.AddWithValue("@nEmpresa", nEmpresaTb.Text.Trim())
-                guardar.Parameters.AddWithValue("@nPropietario", nPropietarioTb.Text.Trim())
-                guardar.Parameters.AddWithValue("@RTN", RTNTb.Text.Trim())
-                guardar.Parameters.AddWithValue("@tel1", Tel1TB.Text.Trim())
-                guardar.Parameters.AddWithValue("@tel2", Tel2Tb.Text.Trim())
-                guardar.Parameters.AddWithValue("@direccion", DireccionTb.Text.Trim())
-                guardar.Parameters.AddWithValue("@correoE", correoETb.Text.Trim())
-
-                guardar.ExecuteNonQuery()
                 MsgBox("Registro guardado correctamente", MsgBoxStyle.Information, "Éxito")
-
-                ' Solo ejecutar estas líneas si el guardado fue exitoso
                 limpiar()
                 act()
                 CamDGV.Enabled = True
                 listadoCamDgv()
 
             Catch ex As MySqlException
-                ' Error específico de MySQL
                 MsgBox("Error al guardar el registro: " & ex.Message & vbCrLf & "Código de error MySQL: " & ex.Number.ToString(), MsgBoxStyle.Critical, "Error de Base de Datos")
             Catch ex As Exception
                 MsgBox("Elemento no pudo ser almacenado: " & ex.Message & vbCrLf & "Tipo de error: " & ex.GetType().Name, MsgBoxStyle.Critical, "Error")
@@ -170,21 +113,22 @@ Public Class propietario
         listadoCamDgv()
     End Sub
     Public Sub actual()
-        ' Verificar que la conexión esté abierta
-        VerificarConexion()
-
         Try
-            Dim act As New MySqlCommand("UPDATE propietario SET codProp=@codProp, nEmpresa=@nEmpresa, nPropietario=@nPropietario, RTN=@RTN, tel1=@tel1, tel2=@tel2, direccion=@direccion, correoE=@correoE WHERE codigoP=@codigoP", con)
-            act.Parameters.AddWithValue("@codProp", codProTb.Text)
-            act.Parameters.AddWithValue("@nEmpresa", nEmpresaTb.Text)
-            act.Parameters.AddWithValue("@nPropietario", nPropietarioTb.Text)
-            act.Parameters.AddWithValue("@RTN", RTNTb.Text)
-            act.Parameters.AddWithValue("@tel1", Tel1TB.Text)
-            act.Parameters.AddWithValue("@tel2", Tel2Tb.Text)
-            act.Parameters.AddWithValue("@direccion", DireccionTb.Text)
-            act.Parameters.AddWithValue("@correoE", correoETb.Text)
-            act.Parameters.AddWithValue("@codigoP", buscartxt.Text)
-            act.ExecuteNonQuery()
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+                Using cmd As New MySqlCommand("UPDATE propietario SET codProp=@codProp, nEmpresa=@nEmpresa, nPropietario=@nPropietario, RTN=@RTN, tel1=@tel1, tel2=@tel2, direccion=@direccion, correoE=@correoE WHERE codigoP=@codigoP", conLocal)
+                    cmd.Parameters.AddWithValue("@codProp", codProTb.Text)
+                    cmd.Parameters.AddWithValue("@nEmpresa", nEmpresaTb.Text)
+                    cmd.Parameters.AddWithValue("@nPropietario", nPropietarioTb.Text)
+                    cmd.Parameters.AddWithValue("@RTN", RTNTb.Text)
+                    cmd.Parameters.AddWithValue("@tel1", Tel1TB.Text)
+                    cmd.Parameters.AddWithValue("@tel2", Tel2Tb.Text)
+                    cmd.Parameters.AddWithValue("@direccion", DireccionTb.Text)
+                    cmd.Parameters.AddWithValue("@correoE", correoETb.Text)
+                    cmd.Parameters.AddWithValue("@codigoP", buscartxt.Text)
+                    cmd.ExecuteNonQuery()
+                End Using
+            End Using
             MsgBox("Registro Actualizado")
         Catch ex As Exception
             MsgBox("Error al actualizar: " & ex.Message)
@@ -194,13 +138,13 @@ Public Class propietario
         Try
             Dim opc As DialogResult = MsgBox("¿Desea Eliminar este registro?", MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Eliminar")
             If opc = Windows.Forms.DialogResult.Yes Then
-
-                ' Verificar que la conexión esté abierta
-                VerificarConexion()
-
-                Dim eli As New MySqlCommand("DELETE FROM propietario WHERE codigoP = @codigoP", con)
-                eli.Parameters.AddWithValue("@codigoP", Conversion.Int(Me.buscartxt.Text))
-                eli.ExecuteNonQuery()
+                Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                    conLocal.Open()
+                    Using cmd As New MySqlCommand("DELETE FROM propietario WHERE codigoP = @codigoP", conLocal)
+                        cmd.Parameters.AddWithValue("@codigoP", Conversion.Int(Me.buscartxt.Text))
+                        cmd.ExecuteNonQuery()
+                    End Using
+                End Using
 
                 MsgBox("Registro eliminado correctamente", MsgBoxStyle.Information, "Éxito")
                 limpiar()
@@ -220,15 +164,15 @@ Public Class propietario
     End Sub
     Private Sub listadoCamDgv() 'Muestra los datos
         Try
-            ' Verificar que la conexión esté abierta
-            VerificarConexion()
-
             Dim table As New DataTable()
-            Dim adaptadoListado As New MySqlDataAdapter("SELECT codigoP, codProp, nPropietario, nEmpresa, RTN, tel1, tel2 FROM propietario", con)
-            adaptadoListado.Fill(table)
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+                Using adaptadoListado As New MySqlDataAdapter("SELECT codigoP, codProp, nPropietario, nEmpresa, RTN, tel1, tel2 FROM propietario", conLocal)
+                    adaptadoListado.Fill(table)
+                End Using
+            End Using
 
             CamDGV.DataSource = table
-
             ListadoD()
         Catch ex As Exception
             MessageBox.Show("Error al cargar datos: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -272,8 +216,8 @@ Public Class propietario
                 ' Cargar las placas del propietario seleccionado
                 cargarPlacasPropietario(codigoProp)
 
-                Me.EditarBtn.Enabled = True
-                Me.EliminarBtn.Enabled = True
+                Me.EditarBtn.Enabled = Not ModuloConexion.EsSoloLectura()
+                Me.EliminarBtn.Enabled = Not ModuloConexion.EsSoloLectura()
             End If
         Catch ex As Exception
             MessageBox.Show("Error al seleccionar registro: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -281,19 +225,18 @@ Public Class propietario
     End Sub
     Public Sub seleccion()
         Try
-            Dim consulta As String
             Dim lista As Integer = 0
 
             If buscartxt.Text <> "" Then
-                ' Verificar que la conexión esté abierta
-                VerificarConexion()
-
-                consulta = "SELECT * FROM propietario WHERE codigoP = @codigoP"
-                Dim cmd As New MySqlCommand(consulta, con)
-                cmd.Parameters.AddWithValue("@codigoP", buscartxt.Text)
-                adaptador = New MySqlDataAdapter(cmd)
-                datos = New DataSet
-                adaptador.Fill(datos, "propietario")
+                Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                    conLocal.Open()
+                    Using cmd As New MySqlCommand("SELECT * FROM propietario WHERE codigoP = @codigoP", conLocal)
+                        cmd.Parameters.AddWithValue("@codigoP", buscartxt.Text)
+                        adaptador = New MySqlDataAdapter(cmd)
+                        datos = New DataSet
+                        adaptador.Fill(datos, "propietario")
+                    End Using
+                End Using
                 lista = datos.Tables("propietario").Rows.Count
             End If
 
@@ -319,17 +262,18 @@ Public Class propietario
     End Sub
     Private Sub codCamDgv() 'Autobusqueda Codigo
         Try
-            ' Verificar que la conexión esté abierta
-            VerificarConexion()
-
             Dim table As New DataTable()
-            Dim cmd As New MySqlCommand("SELECT * FROM propietario WHERE codProp LIKE @codProp", con)
-            cmd.Parameters.AddWithValue("@codProp", "%" & placaBusqTB.Text & "%")
-            Dim adaptadoListado As New MySqlDataAdapter(cmd)
-            adaptadoListado.Fill(table)
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+                Using cmd As New MySqlCommand("SELECT * FROM propietario WHERE codProp LIKE @codProp", conLocal)
+                    cmd.Parameters.AddWithValue("@codProp", "%" & placaBusqTB.Text & "%")
+                    Using adaptadoListado As New MySqlDataAdapter(cmd)
+                        adaptadoListado.Fill(table)
+                    End Using
+                End Using
+            End Using
 
             CamDGV.DataSource = table
-
             ListadoD()
         Catch ex As Exception
             MessageBox.Show("Error en búsqueda por código: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -340,17 +284,18 @@ Public Class propietario
     End Sub
     Private Sub propCamDgv()
         Try
-            ' Verificar que la conexión esté abierta
-            VerificarConexion()
-
             Dim table As New DataTable()
-            Dim cmd As New MySqlCommand("SELECT * FROM propietario WHERE nPropietario LIKE @nPropietario", con)
-            cmd.Parameters.AddWithValue("@nPropietario", "%" & propBusqTB.Text & "%")
-            Dim adaptadoListado As New MySqlDataAdapter(cmd)
-            adaptadoListado.Fill(table)
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+                Using cmd As New MySqlCommand("SELECT * FROM propietario WHERE nPropietario LIKE @nPropietario", conLocal)
+                    cmd.Parameters.AddWithValue("@nPropietario", "%" & propBusqTB.Text & "%")
+                    Using adaptadoListado As New MySqlDataAdapter(cmd)
+                        adaptadoListado.Fill(table)
+                    End Using
+                End Using
+            End Using
 
             CamDGV.DataSource = table
-
             ListadoD()
         Catch ex As Exception
             MessageBox.Show("Error en búsqueda por propietario: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -365,22 +310,26 @@ Public Class propietario
                 Return
             End If
 
-            ' Verificar que la conexión esté abierta
-            VerificarConexion()
-
             Dim table As New DataTable()
-            Dim cmd As New MySqlCommand("SELECT codigoPro AS 'Código Prop.', placa AS 'Placa', propietario AS 'Propietario' FROM placa WHERE codigoPro = @codigoPro", con)
-            cmd.Parameters.AddWithValue("@codigoPro", codigoPropietario)
-            Dim adaptadorPlacas As New MySqlDataAdapter(cmd)
-            adaptadorPlacas.Fill(table)
+            Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
+                conLocal.Open()
+                Using cmd As New MySqlCommand("SELECT codigoPro AS 'Código Prop.', placa AS 'Placa', propietario AS 'Propietario', CASE WHEN activo = 1 THEN 'Activo' ELSE 'Bloqueado' END AS 'Estado' FROM placa WHERE codigoPro = @codigoPro", conLocal)
+                    cmd.Parameters.AddWithValue("@codigoPro", codigoPropietario)
+                    Using adaptadorPlacas As New MySqlDataAdapter(cmd)
+                        adaptadorPlacas.Fill(table)
+                    End Using
+                End Using
+            End Using
 
             PlacasDGV.DataSource = table
 
-            ' Configurar anchos de columnas si hay datos
             If PlacasDGV.Columns.Count > 0 Then
-                PlacasDGV.Columns(0).Width = 100  ' Código Prop.
-                PlacasDGV.Columns(1).Width = 100  ' Placa
-                PlacasDGV.Columns(2).Width = 250  ' Propietario
+                PlacasDGV.Columns(0).Width = 90
+                PlacasDGV.Columns(1).Width = 90
+                PlacasDGV.Columns(2).Width = 200
+                If PlacasDGV.Columns.Count > 3 Then
+                    PlacasDGV.Columns(3).Width = 70
+                End If
             End If
 
         Catch ex As Exception

@@ -1,0 +1,157 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h4>Dashboard - EMTRACC</h4>
+
+<!-- Filtros -->
+<div class="row g-2 mb-3 align-items-end">
+    <div class="col-auto">
+        <label class="form-label mb-0">Período</label>
+        <select id="filtroPeriodo" class="form-select form-select-sm">
+            <option value="">-- Todos --</option>
+            @foreach (var p in (List<string?>)ViewBag.Periodos)
+            {
+                <option value="@p">@p</option>
+            }
+        </select>
+    </div>
+    <div class="col-auto">
+        <label class="form-label mb-0">Semana</label>
+        <select id="filtroSemana" class="form-select form-select-sm">
+            <option value="">-- Todas --</option>
+            @foreach (var s in (List<string?>)ViewBag.Semanas)
+            {
+                <option value="@s">@s</option>
+            }
+        </select>
+    </div>
+    <div class="col-auto">
+        <button onclick="cargarDashboard()" class="btn btn-primary btn-sm">Actualizar</button>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Galones por Despachador -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-dark text-white">Galones por Despachador</div>
+            <div class="card-body">
+                <canvas id="chartDespachador"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Q por Despachador -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-dark text-white">Total Q por Despachador</div>
+            <div class="card-body">
+                <canvas id="chartDespachadorTotal"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Galones por Fecha -->
+    <div class="col-md-8 mb-4">
+        <div class="card">
+            <div class="card-header bg-dark text-white">Galones por Fecha</div>
+            <div class="card-body">
+                <canvas id="chartFecha"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Galones por Ruta (Top 10) -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header bg-dark text-white">Top 10 Rutas por Galones</div>
+            <div class="card-body">
+                <canvas id="chartRuta"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let chartDesp, chartDespTotal, chartFecha, chartRuta;
+
+        const colores = ['#4e79a7','#f28e2b','#e15759','#76b7b2','#59a14f','#edc948','#b07aa1','#ff9da7','#9c755f','#bab0ac'];
+
+        function cargarDashboard() {
+            const periodo = document.getElementById('filtroPeriodo').value;
+            const semana = document.getElementById('filtroSemana').value;
+
+            fetch(`/Comprobantes/DashboardData?periodo=${encodeURIComponent(periodo)}&semana=${encodeURIComponent(semana)}`)
+                .then(r => r.json())
+                .then(data => {
+                    // Galones por Despachador
+                    if (chartDesp) chartDesp.destroy();
+                    chartDesp = new Chart(document.getElementById('chartDespachador'), {
+                        type: 'bar',
+                        data: {
+                            labels: data.porDespachador.map(d => d.nombre),
+                            datasets: [{
+                                label: 'Galones',
+                                data: data.porDespachador.map(d => d.galones),
+                                backgroundColor: colores
+                            }]
+                        },
+                        options: { responsive: true, plugins: { legend: { display: false } }, indexAxis: 'y' }
+                    });
+
+                    // Total Q por Despachador
+                    if (chartDespTotal) chartDespTotal.destroy();
+                    chartDespTotal = new Chart(document.getElementById('chartDespachadorTotal'), {
+                        type: 'bar',
+                        data: {
+                            labels: data.porDespachador.map(d => d.nombre),
+                            datasets: [{
+                                label: 'Total Q',
+                                data: data.porDespachador.map(d => d.total),
+                                backgroundColor: colores
+                            }]
+                        },
+                        options: { responsive: true, plugins: { legend: { display: false } }, indexAxis: 'y' }
+                    });
+
+                    // Galones por Fecha
+                    if (chartFecha) chartFecha.destroy();
+                    chartFecha = new Chart(document.getElementById('chartFecha'), {
+                        type: 'line',
+                        data: {
+                            labels: data.porFecha.map(d => d.fecha),
+                            datasets: [{
+                                label: 'Galones',
+                                data: data.porFecha.map(d => d.galones),
+                                borderColor: '#4e79a7',
+                                backgroundColor: 'rgba(78,121,167,0.1)',
+                                fill: true,
+                                tension: 0.3
+                            }]
+                        },
+                        options: { responsive: true }
+                    });
+
+                    // Top Rutas
+                    if (chartRuta) chartRuta.destroy();
+                    chartRuta = new Chart(document.getElementById('chartRuta'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: data.porRuta.map(d => d.ruta),
+                            datasets: [{
+                                data: data.porRuta.map(d => d.galones),
+                                backgroundColor: colores
+                            }]
+                        },
+                        options: { responsive: true }
+                    });
+                });
+        }
+
+        // Cargar al inicio
+        cargarDashboard();
+    </script>
+}

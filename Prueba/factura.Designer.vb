@@ -31,6 +31,9 @@ Partial Class factura
         Me.GuardarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.ModificarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.PanelP = New System.Windows.Forms.Panel()
+        Me.LabelX22 = New DevComponents.DotNetBar.LabelX()
+        Me.comenta2Tb = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.LabelX17 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX11 = New DevComponents.DotNetBar.LabelX()
         Me.LabelX20 = New DevComponents.DotNetBar.LabelX()
@@ -90,18 +93,45 @@ Partial Class factura
         Me.LabelX15 = New DevComponents.DotNetBar.LabelX()
         Me.ImprimirBt = New DevComponents.DotNetBar.ButtonX()
         Me.PreviaBtn = New DevComponents.DotNetBar.ButtonX()
-        Me.CamDgv = New DevComponents.DotNetBar.Controls.DataGridViewX()
+        Me.FactDgv = New System.Windows.Forms.DataGridView()
         Me.CodproBTb = New System.Windows.Forms.TextBox()
         Me.PrintFactura = New System.Drawing.Printing.PrintDocument()
         Me.PrintPreviewFactura = New System.Windows.Forms.PrintPreviewDialog()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.DelBtn = New DevComponents.DotNetBar.ButtonX()
         Me.ButtonX5 = New DevComponents.DotNetBar.ButtonX()
         Me.ButtonX7 = New DevComponents.DotNetBar.ButtonX()
         Me.Button2 = New System.Windows.Forms.Button()
+        Me.PrintDocumento = New System.Drawing.Printing.PrintDocument()
+        Me.PrintPreviewDocumento = New System.Windows.Forms.PrintPreviewDialog()
+        Me.LabelX23 = New DevComponents.DotNetBar.LabelX()
+        Me.lblDesde = New System.Windows.Forms.Label()
+        Me.fechaDesdePk = New System.Windows.Forms.DateTimePicker()
+        Me.lblHasta = New System.Windows.Forms.Label()
+        Me.fechaHastaPk = New System.Windows.Forms.DateTimePicker()
+        Me.buscarFechaBtn = New System.Windows.Forms.Button()
+        Me.limpiarFechaBtn = New System.Windows.Forms.Button()
+        Me.lblReporte = New System.Windows.Forms.Label()
+        Me.chkUsarFechaR = New System.Windows.Forms.CheckBox()
+        Me.lblFechaDesdeR = New System.Windows.Forms.Label()
+        Me.fechaDesdeRPk = New System.Windows.Forms.DateTimePicker()
+        Me.lblFechaHastaR = New System.Windows.Forms.Label()
+        Me.fechaHastaRPk = New System.Windows.Forms.DateTimePicker()
+        Me.lblCodClienteR = New System.Windows.Forms.Label()
+        Me.codClienteRTb = New System.Windows.Forms.TextBox()
+        Me.lblPlacaR = New System.Windows.Forms.Label()
+        Me.placaRTb = New System.Windows.Forms.TextBox()
+        Me.lblBoletaR = New System.Windows.Forms.Label()
+        Me.boletaRTb = New System.Windows.Forms.TextBox()
+        Me.buscarRBtn = New System.Windows.Forms.Button()
+        Me.ordenarRBtn = New System.Windows.Forms.Button()
+        Me.exportarRBtn = New System.Windows.Forms.Button()
+        Me.limpiarRBtn = New System.Windows.Forms.Button()
+        Me.reporteDGV = New System.Windows.Forms.DataGridView()
+        Me.lblTotalR = New System.Windows.Forms.Label()
         Me.PanelP.SuspendLayout()
         CType(Me.fechaPk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CamDgv, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.FactDgv, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.reporteDGV, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'CancelarBtn
@@ -197,6 +227,9 @@ Partial Class factura
         '
         'PanelP
         '
+        Me.PanelP.Controls.Add(Me.LabelX22)
+        Me.PanelP.Controls.Add(Me.comenta2Tb)
+        Me.PanelP.Controls.Add(Me.Button3)
         Me.PanelP.Controls.Add(Me.LabelX17)
         Me.PanelP.Controls.Add(Me.LabelX11)
         Me.PanelP.Controls.Add(Me.LabelX20)
@@ -245,8 +278,59 @@ Partial Class factura
         Me.PanelP.Controls.Add(Me.propTb)
         Me.PanelP.Location = New System.Drawing.Point(12, 88)
         Me.PanelP.Name = "PanelP"
-        Me.PanelP.Size = New System.Drawing.Size(765, 638)
+        Me.PanelP.Size = New System.Drawing.Size(792, 718)
         Me.PanelP.TabIndex = 30
+        '
+        'LabelX22
+        '
+        '
+        '
+        '
+        Me.LabelX22.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX22.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX22.ForeColor = System.Drawing.Color.DarkBlue
+        Me.LabelX22.Location = New System.Drawing.Point(9, 365)
+        Me.LabelX22.Name = "LabelX22"
+        Me.LabelX22.Size = New System.Drawing.Size(186, 23)
+        Me.LabelX22.TabIndex = 30
+        Me.LabelX22.Text = "Listado gas despachado"
+        Me.LabelX22.TextAlignment = System.Drawing.StringAlignment.Far
+        '
+        'comenta2Tb
+        '
+        Me.comenta2Tb.AcceptsTab = True
+        Me.comenta2Tb.BackColor = System.Drawing.Color.SteelBlue
+        '
+        '
+        '
+        Me.comenta2Tb.Border.BackColor = System.Drawing.Color.SteelBlue
+        Me.comenta2Tb.Border.BackColor2 = System.Drawing.Color.SteelBlue
+        Me.comenta2Tb.Border.BorderBottomWidth = 2
+        Me.comenta2Tb.Border.BorderColor = System.Drawing.Color.White
+        Me.comenta2Tb.Border.BorderLeftWidth = 2
+        Me.comenta2Tb.Border.BorderRightWidth = 2
+        Me.comenta2Tb.Border.BorderTopWidth = 2
+        Me.comenta2Tb.Border.Class = "TextBoxBorder"
+        Me.comenta2Tb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.comenta2Tb.FocusHighlightColor = System.Drawing.Color.RoyalBlue
+        Me.comenta2Tb.FocusHighlightEnabled = True
+        Me.comenta2Tb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.comenta2Tb.ForeColor = System.Drawing.Color.White
+        Me.comenta2Tb.Location = New System.Drawing.Point(6, 383)
+        Me.comenta2Tb.Multiline = True
+        Me.comenta2Tb.Name = "comenta2Tb"
+        Me.comenta2Tb.PreventEnterBeep = True
+        Me.comenta2Tb.Size = New System.Drawing.Size(773, 327)
+        Me.comenta2Tb.TabIndex = 47
+        '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(494, 320)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(76, 39)
+        Me.Button3.TabIndex = 46
+        Me.Button3.Text = "Previa Movimientos"
+        Me.Button3.UseVisualStyleBackColor = True
         '
         'LabelX17
         '
@@ -350,7 +434,7 @@ Partial Class factura
         '
         Me.ButtonX4.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX4.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX4.Location = New System.Drawing.Point(553, 292)
+        Me.ButtonX4.Location = New System.Drawing.Point(423, 291)
         Me.ButtonX4.Name = "ButtonX4"
         Me.ButtonX4.Size = New System.Drawing.Size(100, 23)
         Me.ButtonX4.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -361,7 +445,7 @@ Partial Class factura
         '
         Me.btnPaste.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.btnPaste.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnPaste.Location = New System.Drawing.Point(415, 292)
+        Me.btnPaste.Location = New System.Drawing.Point(284, 291)
         Me.btnPaste.Name = "btnPaste"
         Me.btnPaste.Size = New System.Drawing.Size(132, 23)
         Me.btnPaste.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -579,9 +663,9 @@ Partial Class factura
         Me.LabelX18.ForeColor = System.Drawing.Color.DarkBlue
         Me.LabelX18.Location = New System.Drawing.Point(8, 297)
         Me.LabelX18.Name = "LabelX18"
-        Me.LabelX18.Size = New System.Drawing.Size(86, 23)
+        Me.LabelX18.Size = New System.Drawing.Size(115, 23)
         Me.LabelX18.TabIndex = 30
-        Me.LabelX18.Text = "Comentario"
+        Me.LabelX18.Text = "Observaciones"
         Me.LabelX18.TextAlignment = System.Drawing.StringAlignment.Far
         '
         'LabelX19
@@ -621,7 +705,7 @@ Partial Class factura
         Me.LabelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX4.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX4.ForeColor = System.Drawing.Color.DarkBlue
-        Me.LabelX4.Location = New System.Drawing.Point(669, 310)
+        Me.LabelX4.Location = New System.Drawing.Point(584, 292)
         Me.LabelX4.Name = "LabelX4"
         Me.LabelX4.Size = New System.Drawing.Size(72, 23)
         Me.LabelX4.TabIndex = 30
@@ -717,7 +801,7 @@ Partial Class factura
         Me.facExeTb.Border.Class = "TextBoxBorder"
         Me.facExeTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.facExeTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.facExeTb.Location = New System.Drawing.Point(665, 390)
+        Me.facExeTb.Location = New System.Drawing.Point(685, 316)
         Me.facExeTb.MaxLength = 20
         Me.facExeTb.Name = "facExeTb"
         Me.facExeTb.PreventEnterBeep = True
@@ -732,7 +816,7 @@ Partial Class factura
         Me.LabelX5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX5.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX5.ForeColor = System.Drawing.Color.DarkBlue
-        Me.LabelX5.Location = New System.Drawing.Point(670, 370)
+        Me.LabelX5.Location = New System.Drawing.Point(690, 296)
         Me.LabelX5.Name = "LabelX5"
         Me.LabelX5.Size = New System.Drawing.Size(54, 23)
         Me.LabelX5.TabIndex = 31
@@ -777,11 +861,11 @@ Partial Class factura
         Me.facTotTb.Border.Class = "TextBoxBorder"
         Me.facTotTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.facTotTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.facTotTb.Location = New System.Drawing.Point(665, 455)
+        Me.facTotTb.Location = New System.Drawing.Point(644, 352)
         Me.facTotTb.MaxLength = 20
         Me.facTotTb.Name = "facTotTb"
         Me.facTotTb.PreventEnterBeep = True
-        Me.facTotTb.Size = New System.Drawing.Size(94, 30)
+        Me.facTotTb.Size = New System.Drawing.Size(135, 30)
         Me.facTotTb.TabIndex = 29
         '
         'LabelX8
@@ -792,9 +876,9 @@ Partial Class factura
         Me.LabelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX8.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX8.ForeColor = System.Drawing.Color.DarkBlue
-        Me.LabelX8.Location = New System.Drawing.Point(671, 430)
+        Me.LabelX8.Location = New System.Drawing.Point(587, 356)
         Me.LabelX8.Name = "LabelX8"
-        Me.LabelX8.Size = New System.Drawing.Size(54, 23)
+        Me.LabelX8.Size = New System.Drawing.Size(51, 23)
         Me.LabelX8.TabIndex = 31
         Me.LabelX8.Text = "Total"
         '
@@ -869,13 +953,13 @@ Partial Class factura
         Me.comentaTb.Border.BorderTopWidth = 2
         Me.comentaTb.Border.Class = "TextBoxBorder"
         Me.comentaTb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.comentaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.comentaTb.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.comentaTb.Location = New System.Drawing.Point(5, 316)
         Me.comentaTb.MaxLength = 2000
         Me.comentaTb.Multiline = True
         Me.comentaTb.Name = "comentaTb"
         Me.comentaTb.PreventEnterBeep = True
-        Me.comentaTb.Size = New System.Drawing.Size(656, 284)
+        Me.comentaTb.Size = New System.Drawing.Size(483, 43)
         Me.comentaTb.TabIndex = 32
         '
         'empTb
@@ -1023,7 +1107,7 @@ Partial Class factura
         Me.facCanTB.Border.Class = "TextBoxBorder"
         Me.facCanTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.facCanTB.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.facCanTB.Location = New System.Drawing.Point(665, 334)
+        Me.facCanTB.Location = New System.Drawing.Point(580, 316)
         Me.facCanTB.MaxLength = 20
         Me.facCanTB.Name = "facCanTB"
         Me.facCanTB.PreventEnterBeep = True
@@ -1107,10 +1191,10 @@ Partial Class factura
         '
         Me.propBusqTB.Border.Class = "TextBoxBorder"
         Me.propBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.propBusqTB.Location = New System.Drawing.Point(974, 63)
+        Me.propBusqTB.Location = New System.Drawing.Point(901, 36)
         Me.propBusqTB.Name = "propBusqTB"
         Me.propBusqTB.PreventEnterBeep = True
-        Me.propBusqTB.Size = New System.Drawing.Size(100, 20)
+        Me.propBusqTB.Size = New System.Drawing.Size(75, 20)
         Me.propBusqTB.TabIndex = 35
         '
         'CodBusqTB
@@ -1148,7 +1232,7 @@ Partial Class factura
         '
         Me.LabelX14.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX14.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelX14.Location = New System.Drawing.Point(809, 38)
+        Me.LabelX14.Location = New System.Drawing.Point(820, 13)
         Me.LabelX14.Name = "LabelX14"
         Me.LabelX14.Size = New System.Drawing.Size(75, 23)
         Me.LabelX14.TabIndex = 31
@@ -1196,12 +1280,12 @@ Partial Class factura
         Me.PreviaBtn.TabIndex = 38
         Me.PreviaBtn.Text = "Previa"
         '
-        'CamDgv
+        'FactDgv
         '
-        Me.CamDgv.AllowUserToAddRows = False
-        Me.CamDgv.AllowUserToDeleteRows = False
-        Me.CamDgv.AllowUserToOrderColumns = True
-        Me.CamDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.FactDgv.AllowUserToAddRows = False
+        Me.FactDgv.AllowUserToDeleteRows = False
+        Me.FactDgv.AllowUserToOrderColumns = True
+        Me.FactDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window
         DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1209,20 +1293,20 @@ Partial Class factura
         DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.CamDgv.DefaultCellStyle = DataGridViewCellStyle1
-        Me.CamDgv.GridColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer))
-        Me.CamDgv.Location = New System.Drawing.Point(781, 86)
-        Me.CamDgv.Name = "CamDgv"
-        Me.CamDgv.ReadOnly = True
-        Me.CamDgv.RowHeadersVisible = False
-        Me.CamDgv.Size = New System.Drawing.Size(516, 640)
-        Me.CamDgv.TabIndex = 39
+        Me.FactDgv.DefaultCellStyle = DataGridViewCellStyle1
+        Me.FactDgv.GridColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer))
+        Me.FactDgv.Location = New System.Drawing.Point(820, 59)
+        Me.FactDgv.Name = "FactDgv"
+        Me.FactDgv.ReadOnly = True
+        Me.FactDgv.RowHeadersVisible = False
+        Me.FactDgv.Size = New System.Drawing.Size(609, 398)
+        Me.FactDgv.TabIndex = 39
         '
         'CodproBTb
         '
-        Me.CodproBTb.Location = New System.Drawing.Point(809, 62)
+        Me.CodproBTb.Location = New System.Drawing.Point(820, 37)
         Me.CodproBTb.Name = "CodproBTb"
-        Me.CodproBTb.Size = New System.Drawing.Size(100, 20)
+        Me.CodproBTb.Size = New System.Drawing.Size(75, 20)
         Me.CodproBTb.TabIndex = 41
         '
         'PrintFactura
@@ -1237,16 +1321,6 @@ Partial Class factura
         Me.PrintPreviewFactura.Icon = CType(resources.GetObject("PrintPreviewFactura.Icon"), System.Drawing.Icon)
         Me.PrintPreviewFactura.Name = "PrintPreviewFactura"
         Me.PrintPreviewFactura.Visible = False
-        '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(847, 13)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 42
-        Me.Button1.Text = "Button1"
-        Me.Button1.UseVisualStyleBackColor = True
-        Me.Button1.Visible = False
         '
         'DelBtn
         '
@@ -1263,7 +1337,7 @@ Partial Class factura
         '
         Me.ButtonX5.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX5.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX5.Location = New System.Drawing.Point(1080, 57)
+        Me.ButtonX5.Location = New System.Drawing.Point(982, 30)
         Me.ButtonX5.Name = "ButtonX5"
         Me.ButtonX5.Size = New System.Drawing.Size(32, 26)
         Me.ButtonX5.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1275,7 +1349,7 @@ Partial Class factura
         '
         Me.ButtonX7.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ButtonX7.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX7.Location = New System.Drawing.Point(1118, 57)
+        Me.ButtonX7.Location = New System.Drawing.Point(784, 32)
         Me.ButtonX7.Name = "ButtonX7"
         Me.ButtonX7.Shape = New DevComponents.DotNetBar.RoundRectangleShapeDescriptor(2)
         Me.ButtonX7.Size = New System.Drawing.Size(30, 26)
@@ -1285,7 +1359,7 @@ Partial Class factura
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(928, 13)
+        Me.Button2.Location = New System.Drawing.Point(553, 59)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(75, 23)
         Me.Button2.TabIndex = 46
@@ -1293,19 +1367,356 @@ Partial Class factura
         Me.Button2.UseVisualStyleBackColor = True
         Me.Button2.Visible = False
         '
+        'PrintDocumento
+        '
+        '
+        'PrintPreviewDocumento
+        '
+        Me.PrintPreviewDocumento.AutoScrollMargin = New System.Drawing.Size(0, 0)
+        Me.PrintPreviewDocumento.AutoScrollMinSize = New System.Drawing.Size(0, 0)
+        Me.PrintPreviewDocumento.ClientSize = New System.Drawing.Size(400, 300)
+        Me.PrintPreviewDocumento.Enabled = True
+        Me.PrintPreviewDocumento.Icon = CType(resources.GetObject("PrintPreviewDocumento.Icon"), System.Drawing.Icon)
+        Me.PrintPreviewDocumento.Name = "PrintPreviewDocumento"
+        Me.PrintPreviewDocumento.Visible = False
+        '
+        'LabelX23
+        '
+        '
+        '
+        '
+        Me.LabelX23.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelX23.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelX23.Location = New System.Drawing.Point(901, 14)
+        Me.LabelX23.Name = "LabelX23"
+        Me.LabelX23.Size = New System.Drawing.Size(75, 23)
+        Me.LabelX23.TabIndex = 31
+        Me.LabelX23.Text = "Factura"
+        '
+        'lblDesde
+        '
+        Me.lblDesde.AutoSize = True
+        Me.lblDesde.BackColor = System.Drawing.Color.Transparent
+        Me.lblDesde.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.lblDesde.ForeColor = System.Drawing.Color.White
+        Me.lblDesde.Location = New System.Drawing.Point(1028, 19)
+        Me.lblDesde.Name = "lblDesde"
+        Me.lblDesde.Size = New System.Drawing.Size(43, 15)
+        Me.lblDesde.TabIndex = 42
+        Me.lblDesde.Text = "Desde:"
+        '
+        'fechaDesdePk
+        '
+        Me.fechaDesdePk.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.fechaDesdePk.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.fechaDesdePk.Location = New System.Drawing.Point(1031, 33)
+        Me.fechaDesdePk.Name = "fechaDesdePk"
+        Me.fechaDesdePk.Size = New System.Drawing.Size(120, 23)
+        Me.fechaDesdePk.TabIndex = 43
+        '
+        'lblHasta
+        '
+        Me.lblHasta.AutoSize = True
+        Me.lblHasta.BackColor = System.Drawing.Color.Transparent
+        Me.lblHasta.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.lblHasta.ForeColor = System.Drawing.Color.White
+        Me.lblHasta.Location = New System.Drawing.Point(1154, 13)
+        Me.lblHasta.Name = "lblHasta"
+        Me.lblHasta.Size = New System.Drawing.Size(40, 15)
+        Me.lblHasta.TabIndex = 44
+        Me.lblHasta.Text = "Hasta:"
+        '
+        'fechaHastaPk
+        '
+        Me.fechaHastaPk.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.fechaHastaPk.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.fechaHastaPk.Location = New System.Drawing.Point(1157, 33)
+        Me.fechaHastaPk.Name = "fechaHastaPk"
+        Me.fechaHastaPk.Size = New System.Drawing.Size(120, 23)
+        Me.fechaHastaPk.TabIndex = 45
+        '
+        'buscarFechaBtn
+        '
+        Me.buscarFechaBtn.BackColor = System.Drawing.Color.FromArgb(CType(CType(50, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer))
+        Me.buscarFechaBtn.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.buscarFechaBtn.FlatAppearance.BorderSize = 0
+        Me.buscarFechaBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.buscarFechaBtn.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.buscarFechaBtn.ForeColor = System.Drawing.Color.White
+        Me.buscarFechaBtn.Location = New System.Drawing.Point(1283, 31)
+        Me.buscarFechaBtn.Name = "buscarFechaBtn"
+        Me.buscarFechaBtn.Size = New System.Drawing.Size(70, 27)
+        Me.buscarFechaBtn.TabIndex = 46
+        Me.buscarFechaBtn.Text = "Buscar"
+        Me.buscarFechaBtn.UseVisualStyleBackColor = False
+        '
+        'limpiarFechaBtn
+        '
+        Me.limpiarFechaBtn.BackColor = System.Drawing.Color.FromArgb(CType(CType(55, Byte), Integer), CType(CType(55, Byte), Integer), CType(CType(55, Byte), Integer))
+        Me.limpiarFechaBtn.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.limpiarFechaBtn.FlatAppearance.BorderSize = 0
+        Me.limpiarFechaBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.limpiarFechaBtn.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.limpiarFechaBtn.ForeColor = System.Drawing.Color.White
+        Me.limpiarFechaBtn.Location = New System.Drawing.Point(1359, 30)
+        Me.limpiarFechaBtn.Name = "limpiarFechaBtn"
+        Me.limpiarFechaBtn.Size = New System.Drawing.Size(70, 27)
+        Me.limpiarFechaBtn.TabIndex = 47
+        Me.limpiarFechaBtn.Text = "Todos"
+        Me.limpiarFechaBtn.UseVisualStyleBackColor = False
+        '
+        'lblReporte
+        '
+        Me.lblReporte.AutoSize = True
+        Me.lblReporte.BackColor = System.Drawing.Color.Transparent
+        Me.lblReporte.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.lblReporte.ForeColor = System.Drawing.Color.White
+        Me.lblReporte.Location = New System.Drawing.Point(820, 464)
+        Me.lblReporte.Name = "lblReporte"
+        Me.lblReporte.Size = New System.Drawing.Size(56, 17)
+        Me.lblReporte.TabIndex = 48
+        Me.lblReporte.Text = "Reporte"
+        '
+        'chkUsarFechaR
+        '
+        Me.chkUsarFechaR.AutoSize = True
+        Me.chkUsarFechaR.BackColor = System.Drawing.Color.Transparent
+        Me.chkUsarFechaR.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.chkUsarFechaR.ForeColor = System.Drawing.Color.White
+        Me.chkUsarFechaR.Location = New System.Drawing.Point(895, 464)
+        Me.chkUsarFechaR.Name = "chkUsarFechaR"
+        Me.chkUsarFechaR.Size = New System.Drawing.Size(109, 19)
+        Me.chkUsarFechaR.TabIndex = 49
+        Me.chkUsarFechaR.Text = "Filtrar por fecha"
+        Me.chkUsarFechaR.UseVisualStyleBackColor = False
+        '
+        'lblFechaDesdeR
+        '
+        Me.lblFechaDesdeR.AutoSize = True
+        Me.lblFechaDesdeR.BackColor = System.Drawing.Color.Transparent
+        Me.lblFechaDesdeR.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.lblFechaDesdeR.ForeColor = System.Drawing.Color.White
+        Me.lblFechaDesdeR.Location = New System.Drawing.Point(1010, 464)
+        Me.lblFechaDesdeR.Name = "lblFechaDesdeR"
+        Me.lblFechaDesdeR.Size = New System.Drawing.Size(42, 15)
+        Me.lblFechaDesdeR.TabIndex = 50
+        Me.lblFechaDesdeR.Text = "Desde:"
+        '
+        'fechaDesdeRPk
+        '
+        Me.fechaDesdeRPk.CalendarMonthBackground = System.Drawing.Color.FromArgb(CType(CType(30, Byte), Integer), CType(CType(30, Byte), Integer), CType(CType(30, Byte), Integer))
+        Me.fechaDesdeRPk.Enabled = False
+        Me.fechaDesdeRPk.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.fechaDesdeRPk.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.fechaDesdeRPk.Location = New System.Drawing.Point(1055, 462)
+        Me.fechaDesdeRPk.Name = "fechaDesdeRPk"
+        Me.fechaDesdeRPk.Size = New System.Drawing.Size(110, 23)
+        Me.fechaDesdeRPk.TabIndex = 51
+        '
+        'lblFechaHastaR
+        '
+        Me.lblFechaHastaR.AutoSize = True
+        Me.lblFechaHastaR.BackColor = System.Drawing.Color.Transparent
+        Me.lblFechaHastaR.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.lblFechaHastaR.ForeColor = System.Drawing.Color.White
+        Me.lblFechaHastaR.Location = New System.Drawing.Point(1170, 464)
+        Me.lblFechaHastaR.Name = "lblFechaHastaR"
+        Me.lblFechaHastaR.Size = New System.Drawing.Size(40, 15)
+        Me.lblFechaHastaR.TabIndex = 52
+        Me.lblFechaHastaR.Text = "Hasta:"
+        '
+        'fechaHastaRPk
+        '
+        Me.fechaHastaRPk.CalendarMonthBackground = System.Drawing.Color.FromArgb(CType(CType(30, Byte), Integer), CType(CType(30, Byte), Integer), CType(CType(30, Byte), Integer))
+        Me.fechaHastaRPk.Enabled = False
+        Me.fechaHastaRPk.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.fechaHastaRPk.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.fechaHastaRPk.Location = New System.Drawing.Point(1210, 462)
+        Me.fechaHastaRPk.Name = "fechaHastaRPk"
+        Me.fechaHastaRPk.Size = New System.Drawing.Size(110, 23)
+        Me.fechaHastaRPk.TabIndex = 53
+        '
+        'lblCodClienteR
+        '
+        Me.lblCodClienteR.AutoSize = True
+        Me.lblCodClienteR.BackColor = System.Drawing.Color.Transparent
+        Me.lblCodClienteR.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.lblCodClienteR.ForeColor = System.Drawing.Color.White
+        Me.lblCodClienteR.Location = New System.Drawing.Point(820, 492)
+        Me.lblCodClienteR.Name = "lblCodClienteR"
+        Me.lblCodClienteR.Size = New System.Drawing.Size(32, 15)
+        Me.lblCodClienteR.TabIndex = 54
+        Me.lblCodClienteR.Text = "Cod:"
+        '
+        'codClienteRTb
+        '
+        Me.codClienteRTb.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.codClienteRTb.Location = New System.Drawing.Point(852, 488)
+        Me.codClienteRTb.Name = "codClienteRTb"
+        Me.codClienteRTb.Size = New System.Drawing.Size(75, 23)
+        Me.codClienteRTb.TabIndex = 55
+        '
+        'lblPlacaR
+        '
+        Me.lblPlacaR.AutoSize = True
+        Me.lblPlacaR.BackColor = System.Drawing.Color.Transparent
+        Me.lblPlacaR.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.lblPlacaR.ForeColor = System.Drawing.Color.White
+        Me.lblPlacaR.Location = New System.Drawing.Point(933, 492)
+        Me.lblPlacaR.Name = "lblPlacaR"
+        Me.lblPlacaR.Size = New System.Drawing.Size(38, 15)
+        Me.lblPlacaR.TabIndex = 56
+        Me.lblPlacaR.Text = "Placa:"
+        '
+        'placaRTb
+        '
+        Me.placaRTb.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.placaRTb.Location = New System.Drawing.Point(972, 488)
+        Me.placaRTb.Name = "placaRTb"
+        Me.placaRTb.Size = New System.Drawing.Size(75, 23)
+        Me.placaRTb.TabIndex = 57
+        '
+        'lblBoletaR
+        '
+        Me.lblBoletaR.AutoSize = True
+        Me.lblBoletaR.BackColor = System.Drawing.Color.Transparent
+        Me.lblBoletaR.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.lblBoletaR.ForeColor = System.Drawing.Color.White
+        Me.lblBoletaR.Location = New System.Drawing.Point(1053, 492)
+        Me.lblBoletaR.Name = "lblBoletaR"
+        Me.lblBoletaR.Size = New System.Drawing.Size(43, 15)
+        Me.lblBoletaR.TabIndex = 58
+        Me.lblBoletaR.Text = "Boleta:"
+        '
+        'boletaRTb
+        '
+        Me.boletaRTb.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.boletaRTb.Location = New System.Drawing.Point(1099, 488)
+        Me.boletaRTb.Name = "boletaRTb"
+        Me.boletaRTb.Size = New System.Drawing.Size(75, 23)
+        Me.boletaRTb.TabIndex = 59
+        '
+        'buscarRBtn
+        '
+        Me.buscarRBtn.BackColor = System.Drawing.Color.FromArgb(CType(CType(50, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer))
+        Me.buscarRBtn.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.buscarRBtn.FlatAppearance.BorderSize = 0
+        Me.buscarRBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.buscarRBtn.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.buscarRBtn.ForeColor = System.Drawing.Color.White
+        Me.buscarRBtn.Location = New System.Drawing.Point(1182, 486)
+        Me.buscarRBtn.Name = "buscarRBtn"
+        Me.buscarRBtn.Size = New System.Drawing.Size(55, 25)
+        Me.buscarRBtn.TabIndex = 60
+        Me.buscarRBtn.Text = "Buscar"
+        Me.buscarRBtn.UseVisualStyleBackColor = False
+        '
+        'ordenarRBtn
+        '
+        Me.ordenarRBtn.BackColor = System.Drawing.Color.FromArgb(CType(CType(55, Byte), Integer), CType(CType(55, Byte), Integer), CType(CType(55, Byte), Integer))
+        Me.ordenarRBtn.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ordenarRBtn.FlatAppearance.BorderSize = 0
+        Me.ordenarRBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ordenarRBtn.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.ordenarRBtn.ForeColor = System.Drawing.Color.White
+        Me.ordenarRBtn.Location = New System.Drawing.Point(1241, 486)
+        Me.ordenarRBtn.Name = "ordenarRBtn"
+        Me.ordenarRBtn.Size = New System.Drawing.Size(58, 25)
+        Me.ordenarRBtn.TabIndex = 61
+        Me.ordenarRBtn.Text = "Ordenar"
+        Me.ordenarRBtn.UseVisualStyleBackColor = False
+        '
+        'exportarRBtn
+        '
+        Me.exportarRBtn.BackColor = System.Drawing.Color.FromArgb(CType(CType(16, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(62, Byte), Integer))
+        Me.exportarRBtn.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.exportarRBtn.FlatAppearance.BorderSize = 0
+        Me.exportarRBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.exportarRBtn.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.exportarRBtn.ForeColor = System.Drawing.Color.White
+        Me.exportarRBtn.Location = New System.Drawing.Point(1303, 486)
+        Me.exportarRBtn.Name = "exportarRBtn"
+        Me.exportarRBtn.Size = New System.Drawing.Size(62, 25)
+        Me.exportarRBtn.TabIndex = 62
+        Me.exportarRBtn.Text = "Exportar"
+        Me.exportarRBtn.UseVisualStyleBackColor = False
+        '
+        'limpiarRBtn
+        '
+        Me.limpiarRBtn.BackColor = System.Drawing.Color.FromArgb(CType(CType(55, Byte), Integer), CType(CType(55, Byte), Integer), CType(CType(55, Byte), Integer))
+        Me.limpiarRBtn.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.limpiarRBtn.FlatAppearance.BorderSize = 0
+        Me.limpiarRBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.limpiarRBtn.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.limpiarRBtn.ForeColor = System.Drawing.Color.White
+        Me.limpiarRBtn.Location = New System.Drawing.Point(1369, 486)
+        Me.limpiarRBtn.Name = "limpiarRBtn"
+        Me.limpiarRBtn.Size = New System.Drawing.Size(55, 25)
+        Me.limpiarRBtn.TabIndex = 63
+        Me.limpiarRBtn.Text = "Limpiar"
+        Me.limpiarRBtn.UseVisualStyleBackColor = False
+        '
+        'reporteDGV
+        '
+        Me.reporteDGV.AllowUserToAddRows = False
+        Me.reporteDGV.AllowUserToDeleteRows = False
+        Me.reporteDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.reporteDGV.Location = New System.Drawing.Point(820, 515)
+        Me.reporteDGV.Name = "reporteDGV"
+        Me.reporteDGV.ReadOnly = True
+        Me.reporteDGV.RowHeadersVisible = False
+        Me.reporteDGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.reporteDGV.Size = New System.Drawing.Size(882, 270)
+        Me.reporteDGV.TabIndex = 64
+        '
+        'lblTotalR
+        '
+        Me.lblTotalR.AutoSize = True
+        Me.lblTotalR.BackColor = System.Drawing.Color.Transparent
+        Me.lblTotalR.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.lblTotalR.ForeColor = System.Drawing.Color.White
+        Me.lblTotalR.Location = New System.Drawing.Point(820, 790)
+        Me.lblTotalR.Name = "lblTotalR"
+        Me.lblTotalR.Size = New System.Drawing.Size(99, 15)
+        Me.lblTotalR.TabIndex = 65
+        Me.lblTotalR.Text = "Total registros: 0"
+        '
         'factura
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.SteelBlue
-        Me.ClientSize = New System.Drawing.Size(1317, 733)
+        Me.ClientSize = New System.Drawing.Size(1714, 818)
+        Me.Controls.Add(Me.lblTotalR)
+        Me.Controls.Add(Me.reporteDGV)
+        Me.Controls.Add(Me.limpiarRBtn)
+        Me.Controls.Add(Me.exportarRBtn)
+        Me.Controls.Add(Me.ordenarRBtn)
+        Me.Controls.Add(Me.buscarRBtn)
+        Me.Controls.Add(Me.boletaRTb)
+        Me.Controls.Add(Me.lblBoletaR)
+        Me.Controls.Add(Me.placaRTb)
+        Me.Controls.Add(Me.lblPlacaR)
+        Me.Controls.Add(Me.codClienteRTb)
+        Me.Controls.Add(Me.lblCodClienteR)
+        Me.Controls.Add(Me.fechaHastaRPk)
+        Me.Controls.Add(Me.lblFechaHastaR)
+        Me.Controls.Add(Me.fechaDesdeRPk)
+        Me.Controls.Add(Me.lblFechaDesdeR)
+        Me.Controls.Add(Me.chkUsarFechaR)
+        Me.Controls.Add(Me.lblReporte)
+        Me.Controls.Add(Me.limpiarFechaBtn)
+        Me.Controls.Add(Me.buscarFechaBtn)
+        Me.Controls.Add(Me.fechaHastaPk)
+        Me.Controls.Add(Me.lblHasta)
+        Me.Controls.Add(Me.fechaDesdePk)
+        Me.Controls.Add(Me.lblDesde)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.ButtonX7)
         Me.Controls.Add(Me.ButtonX5)
         Me.Controls.Add(Me.DelBtn)
-        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.CodproBTb)
-        Me.Controls.Add(Me.CamDgv)
+        Me.Controls.Add(Me.FactDgv)
         Me.Controls.Add(Me.PreviaBtn)
         Me.Controls.Add(Me.ImprimirBt)
         Me.Controls.Add(Me.buscartxt)
@@ -1313,6 +1724,7 @@ Partial Class factura
         Me.Controls.Add(Me.CodBusqTB)
         Me.Controls.Add(Me.ButtonX2)
         Me.Controls.Add(Me.ButtonX6)
+        Me.Controls.Add(Me.LabelX23)
         Me.Controls.Add(Me.LabelX14)
         Me.Controls.Add(Me.LabelX15)
         Me.Controls.Add(Me.PanelP)
@@ -1326,7 +1738,8 @@ Partial Class factura
         Me.Text = "factura"
         Me.PanelP.ResumeLayout(False)
         CType(Me.fechaPk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CamDgv, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.FactDgv, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.reporteDGV, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1390,7 +1803,7 @@ Partial Class factura
     Friend WithEvents Line1 As DevComponents.DotNetBar.Controls.Line
     Friend WithEvents LabelX19 As DevComponents.DotNetBar.LabelX
     Friend WithEvents pLetras As DevComponents.DotNetBar.LabelX
-    Friend WithEvents CamDgv As DevComponents.DotNetBar.Controls.DataGridViewX
+    Friend WithEvents FactDgv As System.Windows.Forms.DataGridView
     Friend WithEvents CodproBTb As TextBox
     Friend WithEvents PrintFactura As Printing.PrintDocument
     Friend WithEvents PrintPreviewFactura As PrintPreviewDialog
@@ -1398,7 +1811,6 @@ Partial Class factura
     Friend WithEvents preUni2Tb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents preUni1Tb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents LabelX20 As DevComponents.DotNetBar.LabelX
-    Friend WithEvents Button1 As Button
     Friend WithEvents codPropTb As DevComponents.DotNetBar.Controls.TextBoxX
     Friend WithEvents LabelX21 As DevComponents.DotNetBar.LabelX
     Friend WithEvents DelBtn As DevComponents.DotNetBar.ButtonX
@@ -1407,4 +1819,34 @@ Partial Class factura
     Friend WithEvents Button2 As Button
     Friend WithEvents btnPaste As DevComponents.DotNetBar.ButtonX
     Friend WithEvents ButtonX4 As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents Button3 As Button
+    Friend WithEvents PrintDocumento As Printing.PrintDocument
+    Friend WithEvents LabelX22 As DevComponents.DotNetBar.LabelX
+    Friend WithEvents comenta2Tb As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents PrintPreviewDocumento As PrintPreviewDialog
+    Friend WithEvents LabelX23 As DevComponents.DotNetBar.LabelX
+    Friend WithEvents lblDesde As System.Windows.Forms.Label
+    Friend WithEvents fechaDesdePk As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblHasta As System.Windows.Forms.Label
+    Friend WithEvents fechaHastaPk As System.Windows.Forms.DateTimePicker
+    Friend WithEvents buscarFechaBtn As System.Windows.Forms.Button
+    Friend WithEvents limpiarFechaBtn As System.Windows.Forms.Button
+    Friend WithEvents lblReporte As System.Windows.Forms.Label
+    Friend WithEvents chkUsarFechaR As System.Windows.Forms.CheckBox
+    Friend WithEvents lblFechaDesdeR As System.Windows.Forms.Label
+    Friend WithEvents fechaDesdeRPk As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblFechaHastaR As System.Windows.Forms.Label
+    Friend WithEvents fechaHastaRPk As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblCodClienteR As System.Windows.Forms.Label
+    Friend WithEvents codClienteRTb As System.Windows.Forms.TextBox
+    Friend WithEvents lblPlacaR As System.Windows.Forms.Label
+    Friend WithEvents placaRTb As System.Windows.Forms.TextBox
+    Friend WithEvents lblBoletaR As System.Windows.Forms.Label
+    Friend WithEvents boletaRTb As System.Windows.Forms.TextBox
+    Friend WithEvents buscarRBtn As System.Windows.Forms.Button
+    Friend WithEvents ordenarRBtn As System.Windows.Forms.Button
+    Friend WithEvents exportarRBtn As System.Windows.Forms.Button
+    Friend WithEvents limpiarRBtn As System.Windows.Forms.Button
+    Friend WithEvents reporteDGV As System.Windows.Forms.DataGridView
+    Friend WithEvents lblTotalR As System.Windows.Forms.Label
 End Class

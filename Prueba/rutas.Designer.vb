@@ -19,6 +19,8 @@ Partial Class rutas
 
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.CamDGV = New DevComponents.DotNetBar.Controls.DataGridViewX()
         Me.PanelP = New System.Windows.Forms.Panel()
         Me.LabelX1 = New DevComponents.DotNetBar.LabelX()
@@ -46,19 +48,27 @@ Partial Class rutas
         Me.CamDGV.AllowUserToResizeRows = False
         Me.CamDGV.BackgroundColor = System.Drawing.Color.FromArgb(CType(CType(30, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(114, Byte), Integer))
         Me.CamDGV.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.CamDGV.ColumnHeadersDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(80, Byte), Integer))
-        Me.CamDGV.ColumnHeadersDefaultCellStyle.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CamDGV.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.White
-        Me.CamDGV.ColumnHeadersDefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(80, Byte), Integer))
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(80, Byte), Integer))
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.Color.White
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(80, Byte), Integer))
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.CamDGV.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.CamDGV.ColumnHeadersHeight = 35
         Me.CamDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        Me.CamDGV.DefaultCellStyle.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CamDGV.DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(80, Byte), Integer))
-        Me.CamDGV.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(130, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.CamDGV.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(80, Byte), Integer))
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(130, Byte), Integer), CType(CType(200, Byte), Integer))
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.CamDGV.DefaultCellStyle = DataGridViewCellStyle2
         Me.CamDGV.EnableHeadersVisualStyles = False
         Me.CamDGV.GridColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.CamDGV.Location = New System.Drawing.Point(15, 65)
+        Me.CamDGV.Location = New System.Drawing.Point(368, 69)
         Me.CamDGV.MultiSelect = False
         Me.CamDGV.Name = "CamDGV"
         Me.CamDGV.ReadOnly = True
@@ -75,7 +85,7 @@ Partial Class rutas
         Me.PanelP.Controls.Add(Me.rutaTb)
         Me.PanelP.Controls.Add(Me.LabelX2)
         Me.PanelP.Controls.Add(Me.kilomTb)
-        Me.PanelP.Location = New System.Drawing.Point(590, 65)
+        Me.PanelP.Location = New System.Drawing.Point(12, 69)
         Me.PanelP.Name = "PanelP"
         Me.PanelP.Size = New System.Drawing.Size(340, 170)
         Me.PanelP.TabIndex = 1
@@ -83,6 +93,10 @@ Partial Class rutas
         'LabelX1
         '
         Me.LabelX1.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.LabelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX1.Font = New System.Drawing.Font("Segoe UI Semibold", 11.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.LabelX1.Location = New System.Drawing.Point(15, 25)
@@ -94,6 +108,9 @@ Partial Class rutas
         'rutaTb
         '
         Me.rutaTb.BackColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(130, Byte), Integer))
+        '
+        '
+        '
         Me.rutaTb.Border.BackColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(130, Byte), Integer))
         Me.rutaTb.Border.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(130, Byte), Integer))
         Me.rutaTb.Border.BorderBottomWidth = 2
@@ -111,12 +128,16 @@ Partial Class rutas
         Me.rutaTb.MaxLength = 200
         Me.rutaTb.Name = "rutaTb"
         Me.rutaTb.PreventEnterBeep = True
-        Me.rutaTb.Size = New System.Drawing.Size(220, 30)
+        Me.rutaTb.Size = New System.Drawing.Size(220, 35)
         Me.rutaTb.TabIndex = 1
         '
         'LabelX2
         '
         Me.LabelX2.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.LabelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX2.Font = New System.Drawing.Font("Segoe UI Semibold", 11.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.LabelX2.Location = New System.Drawing.Point(15, 75)
@@ -128,6 +149,9 @@ Partial Class rutas
         'kilomTb
         '
         Me.kilomTb.BackColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(130, Byte), Integer))
+        '
+        '
+        '
         Me.kilomTb.Border.BackColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(130, Byte), Integer))
         Me.kilomTb.Border.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(130, Byte), Integer))
         Me.kilomTb.Border.BorderBottomWidth = 2
@@ -145,15 +169,14 @@ Partial Class rutas
         Me.kilomTb.MaxLength = 6
         Me.kilomTb.Name = "kilomTb"
         Me.kilomTb.PreventEnterBeep = True
-        Me.kilomTb.Size = New System.Drawing.Size(130, 30)
+        Me.kilomTb.Size = New System.Drawing.Size(130, 35)
         Me.kilomTb.TabIndex = 3
         '
         'NuevoBtn
         '
         Me.NuevoBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.NuevoBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.BlueWithBackground
         Me.NuevoBtn.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.NuevoBtn.Location = New System.Drawing.Point(590, 255)
+        Me.NuevoBtn.Location = New System.Drawing.Point(12, 259)
         Me.NuevoBtn.Name = "NuevoBtn"
         Me.NuevoBtn.Size = New System.Drawing.Size(105, 38)
         Me.NuevoBtn.TabIndex = 4
@@ -162,9 +185,8 @@ Partial Class rutas
         'GuardarBtn
         '
         Me.GuardarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.GuardarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.BlueWithBackground
         Me.GuardarBtn.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GuardarBtn.Location = New System.Drawing.Point(705, 255)
+        Me.GuardarBtn.Location = New System.Drawing.Point(127, 259)
         Me.GuardarBtn.Name = "GuardarBtn"
         Me.GuardarBtn.Size = New System.Drawing.Size(105, 38)
         Me.GuardarBtn.TabIndex = 5
@@ -173,9 +195,8 @@ Partial Class rutas
         'EditarBtn
         '
         Me.EditarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.EditarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.BlueWithBackground
         Me.EditarBtn.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EditarBtn.Location = New System.Drawing.Point(820, 255)
+        Me.EditarBtn.Location = New System.Drawing.Point(242, 259)
         Me.EditarBtn.Name = "EditarBtn"
         Me.EditarBtn.Size = New System.Drawing.Size(105, 38)
         Me.EditarBtn.TabIndex = 6
@@ -184,9 +205,8 @@ Partial Class rutas
         'ModificarBtn
         '
         Me.ModificarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.ModificarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.BlueWithBackground
         Me.ModificarBtn.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ModificarBtn.Location = New System.Drawing.Point(590, 303)
+        Me.ModificarBtn.Location = New System.Drawing.Point(12, 307)
         Me.ModificarBtn.Name = "ModificarBtn"
         Me.ModificarBtn.Size = New System.Drawing.Size(105, 38)
         Me.ModificarBtn.TabIndex = 7
@@ -195,9 +215,8 @@ Partial Class rutas
         'EliminarBtn
         '
         Me.EliminarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.EliminarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.BlueWithBackground
         Me.EliminarBtn.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EliminarBtn.Location = New System.Drawing.Point(705, 303)
+        Me.EliminarBtn.Location = New System.Drawing.Point(127, 307)
         Me.EliminarBtn.Name = "EliminarBtn"
         Me.EliminarBtn.Size = New System.Drawing.Size(105, 38)
         Me.EliminarBtn.TabIndex = 8
@@ -206,9 +225,8 @@ Partial Class rutas
         'CancelarBtn
         '
         Me.CancelarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.CancelarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.BlueWithBackground
         Me.CancelarBtn.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CancelarBtn.Location = New System.Drawing.Point(820, 303)
+        Me.CancelarBtn.Location = New System.Drawing.Point(242, 307)
         Me.CancelarBtn.Name = "CancelarBtn"
         Me.CancelarBtn.Size = New System.Drawing.Size(105, 38)
         Me.CancelarBtn.TabIndex = 9
@@ -217,8 +235,12 @@ Partial Class rutas
         'buscartxt
         '
         Me.buscartxt.BackColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(45, Byte), Integer), CType(CType(90, Byte), Integer))
+        '
+        '
+        '
+        Me.buscartxt.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.buscartxt.ForeColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(45, Byte), Integer), CType(CType(90, Byte), Integer))
-        Me.buscartxt.Location = New System.Drawing.Point(590, 490)
+        Me.buscartxt.Location = New System.Drawing.Point(561, 18)
         Me.buscartxt.Name = "buscartxt"
         Me.buscartxt.Size = New System.Drawing.Size(75, 23)
         Me.buscartxt.TabIndex = 10
@@ -227,6 +249,10 @@ Partial Class rutas
         'LabelX3
         '
         Me.LabelX3.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.LabelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX3.Font = New System.Drawing.Font("Segoe UI Semibold", 11.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelX3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.LabelX3.Location = New System.Drawing.Point(15, 18)
@@ -238,6 +264,9 @@ Partial Class rutas
         'rutaBusqTB
         '
         Me.rutaBusqTB.BackColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(130, Byte), Integer))
+        '
+        '
+        '
         Me.rutaBusqTB.Border.BackColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(130, Byte), Integer))
         Me.rutaBusqTB.Border.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(130, Byte), Integer))
         Me.rutaBusqTB.Border.BorderBottomWidth = 2
@@ -255,13 +284,12 @@ Partial Class rutas
         Me.rutaBusqTB.MaxLength = 200
         Me.rutaBusqTB.Name = "rutaBusqTB"
         Me.rutaBusqTB.PreventEnterBeep = True
-        Me.rutaBusqTB.Size = New System.Drawing.Size(300, 30)
+        Me.rutaBusqTB.Size = New System.Drawing.Size(300, 35)
         Me.rutaBusqTB.TabIndex = 12
         '
         'buscarBtn
         '
         Me.buscarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.buscarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.BlueWithBackground
         Me.buscarBtn.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.buscarBtn.Location = New System.Drawing.Point(450, 12)
         Me.buscarBtn.Name = "buscarBtn"
@@ -274,7 +302,7 @@ Partial Class rutas
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(45, Byte), Integer), CType(CType(90, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(950, 540)
+        Me.ClientSize = New System.Drawing.Size(1294, 703)
         Me.Controls.Add(Me.buscarBtn)
         Me.Controls.Add(Me.rutaBusqTB)
         Me.Controls.Add(Me.LabelX3)

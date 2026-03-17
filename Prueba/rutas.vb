@@ -20,6 +20,7 @@ Public Class rutas
         Me.ModificarBtn.Enabled = False
         Me.CancelarBtn.Enabled = False
         Me.EliminarBtn.Enabled = False
+        If ModuloConexion.EsSoloLectura() Then NuevoBtn.Enabled = False
     End Sub
 
     Private Sub conectar()
@@ -200,8 +201,8 @@ Public Class rutas
             Dim i As Integer = CamDGV.CurrentRow.Index
             buscartxt.Text = CamDGV.Item(0, i).Value.ToString()
             Seleccion()
-            EditarBtn.Enabled = True
-            EliminarBtn.Enabled = True
+            EditarBtn.Enabled = Not ModuloConexion.EsSoloLectura()
+            EliminarBtn.Enabled = Not ModuloConexion.EsSoloLectura()
         End If
     End Sub
 

@@ -47,6 +47,8 @@ Partial Class placa
         Me.propBusqTB = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.LabelBusqPlaca = New DevComponents.DotNetBar.LabelX()
         Me.placaBusqTB = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.BloquearBtn = New DevComponents.DotNetBar.ButtonX()
+        Me.ExportarExcelBtn = New DevComponents.DotNetBar.ButtonX()
         Me.buscartxt = New System.Windows.Forms.TextBox()
         Me.PanelP.SuspendLayout()
         CType(Me.CamDGV, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -58,7 +60,7 @@ Partial Class placa
         Me.CancelarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.CancelarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.CancelarBtn.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CancelarBtn.Location = New System.Drawing.Point(639, 12)
+        Me.CancelarBtn.Location = New System.Drawing.Point(534, 11)
         Me.CancelarBtn.Name = "CancelarBtn"
         Me.CancelarBtn.Shape = New DevComponents.DotNetBar.RoundRectangleShapeDescriptor(2, 2, 2, 10)
         Me.CancelarBtn.Size = New System.Drawing.Size(82, 33)
@@ -73,7 +75,7 @@ Partial Class placa
         Me.EliminarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.EliminarBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.EliminarBtn.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EliminarBtn.Location = New System.Drawing.Point(551, 12)
+        Me.EliminarBtn.Location = New System.Drawing.Point(446, 11)
         Me.EliminarBtn.Name = "EliminarBtn"
         Me.EliminarBtn.Shape = New DevComponents.DotNetBar.RoundRectangleShapeDescriptor(2, 2, 10, 2)
         Me.EliminarBtn.Size = New System.Drawing.Size(82, 33)
@@ -175,7 +177,7 @@ Partial Class placa
         Me.codTb.FocusHighlightColor = System.Drawing.Color.Yellow
         Me.codTb.FocusHighlightEnabled = True
         Me.codTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.codTb.ForeColor = System.Drawing.Color.White
+        Me.codTb.ForeColor = System.Drawing.Color.Black
         Me.codTb.Location = New System.Drawing.Point(12, 27)
         Me.codTb.MaxLength = 6
         Me.codTb.Name = "codTb"
@@ -203,7 +205,7 @@ Partial Class placa
         Me.propTb.FocusHighlightColor = System.Drawing.Color.Yellow
         Me.propTb.FocusHighlightEnabled = True
         Me.propTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.propTb.ForeColor = System.Drawing.Color.White
+        Me.propTb.ForeColor = System.Drawing.Color.Black
         Me.propTb.Location = New System.Drawing.Point(216, 27)
         Me.propTb.MaxLength = 30
         Me.propTb.Name = "propTb"
@@ -229,7 +231,7 @@ Partial Class placa
         Me.placaTb.FocusHighlightColor = System.Drawing.Color.Yellow
         Me.placaTb.FocusHighlightEnabled = True
         Me.placaTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.placaTb.ForeColor = System.Drawing.Color.White
+        Me.placaTb.ForeColor = System.Drawing.Color.Black
         Me.placaTb.Location = New System.Drawing.Point(575, 21)
         Me.placaTb.MaxLength = 15
         Me.placaTb.Name = "placaTb"
@@ -269,7 +271,7 @@ Partial Class placa
         Me.obserTb.FocusHighlightColor = System.Drawing.Color.Yellow
         Me.obserTb.FocusHighlightEnabled = True
         Me.obserTb.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.obserTb.ForeColor = System.Drawing.Color.White
+        Me.obserTb.ForeColor = System.Drawing.Color.Black
         Me.obserTb.Location = New System.Drawing.Point(12, 82)
         Me.obserTb.MaxLength = 200
         Me.obserTb.Multiline = True
@@ -363,6 +365,7 @@ Partial Class placa
         'PanelBusqueda
         '
         Me.PanelBusqueda.BackColor = System.Drawing.Color.SteelBlue
+        Me.PanelBusqueda.Controls.Add(Me.BloquearBtn)
         Me.PanelBusqueda.Controls.Add(Me.LabelBusqCod)
         Me.PanelBusqueda.Controls.Add(Me.codBusqTB)
         Me.PanelBusqueda.Controls.Add(Me.LabelBusqProp)
@@ -371,7 +374,7 @@ Partial Class placa
         Me.PanelBusqueda.Controls.Add(Me.placaBusqTB)
         Me.PanelBusqueda.Location = New System.Drawing.Point(26, 263)
         Me.PanelBusqueda.Name = "PanelBusqueda"
-        Me.PanelBusqueda.Size = New System.Drawing.Size(707, 68)
+        Me.PanelBusqueda.Size = New System.Drawing.Size(797, 68)
         Me.PanelBusqueda.TabIndex = 24
         '
         'LabelBusqCod
@@ -401,7 +404,7 @@ Partial Class placa
         Me.codBusqTB.Border.Class = "TextBoxBorder"
         Me.codBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.codBusqTB.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.codBusqTB.ForeColor = System.Drawing.Color.White
+        Me.codBusqTB.ForeColor = System.Drawing.Color.Black
         Me.codBusqTB.Location = New System.Drawing.Point(10, 28)
         Me.codBusqTB.Name = "codBusqTB"
         Me.codBusqTB.PreventEnterBeep = True
@@ -435,7 +438,7 @@ Partial Class placa
         Me.propBusqTB.Border.Class = "TextBoxBorder"
         Me.propBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.propBusqTB.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.propBusqTB.ForeColor = System.Drawing.Color.White
+        Me.propBusqTB.ForeColor = System.Drawing.Color.Black
         Me.propBusqTB.Location = New System.Drawing.Point(145, 28)
         Me.propBusqTB.Name = "propBusqTB"
         Me.propBusqTB.PreventEnterBeep = True
@@ -469,16 +472,47 @@ Partial Class placa
         Me.placaBusqTB.Border.Class = "TextBoxBorder"
         Me.placaBusqTB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.placaBusqTB.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.placaBusqTB.ForeColor = System.Drawing.Color.White
+        Me.placaBusqTB.ForeColor = System.Drawing.Color.Black
         Me.placaBusqTB.Location = New System.Drawing.Point(440, 28)
         Me.placaBusqTB.Name = "placaBusqTB"
         Me.placaBusqTB.PreventEnterBeep = True
         Me.placaBusqTB.Size = New System.Drawing.Size(150, 34)
         Me.placaBusqTB.TabIndex = 5
         '
+        'BloquearBtn
+        '
+        Me.BloquearBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.BloquearBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.BloquearBtn.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BloquearBtn.Location = New System.Drawing.Point(649, 18)
+        Me.BloquearBtn.Name = "BloquearBtn"
+        Me.BloquearBtn.Shape = New DevComponents.DotNetBar.RoundRectangleShapeDescriptor(2, 2, 2, 10)
+        Me.BloquearBtn.Size = New System.Drawing.Size(110, 33)
+        Me.BloquearBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.BloquearBtn.Symbol = ""
+        Me.BloquearBtn.SymbolColor = System.Drawing.Color.FromArgb(CType(CType(220, Byte), Integer), CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer))
+        Me.BloquearBtn.SymbolSize = 24.0!
+        Me.BloquearBtn.TabIndex = 20
+        Me.BloquearBtn.Text = "Bloquear"
+        '
+        'ExportarExcelBtn
+        '
+        Me.ExportarExcelBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.ExportarExcelBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.ExportarExcelBtn.Font = New System.Drawing.Font("Comic Sans MS", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ExportarExcelBtn.Location = New System.Drawing.Point(636, 11)
+        Me.ExportarExcelBtn.Name = "ExportarExcelBtn"
+        Me.ExportarExcelBtn.Shape = New DevComponents.DotNetBar.RoundRectangleShapeDescriptor(2, 2, 2, 10)
+        Me.ExportarExcelBtn.Size = New System.Drawing.Size(130, 33)
+        Me.ExportarExcelBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.ExportarExcelBtn.SymbolColor = System.Drawing.Color.Green
+        Me.ExportarExcelBtn.SymbolSize = 12.0!
+        Me.ExportarExcelBtn.TabIndex = 26
+        Me.ExportarExcelBtn.Text = "Exportar Excel"
+        '
         'buscartxt
         '
-        Me.buscartxt.Location = New System.Drawing.Point(765, 23)
+        Me.buscartxt.Location = New System.Drawing.Point(788, 23)
         Me.buscartxt.Name = "buscartxt"
         Me.buscartxt.Size = New System.Drawing.Size(20, 20)
         Me.buscartxt.TabIndex = 25
@@ -490,6 +524,7 @@ Partial Class placa
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.SteelBlue
         Me.ClientSize = New System.Drawing.Size(842, 604)
+        Me.Controls.Add(Me.ExportarExcelBtn)
         Me.Controls.Add(Me.buscartxt)
         Me.Controls.Add(Me.PanelBusqueda)
         Me.Controls.Add(Me.CamDGV)
@@ -535,4 +570,6 @@ Partial Class placa
     Friend WithEvents LabelBusqProp As DevComponents.DotNetBar.LabelX
     Friend WithEvents LabelBusqPlaca As DevComponents.DotNetBar.LabelX
     Friend WithEvents buscartxt As TextBox
+    Friend WithEvents BloquearBtn As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents ExportarExcelBtn As DevComponents.DotNetBar.ButtonX
 End Class

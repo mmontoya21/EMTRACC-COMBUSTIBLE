@@ -75,8 +75,9 @@ Public Class reporte
             Dim sql As New StringBuilder()
             sql.Append("SELECT nCompro AS 'Comprobante', nBoleta AS 'Boleta', DATE_FORMAT(fecha, '%d/%m/%Y') AS 'Fecha', ")
             sql.Append("placaCbz AS 'Placa', nConte AS 'Contenedor', codiProp AS 'Cod.Prop', propCbz AS 'Propietario', galDesp AS 'Galones', ")
-            sql.Append("valor AS 'Valor', ruta AS 'Ruta', nombCond AS 'Conductor', ")
-            sql.Append("nombDesp AS 'Despachador', periodo AS 'Periodo', semana AS 'Semana' ")
+            sql.Append("valor AS 'Valor', total AS 'Total', ruta AS 'Ruta', nombCond AS 'Conductor', ")
+            sql.Append("nombDesp AS 'Despachador', periodo AS 'Periodo', semana AS 'Semana', ")
+            sql.Append("COALESCE(anulado, 0) AS 'anulado' ")
             sql.Append("FROM comprobante WHERE 1=1 ")
 
             Dim cmd As New MySqlCommand()
@@ -117,8 +118,27 @@ Public Class reporte
 
             reporteDgv.DataSource = dt
 
-            ' Actualizar contador
-            LblTotal.Text = "Total registros: " & dt.Rows.Count.ToString()
+            ' Calcular totales (excluyendo anulados)
+            Dim totalGal As Double = 0
+            Dim totalMonto As Double = 0
+            Dim totalAnulados As Integer = 0
+            For Each row As DataRow In dt.Rows
+                Dim esAnulado As Boolean = (dt.Columns.Contains("anulado") AndAlso
+                    row("anulado") IsNot DBNull.Value AndAlso Convert.ToInt32(row("anulado")) = 1)
+                If esAnulado Then
+                    totalAnulados += 1
+                Else
+                    If row("Galones") IsNot DBNull.Value Then
+                        totalGal += Convert.ToDouble(row("Galones"))
+                    End If
+                    If row("Total") IsNot DBNull.Value Then
+                        totalMonto += Convert.ToDouble(row("Total"))
+                    End If
+                End If
+            Next
+
+            ' Actualizar contador con resumen
+            LblTotal.Text = String.Format("Registros: {0}  |  Anulados: {1}  |  Total Galones: {2:N2}  |  Monto Total: L. {3:N2}", dt.Rows.Count, totalAnulados, totalGal, totalMonto)
 
             ' Ajustar anchos de columnas
             configurarColumnas()
@@ -134,6 +154,9 @@ Public Class reporte
 
     Private Sub configurarColumnas()
         If reporteDgv.Columns.Count > 0 Then
+            If reporteDgv.Columns.Contains("anulado") Then
+                reporteDgv.Columns("anulado").Visible = False
+            End If
             reporteDgv.Columns("Comprobante").Width = 80
             reporteDgv.Columns("Boleta").Width = 70
             reporteDgv.Columns("Fecha").Width = 80
@@ -143,6 +166,7 @@ Public Class reporte
             reporteDgv.Columns("Propietario").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             reporteDgv.Columns("Galones").Width = 70
             reporteDgv.Columns("Valor").Width = 70
+            reporteDgv.Columns("Total").Width = 90
             reporteDgv.Columns("Ruta").Width = 150
             reporteDgv.Columns("Conductor").Width = 120
             reporteDgv.Columns("Despachador").Width = 100
@@ -310,28 +334,41 @@ Public Class reporte
             Dim dataRowStart As Integer = headerRow + 1
             Dim totalGalones As Double = 0
             Dim totalValor As Double = 0
+            Dim totalAnuladosExcel As Integer = 0
 
             For row As Integer = 0 To reporteDgv.Rows.Count - 1
                 If Not reporteDgv.Rows(row).IsNewRow Then
                     Dim excelRow As Integer = dataRowStart + row
                     Dim isAlternate As Boolean = (row Mod 2 = 1)
 
+                    ' Detectar si la fila esta anulada
+                    Dim filaAnulada As Boolean = False
+                    If reporteDgv.Columns.Contains("anulado") Then
+                        Dim anuladoVal = reporteDgv.Rows(row).Cells("anulado").Value
+                        filaAnulada = (anuladoVal IsNot Nothing AndAlso Not IsDBNull(anuladoVal) AndAlso Convert.ToInt32(anuladoVal) = 1)
+                    End If
+                    If filaAnulada Then totalAnuladosExcel += 1
+
                     For col As Integer = 0 To reporteDgv.Columns.Count - 1
+                        If Not reporteDgv.Columns(col).Visible Then Continue For
+
                         Dim cell As IXLCell = ws.Cell(excelRow, col + 1)
                         Dim valor As Object = reporteDgv.Rows(row).Cells(col).Value
                         Dim headerName As String = reporteDgv.Columns(col).HeaderText
 
                         ' Establecer valor
                         If valor IsNot Nothing AndAlso Not String.IsNullOrEmpty(valor.ToString()) Then
-                            If headerName = "Galones" OrElse headerName = "Valor" Then
+                            If headerName = "Galones" OrElse headerName = "Valor" OrElse headerName = "Total" Then
                                 Dim numVal As Double
                                 If Double.TryParse(valor.ToString(), numVal) Then
                                     cell.SetValue(numVal)
                                     cell.Style.NumberFormat.Format = "#,##0.00"
-                                    If headerName = "Galones" Then
-                                        totalGalones += numVal
-                                    ElseIf headerName = "Valor" Then
-                                        totalValor += numVal
+                                    If Not filaAnulada Then
+                                        If headerName = "Galones" Then
+                                            totalGalones += numVal
+                                        ElseIf headerName = "Total" Then
+                                            totalValor += numVal
+                                        End If
                                     End If
                                 Else
                                     cell.SetValue(valor.ToString())
@@ -352,12 +389,15 @@ Public Class reporte
                         With cell.Style
                             .Border.OutsideBorder = XLBorderStyleValues.Thin
                             .Border.OutsideBorderColor = XLColor.LightGray
-                            If isAlternate Then
+                            If filaAnulada Then
+                                .Fill.BackgroundColor = XLColor.FromHtml("#FFC8C8")
+                                .Font.FontColor = XLColor.DarkRed
+                            ElseIf isAlternate Then
                                 .Fill.BackgroundColor = XLColor.FromHtml("#F0F0F5")
                             Else
                                 .Fill.BackgroundColor = XLColor.White
                             End If
-                            If headerName = "Galones" OrElse headerName = "Valor" OrElse headerName = "Comprobante" OrElse headerName = "Boleta" OrElse headerName = "Periodo" OrElse headerName = "Semana" Then
+                            If headerName = "Galones" OrElse headerName = "Valor" OrElse headerName = "Total" OrElse headerName = "Comprobante" OrElse headerName = "Boleta" OrElse headerName = "Periodo" OrElse headerName = "Semana" Then
                                 .Alignment.Horizontal = XLAlignmentHorizontalValues.Right
                             ElseIf headerName = "Fecha" OrElse headerName = "Contenedor" OrElse headerName = "Cod.Prop" OrElse headerName = "Placa" Then
                                 .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
@@ -371,12 +411,15 @@ Public Class reporte
             Dim totalRow As Integer = dataRowStart + reporteDgv.Rows.Count
             Dim galonesColIndex As Integer = -1
             Dim valorColIndex As Integer = -1
+            Dim totalColIndex As Integer = -1
 
             For col As Integer = 0 To reporteDgv.Columns.Count - 1
                 If reporteDgv.Columns(col).HeaderText = "Galones" Then
                     galonesColIndex = col + 1
                 ElseIf reporteDgv.Columns(col).HeaderText = "Valor" Then
                     valorColIndex = col + 1
+                ElseIf reporteDgv.Columns(col).HeaderText = "Total" Then
+                    totalColIndex = col + 1
                 End If
             Next
 
@@ -418,10 +461,10 @@ Public Class reporte
                 End With
             End If
 
-            If valorColIndex > 0 Then
-                Dim cellVal As IXLCell = ws.Cell(totalRow, valorColIndex)
-                cellVal.SetValue(totalValor)
-                With cellVal.Style
+            If totalColIndex > 0 Then
+                Dim cellTot As IXLCell = ws.Cell(totalRow, totalColIndex)
+                cellTot.SetValue(totalValor)
+                With cellTot.Style
                     .NumberFormat.Format = "#,##0.00"
                     .Font.Bold = True
                     .Fill.BackgroundColor = XLColor.FromHtml("#D5F5E3")
@@ -487,16 +530,88 @@ Public Class reporte
             ws.Cell(summaryRow, 1).Style.Font.Bold = True
 
             summaryRow += 1
+            ws.Cell(summaryRow, 1).SetValue("Registros Anulados:")
+            ws.Cell(summaryRow, 2).SetValue(totalAnuladosExcel)
+            ws.Cell(summaryRow, 1).Style.Font.Bold = True
+            ws.Cell(summaryRow, 2).Style.Font.FontColor = XLColor.Red
+
+            summaryRow += 1
             ws.Cell(summaryRow, 1).SetValue("Total Galones:")
             ws.Cell(summaryRow, 2).SetValue(totalGalones)
             ws.Cell(summaryRow, 2).Style.NumberFormat.Format = "#,##0.00"
             ws.Cell(summaryRow, 1).Style.Font.Bold = True
 
             summaryRow += 1
-            ws.Cell(summaryRow, 1).SetValue("Total Valor:")
+            ws.Cell(summaryRow, 1).SetValue("Monto Total:")
             ws.Cell(summaryRow, 2).SetValue(totalValor)
             ws.Cell(summaryRow, 2).Style.NumberFormat.Format = "#,##0.00"
             ws.Cell(summaryRow, 1).Style.Font.Bold = True
+
+            ' ========== MEDICION DE TANQUE ==========
+            summaryRow += 2
+            ws.Cell(summaryRow, 1).SetValue("MEDICION DE TANQUE")
+            With ws.Cell(summaryRow, 1).Style
+                .Font.Bold = True
+                .Font.FontSize = 12
+                .Fill.BackgroundColor = XLColor.FromHtml("#6A7EA8")
+                .Font.FontColor = XLColor.White
+            End With
+            ws.Range(summaryRow, 1, summaryRow, 4).Merge()
+
+            ' Consultar tanquemed para periodo/semana actual
+            Dim galInicioTanque As String = "Sin medicion"
+            Dim galFinalTanque As String = "Sin medicion"
+
+            Try
+                Using conTanque As MySqlConnection = ModuloConexion.ObtenerConexion()
+                    conTanque.Open()
+                    Dim sqlTanque As String = "SELECT galonesCalc, galonesMed FROM tanquemed WHERE periodo = @periodo AND semana = @semana ORDER BY idMedida DESC LIMIT 1"
+                    Using cmdTanque As New MySqlCommand(sqlTanque, conTanque)
+                        cmdTanque.Parameters.AddWithValue("@periodo", ModuloConexion.PeriodoSesion)
+                        cmdTanque.Parameters.AddWithValue("@semana", ModuloConexion.SemanaSesion)
+                        Using drTanque As MySqlDataReader = cmdTanque.ExecuteReader()
+                            If drTanque.Read() Then
+                                If drTanque("galonesCalc") IsNot DBNull.Value Then
+                                    galInicioTanque = Convert.ToDouble(drTanque("galonesCalc")).ToString("N2")
+                                End If
+                                If drTanque("galonesMed") IsNot DBNull.Value Then
+                                    galFinalTanque = Convert.ToDouble(drTanque("galonesMed")).ToString("N2")
+                                End If
+                            End If
+                        End Using
+                    End Using
+                End Using
+            Catch
+                ' Si falla la consulta, dejar "Sin medicion"
+            End Try
+
+            summaryRow += 1
+            ws.Cell(summaryRow, 1).SetValue("Odometro Inicial:")
+            ws.Cell(summaryRow, 1).Style.Font.Bold = True
+            Dim valInicio As Double
+            If Double.TryParse(galInicioTanque, valInicio) Then
+                ws.Cell(summaryRow, 2).SetValue(valInicio)
+                ws.Cell(summaryRow, 2).Style.NumberFormat.Format = "#,##0.00"
+            Else
+                ws.Cell(summaryRow, 2).SetValue(galInicioTanque)
+            End If
+
+            summaryRow += 1
+            ws.Cell(summaryRow, 1).SetValue("Odometro Final:")
+            ws.Cell(summaryRow, 1).Style.Font.Bold = True
+            Dim valFinal As Double
+            If Double.TryParse(galFinalTanque, valFinal) Then
+                ws.Cell(summaryRow, 2).SetValue(valFinal)
+                ws.Cell(summaryRow, 2).Style.NumberFormat.Format = "#,##0.00"
+            Else
+                ws.Cell(summaryRow, 2).SetValue(galFinalTanque)
+            End If
+
+            summaryRow += 1
+            ws.Cell(summaryRow, 1).SetValue("Total Dispensado:")
+            ws.Cell(summaryRow, 1).Style.Font.Bold = True
+            ws.Cell(summaryRow, 2).SetValue(totalGalones)
+            ws.Cell(summaryRow, 2).Style.NumberFormat.Format = "#,##0.00"
 
             ' ========== AJUSTAR ANCHOS DE COLUMNAS ==========
             ws.Columns().AdjustToContents()
@@ -516,6 +631,17 @@ Public Class reporte
             ' Guardar archivo
             workbook.SaveAs(rutaArchivo)
         End Using
+    End Sub
+
+    Private Sub reporteDgv_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles reporteDgv.CellFormatting
+        Dim dgv As DataGridView = CType(sender, DataGridView)
+        If dgv.Columns.Contains("anulado") AndAlso e.RowIndex >= 0 Then
+            Dim anuladoVal = dgv.Rows(e.RowIndex).Cells("anulado").Value
+            If anuladoVal IsNot Nothing AndAlso Not IsDBNull(anuladoVal) AndAlso Convert.ToInt32(anuladoVal) = 1 Then
+                e.CellStyle.BackColor = Color.FromArgb(255, 200, 200)
+                e.CellStyle.ForeColor = Color.DarkRed
+            End If
+        End If
     End Sub
 
     Private Sub reporte_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing

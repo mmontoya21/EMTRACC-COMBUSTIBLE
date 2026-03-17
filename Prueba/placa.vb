@@ -1,6 +1,9 @@
 ﻿Imports System.Data
+Imports System.IO
+Imports System.Text
 Imports MySql.Data.MySqlClient
 Imports MySql.Data
+Imports ClosedXML.Excel
 Public Class placa
     Dim cm As New MySqlCommand
     Dim guardar As New MySqlCommand
@@ -47,6 +50,9 @@ Public Class placa
         Me.ModificarBtn.Enabled = False
         Me.CancelarBtn.Enabled = False
         Me.EliminarBtn.Enabled = False
+        Me.BloquearBtn.Enabled = False
+        Me.BloquearBtn.Text = "Bloquear"
+        If ModuloConexion.EsSoloLectura() Then NuevoBtn.Enabled = False
     End Sub
     Private Sub conectar()
         con = ModuloConexion.ObtenerConexion()
@@ -146,7 +152,7 @@ Public Class placa
         Try
             Dim table As New DataTable()
             AbrirConexion()
-            Using adaptadoListado As New MySqlDataAdapter("SELECT idPlaca, codigoPro, placa, propietario,  observaciones FROM placa", con)
+            Using adaptadoListado As New MySqlDataAdapter("SELECT idPlaca, codigoPro, placa, propietario, observaciones, CASE WHEN activo = 1 THEN 'Activo' ELSE 'Bloqueado' END AS estado FROM placa", con)
                 adaptadoListado.Fill(table)
             End Using
 
@@ -159,23 +165,26 @@ Public Class placa
         End Try
     End Sub
     Private Sub ListadoD()
-        If CamDGV.Columns.Count < 5 Then Return
+        If CamDGV.Columns.Count < 6 Then Return
 
         CamDGV.Columns(0).HeaderText = "Id"
         CamDGV.Columns(0).Width = 1
         CamDGV.Columns(0).Visible = False
 
         CamDGV.Columns(1).HeaderText = "Código"
-        CamDGV.Columns(1).Width = 100
+        CamDGV.Columns(1).Width = 80
 
         CamDGV.Columns(2).HeaderText = "Placa"
-        CamDGV.Columns(2).Width = 100
+        CamDGV.Columns(2).Width = 90
 
         CamDGV.Columns(3).HeaderText = "Propietario"
-        CamDGV.Columns(3).Width = 250
+        CamDGV.Columns(3).Width = 220
 
         CamDGV.Columns(4).HeaderText = "Observaciones"
-        CamDGV.Columns(4).Width = 250
+        CamDGV.Columns(4).Width = 200
+
+        CamDGV.Columns(5).HeaderText = "Estado"
+        CamDGV.Columns(5).Width = 80
     End Sub
     Sub limpiar()
         Me.codTb.Text = ""
@@ -208,8 +217,8 @@ Public Class placa
     Private Sub GuardarBtn_Click(sender As Object, e As EventArgs) Handles GuardarBtn.Click  '============ GUARDAR  ===========
         Try
             AbrirConexion()
-            Using guardarCmd As New MySqlCommand("INSERT INTO placa (codigoPro, propietario, placa, observaciones)" & Chr(13) &
-                "VALUES(@codigoPro, @propietario, @placa, @observaciones)", con)
+            Using guardarCmd As New MySqlCommand("INSERT INTO placa (codigoPro, propietario, placa, observaciones, activo)" & Chr(13) &
+                "VALUES(@codigoPro, @propietario, @placa, @observaciones, 1)", con)
 
                 guardarCmd.Parameters.AddWithValue("@codigoPro", codTb.Text)
                 guardarCmd.Parameters.AddWithValue("@propietario", propTb.Text)
@@ -411,7 +420,7 @@ Public Class placa
                 parametros.Add(New MySqlParameter("@placa", "%" & placaBusqTB.Text.Trim() & "%"))
             End If
 
-            Dim consulta As String = "SELECT idPlaca, codigoPro, placa, propietario, observaciones FROM placa"
+            Dim consulta As String = "SELECT idPlaca, codigoPro, placa, propietario, observaciones, CASE WHEN activo = 1 THEN 'Activo' ELSE 'Bloqueado' END AS estado FROM placa"
             If filtro <> "" Then
                 consulta &= " WHERE" & filtro
             End If
@@ -466,9 +475,279 @@ Public Class placa
             Dim idcod As Integer = Convert.ToInt32(Me.CamDGV.Item(0, i).Value)
             buscartxt.Text = idcod.ToString()
             Seleccion()
-            Me.EditarBtn.Enabled = True
-            Me.EliminarBtn.Enabled = True
+            Me.EditarBtn.Enabled = Not ModuloConexion.EsSoloLectura()
+            Me.EliminarBtn.Enabled = Not ModuloConexion.EsSoloLectura()
+
+            ' Actualizar botón Bloquear/Desbloquear según estado
+            Me.BloquearBtn.Enabled = Not ModuloConexion.EsSoloLectura()
+            Dim estado As String = Me.CamDGV.Item(5, i).Value.ToString()
+            If estado = "Bloqueado" Then
+                Me.BloquearBtn.Text = "Desbloquear"
+                Me.BloquearBtn.SymbolColor = Color.Green
+            Else
+                Me.BloquearBtn.Text = "Bloquear"
+                Me.BloquearBtn.SymbolColor = Color.FromArgb(220, 50, 50)
+            End If
         End If
+    End Sub
+
+    ' ============ BLOQUEAR / DESBLOQUEAR PLACA ============
+    Private Sub BloquearBtn_Click(sender As Object, e As EventArgs) Handles BloquearBtn.Click
+        If String.IsNullOrEmpty(buscartxt.Text) Then
+            MessageBox.Show("Debe seleccionar una placa primero.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        Dim placaSeleccionada As String = ""
+        If CamDGV.CurrentRow IsNot Nothing Then
+            placaSeleccionada = CamDGV.CurrentRow.Cells(2).Value.ToString()
+        End If
+
+        Dim estadoActual As String = CamDGV.CurrentRow.Cells(5).Value.ToString()
+        Dim nuevoActivo As Integer = If(estadoActual = "Bloqueado", 1, 0)
+        Dim accion As String = If(nuevoActivo = 0, "bloquear", "desbloquear")
+
+        Dim opc As DialogResult = MessageBox.Show(
+            "¿Desea " & accion & " la placa """ & placaSeleccionada & """?" & vbCrLf &
+            If(nuevoActivo = 0, "La placa no podrá ser usada en comprobantes.", "La placa podrá ser usada nuevamente en comprobantes."),
+            "Confirmar " & accion,
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        If opc = DialogResult.Yes Then
+            Try
+                AbrirConexion()
+                Using cmd As New MySqlCommand("UPDATE placa SET activo = @activo WHERE idPlaca = @idPlaca", con)
+                    cmd.Parameters.AddWithValue("@activo", nuevoActivo)
+                    cmd.Parameters.AddWithValue("@idPlaca", Convert.ToInt32(buscartxt.Text))
+                    cmd.ExecuteNonQuery()
+                End Using
+
+                MessageBox.Show("Placa " & If(nuevoActivo = 1, "desbloqueada", "bloqueada") & " correctamente.",
+                    "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                act()
+                listadoCamDgv()
+            Catch ex As Exception
+                MessageBox.Show("Error al " & accion & ": " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Finally
+                CerrarConexion()
+            End Try
+        End If
+    End Sub
+
+    ' Colorear filas bloqueadas en el DataGridView
+    Private Sub CamDGV_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles CamDGV.CellFormatting
+        If e.RowIndex >= 0 AndAlso CamDGV.Columns.Count > 5 Then
+            Dim estadoCell As Object = CamDGV.Rows(e.RowIndex).Cells(5).Value
+            If estadoCell IsNot Nothing AndAlso estadoCell.ToString() = "Bloqueado" Then
+                CamDGV.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.Gray
+                CamDGV.Rows(e.RowIndex).DefaultCellStyle.Font = New Font(CamDGV.Font, FontStyle.Strikeout)
+            Else
+                CamDGV.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.FromArgb(200, 215, 240)
+                CamDGV.Rows(e.RowIndex).DefaultCellStyle.Font = New Font(CamDGV.Font, FontStyle.Regular)
+            End If
+        End If
+    End Sub
+
+    ' ============ EXPORTAR A EXCEL ============
+    Private Sub ExportarExcelBtn_Click(sender As Object, e As EventArgs) Handles ExportarExcelBtn.Click
+        If CamDGV.Rows.Count = 0 Then
+            MessageBox.Show("No hay datos para exportar.", "Aviso")
+            Return
+        End If
+
+        Using saveDialog As New SaveFileDialog()
+            saveDialog.Filter = "Archivo Excel (*.xlsx)|*.xlsx|Archivo CSV (*.csv)|*.csv"
+            saveDialog.FileName = "Listado_Placas_" & DateTime.Now.ToString("yyyyMMdd_HHmmss")
+            saveDialog.Title = "Exportar Listado de Placas"
+
+            If saveDialog.ShowDialog() = DialogResult.OK Then
+                Try
+                    If saveDialog.FileName.EndsWith(".csv") Then
+                        ExportarCSV(saveDialog.FileName)
+                    Else
+                        ExportarExcel(saveDialog.FileName)
+                    End If
+
+                    MessageBox.Show("Archivo exportado correctamente:" & vbCrLf & saveDialog.FileName, "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                    Dim result As DialogResult = MessageBox.Show("¿Desea abrir el archivo?", "Abrir archivo", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    If result = DialogResult.Yes Then
+                        Process.Start(saveDialog.FileName)
+                    End If
+
+                Catch ex As Exception
+                    MessageBox.Show("Error al exportar: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            End If
+        End Using
+    End Sub
+
+    Private Sub ExportarCSV(rutaArchivo As String)
+        Dim sb As New StringBuilder()
+
+        ' Encabezados (solo columnas visibles)
+        Dim headers As New List(Of String)
+        For Each col As DataGridViewColumn In CamDGV.Columns
+            If col.Visible Then
+                headers.Add("""" & col.HeaderText & """")
+            End If
+        Next
+        sb.AppendLine(String.Join(",", headers))
+
+        ' Datos
+        For Each row As DataGridViewRow In CamDGV.Rows
+            If Not row.IsNewRow Then
+                Dim valores As New List(Of String)
+                For Each cell As DataGridViewCell In row.Cells
+                    If CamDGV.Columns(cell.ColumnIndex).Visible Then
+                        Dim valor As String = If(cell.Value IsNot Nothing, cell.Value.ToString(), "")
+                        valor = """" & valor.Replace("""", """""") & """"
+                        valores.Add(valor)
+                    End If
+                Next
+                sb.AppendLine(String.Join(",", valores))
+            End If
+        Next
+
+        File.WriteAllText(rutaArchivo, sb.ToString(), Encoding.UTF8)
+    End Sub
+
+    Private Sub ExportarExcel(rutaArchivo As String)
+        Using workbook As New XLWorkbook()
+            Dim ws As IXLWorksheet = workbook.Worksheets.Add("Placas")
+
+            ' Contar columnas visibles
+            Dim colCount As Integer = 0
+            For Each col As DataGridViewColumn In CamDGV.Columns
+                If col.Visible Then colCount += 1
+            Next
+
+            ' ========== TITULO ==========
+            ws.Cell(1, 1).SetValue("LISTADO DE PLACAS")
+            ws.Range(1, 1, 1, colCount).Merge()
+            With ws.Cell(1, 1).Style
+                .Font.Bold = True
+                .Font.FontSize = 16
+                .Font.FontColor = XLColor.White
+                .Fill.BackgroundColor = XLColor.FromHtml("#6A7EA8")
+                .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
+            End With
+            ws.Row(1).Height = 30
+
+            ' ========== RESUMEN ==========
+            ws.Cell(2, 1).SetValue("RESUMEN")
+            ws.Range(2, 1, 2, colCount).Merge()
+            With ws.Cell(2, 1).Style
+                .Font.Bold = True
+                .Font.FontSize = 12
+                .Font.FontColor = XLColor.White
+                .Fill.BackgroundColor = XLColor.FromHtml("#4A5A78")
+                .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
+            End With
+
+            ' Total de registros
+            ws.Cell(3, 1).SetValue("Total de registros:")
+            ws.Cell(3, 1).Style.Font.Bold = True
+            ws.Cell(3, 2).SetValue(CamDGV.Rows.Count)
+            ws.Cell(3, 2).Style.Font.Bold = True
+            ws.Cell(3, 2).Style.Font.FontColor = XLColor.FromHtml("#2E86AB")
+
+            ' Contar propietarios unicos
+            Dim propietarios As New HashSet(Of String)
+            For Each row As DataGridViewRow In CamDGV.Rows
+                If Not row.IsNewRow Then
+                    Dim propVal As Object = row.Cells("propietario").Value
+                    If propVal IsNot Nothing AndAlso Not String.IsNullOrEmpty(propVal.ToString()) Then
+                        propietarios.Add(propVal.ToString().Trim().ToUpper())
+                    End If
+                End If
+            Next
+            ws.Cell(4, 1).SetValue("Total de propietarios:")
+            ws.Cell(4, 1).Style.Font.Bold = True
+            ws.Cell(4, 2).SetValue(propietarios.Count)
+            ws.Cell(4, 2).Style.Font.Bold = True
+            ws.Cell(4, 2).Style.Font.FontColor = XLColor.FromHtml("#2E86AB")
+
+            ' Fecha de generacion
+            ws.Cell(5, 1).SetValue("Fecha de generación:")
+            ws.Cell(5, 1).Style.Font.Bold = True
+            ws.Cell(5, 2).SetValue(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"))
+            ws.Cell(5, 2).Style.Font.FontColor = XLColor.DarkGray
+
+            ' Filtros aplicados
+            Dim filtros As String = ""
+            If Not String.IsNullOrEmpty(codBusqTB.Text.Trim()) Then filtros &= "Código: " & codBusqTB.Text.Trim() & " | "
+            If Not String.IsNullOrEmpty(propBusqTB.Text.Trim()) Then filtros &= "Propietario: " & propBusqTB.Text.Trim() & " | "
+            If Not String.IsNullOrEmpty(placaBusqTB.Text.Trim()) Then filtros &= "Placa: " & placaBusqTB.Text.Trim() & " | "
+
+            If filtros <> "" Then
+                filtros = filtros.TrimEnd(" | ".ToCharArray())
+                ws.Cell(6, 1).SetValue("Filtros aplicados:")
+                ws.Cell(6, 1).Style.Font.Bold = True
+                ws.Cell(6, 2).SetValue(filtros)
+                ws.Cell(6, 2).Style.Font.Italic = True
+                ws.Cell(6, 2).Style.Font.FontColor = XLColor.DarkGray
+            End If
+
+            ' ========== ENCABEZADOS DE COLUMNAS ==========
+            Dim headerRow As Integer = 8
+            Dim colIndex As Integer = 1
+            For Each col As DataGridViewColumn In CamDGV.Columns
+                If col.Visible Then
+                    Dim cell As IXLCell = ws.Cell(headerRow, colIndex)
+                    cell.SetValue(col.HeaderText)
+                    With cell.Style
+                        .Font.Bold = True
+                        .Font.FontColor = XLColor.White
+                        .Fill.BackgroundColor = XLColor.FromHtml("#4A5A78")
+                        .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
+                        .Border.OutsideBorder = XLBorderStyleValues.Thin
+                        .Border.OutsideBorderColor = XLColor.Black
+                    End With
+                    colIndex += 1
+                End If
+            Next
+            ws.Row(headerRow).Height = 22
+
+            ' ========== DATOS CON COLORES INTERCALADOS ==========
+            Dim color1 As XLColor = XLColor.FromHtml("#E8EAF6")  ' Lavanda suave
+            Dim color2 As XLColor = XLColor.FromHtml("#FFF3E0")  ' Durazno suave
+
+            Dim dataRowStart As Integer = headerRow + 1
+            For row As Integer = 0 To CamDGV.Rows.Count - 1
+                If Not CamDGV.Rows(row).IsNewRow Then
+                    Dim excelRow As Integer = dataRowStart + row
+                    Dim isAlternate As Boolean = (row Mod 2 = 1)
+                    Dim rowColor As XLColor = If(isAlternate, color2, color1)
+
+                    colIndex = 1
+                    For Each col As DataGridViewColumn In CamDGV.Columns
+                        If col.Visible Then
+                            Dim cell As IXLCell = ws.Cell(excelRow, colIndex)
+                            Dim valor As Object = CamDGV.Rows(row).Cells(col.Index).Value
+
+                            If valor IsNot Nothing AndAlso Not String.IsNullOrEmpty(valor.ToString()) Then
+                                cell.SetValue(valor.ToString())
+                            End If
+
+                            With cell.Style
+                                .Fill.BackgroundColor = rowColor
+                                .Border.OutsideBorder = XLBorderStyleValues.Thin
+                                .Border.OutsideBorderColor = XLColor.LightGray
+                            End With
+
+                            colIndex += 1
+                        End If
+                    Next
+                End If
+            Next
+
+            ' ========== AJUSTAR COLUMNAS ==========
+            ws.Columns().AdjustToContents()
+
+            workbook.SaveAs(rutaArchivo)
+        End Using
     End Sub
 
 End Class

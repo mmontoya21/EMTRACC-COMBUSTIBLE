@@ -31,6 +31,7 @@ Public Class camiones
         Me.ModificarBtn.Enabled = False
         Me.CancelarBtn.Enabled = False
         Me.EliminarBtn.Enabled = False
+        If ModuloConexion.EsSoloLectura() Then NuevoBtn.Enabled = False
     End Sub
     Private Sub conectar()
         con = ModuloConexion.ObtenerConexion()
@@ -244,8 +245,8 @@ Public Class camiones
             Dim idcod As Integer = Me.CamDGV.Item(0, y).Value
             buscartxt.Text = idcod
             seleccion()
-            Me.EditarBtn.Enabled = True
-            Me.EliminarBtn.Enabled = True
+            Me.EditarBtn.Enabled = Not ModuloConexion.EsSoloLectura()
+            Me.EliminarBtn.Enabled = Not ModuloConexion.EsSoloLectura()
         End If
     End Sub
     Public Sub seleccion()
