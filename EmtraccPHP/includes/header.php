@@ -27,7 +27,7 @@
                             <a class="nav-link" href="consulta.php"><i class="bi bi-search"></i> Consulta</a>
                         </li>
                         <?php endif; ?>
-                        <?php if (hasPermiso('propietario') || hasPermiso('placa') || hasPermiso('rutas') || hasPermiso('valorComb') || hasPermiso('acceso') || hasPermiso('empresa')): ?>
+                        <?php if (hasPermiso('propietario') || hasPermiso('placa') || hasPermiso('rutas') || hasPermiso('valorComb') || hasPermiso('acceso') || hasPermiso('empresa') || hasPermiso('medicion')): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="bi bi-journal-text"></i> Cat&aacute;logos</a>
                             <ul class="dropdown-menu">
@@ -45,6 +45,9 @@
                                 <?php endif; ?>
                                 <?php if (hasPermiso('empresa')): ?>
                                 <li><a class="dropdown-item" href="empresa.php"><i class="bi bi-building"></i> Empresa</a></li>
+                                <?php endif; ?>
+                                <?php if (hasPermiso('medicion')): ?>
+                                <li><a class="dropdown-item" href="medicion.php"><i class="bi bi-rulers"></i> Medici&oacute;n Tanque</a></li>
                                 <?php endif; ?>
                                 <?php if (hasPermiso('acceso')): ?>
                                 <li><hr class="dropdown-divider"></li>
