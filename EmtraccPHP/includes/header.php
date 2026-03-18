@@ -60,6 +60,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="factura.php"><i class="bi bi-receipt"></i> Factura</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="reporteFact.php"><i class="bi bi-file-earmark-bar-graph"></i> Rpt. Facturas</a>
+                        </li>
                         <?php endif; ?>
                         <?php if (hasPermiso('reporte')): ?>
                         <li class="nav-item">
