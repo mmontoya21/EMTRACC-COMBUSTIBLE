@@ -213,6 +213,18 @@ Public Class acceso
                         chkModulos(i).Checked = False
                     End If
                 Next
+            Case "DESPACHADOR"
+                For i As Integer = 0 To 14
+                    chkModulos(i).Checked = False
+                Next
+                ' Activar solo: comprobante, placa, rutas, propietario, camiones, transportistas
+                For i As Integer = 0 To 14
+                    If moduloKeys(i) = "comprobante" OrElse moduloKeys(i) = "placa" OrElse
+                       moduloKeys(i) = "rutas" OrElse moduloKeys(i) = "propietario" OrElse
+                       moduloKeys(i) = "camiones" OrElse moduloKeys(i) = "transportistas" Then
+                        chkModulos(i).Checked = True
+                    End If
+                Next
         End Select
     End Sub
 

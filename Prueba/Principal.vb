@@ -16,6 +16,23 @@ Public Class Principal
         resBt.Visible = False
         camiBt.BackColor = Color.FromArgb(153, 180, 209)
         AplicarPermisos()
+
+        ' Mostrar boton cierre de turno solo para DESPACHADOR con turno activo
+        If ModuloConexion.TipoUsuarioSesion.ToUpper() = "DESPACHADOR" AndAlso ModuloConexion.TurnoSesion <> "" Then
+            Dim btnCierre As New Button()
+            btnCierre.Text = "Cierre Turno: " & ModuloConexion.TurnoSesion
+            btnCierre.Font = New Font("Segoe UI Semibold", 10, FontStyle.Bold)
+            btnCierre.BackColor = Color.FromArgb(200, 60, 60)
+            btnCierre.ForeColor = Color.White
+            btnCierre.FlatStyle = FlatStyle.Flat
+            btnCierre.Size = New Size(180, 35)
+            btnCierre.Dock = DockStyle.Bottom
+            AddHandler btnCierre.Click, Sub()
+                                            Dim frmCierre As New cierreTurno()
+                                            frmCierre.ShowDialog()
+                                        End Sub
+            Me.Controls.Add(btnCierre)
+        End If
     End Sub
 
     Private Sub AplicarPermisos()
@@ -263,6 +280,15 @@ Public Class Principal
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         abrirformulario(New reporteFact)
+        Panel1.Visible = False
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        abrirformulario(New comprobantePlus)
+        Panel1.Visible = False
+    End Sub
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        abrirformulario(New cierreTurno)
         Panel1.Visible = False
     End Sub
 End Class

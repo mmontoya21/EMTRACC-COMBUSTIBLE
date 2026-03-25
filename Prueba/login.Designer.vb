@@ -55,6 +55,10 @@ Partial Class login
         Me.Sem3 = New DevComponents.Editors.ComboItem()
         Me.Sem4 = New DevComponents.Editors.ComboItem()
         Me.Sem5 = New DevComponents.Editors.ComboItem()
+        Me.LabelTurno = New DevComponents.DotNetBar.LabelX()
+        Me.turnoCbx = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.LabelOdometro = New DevComponents.DotNetBar.LabelX()
+        Me.odometroTbx = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.PanelP.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -75,9 +79,13 @@ Partial Class login
         Me.PanelP.Controls.Add(Me.LabelSemana)
         Me.PanelP.Controls.Add(Me.periodoCbx)
         Me.PanelP.Controls.Add(Me.semanaCbx)
+        Me.PanelP.Controls.Add(Me.LabelTurno)
+        Me.PanelP.Controls.Add(Me.turnoCbx)
+        Me.PanelP.Controls.Add(Me.LabelOdometro)
+        Me.PanelP.Controls.Add(Me.odometroTbx)
         Me.PanelP.Location = New System.Drawing.Point(30, 30)
         Me.PanelP.Name = "PanelP"
-        Me.PanelP.Size = New System.Drawing.Size(340, 460)
+        Me.PanelP.Size = New System.Drawing.Size(340, 560)
         Me.PanelP.TabIndex = 0
         '
         'PictureBox1
@@ -105,7 +113,7 @@ Partial Class login
         '
         Me.ingresarBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.ingresarBtn.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Bold)
-        Me.ingresarBtn.Location = New System.Drawing.Point(29, 400)
+        Me.ingresarBtn.Location = New System.Drawing.Point(29, 500)
         Me.ingresarBtn.Name = "ingresarBtn"
         Me.ingresarBtn.Size = New System.Drawing.Size(280, 40)
         Me.ingresarBtn.TabIndex = 10
@@ -396,12 +404,87 @@ Partial Class login
         Me.Sem5.ForeColor = System.Drawing.Color.Black
         Me.Sem5.Text = "5"
         '
+        'LabelTurno
+        '
+        Me.LabelTurno.AutoSize = True
+        Me.LabelTurno.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.LabelTurno.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelTurno.Font = New System.Drawing.Font("Segoe UI Semibold", 11.0!, System.Drawing.FontStyle.Bold)
+        Me.LabelTurno.ForeColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(200, Byte), Integer), CType(CType(80, Byte), Integer))
+        Me.LabelTurno.Location = New System.Drawing.Point(29, 375)
+        Me.LabelTurno.Name = "LabelTurno"
+        Me.LabelTurno.Size = New System.Drawing.Size(46, 22)
+        Me.LabelTurno.TabIndex = 11
+        Me.LabelTurno.Text = "Turno (Despachador)"
+        Me.LabelTurno.Visible = True
+        '
+        'turnoCbx
+        '
+        Me.turnoCbx.DisplayMember = "Text"
+        Me.turnoCbx.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.turnoCbx.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.turnoCbx.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Bold)
+        Me.turnoCbx.ForeColor = System.Drawing.Color.Black
+        Me.turnoCbx.FormattingEnabled = True
+        Me.turnoCbx.ItemHeight = 21
+        Me.turnoCbx.Location = New System.Drawing.Point(29, 400)
+        Me.turnoCbx.Name = "turnoCbx"
+        Me.turnoCbx.Size = New System.Drawing.Size(280, 27)
+        Me.turnoCbx.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.turnoCbx.TabIndex = 9
+        Me.turnoCbx.Visible = True
+        '
+        'LabelOdometro
+        '
+        Me.LabelOdometro.AutoSize = True
+        Me.LabelOdometro.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.LabelOdometro.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LabelOdometro.Font = New System.Drawing.Font("Segoe UI Semibold", 11.0!, System.Drawing.FontStyle.Bold)
+        Me.LabelOdometro.ForeColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.LabelOdometro.Location = New System.Drawing.Point(29, 435)
+        Me.LabelOdometro.Name = "LabelOdometro"
+        Me.LabelOdometro.Size = New System.Drawing.Size(200, 22)
+        Me.LabelOdometro.TabIndex = 12
+        Me.LabelOdometro.Text = "Odometro Inicio (gal)"
+        Me.LabelOdometro.Visible = True
+        '
+        'odometroTbx
+        '
+        Me.odometroTbx.BackColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(130, Byte), Integer))
+        '
+        '
+        '
+        Me.odometroTbx.Border.BackColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(130, Byte), Integer))
+        Me.odometroTbx.Border.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(130, Byte), Integer))
+        Me.odometroTbx.Border.BorderBottomWidth = 2
+        Me.odometroTbx.Border.BorderColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.odometroTbx.Border.BorderLeftWidth = 2
+        Me.odometroTbx.Border.BorderRightWidth = 2
+        Me.odometroTbx.Border.BorderTopWidth = 2
+        Me.odometroTbx.Border.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.odometroTbx.FocusHighlightColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(130, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.odometroTbx.FocusHighlightEnabled = True
+        Me.odometroTbx.Font = New System.Drawing.Font("Segoe UI", 14.0!, System.Drawing.FontStyle.Bold)
+        Me.odometroTbx.ForeColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.odometroTbx.Location = New System.Drawing.Point(29, 458)
+        Me.odometroTbx.Name = "odometroTbx"
+        Me.odometroTbx.PreventEnterBeep = True
+        Me.odometroTbx.Size = New System.Drawing.Size(280, 32)
+        Me.odometroTbx.TabIndex = 10
+        Me.odometroTbx.Visible = True
+        '
         'login
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(22, Byte), Integer), CType(CType(40, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(397, 520)
+        Me.ClientSize = New System.Drawing.Size(397, 630)
         Me.Controls.Add(Me.PanelP)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -448,4 +531,8 @@ Partial Class login
     Friend WithEvents Sem3 As DevComponents.Editors.ComboItem
     Friend WithEvents Sem4 As DevComponents.Editors.ComboItem
     Friend WithEvents Sem5 As DevComponents.Editors.ComboItem
+    Friend WithEvents LabelTurno As DevComponents.DotNetBar.LabelX
+    Friend WithEvents turnoCbx As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents LabelOdometro As DevComponents.DotNetBar.LabelX
+    Friend WithEvents odometroTbx As DevComponents.DotNetBar.Controls.TextBoxX
 End Class

@@ -200,6 +200,74 @@ $rows[] = [['v' => 'Registros Anulados:', 't' => 's', 'si' => 15], ['v' => $anul
 $rows[] = [['v' => 'Total Galones:', 't' => 's', 'si' => 15], ['v' => $totalGalones, 't' => 'n', 'si' => 18]];
 $rows[] = [['v' => 'Monto Total:', 't' => 's', 'si' => 15], ['v' => $totalMonto, 't' => 'n', 'si' => 18]];
 
+// MEDICION DE TANQUE + ODOMETRO POR TURNO
+if ($fechaDesde !== '' || $fechaHasta !== '' || $despachador !== '') {
+    $odoWhere = [];
+    $odoParams = [];
+    $odoTypes = '';
+    if ($fechaDesde !== '') { $odoWhere[] = "fecha >= ?"; $odoParams[] = $fechaDesde; $odoTypes .= 's'; }
+    if ($fechaHasta !== '') { $odoWhere[] = "fecha <= ?"; $odoParams[] = $fechaHasta; $odoTypes .= 's'; }
+    if ($despachador !== '') { $odoWhere[] = "despachador = ?"; $odoParams[] = strtoupper($despachador); $odoTypes .= 's'; }
+
+    // Global MIN/MAX for MEDICION
+    $odoGlobalSQL = "SELECT MIN(odometroInicio) AS odoMin, MAX(odometroCierre) AS odoMax FROM cierre_turno" .
+        (count($odoWhere) > 0 ? " WHERE " . implode(' AND ', $odoWhere) : "");
+    $stmtG = $conn->prepare($odoGlobalSQL);
+    if ($odoTypes !== '') $stmtG->bind_param($odoTypes, ...$odoParams);
+    $stmtG->execute();
+    $gRow = $stmtG->get_result()->fetch_assoc();
+    $stmtG->close();
+
+    $odoIni = $gRow ? (float)$gRow['odoMin'] : 0;
+    $odoFin = $gRow ? (float)$gRow['odoMax'] : 0;
+    $totalDisp = $odoFin - $odoIni;
+    $consumoOdo = $totalGalones;
+    $difMed = $totalDisp - $consumoOdo;
+
+    $rows[] = [];
+    $medRow = count($rows) + 1;
+    $rows[] = [['v' => 'MEDICION DE TANQUE', 't' => 's', 'si' => 14]];
+    $merges[] = 'A' . $medRow . ':D' . $medRow;
+
+    $rows[] = [['v' => 'Odometro Inicial:', 't' => 's', 'si' => 15], ['v' => ($odoIni > 0 || $odoFin > 0) ? $odoIni : 'Sin medicion', 't' => ($odoIni > 0 || $odoFin > 0) ? 'n' : 's', 'si' => 18]];
+    $rows[] = [['v' => 'Odometro Final:', 't' => 's', 'si' => 15], ['v' => ($odoIni > 0 || $odoFin > 0) ? $odoFin : 'Sin medicion', 't' => ($odoIni > 0 || $odoFin > 0) ? 'n' : 's', 'si' => 18]];
+    $rows[] = [['v' => 'Total Dispensado:', 't' => 's', 'si' => 15], ['v' => $totalDisp, 't' => 'n', 'si' => 18]];
+    $rows[] = [['v' => 'Consumo segun Odometro:', 't' => 's', 'si' => 15], ['v' => $consumoOdo, 't' => 'n', 'si' => 18]];
+    $rows[] = [['v' => 'Diferencia:', 't' => 's', 'si' => 15], ['v' => $difMed, 't' => 'n', 'si' => 18]];
+
+    // Per-despachador detail
+    $odoSQL = "SELECT despachador, MIN(odometroInicio) AS odoInicio, MAX(odometroCierre) AS odoCierre, fecha
+               FROM cierre_turno" . (count($odoWhere) > 0 ? " WHERE " . implode(' AND ', $odoWhere) : "") .
+               " GROUP BY despachador, fecha ORDER BY fecha ASC";
+    $stmtOdo = $conn->prepare($odoSQL);
+    if ($odoTypes !== '') $stmtOdo->bind_param($odoTypes, ...$odoParams);
+    $stmtOdo->execute();
+    $odoResult = $stmtOdo->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmtOdo->close();
+
+    if (!empty($odoResult)) {
+        $rows[] = [];
+        $odoHeaderRow = count($rows) + 1;
+        $rows[] = [['v' => 'ODOMETRO POR TURNO', 't' => 's', 'si' => 14]];
+        $merges[] = 'A' . $odoHeaderRow . ':D' . $odoHeaderRow;
+        $rows[] = [['v' => 'Despachador', 't' => 's', 'si' => 15], ['v' => 'Fecha', 't' => 's', 'si' => 15], ['v' => 'Odo. Inicio', 't' => 's', 'si' => 15], ['v' => 'Odo. Cierre', 't' => 's', 'si' => 15]];
+        $totalOdo = 0;
+        foreach ($odoResult as $odo) {
+            $rows[] = [
+                ['v' => $odo['despachador'], 't' => 's'],
+                ['v' => date('d/m/Y', strtotime($odo['fecha'])), 't' => 's'],
+                ['v' => (float)$odo['odoInicio'], 't' => 'n', 'si' => 18],
+                ['v' => (float)$odo['odoCierre'], 't' => 'n', 'si' => 18]
+            ];
+            $totalOdo += ((float)$odo['odoCierre'] - (float)$odo['odoInicio']);
+        }
+        $variacion = $totalOdo - $totalGalones;
+        $rows[] = [['v' => 'Total segun Odometro:', 't' => 's', 'si' => 15], ['v' => $totalOdo, 't' => 'n', 'si' => 18]];
+        $rows[] = [['v' => 'Total Galones Vendidos:', 't' => 's', 'si' => 15], ['v' => $totalGalones, 't' => 'n', 'si' => 18]];
+        $rows[] = [['v' => 'Variacion:', 't' => 's', 'si' => 15], ['v' => $variacion, 't' => 'n', 'si' => 18]];
+    }
+}
+
 // ========== Generar XLSX con ZipArchive ==========
 $tmp = tempnam(sys_get_temp_dir(), 'xlsx');
 $zip = new ZipArchive();

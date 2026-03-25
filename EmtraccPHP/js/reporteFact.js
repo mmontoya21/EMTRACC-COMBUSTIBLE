@@ -1,10 +1,10 @@
 // ============ STATE ============
 let rawData = [];
 
-// Paleta de colores por grupo (ciclo de 3)
-const coloresSuaves = ['#FFF3E0', '#E3F2FD', '#E8F5E9'];
-const coloresIntensos = ['#FFE0B2', '#BBDEFB', '#C8E6C9'];
-const coloresTextoSub = ['#503C00', '#002850', '#003C14'];
+// Paleta de colores por grupo (ciclo de 2: azul suave / blanco)
+const coloresSuaves = ['#E3F2FD', '#FFFFFF'];
+const coloresIntensos = ['#BBDEFB', '#E0E0E0'];
+const coloresTextoSub = ['#002850', '#333333'];
 
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', () => {
@@ -51,6 +51,38 @@ function cargarDatos() {
             renderAgrupado(rawData);
         })
         .catch(err => alert('Error al cargar: ' + err));
+
+    // Cargar odometro si hay filtro de fecha
+    if (document.getElementById('chkUsarFecha').checked) {
+        const odoParams = new URLSearchParams({ action: 'odometro' });
+        const desde = document.getElementById('fechaDesde').value;
+        const hasta = document.getElementById('fechaHasta').value;
+        if (desde) odoParams.append('fechaDesde', desde);
+        if (hasta) odoParams.append('fechaHasta', hasta);
+
+        fetch('api/reporteFact_api.php?' + odoParams.toString())
+            .then(r => r.json())
+            .then(data => {
+                const seccion = document.getElementById('seccionOdometro');
+                const tbody = document.getElementById('tbodyOdometro');
+                if (data.rows && data.rows.length > 0) {
+                    tbody.innerHTML = data.rows.map(r =>
+                        `<tr>
+                            <td>${r.despachador || ''}</td>
+                            <td>${r.fechaFmt || ''}</td>
+                            <td class="text-end">${r.odoInicio.toFixed(2)}</td>
+                            <td class="text-end">${r.odoCierre.toFixed(2)}</td>
+                        </tr>`
+                    ).join('');
+                    seccion.style.display = '';
+                } else {
+                    seccion.style.display = 'none';
+                }
+            })
+            .catch(() => { document.getElementById('seccionOdometro').style.display = 'none'; });
+    } else {
+        document.getElementById('seccionOdometro').style.display = 'none';
+    }
 }
 
 // ============ RENDER WITH SUBTOTALS ============
@@ -83,7 +115,7 @@ updateResumen(0, 0, 0);
 
     ordenGrupos.forEach(cliente => {
         const filas = grupos[cliente];
-        const colorIdx = grupoIndex % 3;
+        const colorIdx = grupoIndex % 2;
         let subGalones = 0;
         let subTotal = 0;
 
@@ -246,7 +278,7 @@ th{background:#4A5A78;color:white;font-weight:bold;text-align:center}
 
     ordenGrupos.forEach(cliente => {
         const filas = grupos[cliente];
-        const colorIdx = grupoIdx % 3;
+        const colorIdx = grupoIdx % 2;
         let subGal = 0, subTot = 0;
 
         filas.forEach(r => {
@@ -299,30 +331,69 @@ th{background:#4A5A78;color:white;font-weight:bold;text-align:center}
     <tr><td class="resumen-label">Total Galones:</td><td class="num">${granGal.toFixed(2)}</td><td colspan="9"></td></tr>
     <tr><td class="resumen-label">Total Valor:</td><td class="num">${granTot.toFixed(2)}</td><td colspan="9"></td></tr>`;
 
-    // Tank measurement
-    html += `<tr><td colspan="11"></td></tr>
-    <tr><td colspan="4" class="resumen-header">MEDICION DE TANQUE</td><td colspan="7"></td></tr>`;
+    // Fetch odometro data then build MEDICION + ODOMETRO sections
+    const odoParams = new URLSearchParams({ action: 'odometro' });
+    if (document.getElementById('chkUsarFecha').checked) {
+        const desde = document.getElementById('fechaDesde').value;
+        const hasta = document.getElementById('fechaHasta').value;
+        if (desde) odoParams.append('fechaDesde', desde);
+        if (hasta) odoParams.append('fechaHasta', hasta);
+    }
 
-    // Fetch tank data and complete export
-    fetch('api/reporteFact_api.php?action=tanquemed')
+    fetch('api/reporteFact_api.php?' + odoParams.toString())
         .then(r => r.json())
-        .then(tank => {
-            const galIni = tank.galInicio !== null ? tank.galInicio.toFixed(2) : 'Sin medicion';
-            const galFin = tank.galFinal !== null ? tank.galFinal.toFixed(2) : 'Sin medicion';
+        .catch(() => ({ rows: [] }))
+        .then(odoData => {
+            // Calculate global odometro from all rows
+            let odoInicioGlobal = 0, odoFinalGlobal = 0;
+            if (odoData.rows && odoData.rows.length > 0) {
+                odoInicioGlobal = Math.min(...odoData.rows.map(r => r.odoInicio));
+                odoFinalGlobal = Math.max(...odoData.rows.map(r => r.odoCierre));
+            }
+            const totalDispensado = odoFinalGlobal - odoInicioGlobal;
+            const consumoOdo = granGal;
+            const diferenciaMed = totalDispensado - consumoOdo;
 
-            html += `<tr><td class="resumen-label">Odometro Inicial:</td><td class="num">${galIni}</td><td colspan="9"></td></tr>
-            <tr><td class="resumen-label">Odometro Final:</td><td class="num">${galFin}</td><td colspan="9"></td></tr>
-            <tr><td class="resumen-label">Total Dispensado:</td><td class="num">${granGal.toFixed(2)}</td><td colspan="9"></td></tr>
-            </table></body></html>`;
+            // Color helper: negative=red, zero=blue, positive=black
+            function valColor(v) {
+                if (v < 0) return 'color:#C62828';
+                if (v === 0) return 'color:#1565C0';
+                return '';
+            }
 
-            downloadExcel(html);
-        })
-        .catch(() => {
-            html += `<tr><td class="resumen-label">Odometro Inicial:</td><td>Sin medicion</td><td colspan="9"></td></tr>
-            <tr><td class="resumen-label">Odometro Final:</td><td>Sin medicion</td><td colspan="9"></td></tr>
-            <tr><td class="resumen-label">Total Dispensado:</td><td class="num">${granGal.toFixed(2)}</td><td colspan="9"></td></tr>
-            </table></body></html>`;
+            // MEDICION DE TANQUE
+            html += `<tr><td colspan="11"></td></tr>
+            <tr><td colspan="4" class="resumen-header">MEDICION DE TANQUE</td><td colspan="7"></td></tr>`;
 
+            if (odoInicioGlobal > 0 || odoFinalGlobal > 0) {
+                html += `<tr><td class="resumen-label">Odometro Inicial:</td><td class="num">${odoInicioGlobal.toFixed(2)}</td><td colspan="9"></td></tr>
+                <tr><td class="resumen-label">Odometro Final:</td><td class="num">${odoFinalGlobal.toFixed(2)}</td><td colspan="9"></td></tr>`;
+            } else {
+                html += `<tr><td class="resumen-label">Odometro Inicial:</td><td>Sin medicion</td><td colspan="9"></td></tr>
+                <tr><td class="resumen-label">Odometro Final:</td><td>Sin medicion</td><td colspan="9"></td></tr>`;
+            }
+            html += `<tr><td class="resumen-label">Total Dispensado:</td><td class="num">${totalDispensado.toFixed(2)}</td><td colspan="9"></td></tr>
+            <tr><td class="resumen-label">Consumo segun Odometro:</td><td class="num">${consumoOdo.toFixed(2)}</td><td colspan="9"></td></tr>
+            <tr><td class="resumen-label">Diferencia:</td><td class="num" style="font-weight:bold;${valColor(diferenciaMed)}">${diferenciaMed.toFixed(2)}</td><td colspan="9"></td></tr>`;
+
+            // ODOMETRO POR TURNO
+            if (odoData.rows && odoData.rows.length > 0) {
+                let totalOdo = 0;
+                odoData.rows.forEach(r => { totalOdo += (r.odoCierre - r.odoInicio); });
+                const variacion = totalOdo - granGal;
+
+                html += `<tr><td colspan="11"></td></tr>
+                <tr><td colspan="4" class="resumen-header" style="background:#2E7D32">ODOMETRO POR TURNO</td><td colspan="7"></td></tr>
+                <tr><td class="resumen-label">Despachador</td><td class="resumen-label">Fecha</td><td class="resumen-label">Odo. Inicio</td><td class="resumen-label">Odo. Cierre</td><td colspan="7"></td></tr>`;
+                odoData.rows.forEach(r => {
+                    html += `<tr><td>${r.despachador}</td><td>${r.fechaFmt}</td><td class="num">${r.odoInicio.toFixed(2)}</td><td class="num">${r.odoCierre.toFixed(2)}</td><td colspan="7"></td></tr>`;
+                });
+                html += `<tr><td class="resumen-label">Total segun Odometro:</td><td class="num" style="font-weight:bold">${totalOdo.toFixed(2)}</td><td colspan="9"></td></tr>
+                <tr><td class="resumen-label">Total Galones Vendidos:</td><td class="num" style="font-weight:bold">${granGal.toFixed(2)}</td><td colspan="9"></td></tr>
+                <tr><td class="resumen-label">Variacion:</td><td class="num" style="font-weight:bold;${valColor(variacion)}">${variacion.toFixed(2)}</td><td colspan="9"></td></tr>`;
+            }
+
+            html += `</table></body></html>`;
             downloadExcel(html);
         });
 }

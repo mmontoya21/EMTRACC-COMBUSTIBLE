@@ -80,6 +80,45 @@ case 'tanquemed':
     ]);
     break;
 
+// ==================== ODOMETRO DATA ====================
+case 'odometro':
+    $fechaDesde = $_GET['fechaDesde'] ?? '';
+    $fechaHasta = $_GET['fechaHasta'] ?? '';
+
+    if ($fechaDesde === '' && $fechaHasta === '') {
+        jsonResponse(['rows' => []]);
+        break;
+    }
+
+    $where = [];
+    $params = [];
+    $types = '';
+
+    if ($fechaDesde !== '') { $where[] = "fecha >= ?"; $params[] = $fechaDesde; $types .= 's'; }
+    if ($fechaHasta !== '') { $where[] = "fecha <= ?"; $params[] = $fechaHasta; $types .= 's'; }
+
+    $whereSQL = count($where) > 0 ? 'WHERE ' . implode(' AND ', $where) : '';
+
+    $sql = "SELECT despachador, turnoNombre, MIN(odometroInicio) AS odoInicio, MAX(odometroCierre) AS odoCierre, fecha
+            FROM cierre_turno $whereSQL
+            GROUP BY despachador, fecha ORDER BY fecha ASC";
+
+    $stmt = $conn->prepare($sql);
+    if ($types !== '') $stmt->bind_param($types, ...$params);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $rows = [];
+    while ($row = $result->fetch_assoc()) {
+        $row['odoInicio'] = (float)$row['odoInicio'];
+        $row['odoCierre'] = (float)$row['odoCierre'];
+        $row['fechaFmt'] = date('d/m/Y', strtotime($row['fecha']));
+        $rows[] = $row;
+    }
+    $stmt->close();
+
+    jsonResponse(['rows' => $rows]);
+    break;
+
 default:
     jsonError('Accion no reconocida: ' . $action, 400);
 }

@@ -70,10 +70,25 @@ const APP = {
 </div>
 
 <!-- Resumen -->
-<div class="d-flex flex-wrap gap-2 mb-2">
+<div class="d-flex flex-wrap gap-2 mb-1">
     <span class="badge bg-primary">Registros: <span id="resumenTotal">0</span></span>
     <span class="badge bg-info">Galones: <span id="resumenGalones">0.00</span></span>
     <span class="badge bg-warning text-dark">Total: L <span id="resumenMonto">0.00</span></span>
+</div>
+
+<!-- Odometro -->
+<div id="seccionOdometro" class="mb-2" style="display:none">
+    <div class="card border-success">
+        <div class="card-header bg-success text-white py-1 small"><strong>Odometro por Turno</strong></div>
+        <div class="card-body p-1">
+            <table class="table table-sm table-bordered mb-0 small">
+                <thead class="table-light">
+                    <tr><th>Despachador</th><th>Fecha</th><th class="text-end">Odo. Inicio</th><th class="text-end">Odo. Cierre</th></tr>
+                </thead>
+                <tbody id="tbodyOdometro"></tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <!-- Tabla -->

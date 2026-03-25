@@ -32,6 +32,18 @@ function getPermisos() {
     return $_SESSION['permisos'] ?? '';
 }
 
+function getTurno() {
+    return $_SESSION['turno'] ?? '';
+}
+
+function getIdTurno() {
+    return $_SESSION['idTurno'] ?? 0;
+}
+
+function getOdometroInicio() {
+    return $_SESSION['odometroInicio'] ?? 0;
+}
+
 function hasPermiso($modulo) {
     $role = getUserRole();
     if ($role === 'SUPERADMIN') return true;

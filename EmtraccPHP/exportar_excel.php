@@ -205,6 +205,14 @@ echo '<?mso-application progid="Excel.Sheet"?>' . "\n";
         <Font ss:FontName="Calibri" ss:Size="10" ss:Bold="1"/>
         <NumberFormat ss:Format="#,##0.00"/>
     </Style>
+    <Style ss:ID="NumRed">
+        <Font ss:FontName="Calibri" ss:Size="10" ss:Bold="1" ss:Color="#C62828"/>
+        <NumberFormat ss:Format="#,##0.00"/>
+    </Style>
+    <Style ss:ID="NumBoldBlue">
+        <Font ss:FontName="Calibri" ss:Size="10" ss:Bold="1" ss:Color="#1565C0"/>
+        <NumberFormat ss:Format="#,##0.00"/>
+    </Style>
 </Styles>
 <Worksheet ss:Name="Comprobantes">
 <Table>
@@ -358,6 +366,111 @@ echo '<?mso-application progid="Excel.Sheet"?>' . "\n";
         <Cell ss:StyleID="Bold"><Data ss:Type="String">Monto Total:</Data></Cell>
         <Cell ss:StyleID="NumBold"><Data ss:Type="Number"><?= $totalMonto ?></Data></Cell>
     </Row>
+<?php
+// MEDICION DE TANQUE + ODOMETRO POR TURNO
+if ($fechaDesde !== '' || $fechaHasta !== '' || $despachador !== '') {
+    $odoWhere = [];
+    $odoParams = [];
+    $odoTypes = '';
+    if ($fechaDesde !== '') { $odoWhere[] = "fecha >= ?"; $odoParams[] = $fechaDesde; $odoTypes .= 's'; }
+    if ($fechaHasta !== '') { $odoWhere[] = "fecha <= ?"; $odoParams[] = $fechaHasta; $odoTypes .= 's'; }
+    if ($despachador !== '') { $odoWhere[] = "despachador = ?"; $odoParams[] = strtoupper($despachador); $odoTypes .= 's'; }
+
+    // Global MIN/MAX
+    $gSQL = "SELECT MIN(odometroInicio) AS odoMin, MAX(odometroCierre) AS odoMax FROM cierre_turno" .
+        (count($odoWhere) > 0 ? " WHERE " . implode(' AND ', $odoWhere) : "");
+    $stmtG = $conn->prepare($gSQL);
+    if ($odoTypes !== '') $stmtG->bind_param($odoTypes, ...$odoParams);
+    $stmtG->execute();
+    $gRow = $stmtG->get_result()->fetch_assoc();
+    $stmtG->close();
+    $odoIni = $gRow ? (float)$gRow['odoMin'] : 0;
+    $odoFin = $gRow ? (float)$gRow['odoMax'] : 0;
+    $totalDisp = $odoFin - $odoIni;
+    $consumoOdo = $totalGalones;
+    $difMed = $totalDisp - $consumoOdo;
+    $difColor = $difMed < 0 ? ' ss:StyleID="NumRed"' : ($difMed == 0 ? ' ss:StyleID="NumBoldBlue"' : ' ss:StyleID="NumBold"');
+?>
+    <Row></Row>
+    <Row>
+        <Cell ss:MergeAcross="3" ss:StyleID="ResumenTitle"><Data ss:Type="String">MEDICION DE TANQUE</Data></Cell>
+    </Row>
+    <Row>
+        <Cell ss:StyleID="Bold"><Data ss:Type="String">Odometro Inicial:</Data></Cell>
+<?php if ($odoIni > 0 || $odoFin > 0): ?>
+        <Cell ss:StyleID="NumBold"><Data ss:Type="Number"><?= $odoIni ?></Data></Cell>
+<?php else: ?>
+        <Cell><Data ss:Type="String">Sin medicion</Data></Cell>
+<?php endif; ?>
+    </Row>
+    <Row>
+        <Cell ss:StyleID="Bold"><Data ss:Type="String">Odometro Final:</Data></Cell>
+<?php if ($odoIni > 0 || $odoFin > 0): ?>
+        <Cell ss:StyleID="NumBold"><Data ss:Type="Number"><?= $odoFin ?></Data></Cell>
+<?php else: ?>
+        <Cell><Data ss:Type="String">Sin medicion</Data></Cell>
+<?php endif; ?>
+    </Row>
+    <Row>
+        <Cell ss:StyleID="Bold"><Data ss:Type="String">Total Dispensado:</Data></Cell>
+        <Cell ss:StyleID="NumBold"><Data ss:Type="Number"><?= $totalDisp ?></Data></Cell>
+    </Row>
+    <Row>
+        <Cell ss:StyleID="Bold"><Data ss:Type="String">Consumo segun Odometro:</Data></Cell>
+        <Cell ss:StyleID="NumBold"><Data ss:Type="Number"><?= $consumoOdo ?></Data></Cell>
+    </Row>
+    <Row>
+        <Cell ss:StyleID="Bold"><Data ss:Type="String">Diferencia:</Data></Cell>
+        <Cell<?= $difColor ?>><Data ss:Type="Number"><?= $difMed ?></Data></Cell>
+    </Row>
+<?php
+    // Per-despachador detail
+    $odoSQL = "SELECT despachador, MIN(odometroInicio) AS odoInicio, MAX(odometroCierre) AS odoCierre, fecha
+               FROM cierre_turno" . (count($odoWhere) > 0 ? " WHERE " . implode(' AND ', $odoWhere) : "") .
+               " GROUP BY despachador, fecha ORDER BY fecha ASC";
+    $stmtOdo = $conn->prepare($odoSQL);
+    if ($odoTypes !== '') $stmtOdo->bind_param($odoTypes, ...$odoParams);
+    $stmtOdo->execute();
+    $odoResult = $stmtOdo->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmtOdo->close();
+
+    if (!empty($odoResult)):
+        $totalOdo = 0;
+        foreach ($odoResult as $odo) { $totalOdo += ((float)$odo['odoCierre'] - (float)$odo['odoInicio']); }
+        $variacion = $totalOdo - $totalGalones;
+        $varColor = $variacion < 0 ? ' ss:StyleID="NumRed"' : ($variacion == 0 ? ' ss:StyleID="NumBoldBlue"' : ' ss:StyleID="NumBold"');
+?>
+    <Row></Row>
+    <Row>
+        <Cell ss:MergeAcross="3" ss:StyleID="ResumenTitle"><Data ss:Type="String">ODOMETRO POR TURNO</Data></Cell>
+    </Row>
+    <Row>
+        <Cell ss:StyleID="Bold"><Data ss:Type="String">Despachador</Data></Cell>
+        <Cell ss:StyleID="Bold"><Data ss:Type="String">Fecha</Data></Cell>
+        <Cell ss:StyleID="Bold"><Data ss:Type="String">Odo. Inicio</Data></Cell>
+        <Cell ss:StyleID="Bold"><Data ss:Type="String">Odo. Cierre</Data></Cell>
+    </Row>
+<?php foreach ($odoResult as $odo): ?>
+    <Row>
+        <Cell><Data ss:Type="String"><?= htmlspecialchars($odo['despachador']) ?></Data></Cell>
+        <Cell><Data ss:Type="String"><?= date('d/m/Y', strtotime($odo['fecha'])) ?></Data></Cell>
+        <Cell ss:StyleID="NumBold"><Data ss:Type="Number"><?= (float)$odo['odoInicio'] ?></Data></Cell>
+        <Cell ss:StyleID="NumBold"><Data ss:Type="Number"><?= (float)$odo['odoCierre'] ?></Data></Cell>
+    </Row>
+<?php endforeach; ?>
+    <Row>
+        <Cell ss:StyleID="Bold"><Data ss:Type="String">Total segun Odometro:</Data></Cell>
+        <Cell ss:StyleID="NumBold"><Data ss:Type="Number"><?= $totalOdo ?></Data></Cell>
+    </Row>
+    <Row>
+        <Cell ss:StyleID="Bold"><Data ss:Type="String">Total Galones Vendidos:</Data></Cell>
+        <Cell ss:StyleID="NumBold"><Data ss:Type="Number"><?= $totalGalones ?></Data></Cell>
+    </Row>
+    <Row>
+        <Cell ss:StyleID="Bold"><Data ss:Type="String">Variacion:</Data></Cell>
+        <Cell<?= $varColor ?>><Data ss:Type="Number"><?= $variacion ?></Data></Cell>
+    </Row>
+<?php endif; } ?>
 </Table>
 </Worksheet>
 </Workbook>

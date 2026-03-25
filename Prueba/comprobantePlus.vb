@@ -1,7 +1,7 @@
-﻿Imports System.Data
+Imports System.Data
 Imports MySql.Data.MySqlClient
 Imports MySql.Data
-Public Class comprobante
+Public Class comprobantePlus
     Dim cm As New MySqlCommand
     Dim guardar As New MySqlCommand
     Dim adaptador As New MySqlDataAdapter
@@ -10,9 +10,6 @@ Public Class comprobante
     Private m_tmr As Timer
     Public img As Image
     Dim con As New MySqlConnection
-
-    Dim colorFondo = Color.FromArgb(106, 126, 168)
-    Dim colorTextbox = Color.FromArgb(240, 210, 249)
 
     ' Estado de anulacion del registro seleccionado
     Private registroAnulado As Boolean = False
@@ -23,13 +20,13 @@ Public Class comprobante
     Private cargandoFormulario As Boolean = True
 
     ' Cache local para evitar consultas repetidas a la nube
-    Private cachePlacasPorPropietario As New Dictionary(Of String, List(Of String))  ' propietario -> lista de placas
-    Private cachePlacasPorCodigo As New Dictionary(Of String, List(Of String))       ' codigoPro -> lista de placas
-    Private cachePropietarioPorCodigo As New Dictionary(Of String, String)           ' codProp -> nPropietario
-    Private cacheCodigoPorPropietario As New Dictionary(Of String, String)           ' propietario -> codigoPro
-    Private cachePlacaInfo As New Dictionary(Of String, String())                     ' placa -> {codigoPro, propietario}
+    Private cachePlacasPorPropietario As New Dictionary(Of String, List(Of String))
+    Private cachePlacasPorCodigo As New Dictionary(Of String, List(Of String))
+    Private cachePropietarioPorCodigo As New Dictionary(Of String, String)
+    Private cacheCodigoPorPropietario As New Dictionary(Of String, String)
+    Private cachePlacaInfo As New Dictionary(Of String, String())
 
-    Private Sub comprobante_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub comprobantePlus_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         On Error Resume Next
 
@@ -53,8 +50,6 @@ Public Class comprobante
 
         cargandoFormulario = False
         EstilizarDataGridView(CamDGV)
-
-        Me.BackColor = Color.SteelBlue
 
         PanelP.Enabled = False
 
@@ -88,6 +83,8 @@ Public Class comprobante
         Me.EditarBtn.Enabled = False
         Me.GuardarBtn.Enabled = False
         Me.ModificarBtn.Enabled = False
+        Me.ModificarBtn.Visible = False
+        Me.GuardarBtn.Visible = True
         Me.CancelarBtn.Enabled = False
         Me.EliminarBtn.Enabled = False
         Me.AnularBtn.Enabled = False
@@ -100,7 +97,7 @@ Public Class comprobante
             If con.State = ConnectionState.Closed Then
                 con.Open()
             End If
-            MessageBox.Show("El sistema está conectado", "Combustible")
+            MessageBox.Show("El sistema esta conectado", "Combustible")
         Catch ex As Exception
             MsgBox("No se conecto por: " & ex.Message)
         End Try
@@ -136,7 +133,6 @@ Public Class comprobante
                 End Using
             End Using
         Catch
-            ' Si falla la creacion, no bloquear el formulario
         End Try
     End Sub
 
@@ -153,7 +149,6 @@ Public Class comprobante
                 End Using
             End Using
         Catch
-            ' Si falla el log, no bloquear la operacion principal
         End Try
     End Sub
 
@@ -172,7 +167,6 @@ Public Class comprobante
             CamDGV.DataSource = table
             ListadoD()
 
-            ' Calcular totales (excluyendo anulados)
             Dim totalRegistros As Integer = 0
             Dim totalGalones As Double = 0
             Dim totalVenta As Double = 0
@@ -180,12 +174,8 @@ Public Class comprobante
                 Dim esAnulado As Boolean = (row.Table.Columns.Contains("anulado") AndAlso row("anulado") IsNot DBNull.Value AndAlso Convert.ToInt32(row("anulado")) = 1)
                 If Not esAnulado Then
                     totalRegistros += 1
-                    If row("galDesp") IsNot DBNull.Value Then
-                        totalGalones += Convert.ToDouble(row("galDesp"))
-                    End If
-                    If row("total") IsNot DBNull.Value Then
-                        totalVenta += Convert.ToDouble(row("total"))
-                    End If
+                    If row("galDesp") IsNot DBNull.Value Then totalGalones += Convert.ToDouble(row("galDesp"))
+                    If row("total") IsNot DBNull.Value Then totalVenta += Convert.ToDouble(row("total"))
                 End If
             Next
 
@@ -199,7 +189,7 @@ Public Class comprobante
         End Try
     End Sub
 
-    Private Sub listadoCamDgv() 'Muestra los datos
+    Private Sub listadoCamDgv()
         Try
             If con.State = ConnectionState.Closed Then con.Open()
 
@@ -208,10 +198,8 @@ Public Class comprobante
             adaptadoListado.Fill(table)
 
             CamDGV.DataSource = table
-
             ListadoD()
 
-            ' Calcular totales (excluyendo anulados)
             Dim totalRegistros As Integer = 0
             Dim totalGalones As Double = 0
             Dim totalVenta As Double = 0
@@ -219,16 +207,11 @@ Public Class comprobante
                 Dim esAnulado As Boolean = (row.Table.Columns.Contains("anulado") AndAlso row("anulado") IsNot DBNull.Value AndAlso Convert.ToInt32(row("anulado")) = 1)
                 If Not esAnulado Then
                     totalRegistros += 1
-                    If row("galDesp") IsNot DBNull.Value Then
-                        totalGalones += Convert.ToDouble(row("galDesp"))
-                    End If
-                    If row("total") IsNot DBNull.Value Then
-                        totalVenta += Convert.ToDouble(row("total"))
-                    End If
+                    If row("galDesp") IsNot DBNull.Value Then totalGalones += Convert.ToDouble(row("galDesp"))
+                    If row("total") IsNot DBNull.Value Then totalVenta += Convert.ToDouble(row("total"))
                 End If
             Next
 
-            ' Mostrar totales en los labels
             lblTotales.Text = String.Format("Registros: {0}  |  Total Galones: {1:N2}", totalRegistros, totalGalones)
             totVtalb.Text = String.Format("Total Venta: L. {0:N2}", totalVenta)
 
@@ -238,6 +221,7 @@ Public Class comprobante
             If con.State = ConnectionState.Open Then con.Close()
         End Try
     End Sub
+
     Private Sub ListadoD()
         If CamDGV.Columns.Count < 10 Then Exit Sub
 
@@ -245,47 +229,38 @@ Public Class comprobante
         CamDGV.Columns(0).Width = 1
 
         CamDGV.Columns(1).HeaderText = "Comprobante"
-        CamDGV.Columns(1).Width = 75
+        CamDGV.Columns(1).Width = 85
 
         CamDGV.Columns(2).HeaderText = "Boleta"
         CamDGV.Columns(2).Width = 70
 
         CamDGV.Columns(3).HeaderText = "Fecha"
-        CamDGV.Columns(3).Width = 80
+        CamDGV.Columns(3).Width = 85
 
         CamDGV.Columns(4).HeaderText = "Despachador"
-        CamDGV.Columns(4).Width = 150
+        CamDGV.Columns(4).Width = 160
 
         CamDGV.Columns(5).HeaderText = "Propietario"
         CamDGV.Columns(5).Width = 200
 
         CamDGV.Columns(6).HeaderText = "Placa"
-        CamDGV.Columns(6).Width = 80
+        CamDGV.Columns(6).Width = 85
 
         CamDGV.Columns(7).HeaderText = "Per"
-        CamDGV.Columns(7).Width = 35
+        CamDGV.Columns(7).Width = 40
 
         CamDGV.Columns(8).HeaderText = "Sem"
-        CamDGV.Columns(8).Width = 35
+        CamDGV.Columns(8).Width = 40
 
         CamDGV.Columns(9).HeaderText = "Ruta"
         CamDGV.Columns(9).Width = 250
 
-        ' Ocultar columnas galDesp, valor y total (usadas solo para calcular totales)
-        If CamDGV.Columns.Count > 10 Then
-            CamDGV.Columns(10).Visible = False
-        End If
-        If CamDGV.Columns.Count > 11 Then
-            CamDGV.Columns(11).Visible = False
-        End If
-        If CamDGV.Columns.Count > 12 Then
-            CamDGV.Columns(12).Visible = False
-        End If
-        ' Ocultar columna anulado (indice 13)
-        If CamDGV.Columns.Count > 13 Then
-            CamDGV.Columns(13).Visible = False
-        End If
+        If CamDGV.Columns.Count > 10 Then CamDGV.Columns(10).Visible = False
+        If CamDGV.Columns.Count > 11 Then CamDGV.Columns(11).Visible = False
+        If CamDGV.Columns.Count > 12 Then CamDGV.Columns(12).Visible = False
+        If CamDGV.Columns.Count > 13 Then CamDGV.Columns(13).Visible = False
     End Sub
+
     Sub limpiar()
         Me.nComproTb.Text = ""
         Me.nBoletaTb.Text = ""
@@ -303,27 +278,23 @@ Public Class comprobante
         Me.proxSemTb.Text = ""
         Me.codiPropTb.Text = ""
         Me.pLetras.Text = ""
-
     End Sub
-    Private Sub NuevoBtn_Click(sender As Object, e As EventArgs) Handles NuevoBtn.Click   '============  NUEVO  ===========
+
+    Private Sub NuevoBtn_Click(sender As Object, e As EventArgs) Handles NuevoBtn.Click
         Try
-            ' Verificar si la conexión es válida, si no, obtener una nueva
             If con Is Nothing OrElse con.State = ConnectionState.Broken Then
                 con = ModuloConexion.ObtenerConexion()
             End If
             If con.State = ConnectionState.Closed Then con.Open()
 
-            ' Activar bandera para evitar que limpiar() dispare TextChanged y cierre la conexión
             actualizandoProgramaticamente = True
             limpiar()
 
-            ' Restaurar despachador, periodo y semana desde la sesión
             nombDespTb.Text = ModuloConexion.DespachadorSesion
             periodoTb.Text = ModuloConexion.PeriodoSesion
             semanaTb.Text = ModuloConexion.SemanaSesion
             actualizandoProgramaticamente = False
 
-            ' Obtener el precio actual de combustible (solo el activo)
             Try
                 Dim sqlValor As String = "SELECT valorCombustible FROM valorComb WHERE activo = 1 ORDER BY fecha DESC LIMIT 1"
                 Using cmdValor As New MySqlCommand(sqlValor, con)
@@ -333,7 +304,6 @@ Public Class comprobante
                     End If
                 End Using
             Catch
-                ' Si falla, dejar vacío (comportamiento actual)
             End Try
 
             Dim ultimo As Integer = 0
@@ -346,10 +316,7 @@ Public Class comprobante
                 End If
             End Using
 
-
-
             If ultimo > 0 Then
-                'codiPropTb.Text = ultimo.ToString()
                 nComproTb.Text = (ultimo + 1).ToString()
             Else
                 nComproTb.Text = "1"
@@ -363,21 +330,16 @@ Public Class comprobante
             If con.State <> ConnectionState.Closed Then con.Close()
         End Try
 
-
-
-
         PanelP.Enabled = True
         GuardarBtn.Enabled = True
         CamDGV.Enabled = False
         CancelarBtn.Enabled = True
         NuevoBtn.Enabled = False
-        ' nComproTb.Focus()
         fechaPkd.Text = Today
         galDespTb.Focus()
-
     End Sub
 
-    Private Sub EditarBtn_Click(sender As Object, e As EventArgs) Handles EditarBtn.Click  '============  EDITAR  ===========
+    Private Sub EditarBtn_Click(sender As Object, e As EventArgs) Handles EditarBtn.Click
         PanelP.Enabled = True
         Me.CamDGV.Enabled = False
         Me.GuardarBtn.Enabled = False
@@ -390,7 +352,7 @@ Public Class comprobante
         Me.EliminarBtn.Enabled = False
     End Sub
 
-    Private Sub GuardarBtn_Click(sender As Object, e As EventArgs) Handles GuardarBtn.Click '============  GUARDAR  ===========
+    Private Sub GuardarBtn_Click(sender As Object, e As EventArgs) Handles GuardarBtn.Click
         If con.State = ConnectionState.Closed Then
             con.Open()
         End If
@@ -404,12 +366,10 @@ Public Class comprobante
         Double.TryParse(valorTb.Text, valorC)
 
         Try
-
             Dim totalVenta As Double = combD * valorC
 
             guardar = New MySqlCommand("INSERT INTO comprobante (nCompro, nBoleta, galDesp, valor, total, placaCbz, nConte, propCbz, ruta, nombCond, nombDesp, fecha, periodo, semana, proxSem, codiProp, turno)" & Chr(13) &
             "VALUES(@nCompro, @nBoleta, @galDesp, @valor, @total, @placaCbz, @nConte, @propCbz, @ruta, @nombCond, @nombDesp, @fecha, @periodo, @semana, @proxSem, @codiProp, @turno)", con)
-
 
             guardar.Parameters.AddWithValue("@nCompro", nComproTb.Text)
             guardar.Parameters.AddWithValue("@nBoleta", nBoletaTb.Text)
@@ -432,17 +392,14 @@ Public Class comprobante
             If placaCbzTb.Text <> "" Then
                 guardar.ExecuteNonQuery()
                 RegistrarLog("CREAR", nComproTb.Text, "Placa: " & placaCbzTb.Text & " | Gal: " & galDespTb.Text & " | Prop: " & propCbzTb.Text)
-                MsgBox("Registro almacenado. Se procederá a imprimir.")
+                MsgBox("Registro almacenado. Se procedera a imprimir.")
 
-                ' Imprimir ambos documentos ANTES de limpiar (los handlers leen los TextBox)
                 PrintComprobante.Print()
                 PrintDocumento.Print()
 
-                ' Activar bandera para evitar que limpiar() dispare TextChanged y cierre la conexión
                 actualizandoProgramaticamente = True
                 limpiar()
 
-                ' Restaurar despachador, periodo y semana desde la sesión
                 nombDespTb.Text = ModuloConexion.DespachadorSesion
                 periodoTb.Text = ModuloConexion.PeriodoSesion
                 semanaTb.Text = ModuloConexion.SemanaSesion
@@ -452,7 +409,6 @@ Public Class comprobante
                 CamDGV.Enabled = True
                 listadoCamDgvPorFecha(fe)
 
-                ' Actualizar tanquemed y refrescar nivel de tanque
                 actualizarTanquemed()
                 cargarNivelTanque()
             Else
@@ -462,46 +418,14 @@ Public Class comprobante
         Catch ex As Exception
             MsgBox("Elemento no pudo se almacenado", ex.StackTrace)
         End Try
-
-
     End Sub
-    Private Sub amplitud()    '============  NÚMERO DE FACTURA   =============
-        Dim tam As String = (nComproTb.Text)
 
-        If Len(CStr(tam)) = 1 Then
-            tam = "0000000" & tam
-            nComproTb.Text = tam
-        End If
-        If Len(CStr(tam)) = 2 Then
-            tam = "000000" & tam
-            nComproTb.Text = tam
-        End If
-        If Len(CStr(tam)) = 3 Then
-            tam = "00000" & tam
-            nComproTb.Text = tam
-        End If
-        If Len(CStr(tam)) = 4 Then
-            tam = "0000" & tam
-            nComproTb.Text = tam
-        End If
-        If Len(CStr(tam)) = 5 Then
-            tam = "000" & tam
-            nComproTb.Text = tam
-        End If
-        If Len(CStr(tam)) = 6 Then
-            tam = "00" & tam
-            nComproTb.Text = tam
-        End If
-        If Len(CStr(tam)) = 7 Then
-            tam = "0" & tam
-            nComproTb.Text = tam
-        End If
-        If Len(CStr(tam)) = 8 Then
-            tam = "" & tam
-            nComproTb.Text = tam
-        End If
+    Private Sub amplitud()
+        Dim tam As String = nComproTb.Text
+        nComproTb.Text = tam.PadLeft(8, "0"c)
     End Sub
-    Private Sub ModificarBtn_Click(sender As Object, e As EventArgs) Handles ModificarBtn.Click '============  ACTUALIZAR  ===========
+
+    Private Sub ModificarBtn_Click(sender As Object, e As EventArgs) Handles ModificarBtn.Click
         actual()
         act()
         PanelP.Enabled = False
@@ -509,10 +433,10 @@ Public Class comprobante
         Me.GuardarBtn.Visible = True
         listadoCamDgv()
 
-        ' Actualizar tanquemed y refrescar nivel de tanque
         actualizarTanquemed()
         cargarNivelTanque()
     End Sub
+
     Public Sub actual()
         Try
             If con.State = ConnectionState.Closed Then
@@ -559,14 +483,14 @@ Public Class comprobante
         End Try
     End Sub
 
-    Private Sub EliminarBtn_Click(sender As Object, e As EventArgs) Handles EliminarBtn.Click '============  ELIMINAR  ===========
+    Private Sub EliminarBtn_Click(sender As Object, e As EventArgs) Handles EliminarBtn.Click
         Try
             If buscartxt.Text = "" OrElse buscartxt.Text = "-" Then
                 MessageBox.Show("Seleccione un registro para eliminar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Return
             End If
 
-            Dim opc As DialogResult = MessageBox.Show("¿Desea Eliminar este registro permanentemente?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            Dim opc As DialogResult = MessageBox.Show("Desea Eliminar este registro permanentemente?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If opc = DialogResult.Yes Then
                 Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
                     conLocal.Open()
@@ -585,7 +509,6 @@ Public Class comprobante
                 CamDGV.Enabled = True
                 listadoCamDgv()
 
-                ' Recalcular tanque
                 actualizarTanquemed()
                 cargarNivelTanque()
             End If
@@ -594,7 +517,7 @@ Public Class comprobante
         End Try
     End Sub
 
-    Private Sub AnularBtn_Click(sender As Object, e As EventArgs) Handles AnularBtn.Click '============  ANULAR / DESANULAR  ===========
+    Private Sub AnularBtn_Click(sender As Object, e As EventArgs) Handles AnularBtn.Click
         Try
             If buscartxt.Text = "" OrElse buscartxt.Text = "-" Then
                 MessageBox.Show("Seleccione un registro.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -602,14 +525,13 @@ Public Class comprobante
             End If
 
             If registroAnulado Then
-                ' === DESANULAR (solo ADMIN/SUPERADMIN) ===
                 Dim tipoUsr As String = ModuloConexion.TipoUsuarioSesion.ToUpper()
                 If tipoUsr <> "ADMIN" AndAlso tipoUsr <> "SUPERADMIN" Then
                     MessageBox.Show("Solo un usuario ADMIN puede quitar la anulacion.", "Acceso Denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Return
                 End If
 
-                Dim opc As DialogResult = MessageBox.Show("¿Desea quitar la anulacion de este comprobante?" & vbCrLf &
+                Dim opc As DialogResult = MessageBox.Show("Desea quitar la anulacion de este comprobante?" & vbCrLf &
                     "El registro volvera a sumar en reportes y calculos.",
                     "Desanular Comprobante", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
@@ -635,8 +557,7 @@ Public Class comprobante
                     cargarNivelTanque()
                 End If
             Else
-                ' === ANULAR ===
-                Dim opc As DialogResult = MessageBox.Show("¿Esta seguro que desea anular este comprobante?" & vbCrLf &
+                Dim opc As DialogResult = MessageBox.Show("Esta seguro que desea anular este comprobante?" & vbCrLf &
                     "El registro se conservara pero no sumara en reportes ni calculos.",
                     "Anular Comprobante", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
@@ -668,7 +589,7 @@ Public Class comprobante
         End Try
     End Sub
 
-    Private Sub CancelarBtn_Click(sender As Object, e As EventArgs) Handles CancelarBtn.Click  '============  CANCELAR  ===========
+    Private Sub CancelarBtn_Click(sender As Object, e As EventArgs) Handles CancelarBtn.Click
         act()
         PanelP.Enabled = False
         CamDGV.Enabled = True
@@ -680,7 +601,7 @@ Public Class comprobante
             MessageBox.Show("No hay datos a mostrar")
         Else
             Dim i As Integer = Me.CamDGV.CurrentRow.Index
-            PanelP.Enabled = True 'Para que se vea el Panel
+            PanelP.Enabled = True
             Dim y As Integer = Me.CamDGV.CurrentRow.Index
             Dim idcod As Integer = Me.CamDGV.Item(0, y).Value
             buscartxt.Text = idcod
@@ -690,9 +611,7 @@ Public Class comprobante
             Me.EditarBtn.Enabled = Not ModuloConexion.EsSoloLectura()
             Dim tipoUsr As String = ModuloConexion.TipoUsuarioSesion.ToUpper()
             Dim esAdmin As Boolean = (tipoUsr = "ADMIN" OrElse tipoUsr = "SUPERADMIN")
-            ' Solo ADMIN y SUPERADMIN pueden eliminar
             Me.EliminarBtn.Enabled = esAdmin
-            ' Anular: todos pueden anular; desanular: solo ADMIN
             If registroAnulado Then
                 Me.AnularBtn.Text = "Desanular"
                 Me.AnularBtn.Enabled = esAdmin
@@ -702,6 +621,7 @@ Public Class comprobante
             End If
         End If
     End Sub
+
     Public Sub Seleccion()
         Dim consulta As String
         Dim lista As Byte
@@ -715,7 +635,6 @@ Public Class comprobante
         End If
 
         If lista <> 0 Then
-
             nComproTb.Text = datos.Tables("placa").Rows(0).Item("nCompro").ToString
             nBoletaTb.Text = datos.Tables("placa").Rows(0).Item("nBoleta").ToString
             galDespTb.Text = datos.Tables("placa").Rows(0).Item("galDesp").ToString
@@ -732,7 +651,6 @@ Public Class comprobante
             proxSemTb.Text = datos.Tables("placa").Rows(0).Item("proxSem").ToString
             codiPropTb.Text = datos.Tables("placa").Rows(0).Item("codiProp").ToString
 
-            ' Leer estado de anulacion
             If datos.Tables("placa").Columns.Contains("anulado") AndAlso
                datos.Tables("placa").Rows(0).Item("anulado") IsNot DBNull.Value Then
                 registroAnulado = (Convert.ToInt32(datos.Tables("placa").Rows(0).Item("anulado")) = 1)
@@ -743,48 +661,33 @@ Public Class comprobante
             If registroAnulado Then
                 pLetras.Text = "ANULADO"
             End If
-
         Else
             MsgBox("Datos no encontrados")
         End If
     End Sub
 
     Private Sub placaBusqTB_TextChanged(sender As Object, e As EventArgs) Handles placaBusqTB.TextChanged
-        ' Evitar ejecucion durante la carga del formulario o actualizacion programatica
         If cargandoFormulario OrElse actualizandoProgramaticamente Then Return
-        ' Usar el metodo unificado de busqueda con filtros
         buscarConFiltros()
     End Sub
 
     Private Sub boletBusqTB_TextChanged(sender As Object, e As EventArgs) Handles boletBusqTB.TextChanged
-        ' Evitar ejecucion durante la carga del formulario
         If cargandoFormulario Then Return
-        ' Usar el metodo unificado de busqueda con filtros
         buscarConFiltros()
     End Sub
 
     Public Sub Rutas()
-
         Try
             If con.State = ConnectionState.Closed Then con.Open()
-
             Dim query As String = "SELECT rutas FROM rutas;"
-
             Dim autoCompleteSource As New AutoCompleteStringCollection()
-
-
             Using cmd As New MySqlCommand(query, con)
                 Dim reader As MySqlDataReader = cmd.ExecuteReader()
-
                 While reader.Read()
                     autoCompleteSource.Add(reader("rutas").ToString())
                 End While
-
                 reader.Close()
             End Using
-
-            'placaCbzTb.AutoCompleteMode = AutoCompleteMode.Suggest
-            'placaCbzTb.AutoCompleteSource = autoCompleteSource.cu
             rutaTb.AutoCompleteCustomSource = autoCompleteSource
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.Message)
@@ -792,66 +695,7 @@ Public Class comprobante
             If con.State = ConnectionState.Open Then con.Close()
         End Try
     End Sub
-    Public Sub PPropietario()
-        If con.State = ConnectionState.Closed Then
-            con.Open()
-        End If
-        Try
-            Dim query As String = "SELECT propietario FROM placa WHERE activo = 1;"
 
-            Dim autoCompleteSource As New AutoCompleteStringCollection()
-
-
-            Using cmd As New MySqlCommand(query, con)
-                'con.Open()
-                Dim reader As MySqlDataReader = cmd.ExecuteReader()
-
-                While reader.Read()
-                    autoCompleteSource.Add(reader("propietario").ToString())
-                End While
-
-                reader.Close()
-            End Using
-
-            'placaCbzTb.AutoCompleteMode = AutoCompleteMode.Suggest
-            'placaCbzTb.AutoCompleteSource = autoCompleteSource.cu
-            propCbzTb.AutoCompleteCustomSource = autoCompleteSource
-        Catch ex As Exception
-            MessageBox.Show("Error: " & ex.Message)
-        Finally
-            If con.State = ConnectionState.Open Then con.Close()
-        End Try
-    End Sub
-    Public Sub PPlaca()
-        If con.State = ConnectionState.Closed Then
-            con.Open()
-        End If
-        Try
-            Dim query As String = "SELECT placa FROM placa WHERE activo = 1;"
-
-            Dim autoCompleteSource As New AutoCompleteStringCollection()
-
-
-            Using cmd As New MySqlCommand(query, con)
-                'con.Open()
-                Dim reader As MySqlDataReader = cmd.ExecuteReader()
-
-                While reader.Read()
-                    autoCompleteSource.Add(reader("placa").ToString())
-                End While
-
-                reader.Close()
-            End Using
-
-            'placaCbzTb.AutoCompleteMode = AutoCompleteMode.Suggest
-            'placaCbzTb.AutoCompleteSource = autoCompleteSource.cu
-            placaCbzTb.AutoCompleteCustomSource = autoCompleteSource
-        Catch ex As Exception
-            MessageBox.Show("Error: " & ex.Message)
-        Finally
-            If con.State = ConnectionState.Open Then con.Close()
-        End Try
-    End Sub
     Public Sub PConductores()
         Try
             If con.State = ConnectionState.Closed Then con.Open()
@@ -873,7 +717,6 @@ Public Class comprobante
     End Sub
 
     Public Sub CargarCachePlacas()
-        ' Limpiar caches
         cachePlacasPorPropietario.Clear()
         cachePlacasPorCodigo.Clear()
         cachePropietarioPorCodigo.Clear()
@@ -886,7 +729,6 @@ Public Class comprobante
         Try
             If con.State = ConnectionState.Closed Then con.Open()
 
-            ' Query 1: Cargar todas las placas activas
             Dim sqlPlacas As String = "SELECT codigoPro, placa, propietario FROM placa WHERE activo = 1"
             Using cmd As New MySqlCommand(sqlPlacas, con)
                 Using reader As MySqlDataReader = cmd.ExecuteReader()
@@ -895,7 +737,6 @@ Public Class comprobante
                         Dim placa As String = If(reader("placa") IsNot DBNull.Value, reader("placa").ToString().Trim(), "")
                         Dim prop As String = If(reader("propietario") IsNot DBNull.Value, reader("propietario").ToString().Trim(), "")
 
-                        ' Cache: propietario -> lista de placas
                         If prop <> "" Then
                             If Not cachePlacasPorPropietario.ContainsKey(prop.ToUpper()) Then
                                 cachePlacasPorPropietario(prop.ToUpper()) = New List(Of String)
@@ -903,7 +744,6 @@ Public Class comprobante
                             If placa <> "" Then cachePlacasPorPropietario(prop.ToUpper()).Add(placa)
                         End If
 
-                        ' Cache: codigoPro -> lista de placas
                         If codigo <> "" Then
                             If Not cachePlacasPorCodigo.ContainsKey(codigo) Then
                                 cachePlacasPorCodigo(codigo) = New List(Of String)
@@ -911,24 +751,20 @@ Public Class comprobante
                             If placa <> "" Then cachePlacasPorCodigo(codigo).Add(placa)
                         End If
 
-                        ' Cache: propietario -> codigoPro
                         If prop <> "" AndAlso codigo <> "" Then
                             cacheCodigoPorPropietario(prop.ToUpper()) = codigo
                         End If
 
-                        ' Cache: placa -> {codigoPro, propietario}
                         If placa <> "" Then
                             cachePlacaInfo(placa.ToUpper()) = {codigo, prop}
                         End If
 
-                        ' AutoComplete
                         If prop <> "" AndAlso Not autoCompleteProp.Contains(prop) Then autoCompleteProp.Add(prop)
                         If placa <> "" AndAlso Not autoCompletePlaca.Contains(placa) Then autoCompletePlaca.Add(placa)
                     End While
                 End Using
             End Using
 
-            ' Query 2: Cargar propietarios (codProp -> nPropietario)
             Dim sqlProp As String = "SELECT codProp, nPropietario FROM propietario"
             Using cmd As New MySqlCommand(sqlProp, con)
                 Using reader As MySqlDataReader = cmd.ExecuteReader()
@@ -960,17 +796,16 @@ Public Class comprobante
             propCbzTb.Text = ""
         End If
     End Sub
+
     Public Sub Seleccion2()
         If propCbzTb.Text = "" Then Return
 
         Dim textoBusqueda As String = propCbzTb.Text.Trim().ToUpper()
         Dim codigoEncontrado As String = ""
 
-        ' Buscar primero coincidencia exacta en cache
         If cacheCodigoPorPropietario.ContainsKey(textoBusqueda) Then
             codigoEncontrado = cacheCodigoPorPropietario(textoBusqueda)
         Else
-            ' Buscar coincidencia parcial (LIKE)
             For Each kvp In cacheCodigoPorPropietario
                 If kvp.Key.Contains(textoBusqueda) Then
                     codigoEncontrado = kvp.Value
@@ -985,6 +820,7 @@ Public Class comprobante
             MsgBox("Datos no encontrados")
         End If
     End Sub
+
     Private Sub codiPropTb_TextChanged(sender As Object, e As EventArgs) Handles codiPropTb.TextChanged
         If actualizandoProgramaticamente Then Return
 
@@ -994,7 +830,6 @@ Public Class comprobante
             If codiPropTb.Text.Trim() <> "" Then
                 Dim codigo As String = codiPropTb.Text.Trim()
 
-                ' Buscar placas por codigo en cache
                 For Each kvp In cachePlacasPorCodigo
                     If kvp.Key.Contains(codigo) Then
                         For Each placa In kvp.Value
@@ -1003,7 +838,6 @@ Public Class comprobante
                     End If
                 Next
 
-                ' Buscar nombre propietario en cache
                 If cachePropietarioPorCodigo.ContainsKey(codigo) Then
                     propCbzTb.Text = cachePropietarioPorCodigo(codigo)
                 Else
@@ -1017,31 +851,20 @@ Public Class comprobante
             MessageBox.Show("Error: " & ex.Message)
         End Try
     End Sub
+
     Private Sub placaCbzTb2_ItemClick(sender As Object, e As EventArgs) Handles placaCbzTb2.ItemClick
-
         placaCbzTb.Text = placaCbzTb2.SelectedItem.ToString()
-
     End Sub
 
-    Private Sub comprobante_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
-        'If e.KeyCode = Keys.Enter Then
-        ' Mover al siguiente control
-        'SelectNextControl(ActiveControl, True, True, True, True)
-        'e.SuppressKeyPress = True ' Evita que el sistema suene o muestre el beep
-        'End If
-    End Sub
-
-    Private Sub calcularletras()  '============  CALCULO DE LETRAS   =============
+    Private Sub calcularletras()
         pLetras.Text = ""
         If IsNumeric(galDespTb.Text) Then
             pLetras.Text = LETRAS(galDespTb.Text)
-            ' Else
-            '     MessageBox.Show("Ingrese por favor números", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
-        'facTotTb.Focus()
         galDespTb.SelectionStart = 0
         galDespTb.SelectionLength = galDespTb.ToString.Length
     End Sub
+
     Private Sub valorTb_Leave(sender As Object, e As EventArgs) Handles valorTb.Leave
         calcularletras()
     End Sub
@@ -1051,42 +874,38 @@ Public Class comprobante
     End Sub
 
     Private Sub ImprimirBt_Click(sender As Object, e As EventArgs) Handles ImprimirBt.Click
+        ' (sin guarda de mouse)
         PrintComprobante.Print()
     End Sub
+
     Private Sub ImprimirBt2_Click(sender As Object, e As EventArgs) Handles ImprimirBt2.Click
+        ' (sin guarda de mouse)
         PrintDocumento.Print()
     End Sub
 
     Private Sub PrintComprobante_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintComprobante.PrintPage
-        ' Usar conexión local para no interferir con la conexión del formulario
         Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
             Try
                 conLocal.Open()
-
                 Dim query As String = "SELECT nEmpre, rtn FROM empresa LIMIT 1"
                 Using comando As New MySqlCommand(query, conLocal)
                     Using lector As MySqlDataReader = comando.ExecuteReader()
                         If lector.Read() Then
                             Dim nEmpreP As String = lector("nEmpre").ToString()
                             Dim rtnP As String = lector("rtn").ToString()
-
-                            ' Cerrar lector antes de dibujar (ya tenemos los datos)
                             lector.Close()
 
                             Dim fe As String = fechaPkd.Value.ToString("dd-MM-yyyy")
 
-                            ' Cargar imagen
                             Dim imgLocal As Image = Nothing
                             Try
                                 imgLocal = Image.FromFile("C:\emtracc\camion.jpg")
                                 e.Graphics.DrawImage(imgLocal, 5, 5, 250, 100)
                             Catch
-                                ' Si no se encuentra la imagen, continuar sin ella
                             Finally
                                 If imgLocal IsNot Nothing Then imgLocal.Dispose()
                             End Try
 
-                            ' Definir fuentes
                             Dim mFont As New Font("Calibri", 8, GraphicsUnit.Point)
                             Dim mFont2 As New Font("Calibri", 10, FontStyle.Bold, GraphicsUnit.Point)
                             Dim mFont4 As New Font("Calibri", 9, FontStyle.Bold, GraphicsUnit.Point)
@@ -1101,7 +920,6 @@ Public Class comprobante
                             format1.LineAlignment = StringAlignment.Near
                             format1.Alignment = StringAlignment.Center
 
-                            ' Dibujar comprobante
                             e.Graphics.DrawString(nEmpreP, uFont, Brushes.Black, RectangleF.op_Implicit(displayRectangle), format1)
                             e.Graphics.DrawString("RTN: " & rtnP, mFont4, Brushes.Black, 60, 135)
                             e.Graphics.DrawString("__________________________", DFont, Brushes.Black, 10, 135)
@@ -1109,10 +927,10 @@ Public Class comprobante
                             e.Graphics.DrawString("__________________________", DFont, Brushes.Black, 10, 180)
 
                             e.Graphics.DrawString("FECHA:" & fe, mFont2, Brushes.Black, 120, 200)
-                            e.Graphics.DrawString("Comprobante N°: " & nComproTb.Text, GFont2, Brushes.Black, 25, 220)
+                            e.Graphics.DrawString("Comprobante N: " & nComproTb.Text, GFont2, Brushes.Black, 25, 220)
                             e.Graphics.DrawString("____________________", DFont, Brushes.Black, 35, 222)
 
-                            e.Graphics.DrawString("Próxima Semana: " & proxSemTb.Text, mFont2, Brushes.Black, 10, 245)
+                            e.Graphics.DrawString("Proxima Semana: " & proxSemTb.Text, mFont2, Brushes.Black, 10, 245)
                             e.Graphics.DrawString("Galones Despachados: " & galDespTb.Text, mFont2, Brushes.Black, 10, 260)
                             e.Graphics.DrawString("" & pLetras.Text, mFont, Brushes.Black, 10, 275)
 
@@ -1121,7 +939,7 @@ Public Class comprobante
 
                             e.Graphics.DrawString("Cabezal:   " & placaCbzTb.Text, mFont2, Brushes.Black, 30, 325)
                             e.Graphics.DrawString("Contenedor:   " & nConteTb.Text, mFont2, Brushes.Black, 30, 340)
-                            e.Graphics.DrawString("N° Boleta: " & nBoletaTb.Text, mFont2, Brushes.Black, 30, 355)
+                            e.Graphics.DrawString("N Boleta: " & nBoletaTb.Text, mFont2, Brushes.Black, 30, 355)
 
                             e.Graphics.DrawString("Ruta: " & rutaTb.Text, mFont4, Brushes.Black, 10, 385)
                             e.Graphics.DrawString("_____________________________", DFont, Brushes.Black, 10, 390)
@@ -1142,18 +960,11 @@ Public Class comprobante
                             e.Graphics.DrawString("Periodo - Semana " & periodoTb.Text & "-" & semanaTb.Text, GFont2, Brushes.Black, 40, 660)
                             e.Graphics.DrawString("_____________________________", DFont, Brushes.Black, 10, 670)
 
-                            ' Liberar fuentes
-                            mFont.Dispose()
-                            mFont2.Dispose()
-                            mFont4.Dispose()
-                            GFont2.Dispose()
-                            uFont.Dispose()
-                            DFont.Dispose()
-                            format1.Dispose()
+                            mFont.Dispose() : mFont2.Dispose() : mFont4.Dispose()
+                            GFont2.Dispose() : uFont.Dispose() : DFont.Dispose() : format1.Dispose()
                         End If
                     End Using
                 End Using
-
             Catch ex As Exception
                 MessageBox.Show("Error: " & ex.Message)
             End Try
@@ -1161,11 +972,9 @@ Public Class comprobante
     End Sub
 
     Private Sub PrintDocumento_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintDocumento.PrintPage
-        ' Usar conexión local para no interferir con la conexión del formulario
         Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
             Try
                 conLocal.Open()
-
                 Dim query As String = "SELECT nEmpre, rtn FROM empresa LIMIT 1"
                 Using comando As New MySqlCommand(query, conLocal)
                     Using lector As MySqlDataReader = comando.ExecuteReader()
@@ -1176,7 +985,6 @@ Public Class comprobante
 
                             Dim fe As String = fechaPkd.Value.ToString("dd-MM-yyyy")
 
-                            ' Definir fuentes
                             Dim mFont As New Font("Calibri", 8, GraphicsUnit.Point)
                             Dim mFont2 As New Font("Calibri", 10, FontStyle.Bold, GraphicsUnit.Point)
                             Dim mFont4 As New Font("Calibri", 9, FontStyle.Bold, GraphicsUnit.Point)
@@ -1188,100 +996,59 @@ Public Class comprobante
                             format1.LineAlignment = StringAlignment.Near
                             format1.Alignment = StringAlignment.Center
 
-                            ' Cargar imagen
                             Dim imgLocal As Image = Nothing
                             Try
                                 imgLocal = Image.FromFile("C:\emtracc\camion.jpg")
                                 e.Graphics.DrawImage(imgLocal, 5, 5, 250, 100)
                             Catch
-                                ' Si no se encuentra la imagen, continuar sin ella
                             Finally
                                 If imgLocal IsNot Nothing Then imgLocal.Dispose()
                             End Try
 
-                            ' Dibujar comprobante (logo ocupa y=5 a y=105)
                             Dim y As Integer = 110
                             Dim rectEmpresa As New Rectangle(New Point(5, y), New Size(240, 35))
                             e.Graphics.DrawString(nEmpreP, uFont, Brushes.Black, RectangleF.op_Implicit(rectEmpresa), format1)
 
-                            y = 145
-                            e.Graphics.DrawString("RTN: " & rtnP, mFont4, Brushes.Black, 60, y)
-                            y = 155
-                            e.Graphics.DrawString("__________________________", DFont, Brushes.Black, 10, y)
+                            y = 145 : e.Graphics.DrawString("RTN: " & rtnP, mFont4, Brushes.Black, 60, y)
+                            y = 155 : e.Graphics.DrawString("__________________________", DFont, Brushes.Black, 10, y)
 
                             y = 172
                             Dim rectTitulo As New Rectangle(New Point(5, y), New Size(240, 35))
                             e.Graphics.DrawString("COMPROBANTE DE DESPACHO DE COMBUSTIBLE", GFont2, Brushes.Black, RectangleF.op_Implicit(rectTitulo), format1)
 
-                            y = 200
-                            e.Graphics.DrawString("__________________________", DFont, Brushes.Black, 10, y)
-
-                            y = 222
-                            e.Graphics.DrawString("FECHA:" & fe, mFont2, Brushes.Black, 120, y)
-
-                            y = 237
-                            e.Graphics.DrawString("Periodo - Semana " & periodoTb.Text & "-" & semanaTb.Text, GFont2, Brushes.Black, 40, y)
-
-                            y = 257
-                            e.Graphics.DrawString("Comprobante N°: " & nComproTb.Text, GFont2, Brushes.Black, 25, y)
+                            y = 200 : e.Graphics.DrawString("__________________________", DFont, Brushes.Black, 10, y)
+                            y = 222 : e.Graphics.DrawString("FECHA:" & fe, mFont2, Brushes.Black, 120, y)
+                            y = 237 : e.Graphics.DrawString("Periodo - Semana " & periodoTb.Text & "-" & semanaTb.Text, GFont2, Brushes.Black, 40, y)
+                            y = 257 : e.Graphics.DrawString("Comprobante N: " & nComproTb.Text, GFont2, Brushes.Black, 25, y)
                             e.Graphics.DrawString("____________________", DFont, Brushes.Black, 35, y + 2)
 
-                            y = 277
-                            e.Graphics.DrawString("=== Propietario Cabezal ===", mFont2, Brushes.Black, 50, y)
-                            y = 292
-                            e.Graphics.DrawString(propCbzTb.Text, mFont2, Brushes.Black, 10, y)
+                            y = 277 : e.Graphics.DrawString("=== Propietario Cabezal ===", mFont2, Brushes.Black, 50, y)
+                            y = 292 : e.Graphics.DrawString(propCbzTb.Text, mFont2, Brushes.Black, 10, y)
+                            y = 306 : e.Graphics.DrawString("Cod. Propietario: " & codiPropTb.Text, mFont2, Brushes.Black, 30, y)
+                            y = 322 : e.Graphics.DrawString("Cabezal:   " & placaCbzTb.Text, mFont2, Brushes.Black, 30, y)
+                            y = 337 : e.Graphics.DrawString("Contenedor:   " & nConteTb.Text, mFont2, Brushes.Black, 30, y)
+                            y = 352 : e.Graphics.DrawString("N Boleta: " & nBoletaTb.Text, mFont2, Brushes.Black, 30, y)
 
-                            y = 306
-                            e.Graphics.DrawString("Cod. Propietario: " & codiPropTb.Text, mFont2, Brushes.Black, 30, y)
-
-                            y = 322
-                            e.Graphics.DrawString("Cabezal:   " & placaCbzTb.Text, mFont2, Brushes.Black, 30, y)
-                            y = 337
-                            e.Graphics.DrawString("Contenedor:   " & nConteTb.Text, mFont2, Brushes.Black, 30, y)
-                            y = 352
-                            e.Graphics.DrawString("N° Boleta: " & nBoletaTb.Text, mFont2, Brushes.Black, 30, y)
-
-
-                            y = 366
-                            e.Graphics.DrawString("Ruta: " & rutaTb.Text, mFont4, Brushes.Black, 10, y)
-
-                            y = 366
+                            y = 366 : e.Graphics.DrawString("Ruta: " & rutaTb.Text, mFont4, Brushes.Black, 10, y)
                             e.Graphics.DrawString("_____________________________", DFont, Brushes.Black, 10, y)
-                            y = 386
-                            e.Graphics.DrawString("=== Nombre Conductor ===", mFont2, Brushes.Black, 50, y)
-                            y = 401
-                            e.Graphics.DrawString(nombCondTb.Text, mFont2, Brushes.Black, 10, y)
-                            y = 401
+                            y = 386 : e.Graphics.DrawString("=== Nombre Conductor ===", mFont2, Brushes.Black, 50, y)
+                            y = 401 : e.Graphics.DrawString(nombCondTb.Text, mFont2, Brushes.Black, 10, y)
                             e.Graphics.DrawString("_____________________________", DFont, Brushes.Black, 10, y)
 
-                            y = 429
-                            e.Graphics.DrawString("=== Nombre Despachador ===", mFont2, Brushes.Black, 50, y)
-                            y = 444
-                            e.Graphics.DrawString(nombDespTb.Text, mFont2, Brushes.Black, 10, y)
-                            y = 448
-                            e.Graphics.DrawString("_____________________________", DFont, Brushes.Black, 10, y)
+                            y = 429 : e.Graphics.DrawString("=== Nombre Despachador ===", mFont2, Brushes.Black, 50, y)
+                            y = 444 : e.Graphics.DrawString(nombDespTb.Text, mFont2, Brushes.Black, 10, y)
+                            y = 448 : e.Graphics.DrawString("_____________________________", DFont, Brushes.Black, 10, y)
 
-                            y = 472
-                            e.Graphics.DrawString("Galones Despachados: " & galDespTb.Text, mFont2, Brushes.Black, 10, y)
-                            y = 487
-                            e.Graphics.DrawString("Precio: " & valorTb.Text, mFont2, Brushes.Black, 10, y)
-                            y = 502
-                            e.Graphics.DrawString(totVtalb.Text, mFont2, Brushes.Black, 10, y)
-                            y = 516
-                            e.Graphics.DrawString("_____________________________", DFont, Brushes.Black, 10, y)
+                            y = 472 : e.Graphics.DrawString("Galones Despachados: " & galDespTb.Text, mFont2, Brushes.Black, 10, y)
+                            y = 487 : e.Graphics.DrawString("Precio: " & valorTb.Text, mFont2, Brushes.Black, 10, y)
+                            y = 502 : e.Graphics.DrawString(totVtalb.Text, mFont2, Brushes.Black, 10, y)
+                            y = 516 : e.Graphics.DrawString("_____________________________", DFont, Brushes.Black, 10, y)
 
-                            ' Liberar fuentes
-                            mFont.Dispose()
-                            mFont2.Dispose()
-                            mFont4.Dispose()
-                            GFont2.Dispose()
-                            uFont.Dispose()
-                            DFont.Dispose()
-                            format1.Dispose()
+                            mFont.Dispose() : mFont2.Dispose() : mFont4.Dispose()
+                            GFont2.Dispose() : uFont.Dispose() : DFont.Dispose() : format1.Dispose()
                         End If
                     End Using
                 End Using
-
             Catch ex As Exception
                 MessageBox.Show("Error: " & ex.Message)
             End Try
@@ -1294,18 +1061,29 @@ Public Class comprobante
             PrintPreviewComprobante.PrintPreviewControl.Zoom = 1.3
             PrintPreviewComprobante.Height = 700
             PrintPreviewComprobante.Width = 500
-
             PanelP.Enabled = True
-
-            PrintComprobante.PrinterSettings.Copies = 1 'Cantidad de Impresiones
-
-            ' Mostrar vista previa
+            PrintComprobante.PrinterSettings.Copies = 1
             PrintPreviewComprobante.Document = PrintComprobante
             PrintPreviewComprobante.ShowDialog()
-
             CancelarBtn.Enabled = True
         Catch ex As Exception
             MessageBox.Show("Error al mostrar vista previa del comprobante: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub PreviaBtn2_Click(sender As Object, e As EventArgs) Handles PreviaBtn2.Click
+        ' (sin guarda de mouse)
+        Try
+            PrintPreviewDocumento.PrintPreviewControl.Zoom = 1.3
+            PrintPreviewDocumento.Height = 700
+            PrintPreviewDocumento.Width = 500
+            PanelP.Enabled = True
+            PrintDocumento.PrinterSettings.Copies = 1
+            PrintPreviewDocumento.Document = PrintDocumento
+            PrintPreviewDocumento.ShowDialog()
+            CancelarBtn.Enabled = True
+        Catch ex As Exception
+            MessageBox.Show("Error al mostrar vista previa del documento: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -1346,10 +1124,6 @@ Public Class comprobante
         End Try
     End Sub
 
-    Private Sub periodoTb_SelectedIndexChanged(sender As Object, e As EventArgs) Handles periodoTb.SelectedIndexChanged
-
-    End Sub
-
     Private Sub placaCbzTb_TextChanged(sender As Object, e As EventArgs) Handles placaCbzTb.TextChanged
         If actualizandoProgramaticamente Then Return
         Try
@@ -1372,13 +1146,11 @@ Public Class comprobante
             Dim propietarioNombre As String = ""
             Dim encontro As Boolean = False
 
-            ' Buscar coincidencia exacta en cache
             If cachePlacaInfo.ContainsKey(placaBuscada) Then
                 codigoPro = cachePlacaInfo(placaBuscada)(0)
                 propietarioNombre = cachePlacaInfo(placaBuscada)(1)
                 encontro = True
             Else
-                ' Buscar coincidencia parcial
                 For Each kvp In cachePlacaInfo
                     If kvp.Key.Contains(placaBuscada) Then
                         codigoPro = kvp.Value(0)
@@ -1390,7 +1162,6 @@ Public Class comprobante
             End If
 
             If encontro AndAlso codigoPro <> "" Then
-                ' Buscar nombre formal del propietario en cache
                 If cachePropietarioPorCodigo.ContainsKey(codigoPro) Then
                     propCbzTb.Text = cachePropietarioPorCodigo(codigoPro)
                 Else
@@ -1409,11 +1180,7 @@ Public Class comprobante
         End Try
     End Sub
 
-    Private Sub PanelP_Paint(sender As Object, e As PaintEventArgs) Handles PanelP.Paint
-
-    End Sub
-
-    ' ============ NUEVOS METODOS PARA FILTROS ============
+    ' ============ FILTROS ============
 
     Private Sub cargarDespachadores()
         Try
@@ -1451,26 +1218,22 @@ Public Class comprobante
             Dim cmd As New MySqlCommand()
             cmd.Connection = con
 
-            ' Filtro por placa
             If placaBusqTB.Text.Trim() <> "" Then
                 sql.Append("AND placaCbz LIKE @placa ")
                 cmd.Parameters.AddWithValue("@placa", "%" & placaBusqTB.Text.Trim() & "%")
             End If
 
-            ' Filtro por boleta
             If boletBusqTB.Text.Trim() <> "" Then
                 sql.Append("AND nBoleta LIKE @boleta ")
                 cmd.Parameters.AddWithValue("@boleta", "%" & boletBusqTB.Text.Trim() & "%")
             End If
 
-            ' Filtro por fecha
             If chkUsarFecha.Checked Then
                 sql.Append("AND DATE(fecha) >= @fechaDesde AND DATE(fecha) <= @fechaHasta ")
                 cmd.Parameters.AddWithValue("@fechaDesde", fechaDesdePk.Value.ToString("yyyy-MM-dd"))
                 cmd.Parameters.AddWithValue("@fechaHasta", fechaHastaPk.Value.ToString("yyyy-MM-dd"))
             End If
 
-            ' Filtro por despachador
             If despachadorCb.SelectedIndex > 0 Then
                 sql.Append("AND nombDesp = @despachador ")
                 cmd.Parameters.AddWithValue("@despachador", despachadorCb.SelectedItem.ToString())
@@ -1486,7 +1249,6 @@ Public Class comprobante
             CamDGV.DataSource = dt
             ListadoD()
 
-            ' Calcular totales (excluyendo anulados)
             Dim totalRegistros As Integer = 0
             Dim totalGalones As Double = 0
             Dim totalVenta As Double = 0
@@ -1494,16 +1256,11 @@ Public Class comprobante
                 Dim esAnulado As Boolean = (row.Table.Columns.Contains("anulado") AndAlso row("anulado") IsNot DBNull.Value AndAlso Convert.ToInt32(row("anulado")) = 1)
                 If Not esAnulado Then
                     totalRegistros += 1
-                    If row("galDesp") IsNot DBNull.Value Then
-                        totalGalones += Convert.ToDouble(row("galDesp"))
-                    End If
-                    If row("total") IsNot DBNull.Value Then
-                        totalVenta += Convert.ToDouble(row("total"))
-                    End If
+                    If row("galDesp") IsNot DBNull.Value Then totalGalones += Convert.ToDouble(row("galDesp"))
+                    If row("total") IsNot DBNull.Value Then totalVenta += Convert.ToDouble(row("total"))
                 End If
             Next
 
-            ' Mostrar totales en los labels
             lblTotales.Text = String.Format("Registros: {0}  |  Total Galones: {1:N2}", totalRegistros, totalGalones)
             totVtalb.Text = String.Format("Total Venta: L. {0:N2}", totalVenta)
 
@@ -1513,8 +1270,6 @@ Public Class comprobante
             If con.State = ConnectionState.Open Then con.Close()
         End Try
     End Sub
-
-    ' ============ EVENTOS DE FILTROS ============
 
     Private Sub chkUsarFecha_CheckedChanged(sender As Object, e As EventArgs) Handles chkUsarFecha.CheckedChanged
         fechaDesdePk.Enabled = chkUsarFecha.Checked
@@ -1526,39 +1281,12 @@ Public Class comprobante
     End Sub
 
     Private Sub despachadorCb_SelectedIndexChanged(sender As Object, e As EventArgs) Handles despachadorCb.SelectedIndexChanged
-        ' Evitar ejecucion durante la carga del formulario
         If cargandoFormulario Then Return
-        ' Filtrar automaticamente al cambiar despachador
         buscarConFiltros()
-    End Sub
-
-    Private Sub PreviaBtn2_Click(sender As Object, e As EventArgs) Handles PreviaBtn2.Click
-        ' (sin guarda de mouse)
-        Try
-            PrintPreviewDocumento.PrintPreviewControl.Zoom = 1.3
-            PrintPreviewDocumento.Height = 700
-            PrintPreviewDocumento.Width = 500
-
-            PanelP.Enabled = True
-
-            PrintDocumento.PrinterSettings.Copies = 1 'Cantidad de Impresiones
-
-            ' Mostrar vista previa
-            PrintPreviewDocumento.Document = PrintDocumento
-            PrintPreviewDocumento.ShowDialog()
-
-            CancelarBtn.Enabled = True
-        Catch ex As Exception
-            MessageBox.Show("Error al mostrar vista previa del documento: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
     End Sub
 
     ' ============ NIVEL DE TANQUE ============
 
-    ''' <summary>
-    ''' Consulta tanquemed para el periodo/semana actual y muestra el nivel estimado del tanque.
-    ''' Nivel = galonesCalc (inicio) + galRecibidos - SUM(galDesp de comprobante)
-    ''' </summary>
     Private Sub cargarNivelTanque()
         Try
             Dim periodo As String = ModuloConexion.PeriodoSesion
@@ -1573,7 +1301,6 @@ Public Class comprobante
             Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
                 conLocal.Open()
 
-                ' Buscar registro de tanquemed para este periodo/semana
                 Dim sqlTanque As String = "SELECT galonesCalc, galRecibidos, capacidadTanque FROM tanquemed WHERE periodo = @periodo AND semana = @semana ORDER BY idMedida DESC LIMIT 1"
                 Dim galInicio As Double = 0
                 Dim galRecibidos As Double = 0
@@ -1583,11 +1310,11 @@ Public Class comprobante
                 Using cmd As New MySqlCommand(sqlTanque, conLocal)
                     cmd.Parameters.AddWithValue("@periodo", periodo)
                     cmd.Parameters.AddWithValue("@semana", semana)
-                    Using dr As MySqlDataReader = cmd.ExecuteReader()
-                        If dr.Read() Then
-                            If dr("galonesCalc") IsNot DBNull.Value Then galInicio = Convert.ToDouble(dr("galonesCalc"))
-                            If dr("galRecibidos") IsNot DBNull.Value Then galRecibidos = Convert.ToDouble(dr("galRecibidos"))
-                            If dr("capacidadTanque") IsNot DBNull.Value Then capacidad = Convert.ToDouble(dr("capacidadTanque"))
+                    Using drLocal As MySqlDataReader = cmd.ExecuteReader()
+                        If drLocal.Read() Then
+                            If drLocal("galonesCalc") IsNot DBNull.Value Then galInicio = Convert.ToDouble(drLocal("galonesCalc"))
+                            If drLocal("galRecibidos") IsNot DBNull.Value Then galRecibidos = Convert.ToDouble(drLocal("galRecibidos"))
+                            If drLocal("capacidadTanque") IsNot DBNull.Value Then capacidad = Convert.ToDouble(drLocal("capacidadTanque"))
                             encontro = True
                         End If
                     End Using
@@ -1599,7 +1326,6 @@ Public Class comprobante
                     Return
                 End If
 
-                ' Sumar total despachado en comprobante para este periodo/semana
                 Dim sqlDesp As String = "SELECT COALESCE(SUM(galDesp), 0) FROM comprobante WHERE periodo = @periodo AND semana = @semana AND (anulado = 0 OR anulado IS NULL)"
                 Dim totalDespachado As Double = 0
 
@@ -1609,10 +1335,8 @@ Public Class comprobante
                     totalDespachado = Convert.ToDouble(cmdDesp.ExecuteScalar())
                 End Using
 
-                ' Calcular nivel actual
                 Dim nivelActual As Double = galInicio + galRecibidos - totalDespachado
 
-                ' Mostrar con color segun porcentaje de capacidad
                 If capacidad > 0 Then
                     Dim porcentaje As Double = (nivelActual / capacidad) * 100
                     lblNivelTanque.Text = String.Format("Tanque: {0:N2} gal ({1:N0}%)", nivelActual, porcentaje)
@@ -1637,10 +1361,6 @@ Public Class comprobante
         End Try
     End Sub
 
-    ''' <summary>
-    ''' Actualiza galDespachados, galEsperados y diferencia en tanquemed
-    ''' despues de guardar/modificar un comprobante.
-    ''' </summary>
     Private Sub actualizarTanquemed()
         Try
             Dim periodo As String = ModuloConexion.PeriodoSesion
@@ -1651,11 +1371,10 @@ Public Class comprobante
             Using conLocal As MySqlConnection = ModuloConexion.ObtenerConexion()
                 conLocal.Open()
 
-                ' Verificar que existe un registro en tanquemed para este periodo/semana
                 Dim sqlCheck As String = "SELECT idMedida, galonesCalc, galRecibidos, galonesMed FROM tanquemed WHERE periodo = @periodo AND semana = @semana ORDER BY idMedida DESC LIMIT 1"
                 Dim idMedida As Integer = 0
                 Dim galInicio As Double = 0
-                Dim galRecibidos As Double = 0
+                Dim galRecibidosVal As Double = 0
                 Dim galFinal As Double = 0
 
                 Using cmdCheck As New MySqlCommand(sqlCheck, conLocal)
@@ -1665,16 +1384,14 @@ Public Class comprobante
                         If drCheck.Read() Then
                             idMedida = Convert.ToInt32(drCheck("idMedida"))
                             If drCheck("galonesCalc") IsNot DBNull.Value Then galInicio = Convert.ToDouble(drCheck("galonesCalc"))
-                            If drCheck("galRecibidos") IsNot DBNull.Value Then galRecibidos = Convert.ToDouble(drCheck("galRecibidos"))
+                            If drCheck("galRecibidos") IsNot DBNull.Value Then galRecibidosVal = Convert.ToDouble(drCheck("galRecibidos"))
                             If drCheck("galonesMed") IsNot DBNull.Value Then galFinal = Convert.ToDouble(drCheck("galonesMed"))
                         Else
-                            ' No hay registro de medicion para este periodo/semana, no actualizar
                             Return
                         End If
                     End Using
                 End Using
 
-                ' Sumar total despachado en comprobante para este periodo/semana
                 Dim sqlDesp As String = "SELECT COALESCE(SUM(galDesp), 0) FROM comprobante WHERE periodo = @periodo AND semana = @semana AND (anulado = 0 OR anulado IS NULL)"
                 Dim totalDespachado As Double = 0
 
@@ -1684,11 +1401,9 @@ Public Class comprobante
                     totalDespachado = Convert.ToDouble(cmdDesp.ExecuteScalar())
                 End Using
 
-                ' Calcular campos derivados
-                Dim galEsperados As Double = galInicio + galRecibidos - totalDespachado
+                Dim galEsperados As Double = galInicio + galRecibidosVal - totalDespachado
                 Dim diferencia As Double = galFinal - galEsperados
 
-                ' Actualizar tanquemed
                 Dim sqlUpdate As String = "UPDATE tanquemed SET galDespachados = @galDesp, galEsperados = @galEsp, diferencia = @dif WHERE idMedida = @id"
                 Using cmdUpdate As New MySqlCommand(sqlUpdate, conLocal)
                     cmdUpdate.Parameters.AddWithValue("@galDesp", totalDespachado)
@@ -1701,8 +1416,6 @@ Public Class comprobante
             End Using
 
         Catch ex As Exception
-            ' No mostrar error al usuario para no interrumpir el flujo del comprobante
-            ' Solo fallar silenciosamente si tanquemed no tiene las columnas nuevas aun
         End Try
     End Sub
 

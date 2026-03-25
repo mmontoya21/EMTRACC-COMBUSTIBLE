@@ -41,6 +41,7 @@ Partial Class reporteFact
         Me.limpiarBtn = New DevComponents.DotNetBar.ButtonX()
         Me.reporteDgv = New System.Windows.Forms.DataGridView()
         Me.LblTotal = New System.Windows.Forms.Label()
+        Me.lblOdometro = New System.Windows.Forms.Label()
         Me.PanelFiltros.SuspendLayout()
         CType(Me.reporteDgv, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -275,12 +276,24 @@ Partial Class reporteFact
         Me.LblTotal.TabIndex = 15
         Me.LblTotal.Text = "Total registros: 0"
         '
+        'lblOdometro
+        '
+        Me.lblOdometro.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblOdometro.AutoSize = True
+        Me.lblOdometro.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.lblOdometro.ForeColor = System.Drawing.Color.FromArgb(80, 255, 160)
+        Me.lblOdometro.Location = New System.Drawing.Point(12, 607)
+        Me.lblOdometro.Name = "lblOdometro"
+        Me.lblOdometro.Size = New System.Drawing.Size(10, 15)
+        Me.lblOdometro.TabIndex = 16
+        '
         'reporteFact
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.SteelBlue
         Me.ClientSize = New System.Drawing.Size(1203, 620)
+        Me.Controls.Add(Me.lblOdometro)
         Me.Controls.Add(Me.LblTotal)
         Me.Controls.Add(Me.reporteDgv)
         Me.Controls.Add(Me.PanelFiltros)
@@ -312,5 +325,6 @@ Partial Class reporteFact
     Friend WithEvents limpiarBtn As DevComponents.DotNetBar.ButtonX
     Friend WithEvents reporteDgv As DataGridView
     Friend WithEvents LblTotal As Label
+    Friend WithEvents lblOdometro As Label
     Friend WithEvents chkUsarFecha As CheckBox
 End Class

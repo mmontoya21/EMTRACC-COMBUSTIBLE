@@ -239,12 +239,54 @@ include 'includes/header.php';
 </div>
 
 <!-- Resumen -->
-<div class="d-flex flex-wrap gap-2 mb-3">
+<div class="d-flex flex-wrap gap-2 mb-2">
     <span class="badge bg-primary">Total: <?= $totalRegistros ?></span>
     <span class="badge bg-danger">Anulados: <?= $registrosAnulados ?></span>
     <span class="badge bg-success">Galones: <?= number_format($totalGalones, 2) ?></span>
     <span class="badge bg-info">Total L: <?= number_format($totalMonto, 2) ?></span>
 </div>
+
+<?php
+// Odometro: mostrar si hay filtro de fecha o despachador
+$odoRows = [];
+if (!empty($fechaDesde) || !empty($fechaHasta) || !empty($despachador)) {
+    $odoWhere = [];
+    $odoParams = [];
+    $odoTypes = '';
+    if (!empty($fechaDesde)) { $odoWhere[] = "fecha >= ?"; $odoParams[] = $fechaDesde; $odoTypes .= 's'; }
+    if (!empty($fechaHasta)) { $odoWhere[] = "fecha <= ?"; $odoParams[] = $fechaHasta; $odoTypes .= 's'; }
+    if (!empty($despachador)) { $odoWhere[] = "despachador = ?"; $odoParams[] = strtoupper($despachador); $odoTypes .= 's'; }
+    $odoSQL = "SELECT despachador, turnoNombre, MIN(odometroInicio) AS odoInicio, MAX(odometroCierre) AS odoCierre, fecha
+               FROM cierre_turno" . (count($odoWhere) > 0 ? " WHERE " . implode(' AND ', $odoWhere) : "") .
+               " GROUP BY despachador, fecha ORDER BY fecha ASC";
+    $stmtOdo = $conn->prepare($odoSQL);
+    if ($odoTypes !== '') $stmtOdo->bind_param($odoTypes, ...$odoParams);
+    $stmtOdo->execute();
+    $odoRows = $stmtOdo->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmtOdo->close();
+}
+if (!empty($odoRows)): ?>
+<div class="card border-success mb-2">
+    <div class="card-header bg-success text-white py-1 small"><strong>Odometro por Turno</strong></div>
+    <div class="card-body p-1">
+        <table class="table table-sm table-bordered mb-0 small">
+            <thead class="table-light">
+                <tr><th>Despachador</th><th>Fecha</th><th class="text-end">Odo. Inicio</th><th class="text-end">Odo. Cierre</th></tr>
+            </thead>
+            <tbody>
+                <?php foreach ($odoRows as $odo): ?>
+                <tr>
+                    <td><?= htmlspecialchars($odo['despachador']) ?></td>
+                    <td><?= date('d/m/Y', strtotime($odo['fecha'])) ?></td>
+                    <td class="text-end"><?= number_format((float)$odo['odoInicio'], 2) ?></td>
+                    <td class="text-end"><?= number_format((float)$odo['odoCierre'], 2) ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<?php endif; ?>
 
 <!-- Tabla -->
 <div class="table-responsive">

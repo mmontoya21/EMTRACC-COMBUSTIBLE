@@ -325,12 +325,14 @@ case 'create':
     $proxSem = trim($_POST['proxSem'] ?? 'NO');
     $codiProp = trim($_POST['codiProp'] ?? '');
 
+    $turnoComp = getTurno();
+
     if ($placaCbz === '') jsonError('La placa es obligatoria');
 
     $total = $galDesp * $valor;
 
-    $stmt = $conn->prepare("INSERT INTO comprobante (nCompro, nBoleta, galDesp, valor, total, placaCbz, nConte, propCbz, ruta, nombCond, nombDesp, fecha, periodo, semana, proxSem, codiProp, anulado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)");
-    $stmt->bind_param('ssdddsssssssssss', $nCompro, $nBoleta, $galDesp, $valor, $total, $placaCbz, $nConte, $propCbz, $ruta, $nombCond, $nombDesp, $fecha, $periodoF, $semanaF, $proxSem, $codiProp);
+    $stmt = $conn->prepare("INSERT INTO comprobante (nCompro, nBoleta, galDesp, valor, total, placaCbz, nConte, propCbz, ruta, nombCond, nombDesp, fecha, periodo, semana, proxSem, codiProp, turno, anulado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)");
+    $stmt->bind_param('ssdddssssssssssss', $nCompro, $nBoleta, $galDesp, $valor, $total, $placaCbz, $nConte, $propCbz, $ruta, $nombCond, $nombDesp, $fecha, $periodoF, $semanaF, $proxSem, $codiProp, $turnoComp);
 
     if ($stmt->execute()) {
         $newId = $conn->insert_id;

@@ -64,6 +64,11 @@
                             <a class="nav-link" href="reporteFact.php"><i class="bi bi-file-earmark-bar-graph"></i> Rpt. Facturas</a>
                         </li>
                         <?php endif; ?>
+                        <?php if (getTurno() !== ''): ?>
+                        <li class="nav-item">
+                            <a class="nav-link text-warning" href="cierreTurno.php"><i class="bi bi-lock"></i> Cierre Turno (<?= htmlspecialchars(getTurno()) ?>)</a>
+                        </li>
+                        <?php endif; ?>
                         <?php if (hasPermiso('reporte')): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="index.php"><i class="bi bi-file-earmark-bar-graph"></i> Reporte</a>

@@ -79,6 +79,7 @@ const APP = {
                                 <option value="ADMIN">ADMIN</option>
                                 <option value="USUARIO">USUARIO</option>
                                 <option value="TEST">TEST</option>
+                                <option value="DESPACHADOR">DESPACHADOR</option>
                             </select>
                         </div>
                         <div class="col-6">

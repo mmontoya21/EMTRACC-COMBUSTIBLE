@@ -140,6 +140,51 @@ Public Class reporte
             ' Actualizar contador con resumen
             LblTotal.Text = String.Format("Registros: {0}  |  Anulados: {1}  |  Total Galones: {2:N2}  |  Monto Total: L. {3:N2}", dt.Rows.Count, totalAnulados, totalGal, totalMonto)
 
+            ' Consultar odometro de cierre_turno
+            lblOdometro.Text = ""
+            If chkUsarFecha.Checked OrElse despachadorCb.SelectedIndex > 0 Then
+                Try
+                    Dim sqlOdo As New StringBuilder()
+                    sqlOdo.Append("SELECT despachador, turnoNombre, MIN(odometroInicio) AS odoMin, MAX(odometroCierre) AS odoMax, fecha ")
+                    sqlOdo.Append("FROM cierre_turno WHERE 1=1 ")
+
+                    Dim cmdOdo As New MySqlCommand()
+                    cmdOdo.Connection = con
+                    If con.State = ConnectionState.Closed Then con.Open()
+
+                    If chkUsarFecha.Checked Then
+                        sqlOdo.Append("AND fecha >= @fDesde AND fecha <= @fHasta ")
+                        cmdOdo.Parameters.AddWithValue("@fDesde", fechaDesdePk.Value.Date.ToString("yyyy-MM-dd"))
+                        cmdOdo.Parameters.AddWithValue("@fHasta", fechaHastaPk.Value.Date.ToString("yyyy-MM-dd"))
+                    End If
+                    If despachadorCb.SelectedIndex > 0 Then
+                        sqlOdo.Append("AND despachador = @desp ")
+                        cmdOdo.Parameters.AddWithValue("@desp", despachadorCb.SelectedItem.ToString().ToUpper())
+                    End If
+
+                    sqlOdo.Append("GROUP BY despachador, fecha ORDER BY fecha ASC")
+                    cmdOdo.CommandText = sqlOdo.ToString()
+
+                    Dim odoTexto As New StringBuilder()
+                    Using readerOdo As MySqlDataReader = cmdOdo.ExecuteReader()
+                        While readerOdo.Read()
+                            Dim desp As String = readerOdo("despachador").ToString()
+                            Dim odoMin As Double = If(readerOdo("odoMin") IsNot DBNull.Value, Convert.ToDouble(readerOdo("odoMin")), 0)
+                            Dim odoMax As Double = If(readerOdo("odoMax") IsNot DBNull.Value, Convert.ToDouble(readerOdo("odoMax")), 0)
+                            Dim fechaOdo As String = Convert.ToDateTime(readerOdo("fecha")).ToString("dd/MM/yyyy")
+                            If odoTexto.Length > 0 Then odoTexto.Append("  |  ")
+                            odoTexto.Append(String.Format("{0} ({1}): Inicio {2:N2} -> Cierre {3:N2}", desp, fechaOdo, odoMin, odoMax))
+                        End While
+                    End Using
+
+                    If odoTexto.Length > 0 Then
+                        lblOdometro.Text = "Odometro: " & odoTexto.ToString()
+                    End If
+                Catch
+                    ' Si falla la consulta de odometro, no bloquear
+                End Try
+            End If
+
             ' Ajustar anchos de columnas
             configurarColumnas()
 
@@ -487,9 +532,12 @@ Public Class reporte
             If despachadorCb.SelectedIndex > 0 Then
                 summaryRow += 1
                 ws.Cell(summaryRow, 1).SetValue("Despachador:")
-                ws.Cell(summaryRow, 2).SetValue(despachadorCb.SelectedItem.ToString())
                 ws.Cell(summaryRow, 1).Style.Font.Bold = True
+                ws.Cell(summaryRow, 2).SetValue(despachadorCb.SelectedItem.ToString())
+                ws.Range(summaryRow, 2, summaryRow, 4).Merge()
                 ws.Cell(summaryRow, 2).Style.Font.FontColor = XLColor.FromHtml("#2E86AB")
+                ws.Cell(summaryRow, 2).Style.Font.Bold = True
+                ws.Cell(summaryRow, 2).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center
             End If
 
             ' Mostrar periodo si esta filtrado
@@ -558,60 +606,177 @@ Public Class reporte
             End With
             ws.Range(summaryRow, 1, summaryRow, 4).Merge()
 
-            ' Consultar tanquemed para periodo/semana actual
-            Dim galInicioTanque As String = "Sin medicion"
-            Dim galFinalTanque As String = "Sin medicion"
+            ' Consultar cierre_turno para odometro
+            Dim odoInicioMed As Double = 0
+            Dim odoFinalMed As Double = 0
+            Dim hayOdometro As Boolean = False
 
             Try
-                Using conTanque As MySqlConnection = ModuloConexion.ObtenerConexion()
-                    conTanque.Open()
-                    Dim sqlTanque As String = "SELECT galonesCalc, galonesMed FROM tanquemed WHERE periodo = @periodo AND semana = @semana ORDER BY idMedida DESC LIMIT 1"
-                    Using cmdTanque As New MySqlCommand(sqlTanque, conTanque)
-                        cmdTanque.Parameters.AddWithValue("@periodo", ModuloConexion.PeriodoSesion)
-                        cmdTanque.Parameters.AddWithValue("@semana", ModuloConexion.SemanaSesion)
-                        Using drTanque As MySqlDataReader = cmdTanque.ExecuteReader()
-                            If drTanque.Read() Then
-                                If drTanque("galonesCalc") IsNot DBNull.Value Then
-                                    galInicioTanque = Convert.ToDouble(drTanque("galonesCalc")).ToString("N2")
-                                End If
-                                If drTanque("galonesMed") IsNot DBNull.Value Then
-                                    galFinalTanque = Convert.ToDouble(drTanque("galonesMed")).ToString("N2")
-                                End If
-                            End If
-                        End Using
+                Using conMed As MySqlConnection = ModuloConexion.ObtenerConexion()
+                    conMed.Open()
+                    Dim sqlMed As New System.Text.StringBuilder()
+                    sqlMed.Append("SELECT MIN(odometroInicio) AS odoMin, MAX(odometroCierre) AS odoMax FROM cierre_turno WHERE 1=1 ")
+                    Dim cmdMed As New MySqlCommand()
+                    cmdMed.Connection = conMed
+
+                    If chkUsarFecha.Checked Then
+                        sqlMed.Append("AND fecha >= @fDesde AND fecha <= @fHasta ")
+                        cmdMed.Parameters.AddWithValue("@fDesde", fechaDesdePk.Value.Date.ToString("yyyy-MM-dd"))
+                        cmdMed.Parameters.AddWithValue("@fHasta", fechaHastaPk.Value.Date.ToString("yyyy-MM-dd"))
+                    End If
+                    If despachadorCb.SelectedIndex > 0 Then
+                        sqlMed.Append("AND despachador = @desp ")
+                        cmdMed.Parameters.AddWithValue("@desp", despachadorCb.SelectedItem.ToString().ToUpper())
+                    End If
+
+                    cmdMed.CommandText = sqlMed.ToString()
+                    Using drMed As MySqlDataReader = cmdMed.ExecuteReader()
+                        If drMed.Read() Then
+                            If drMed("odoMin") IsNot DBNull.Value Then odoInicioMed = Convert.ToDouble(drMed("odoMin"))
+                            If drMed("odoMax") IsNot DBNull.Value Then odoFinalMed = Convert.ToDouble(drMed("odoMax"))
+                            hayOdometro = (odoInicioMed > 0 OrElse odoFinalMed > 0)
+                        End If
                     End Using
                 End Using
             Catch
-                ' Si falla la consulta, dejar "Sin medicion"
             End Try
+
+            Dim totalDispensado As Double = odoFinalMed - odoInicioMed
+            Dim consumoOdometro As Double = totalGalones
+            Dim diferenciaMed As Double = totalDispensado - consumoOdometro
 
             summaryRow += 1
             ws.Cell(summaryRow, 1).SetValue("Odometro Inicial:")
             ws.Cell(summaryRow, 1).Style.Font.Bold = True
-            Dim valInicio As Double
-            If Double.TryParse(galInicioTanque, valInicio) Then
-                ws.Cell(summaryRow, 2).SetValue(valInicio)
+            If hayOdometro Then
+                ws.Cell(summaryRow, 2).SetValue(odoInicioMed)
                 ws.Cell(summaryRow, 2).Style.NumberFormat.Format = "#,##0.00"
             Else
-                ws.Cell(summaryRow, 2).SetValue(galInicioTanque)
+                ws.Cell(summaryRow, 2).SetValue("Sin medicion")
             End If
 
             summaryRow += 1
             ws.Cell(summaryRow, 1).SetValue("Odometro Final:")
             ws.Cell(summaryRow, 1).Style.Font.Bold = True
-            Dim valFinal As Double
-            If Double.TryParse(galFinalTanque, valFinal) Then
-                ws.Cell(summaryRow, 2).SetValue(valFinal)
+            If hayOdometro Then
+                ws.Cell(summaryRow, 2).SetValue(odoFinalMed)
                 ws.Cell(summaryRow, 2).Style.NumberFormat.Format = "#,##0.00"
             Else
-                ws.Cell(summaryRow, 2).SetValue(galFinalTanque)
+                ws.Cell(summaryRow, 2).SetValue("Sin medicion")
             End If
 
             summaryRow += 1
             ws.Cell(summaryRow, 1).SetValue("Total Dispensado:")
             ws.Cell(summaryRow, 1).Style.Font.Bold = True
-            ws.Cell(summaryRow, 2).SetValue(totalGalones)
+            ws.Cell(summaryRow, 2).SetValue(totalDispensado)
             ws.Cell(summaryRow, 2).Style.NumberFormat.Format = "#,##0.00"
+
+            summaryRow += 1
+            ws.Cell(summaryRow, 1).SetValue("Consumo segun Odometro:")
+            ws.Cell(summaryRow, 1).Style.Font.Bold = True
+            ws.Cell(summaryRow, 2).SetValue(consumoOdometro)
+            ws.Cell(summaryRow, 2).Style.NumberFormat.Format = "#,##0.00"
+
+            summaryRow += 1
+            ws.Cell(summaryRow, 1).SetValue("Diferencia:")
+            ws.Cell(summaryRow, 1).Style.Font.Bold = True
+            ws.Cell(summaryRow, 2).SetValue(diferenciaMed)
+            ws.Cell(summaryRow, 2).Style.NumberFormat.Format = "#,##0.00"
+            ws.Cell(summaryRow, 2).Style.Font.Bold = True
+            If diferenciaMed < 0 Then
+                ws.Cell(summaryRow, 2).Style.Font.FontColor = XLColor.FromHtml("#C62828")
+            ElseIf diferenciaMed = 0 Then
+                ws.Cell(summaryRow, 2).Style.Font.FontColor = XLColor.FromHtml("#1565C0")
+            End If
+
+            ' ========== ODOMETRO POR TURNO ==========
+            If chkUsarFecha.Checked OrElse despachadorCb.SelectedIndex > 0 Then
+                Try
+                    Using conOdo As MySqlConnection = ModuloConexion.ObtenerConexion()
+                        conOdo.Open()
+                        Dim sqlOdo As New System.Text.StringBuilder()
+                        sqlOdo.Append("SELECT despachador, MIN(odometroInicio) AS odoMin, MAX(odometroCierre) AS odoMax, fecha ")
+                        sqlOdo.Append("FROM cierre_turno WHERE 1=1 ")
+
+                        Dim cmdOdo As New MySqlCommand()
+                        cmdOdo.Connection = conOdo
+
+                        If chkUsarFecha.Checked Then
+                            sqlOdo.Append("AND fecha >= @fDesde AND fecha <= @fHasta ")
+                            cmdOdo.Parameters.AddWithValue("@fDesde", fechaDesdePk.Value.Date.ToString("yyyy-MM-dd"))
+                            cmdOdo.Parameters.AddWithValue("@fHasta", fechaHastaPk.Value.Date.ToString("yyyy-MM-dd"))
+                        End If
+                        If despachadorCb.SelectedIndex > 0 Then
+                            sqlOdo.Append("AND despachador = @desp ")
+                            cmdOdo.Parameters.AddWithValue("@desp", despachadorCb.SelectedItem.ToString().ToUpper())
+                        End If
+
+                        sqlOdo.Append("GROUP BY despachador, fecha ORDER BY fecha ASC")
+                        cmdOdo.CommandText = sqlOdo.ToString()
+
+                        Using readerOdo As MySqlDataReader = cmdOdo.ExecuteReader()
+                            If readerOdo.HasRows Then
+                                summaryRow += 2
+                                ws.Cell(summaryRow, 1).SetValue("ODOMETRO POR TURNO")
+                                With ws.Cell(summaryRow, 1).Style
+                                    .Font.Bold = True
+                                    .Font.FontSize = 12
+                                    .Fill.BackgroundColor = XLColor.FromHtml("#2E7D32")
+                                    .Font.FontColor = XLColor.White
+                                End With
+                                ws.Range(summaryRow, 1, summaryRow, 4).Merge()
+
+                                summaryRow += 1
+                                ws.Cell(summaryRow, 1).SetValue("Despachador") : ws.Cell(summaryRow, 1).Style.Font.Bold = True
+                                ws.Cell(summaryRow, 2).SetValue("Fecha") : ws.Cell(summaryRow, 2).Style.Font.Bold = True
+                                ws.Cell(summaryRow, 3).SetValue("Odo. Inicio") : ws.Cell(summaryRow, 3).Style.Font.Bold = True
+                                ws.Cell(summaryRow, 4).SetValue("Odo. Cierre") : ws.Cell(summaryRow, 4).Style.Font.Bold = True
+
+                                Dim totalOdometro As Double = 0
+
+                                While readerOdo.Read()
+                                    summaryRow += 1
+                                    ws.Cell(summaryRow, 1).SetValue(readerOdo("despachador").ToString())
+                                    ws.Cell(summaryRow, 2).SetValue(Convert.ToDateTime(readerOdo("fecha")).ToString("dd/MM/yyyy"))
+                                    Dim odoMin As Double = If(readerOdo("odoMin") IsNot DBNull.Value, Convert.ToDouble(readerOdo("odoMin")), 0)
+                                    Dim odoMax As Double = If(readerOdo("odoMax") IsNot DBNull.Value, Convert.ToDouble(readerOdo("odoMax")), 0)
+                                    ws.Cell(summaryRow, 3).SetValue(odoMin) : ws.Cell(summaryRow, 3).Style.NumberFormat.Format = "#,##0.00"
+                                    ws.Cell(summaryRow, 4).SetValue(odoMax) : ws.Cell(summaryRow, 4).Style.NumberFormat.Format = "#,##0.00"
+                                    totalOdometro += (odoMax - odoMin)
+                                End While
+
+                                summaryRow += 1
+                                ws.Cell(summaryRow, 1).SetValue("Total segun Odometro:")
+                                ws.Cell(summaryRow, 1).Style.Font.Bold = True
+                                ws.Cell(summaryRow, 2).SetValue(totalOdometro)
+                                ws.Cell(summaryRow, 2).Style.NumberFormat.Format = "#,##0.00"
+                                ws.Cell(summaryRow, 2).Style.Font.Bold = True
+
+                                summaryRow += 1
+                                ws.Cell(summaryRow, 1).SetValue("Total Galones Vendidos:")
+                                ws.Cell(summaryRow, 1).Style.Font.Bold = True
+                                ws.Cell(summaryRow, 2).SetValue(totalGalones)
+                                ws.Cell(summaryRow, 2).Style.NumberFormat.Format = "#,##0.00"
+                                ws.Cell(summaryRow, 2).Style.Font.Bold = True
+
+                                summaryRow += 1
+                                Dim variacionTurno As Double = totalOdometro - totalGalones
+                                ws.Cell(summaryRow, 1).SetValue("Variacion:")
+                                ws.Cell(summaryRow, 1).Style.Font.Bold = True
+                                ws.Cell(summaryRow, 2).SetValue(variacionTurno)
+                                ws.Cell(summaryRow, 2).Style.NumberFormat.Format = "#,##0.00"
+                                ws.Cell(summaryRow, 2).Style.Font.Bold = True
+                                If variacionTurno < 0 Then
+                                    ws.Cell(summaryRow, 2).Style.Font.FontColor = XLColor.FromHtml("#C62828")
+                                ElseIf variacionTurno = 0 Then
+                                    ws.Cell(summaryRow, 2).Style.Font.FontColor = XLColor.FromHtml("#1565C0")
+                                End If
+                            End If
+                        End Using
+                    End Using
+                Catch
+                End Try
+            End If
 
             ' ========== AJUSTAR ANCHOS DE COLUMNAS ==========
             ws.Columns().AdjustToContents()

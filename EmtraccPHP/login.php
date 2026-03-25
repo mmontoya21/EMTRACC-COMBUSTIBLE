@@ -63,6 +63,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['permisos'] = $row['permisos'] ?? '';
             $_SESSION['periodo'] = $periodo;
             $_SESSION['semana'] = $semana;
+
+            // Turno para DESPACHADOR
+            if (strtoupper($row['tipo']) === 'DESPACHADOR') {
+                $despNombre = strtoupper($row['nombre'] . ' ' . $row['apellido']);
+
+                // Verificar turno abierto sin cerrar
+                $stmtAp = $conn->prepare("SELECT id, turnoNombre, idTurno, odometroInicio FROM apertura_turno WHERE despachador = ? AND cerrado = 0 ORDER BY id DESC LIMIT 1");
+                $stmtAp->bind_param('s', $despNombre);
+                $stmtAp->execute();
+                $rowAp = $stmtAp->get_result()->fetch_assoc();
+                $stmtAp->close();
+
+                if ($rowAp) {
+                    // Restaurar turno abierto
+                    $_SESSION['turno'] = $rowAp['turnoNombre'];
+                    $_SESSION['idTurno'] = (int)$rowAp['idTurno'];
+                    $_SESSION['odometroInicio'] = (float)$rowAp['odometroInicio'];
+                } else {
+                    // Turno nuevo
+                    $turno = trim($_POST['turno'] ?? '');
+                    $odometroInicio = (float)($_POST['odometroInicio'] ?? 0);
+                    if ($turno !== '') {
+                        $_SESSION['turno'] = $turno;
+                        $_SESSION['odometroInicio'] = $odometroInicio;
+                        // Buscar idTurno
+                        $stmtT = $conn->prepare("SELECT idTurno FROM turnos WHERE nombre = ? AND activo = 1 LIMIT 1");
+                        $stmtT->bind_param('s', $turno);
+                        $stmtT->execute();
+                        $resT = $stmtT->get_result();
+                        if ($rowT = $resT->fetch_assoc()) {
+                            $_SESSION['idTurno'] = (int)$rowT['idTurno'];
+                        }
+                        $stmtT->close();
+
+                        // Registrar apertura
+                        $stmtIns = $conn->prepare("INSERT INTO apertura_turno (despachador, idTurno, turnoNombre, odometroInicio, periodo, semana) VALUES(?, ?, ?, ?, ?, ?)");
+                        $idT = $_SESSION['idTurno'] ?? 0;
+                        $stmtIns->bind_param('sissss', $despNombre, $idT, $turno, $odometroInicio, $periodo, $semana);
+                        $stmtIns->execute();
+                        $stmtIns->close();
+                    }
+                }
+            }
+
             registrarLogin($conn, $usuario, $row['nombre'] . ' ' . $row['apellido'], $row['tipo']);
             header('Location: index.php');
             exit;
@@ -126,6 +170,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <option value="<?= $i ?>"><?= $i ?></option>
                                         <?php endfor; ?>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-7">
+                                <label class="form-label text-warning small">Turno (Despachador)</label>
+                                <select name="turno" class="form-select form-select-sm">
+                                    <option value="">-- Sin turno --</option>
+                                    <?php
+                                    $resTurnos = $conn->query("SELECT nombre FROM turnos WHERE activo = 1 ORDER BY horaInicio");
+                                    while ($t = $resTurnos->fetch_assoc()):
+                                    ?>
+                                    <option value="<?= htmlspecialchars($t['nombre']) ?>"><?= htmlspecialchars($t['nombre']) ?></option>
+                                    <?php endwhile; ?>
+                                </select>
+                                </div>
+                                <div class="col-5">
+                                <label class="form-label text-success small">Odometro Inicio</label>
+                                <input type="number" step="0.01" name="odometroInicio" class="form-control form-control-sm" placeholder="Galones">
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary w-100"><i class="bi bi-box-arrow-in-right"></i> Ingresar</button>

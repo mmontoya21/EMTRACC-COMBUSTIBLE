@@ -144,4 +144,7 @@ Public Class Principal2
         AbrirFormulario(New conexion)
     End Sub
 
+    Private Sub PanelLogo_Paint(sender As Object, e As PaintEventArgs) Handles PanelLogo.Paint
+
+    End Sub
 End Class

@@ -12,6 +12,111 @@ Module ModuloConexion
     Public SemanaSesion As String = ""
     Public DespachadorSesion As String = ""
     Public TipoUsuarioSesion As String = ""
+    Public TurnoSesion As String = ""
+    Public IdTurnoSesion As Integer = 0
+    Public OdometroInicioTurno As Double = 0
+
+    ''' <summary>
+    ''' Crea las tablas de turnos si no existen y agrega columna turno a comprobante
+    ''' </summary>
+    Public Sub EnsureTurnoTables()
+        Try
+            Using con As MySqlConnection = ObtenerConexion()
+                con.Open()
+
+                Dim sqlTurnos As String = "CREATE TABLE IF NOT EXISTS turnos (" &
+                    "idTurno INT AUTO_INCREMENT PRIMARY KEY, " &
+                    "nombre VARCHAR(50) NOT NULL, " &
+                    "horaInicio TIME NOT NULL, " &
+                    "horaFin TIME NOT NULL, " &
+                    "activo TINYINT(1) DEFAULT 1)"
+                Using cmd As New MySqlCommand(sqlTurnos, con)
+                    cmd.ExecuteNonQuery()
+                End Using
+
+                ' Insertar turnos por defecto si la tabla esta vacia
+                Dim sqlCount As String = "SELECT COUNT(*) FROM turnos"
+                Using cmd As New MySqlCommand(sqlCount, con)
+                    If Convert.ToInt32(cmd.ExecuteScalar()) = 0 Then
+                        Dim sqlInsert As String = "INSERT INTO turnos (nombre, horaInicio, horaFin) VALUES " &
+                            "('Manana', '06:00:00', '14:00:00'), " &
+                            "('Tarde', '14:00:00', '22:00:00'), " &
+                            "('Noche', '22:00:00', '06:00:00')"
+                        Using cmdIns As New MySqlCommand(sqlInsert, con)
+                            cmdIns.ExecuteNonQuery()
+                        End Using
+                    End If
+                End Using
+
+                Dim sqlCierre As String = "CREATE TABLE IF NOT EXISTS cierre_turno (" &
+                    "idCierre INT AUTO_INCREMENT PRIMARY KEY, " &
+                    "idTurno INT NOT NULL, " &
+                    "despachador VARCHAR(100) NOT NULL, " &
+                    "fecha DATE NOT NULL, " &
+                    "periodo VARCHAR(5), " &
+                    "semana VARCHAR(5), " &
+                    "turnoNombre VARCHAR(50), " &
+                    "totalComprobantes INT DEFAULT 0, " &
+                    "totalGalones DOUBLE DEFAULT 0, " &
+                    "totalMonto DOUBLE DEFAULT 0, " &
+                    "odometroInicio DOUBLE DEFAULT 0, " &
+                    "odometroCierre DOUBLE DEFAULT 0, " &
+                    "medicionTanque DOUBLE DEFAULT 0, " &
+                    "observaciones TEXT, " &
+                    "fechaHoraCierre DATETIME DEFAULT CURRENT_TIMESTAMP)"
+                Using cmd As New MySqlCommand(sqlCierre, con)
+                    cmd.ExecuteNonQuery()
+                End Using
+
+                ' Agregar columna turno a comprobante si no existe
+                Try
+                    Using cmd As New MySqlCommand("ALTER TABLE comprobante ADD COLUMN turno VARCHAR(50) DEFAULT NULL", con)
+                        cmd.ExecuteNonQuery()
+                    End Using
+                Catch
+                    ' Ya existe
+                End Try
+
+                ' Agregar columnas odometro a cierre_turno si no existen
+                Try
+                    Using cmd As New MySqlCommand("ALTER TABLE cierre_turno ADD COLUMN odometroInicio DOUBLE DEFAULT 0", con)
+                        cmd.ExecuteNonQuery()
+                    End Using
+                Catch
+                End Try
+                Try
+                    Using cmd As New MySqlCommand("ALTER TABLE cierre_turno ADD COLUMN odometroCierre DOUBLE DEFAULT 0", con)
+                        cmd.ExecuteNonQuery()
+                    End Using
+                Catch
+                End Try
+                Try
+                    Using cmd As New MySqlCommand("ALTER TABLE cierre_turno ADD COLUMN medicionTanque DOUBLE DEFAULT 0", con)
+                        cmd.ExecuteNonQuery()
+                    End Using
+                Catch
+                End Try
+
+                ' Tabla apertura_turno para detectar turnos no cerrados
+                Dim sqlApertura As String = "CREATE TABLE IF NOT EXISTS apertura_turno (" &
+                    "id INT AUTO_INCREMENT PRIMARY KEY, " &
+                    "despachador VARCHAR(100) NOT NULL, " &
+                    "idTurno INT NOT NULL, " &
+                    "turnoNombre VARCHAR(50), " &
+                    "odometroInicio DOUBLE DEFAULT 0, " &
+                    "periodo VARCHAR(5), " &
+                    "semana VARCHAR(5), " &
+                    "fechaHora DATETIME DEFAULT CURRENT_TIMESTAMP, " &
+                    "cerrado TINYINT(1) DEFAULT 0)"
+                Using cmd As New MySqlCommand(sqlApertura, con)
+                    cmd.ExecuteNonQuery()
+                End Using
+
+            End Using
+        Catch
+            ' No bloquear si falla
+        End Try
+    End Sub
 
     ''' <summary>
     ''' Obtiene una nueva instancia de conexion MySQL con la cadena de conexion del App.config

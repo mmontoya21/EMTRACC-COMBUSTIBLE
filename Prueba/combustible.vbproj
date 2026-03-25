@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <StartupObject>Prueba.My.MyApplication</StartupObject>
     <RootNamespace>Prueba</RootNamespace>
-    <AssemblyName>Prueba</AssemblyName>
+    <AssemblyName>Combustible</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -22,7 +22,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>Prueba.xml</DocumentationFile>
+    <DocumentationFile>Combustible.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -32,7 +32,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Prueba.xml</DocumentationFile>
+    <DocumentationFile>Combustible.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -46,6 +46,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Combu.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ClosedXML, Version=0.105.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
@@ -155,6 +158,18 @@
       <DependentUpon>comprobante.vb</DependentUpon>
     </Compile>
     <Compile Include="comprobante.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="comprobantePlus.Designer.vb">
+      <DependentUpon>comprobantePlus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="comprobantePlus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="cierreTurno.Designer.vb">
+      <DependentUpon>cierreTurno.vb</DependentUpon>
+    </Compile>
+    <Compile Include="cierreTurno.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="empresa.Designer.vb">
@@ -268,6 +283,12 @@
     <EmbeddedResource Include="comprobante.resx">
       <DependentUpon>comprobante.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="comprobantePlus.resx">
+      <DependentUpon>comprobantePlus.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="cierreTurno.resx">
+      <DependentUpon>cierreTurno.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="empresa.resx">
       <DependentUpon>empresa.vb</DependentUpon>
     </EmbeddedResource>
@@ -332,6 +353,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\truckyellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Combu.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

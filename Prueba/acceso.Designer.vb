@@ -235,7 +235,7 @@ Partial Class acceso
         Me.tipoTbx.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.tipoTbx.Font = New System.Drawing.Font("Segoe UI", 11.0!)
         Me.tipoTbx.FormattingEnabled = True
-        Me.tipoTbx.Items.AddRange(New Object() {"SUPERADMIN", "ADMIN", "USUARIO", "TEST"})
+        Me.tipoTbx.Items.AddRange(New Object() {"SUPERADMIN", "ADMIN", "USUARIO", "TEST", "DESPACHADOR"})
         Me.tipoTbx.Location = New System.Drawing.Point(100, 136)
         Me.tipoTbx.Name = "tipoTbx"
         Me.tipoTbx.Size = New System.Drawing.Size(260, 28)
